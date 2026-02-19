@@ -512,3 +512,12 @@ h1 {
 .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 1.5rem; }
 .skill-group h4 { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.75rem; }
 .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+.skill-group h4 { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.75rem; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+@media (max-width: 768px) {
+    .timeline-header { flex-direction: column; gap: 0.25rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+}
