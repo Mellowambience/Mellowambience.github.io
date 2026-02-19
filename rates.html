@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mars | Rates & Services</title>
+    <meta name="description" content="Freelance rates for Mars Torretti — AI agent development, React Native, TypeScript/API backend, Python automation. Available for contract and full-time remote work.">
+    <meta property="og:title" content="Mars | Rates & Services">
+    <meta property="og:description" content="Hire Mars for AI agents, React Native apps, API systems, and automation. Rates from $60–$110/hr. Remote or Philadelphia hybrid.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mellowambience.github.io/rates">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@1Aether1Rose1">
+    <meta name="twitter:title" content="Mars | Rates & Services">
+    <meta name="twitter:description" content="AI agent dev, React Native, API/backend. $60–$110/hr. Available now.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .rate-table { width: 100%; border-collapse: collapse; margin: 2rem 0; }
+        .rate-table th { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+        .rate-table td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; vertical-align: top; }
+        .rate-table tr:last-child td { border-bottom: none; }
+        .rate-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .rate-price { font-family: var(--font-mono); color: var(--accent); font-weight: 600; white-space: nowrap; }
+        .rate-note { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.2rem; }
+        .floor-note { background: rgba(100,108,255,0.08); border: 1px solid rgba(100,108,255,0.2); border-radius: 8px; padding: 0.85rem 1.2rem; margin: 1.5rem 0; font-family: var(--font-mono); font-size: 0.9rem; color: var(--text); }
+        .floor-note strong { color: var(--accent); }
+        .avail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .avail-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; }
+        .avail-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.35rem; }
+        .avail-value { font-weight: 600; font-size: 0.95rem; }
+        .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
+        .section-divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+        @media (max-width: 600px) { .rate-table th, .rate-table td { padding: 0.65rem 0.5rem; font-size: 0.88rem; } }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">MARS</a>
+            <div class="nav-links">
+                <a href="/#projects">Projects</a>
+                <a href="/#about">About</a>
+                <a href="/#experience">Experience</a>
+                <a href="/#skills">Skills</a>
+                <a href="/#hire">Hire Me</a>
+                <a href="/rates" class="active">Rates</a>
+                <a href="/#connect">Connect</a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="nav-mobile">
+            <a href="/#projects">Projects</a>
+            <a href="/#about">About</a>
+            <a href="/#experience">Experience</a>
+            <a href="/#skills">Skills</a>
+            <a href="/#hire">Hire Me</a>
+            <a href="/rates">Rates</a>
+            <a href="/#connect">Connect</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" style="min-height:40vh;padding-top:6rem;">
+        <div class="hero-content" style="max-width:680px;">
+            <div class="hero-badge">RATE CARD · 2026</div>
+            <h1>Rates &amp; <span class="gradient-text">Services</span></h1>
+            <p class="hero-subtitle">Available for freelance and contract work — remote or hybrid (Philadelphia). I build things that ship.</p>
+            <div class="hero-cta">
+                <a href="mailto:natorretti11@gmail.com" class="btn btn-primary">Get in Touch</a>
+                <a href="/#projects" class="btn btn-ghost">View Projects &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hourly Rates -->
+    <section class="section" id="hourly">
+        <div class="section-inner">
+            <h2 class="section-title">Hourly Rates</h2>
+            <p class="section-subtitle">Contract and freelance — billed hourly or by milestone.</p>
+
+            <div class="floor-note">
+                ⚡ <strong>Floor rate: $60/hr.</strong> No exceptions — this covers any remote, async, or part-time engagement.
+            </div>
+
+            <table class="rate-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Rate</th>
+                        <th style="min-width:200px">What You Get</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AI Agent &amp; LLM Integration</strong></td>
+                        <td><span class="rate-price">$85 – $110/hr</span></td>
+                        <td>Dual-path LLM routing, Gemini/Ollama architectures, agent pipelines, Telegram &amp; Discord bots</td>
+                    </tr>
+                    <tr>
+                        <td><strong>React Native / Mobile</strong></td>
+                        <td><span class="rate-price">$70 – $90/hr</span></td>
+                        <td>iOS &amp; Android apps, production-ready, clean architecture. Active OpenClaw contributor.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TypeScript / API Backend</strong></td>
+                        <td><span class="rate-price">$65 – $85/hr</span></td>
+                        <td>tRPC, REST, GraphQL, multi-platform API design. Proven at 55 endpoints / 14 platforms.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Python / Automation</strong></td>
+                        <td><span class="rate-price">$60 – $80/hr</span></td>
+                        <td>Scripting, pipeline automation, data extraction, AI tooling, Railway deployments</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Open Source Engineering</strong></td>
+                        <td><span class="rate-price">$75 – $100/hr</span></td>
+                        <td>OSS contributions, code review, maintainer-level work (Android/React Native)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr class="section-divider">
+
+            <h3 style="margin-bottom:1rem;font-size:1.1rem;">Full-Time Contract (W2 Equivalent)</h3>
+            <table class="rate-table">
+                <thead>
+                    <tr><th>Commitment</th><th>Rate</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Full-time (40 hrs/wk)</td>
+                        <td><span class="rate-price">$90K – $130K/yr</span></td>
+                    </tr>
+                    <tr>
+                        <td>Part-time (20 hrs/wk)</td>
+                        <td><span class="rate-price">$50 – $80/hr</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Project Estimates -->
+    <section class="section section-alt" id="projects-rates">
+        <div class="section-inner">
+            <h2 class="section-title">Project Estimates</h2>
+            <p class="section-subtitle">Fixed-scope work. Quoted after a brief scoping call.</p>
+
+            <table class="rate-table">
+                <thead>
+                    <tr><th>Project Type</th><th>Estimate</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>MVP AI Agent</strong>
+                            <div class="rate-note">Single-scope LLM agent — one domain, one interface</div>
+                        </td>
+                        <td><span class="rate-price">$1,500 – $4,000</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Multi-Platform API Integration</strong>
+                            <div class="rate-note">Per platform (data pull, normalization, endpoints)</div>
+                        </td>
+                        <td><span class="rate-price">$300 – $800</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>React Native App (MVP)</strong>
+                            <div class="rate-note">No backend. UI, navigation, API wiring.</div>
+                        </td>
+                        <td><span class="rate-price">$3,000 – $7,000</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Telegram / Discord Bot</strong>
+                            <div class="rate-note">Standard features — commands, webhooks, Railway deploy</div>
+                        </td>
+                        <td><span class="rate-price">$500 – $1,500</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>LLM Pipeline / RAG</strong>
+                            <div class="rate-note">Retrieval-augmented generation, memory, routing chains</div>
+                        </td>
+                        <td><span class="rate-price">$2,000 – $6,000</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Technical Audit / Code Review</strong>
+                            <div class="rate-note">Architecture review, documentation, improvement roadmap</div>
+                        </td>
+                        <td><span class="rate-price">$400 – $1,200</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p style="color:var(--text-muted);font-size:0.88rem;margin-top:1rem;">
+                Rates are negotiable for long-term engagements (3+ months). All estimates require a scoping call.
+            </p>
+        </div>
+    </section>
+
+    <!-- Availability -->
+    <section class="section" id="availability">
+        <div class="section-inner">
+            <h2 class="section-title">Availability</h2>
+            <p class="section-subtitle">Where I am, when I work, and how to reach me.</p>
+
+            <div class="avail-grid">
+                <div class="avail-item">
+                    <div class="avail-label">Location</div>
+                    <div class="avail-value">Philadelphia, PA</div>
+                </div>
+                <div class="avail-item">
+                    <div class="avail-label">Work Model</div>
+                    <div class="avail-value">Remote or Hybrid</div>
+                </div>
+                <div class="avail-item">
+                    <div class="avail-label">Timezone</div>
+                    <div class="avail-value">Eastern Time (ET)</div>
+                </div>
+                <div class="avail-item">
+                    <div class="avail-label">Commitment</div>
+                    <div class="avail-value">20 – 40 hrs/wk</div>
+                </div>
+                <div class="avail-item">
+                    <div class="avail-label">Start Date</div>
+                    <div class="avail-value">Immediate</div>
+                </div>
+            </div>
+
+            <div class="cta-row">
+                <a href="mailto:natorretti11@gmail.com" class="btn btn-primary">Email Me</a>
+                <a href="https://github.com/Mellowambience" target="_blank" class="btn btn-ghost">GitHub &rarr;</a>
+                <a href="https://x.com/1Aether1Rose1" target="_blank" class="btn btn-ghost">X / Twitter &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <p>&copy; 2026 Mars. Built with intention.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
