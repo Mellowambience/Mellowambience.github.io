@@ -1,437 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mars | Systems Thinker & Builder</title>
-    <meta name="description" content="Mars — builder of MIST, systems thinker, full-stack developer. 6+ years experience. TypeScript, Python, C.">
-    <meta property="og:title" content="Mars | Systems Thinker & Builder">
-    <meta property="og:description" content="Building MIST — a sovereign AI companion. Full-stack developer, 6+ years experience.">
-    <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://mellowambience.github.io/og-image.jpg">
-    <meta name="twitter:site" content="@1Aether1Rose1">
-    <meta name="twitter:creator" content="@1Aether1Rose1">
-    <meta property="og:url" content="https://mellowambience.github.io">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@1Aether1Rose1">
-    <meta name="twitter:title" content="Mars | Systems Thinker & Builder">
-    <meta name="twitter:description" content="Building MIST — a sovereign AI companion. Full-stack developer.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mars — Systems Thinker & Builder</title>
+  <meta name="description" content="Mars — builder of MIST, systems thinker, full-stack developer. 6+ years experience.">
+  <meta property="og:title" content="Mars — Systems Thinker & Builder">
+  <meta property="og:description" content="Building MIST — a sovereign AI companion. Full-stack developer, 6+ years experience.">
+  <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mellowambience.github.io">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://mellowambience.github.io/og-image.jpg">
+  <meta name="twitter:site" content="@1Aether1Rose1">
+  <meta name="twitter:creator" content="@1Aether1Rose1">
+  <meta name="twitter:title" content="Mars — Systems Thinker & Builder">
+  <meta name="twitter:description" content="Building MIST — a sovereign AI companion.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav" id="nav">
-        <div class="nav-inner">
-            <a href="#" class="nav-logo">MARS</a>
-            <div class="nav-links">
-                <a href="#projects">Projects</a>
-                <a href="#about">About</a>
-                <a href="#experience">Experience</a>
-                <a href="#skills">Skills</a>
-                <a href="#hire">Hire Me</a>
-                <a href="/rates">Rates</a>
-                <a href="/card">Card</a>
-                <a href="#connect">Connect</a>
-            </div>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-        <div class="nav-mobile" id="nav-mobile">
-            <a href="#projects">Projects</a>
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#skills">Skills</a>
-            <a href="#hire">Hire Me</a>
-            <a href="/rates">Rates</a>
-            <a href="/card">Card</a>
-            <a href="#connect">Connect</a>
-        </div>
-    </nav>
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
 
-    <!-- Hero -->
-    <section class="hero reveal">
-        <div class="hero-glow"></div>
-        <div class="hero-content">
-            <div class="hero-badge">SYSTEMS THINKER</div>
-            <h1>I'm <span class="gradient-text">Mars</span></h1>
-            <p class="hero-subtitle">I build intelligent systems — from OS kernels to AI companions.<br>Currently creating <strong>MIST</strong>, a sovereign AI that lives on your terms.</p>
-            <div class="hero-stack">
-                <span class="tag">TypeScript</span>
-                <span class="tag">Python</span>
-                <span class="tag">C</span>
-                <span class="tag">React Native</span>
-                <span class="tag">Node.js</span>
-                <span class="tag">Gemini / Ollama</span>
-            </div>
-            <div class="hero-cta">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#hire" class="btn btn-ghost">Hire Me &rarr;</a>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <canvas id="hero-canvas"></canvas>
-            <div class="terminal">
-                <div class="terminal-bar">
-                    <span class="dot red"></span>
-                    <span class="dot yellow"></span>
-                    <span class="dot green"></span>
-                    <span class="terminal-title">mist-gateway</span>
-                </div>
-                <div class="terminal-body">
-                    <div class="line"><span class="prompt">$</span> <span class="cmd">mist start --mode sovereign</span></div>
-                    <div class="line output">[[gateway] Cloud path: Gemini 2.0 ✓</div>
-                    <div class="line output">[gateway] Local fallback: Ollama ✓</div>
-                    <div class="line output">[[gateway] Mobile bridge: tRPC ✓</div>
-                    <div class="line output">[mycelium] Neural mesh: initializing...</div>
-                    <div class="line"><span class="prompt">$</span> <span class="cmd typing" id="typing-cmd"></span><span class="cursor">|</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- Noise overlay -->
+  <div class="noise"></div>
 
-    <!-- Projects -->
-    <section class="section reveal" id="projects">
-        <div class="section-divider"></div>
-        <div class="section-inner">
-            <h2 class="section-title">Projects</h2>
-            <p class="section-subtitle">Systems I've built — from production bots to experimental OS kernels.</p>
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">M<span class="accent">.</span></a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#exp">Experience</a>
+      <a href="#hire">Hire</a>
+      <a href="/rates">Rates</a>
+      <a href="/card">Card</a>
+    </div>
+    <a href="mailto:natorretti11@gmail.com" class="nav-cta mag-btn">Get in touch</a>
+    <button class="burger" id="burger" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </nav>
 
-            <div class="projects-grid">
-                <!-- MIST -->
-                <div class="project-card featured reveal gradient-border">
-                    <div class="project-label"><span class="badge-pulse">FLAGSHIP</span></div>
-                    <h3>MIST <span class="project-sub">Sovereign AI Companion</span></h3>
-                    <p>A dual-path AI architecture — cloud (Gemini) with local fallback (Ollama). React Native mobile app connected through a tRPC gateway. Inspired by MIST from <em>Pantheon</em>.</p>
-                    <div class="project-tech">
-                        <div class="skill-bar"><span class="skill-label">TypeScript</span><div class="skill-fill" style="--pct:95%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">React Native</span><div class="skill-fill" style="--pct:92%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">tRPC</span><div class="skill-fill" style="--pct:88%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Gemini</span><div class="skill-fill" style="--pct:85%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Ollama</span><div class="skill-fill" style="--pct:80%"></div></div>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/Mellowambience/clawd" target="_blank">View on GitHub &rarr;</a>
-                    </div>
-                </div>
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#work" class="mobile-link">Work</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#exp" class="mobile-link">Experience</a>
+    <a href="#hire" class="mobile-link">Hire</a>
+    <a href="/rates" class="mobile-link">Rates</a>
+    <a href="mailto:natorretti11@gmail.com" class="mobile-link">Contact</a>
+  </div>
 
-                <!-- HumanPalette -->
-                <div class="project-card reveal gradient-border">
-                    <div class="project-label"><span class="badge-pulse">ACTIVE SPRINT · MVP Q1 2026</span></div>
-                    <h3>HumanPalette <span class="project-sub">Human-Only Art Exchange</span></h3>
-                    <p>Swipe-native mobile marketplace connecting collectors with verified human artists. Features Tinder-style discovery, Stripe Connect escrow, collector trust scoring, and a "Human Verified" seal — zero AI-generated content allowed.</p>
-                    <div class="project-tech">
-                        <div class="skill-bar"><span class="skill-label">React Native</span><div class="skill-fill" style="--pct:94%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Expo</span><div class="skill-fill" style="--pct:90%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Supabase</span><div class="skill-fill" style="--pct:86%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Stripe Connect</span><div class="skill-fill" style="--pct:82%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">TypeScript</span><div class="skill-fill" style="--pct:78%"></div></div>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/Mellowambience/humanpalette" target="_blank">View on GitHub &rarr;</a>
-                    </div>
-                </div>
-
-                <!-- Marketplace -->
-                <div class="project-card reveal gradient-border">
-                    <h3>Marketplace Intelligence API</h3>
-                    <p>Multi-platform marketplace data service — 55 API endpoints spanning 14 platforms including Instagram, TikTok, Amazon, Airbnb, Zillow, and more.</p>
-                    <div class="project-tech">
-                        <div class="skill-bar"><span class="skill-label">TypeScript</span><div class="skill-fill" style="--pct:93%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">REST API</span><div class="skill-fill" style="--pct:89%"></div></div>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/Mellowambience/marketplace-service-template" target="_blank">View' on GitHub &rarr;</a>
-                    </div>
-                </div>
-
-                <!-- Baozi -->
-                <div class="project-card reveal gradient-border">
-                    <h3>Baozi Prediction Bot</h3>
-                    <p>Telegram bot for prediction markets — live and operational, deployed on Railway. Real-time market signal aggregation and automated betting intelligence.</p>
-                    <div class="project-tech">
-                        <div class="skill-bar"><span class="skill-label">TypeScript</span><div class="skill-fill" style="--pct:92%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Telegram Bot API</span><div class="skill-fill" style="--pct:88%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Railway</span><div class="skill-fill" style="--pct:84%"></div></div>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/Mellowambience/baozi-openclaw" target="_blank">View on GitHub &rarr;</a>
-                    </div>
-                </div>
-
-                <!-- Chimera OS -->
-                <div class="project-card reveal gradient-border">
-                    <h3>Chimera OS</h3>
-                    <p>Custom operating system kernel written in C. A deep dive into systems programming — bootloader, memory management, and kernel architecture from scratch.</p>
-                    <div class="project-tech">
-                        <div class="skill-bar"><span class="skill-label">C</span><div class="skill-fill" style="--pct:95%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">Assembly</span><div class="skill-fill" style="--pct:90%"></div></div>
-                        <div class="skill-bar"><span class="skill-label">OS Dev</span><div class="skill-fill" style="--pct:85%"></div></div>
-                    </div>
-                    <div class="project-links">
-                        <a href="https://github.com/Mellowambience/chimera-os" target="_blank">View on GitHub &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section-divider"></div>
-    </section>
-
-    <!-- About -->
-    <section class="section section-alt reveal" id="about">
-        <div class="section-divider"></div>
-        <div class="section-inner">
-            <h2 class="section-title">About</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <p>I'm Mars — a full-stack developer based in <strong>Philadelphia</strong> with <strong>6+ years of experience</strong> in enterprise and healthcare software. I've built production systems at scale — from hospital IT infrastructure to complex integrations — and that foundation shapes how I approach everything I build today.</p>
-                    <p>Now I think in systems. Whether it's an AI companion that respects your sovereignty, a marketplace intelligence API that spans 14 platforms, or an operating system kernel from scratch, I'm drawn to problems at the intersection of <strong>ambition and architecture</strong>.</p>
-                    <p>My north star is <strong>MIST</strong> — inspired by the AI character from <em>Pantheon</em>. I'm building the real version: an AI that lives locally, thinks independently, and belongs to <em>you</em>. Currently pursuing my <strong>MS in Software Engineering at Penn State</strong> to sharpen the theory behind the craft.</p>
-                    <p>I build in public on <a href="https://x.com/1Aether1Rose1" target="_blank">X (@1Aether1Rose1)</a> — daily build logs, honest progress, raw process. Open to <strong>freelance and contract work</strong>.</p>
-                </div>
-                <div class="about-stats">
-                    <div class="stat reveal">
-                        <div class="stat-number" data-target="6">6+</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                    <div class="stat reveal">
-                        <div class="stat-number" data-target="55">55</div>
-                        <div class="stat-label">API Endpoints (Marketplace)</div>
-                    </div>
-                    <div class="stat reveal">
-                        <div class="stat-number" data-target="14">14</div>
-                        <div class="stat-label">Platforms Covered</div>
-                    </div>
-                    <div class="stat reveal">
-                        <div class="stat-number" data-target="6">6+</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section-divider"></div>
-    </section>
-
-    <!-- Experience -->
-    <section class="section reveal" id="experience">
-        <div class="section-divider"></div>
-        <div class="section-inner">
-            <h2 class="section-title">Experience</h2>
-            <p class="section-subtitle">6+ years of IT and software engineering experience across healthcare and enterprise environments.</p>
-            <div class="timeline">
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Independent AI &amp; Automation Engineer</h3>
-                            <span class="timeline-date">2024 — Present</span>
-                        </div>
-                        <p class="timeline-company">Independent / Freelance — Philadelphia, PA</p>
-                        <ul class="timeline-bullets">
-                            <li>Building MIST — a sovereign AI companion (React Native + tRPC + Gemini/Ollama dual-path architecture)</li>
-                            <li>Designed and shipped Marketplace Intelligence API — 55 endpoints spanning 14 platforms</li>
-                            <li>Deployed Baozi prediction bot on Railway — live Telegram bot for real-time market signals</li>
-                            <li>Contributing to OpenClaw open-source project (Android/React Native + Telegram maintenance) — PR #22142 merged; maintainer application submitted Feb 2026</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span>TypeScript</span><span>React Native</span><span>AI/ML</span><span>API Design</span><span>Open Source</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-connector"></div>
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>IT Field Technician</h3>
-                            <span class="timeline-date">Nov 2020 — Jul 2024</span>
-                        </div>
-                        <p class="timeline-company">Main Line Health, Lankenau Hospital — Wynnewood, PA</p>
-                        <ul class="timeline-bullets">
-                            <li>Provided technical support to medical and administrative teams across multiple hospital facilities</li>
-                            <li>Led a system-wide PC upgrade to Windows 10 across the health network</li>
-                            <li>Managed hardware lifecycle — inventory, deployment, and disposal — via ServiceNow</li>
-                            <li>Supported software deployment and updates using SCCM in clinical environments</li>
-                            <li>Resolved IT service requests in cross-functional teams under healthcare compliance requirements</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span>SCCM</span><span>ServiceNow</span><span>Active Directory</span><span>Azure</span><span>Healthcare IT</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-connector"></div>
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>Inventory Control Analyst</h3>
-                            <span class="timeline-date">Jan 2020 — Nov 2020</span>
-                        </div>
-                        <p class="timeline-company">Main Line Health — Philadelphia, PA</p>
-                        <ul class="timeline-bullets">
-                            <li>Managed 10,000+ machines across 50+ sites during a large-scale Windows 10 migration</li>
-                            <li>Updated ServiceNow with inventory data to improve enterprise-wide equipment tracking</li>
-                            <li>Provided technical assistance and support to field teams</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span>ServiceNow</span><span>Asset Management</span><span>Enterprise Scale</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-connector"></div>
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>MS Software Engineering</h3>
-                            <span class="timeline-date">2022 – Present</span>
-                        </div>
-                        <p class="timeline-company">Penn State University — Online Global Campus</p>
-                        <ul class="timeline-bullets">
-                            <li>Graduate-level focus on software architecture, distributed systems, and AI/ML</li>
-                            <li>Applying theory directly to MIST architecture and production systems work</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span>Software Architecture</span><span>Distributed Systems</span><span>AI/ML</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-connector"></div>
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-header">
-                            <h3>BS Computer Science</h3>
-                            <span class="timeline-date">2017 – 2021</span>
-                        </div>
-                        <p class="timeline-company">University of Arizona — Online Global Campus</p>
-                        <ul class="timeline-bullets">
-                            <li>Foundation in algorithms, data structures, software engineering, and systems programming</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span>C++</span><span>Java</span><span>Python</span><span>SQL</span><span>Algorithms</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section-divider"></div>
-    </section>
-
-<section class="section section-alt reveal" id="skills">
-  <div class="section-inner">
-    <h2 class="section-title">Skills</h2>
-    <p class="section-subtitle">The tools I reach for — and why.</p>
-    <div class="skills-grid">
-      <div class="skill-group">
-        <h3>Languages</h3>
-        <div class="skill-bar reveal"><span class="skill-label">TypeScript</span><div class="skill-fill" style="--pct:95%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Python</span><div class="skill-fill" style="--pct:88%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">C</span><div class="skill-fill" style="--pct:80%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">JavaScript</span><div class="skill-fill" style="--pct:90%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Assembly</span><div class="skill-fill" style="--pct:65%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">SQL</span><div class="skill-fill" style="--pct:75%"></div></div>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div class="hero-tag">
+        <span class="tag-dot"></span>
+        Available for hire · Philadelphia, PA
       </div>
-      <div class="skill-group">
-        <h3>Frameworks &amp; Runtimes</h3>
-        <div class="skill-bar reveal"><span class="skill-label">React Native</span><div class="skill-fill" style="--pct:92%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Node.js</span><div class="skill-fill" style="--pct:88%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">tRPC</span><div class="skill-fill" style="--pct:85%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Express</span><div class="skill-fill" style="--pct:80%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">REST APIs</span><div class="skill-fill" style="--pct:90%"></div></div>
-      </div>
-      <div class="skill-group">
-        <h3>AI &amp; Automation</h3>
-        <div class="skill-bar reveal"><span class="skill-label">Gemini</span><div class="skill-fill" style="--pct:90%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Ollama</span><div class="skill-fill" style="--pct:85%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">LLM Integration</span><div class="skill-fill" style="--pct:88%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Telegram Bots</span><div class="skill-fill" style="--pct:85%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Discord Bots</span><div class="skill-fill" style="--pct:82%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Agent Systems</span><div class="skill-fill" style="--pct:80%"></div></div>
-      </div>
-      <div class="skill-group">
-        <h3>Infrastructure</h3>
-        <div class="skill-bar reveal"><span class="skill-label">Railway</span><div class="skill-fill" style="--pct:85%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">GitHub Actions</span><div class="skill-fill" style="--pct:80%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Linux</span><div class="skill-fill" style="--pct:75%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Healthcare IT</span><div class="skill-fill" style="--pct:70%"></div></div>
-        <div class="skill-bar reveal"><span class="skill-label">Enterprise Systems</span><div class="skill-fill" style="--pct:72%"></div></div>
+      <h1 class="hero-name">
+        <span class="line-wrap"><span class="line-text">Systems</span></span>
+        <span class="line-wrap"><span class="line-text">Thinker<span class="amp">&</span></span></span>
+        <span class="line-wrap"><span class="line-text hero-name-mars">Builder</span></span>
+      </h1>
+      <div class="hero-right">
+        <p class="hero-desc">
+          I'm <strong>Mars</strong> — full-stack developer building intelligent systems.
+          Currently creating <span class="highlight">MIST</span>, a sovereign AI that lives on your terms.
+          TypeScript · Python · C · React Native · 6+ years.
+        </p>
+        <div class="hero-actions">
+          <a href="#work" class="btn-primary mag-btn">View my work</a>
+          <a href="#hire" class="btn-ghost mag-btn">Hire me →</a>
+        </div>
+        <div class="hero-stack">
+          <span>TypeScript</span><span>Python</span><span>C</span>
+          <span>React Native</span><span>Node.js</span><span>Gemini</span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+    <canvas id="hero-canvas"></canvas>
+  </section>
 
-<section class="section reveal" id="hire">
-  <div class="section-inner">
-    <h2 class="section-title">Hire Me</h2>
-    <p class="section-subtitle">Available for freelance and contract work. I build things that work.</p>
-    <div class="projects-grid">
-      <div class="project-card reveal">
-        <h3>AI Agents &amp; Automation</h3>
-        <p>Custom LLM-powered bots, agent pipelines, Telegram/Discord automation, and AI integrations for your product or workflow.</p>
-        <div class="tags">TypeScript, Python, LLM APIs</div>
+  <!-- STATUS BAR -->
+  <div class="status-bar">
+    <div class="status-inner">
+      <div class="status-item">
+        <span class="status-dot active"></span>
+        <span>Building MIST v0.4</span>
       </div>
-      <div class="project-card reveal">
-        <h3>React Native Apps</h3>
-        <p>Mobile-first apps built with React Native. Cross-platform, production-ready, with clean architecture and real performance.</p>
-        <div class="tags">React Native, tRPC, Node.js</div>
+      <div class="status-sep">·</div>
+      <div class="status-item">55 API endpoints live</div>
+      <div class="status-sep">·</div>
+      <div class="status-item">PR #22142 merged</div>
+      <div class="status-sep">·</div>
+      <div class="status-item">MS Software Eng · Penn State</div>
+      <div class="status-sep">·</div>
+      <div class="status-item">Open to contracts</div>
+    </div>
+  </div>
+
+  <!-- WORK / PROJECTS (Bento Grid) -->
+  <section class="section" id="work">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-num">01</span>
+        <h2>Selected Work</h2>
+        <p>Systems I've built — from production bots to experimental OS kernels.</p>
       </div>
-      <div class="project-card reveal">
-        <h3>API &amp; Backend Systems</h3>
-        <p>REST APIs, data pipelines, multi-platform integrations, and backend services that scale. Built from enterprise experience.</p>
-        <div class="tags">Node.js, TypeScript, REST</div>
+      <div class="bento">
+        <!-- Featured MIST card — large -->
+        <div class="bento-card bento-lg reveal">
+          <div class="bento-badge">Flagship</div>
+          <div class="bento-sprint">ACTIVE SPRINT · MVP Q1 2026</div>
+          <h3>MIST<br><span class="sub">Sovereign AI Companion</span></h3>
+          <p>Dual-path AI architecture — cloud (Gemini) with local fallback (Ollama). React Native mobile app via tRPC gateway. Inspired by MIST from <em>Pantheon</em>.</p>
+          <div class="bento-tech">
+            <span>TypeScript</span><span>React Native</span><span>tRPC</span><span>Gemini</span><span>Ollama</span>
+          </div>
+          <div class="bento-glow"></div>
+        </div>
+
+        <!-- HumanPalette -->
+        <div class="bento-card reveal">
+          <div class="bento-badge sprint">Active Sprint</div>
+          <h3>HumanPalette<br><span class="sub">Human-Only Art Exchange</span></h3>
+          <p>Swipe-native marketplace connecting collectors with verified human artists. Zero AI-generated content. Stripe Connect escrow + trust scoring.</p>
+          <div class="bento-tech">
+            <span>React Native</span><span>Supabase</span><span>Stripe</span>
+          </div>
+          <div class="bento-glow"></div>
+        </div>
+
+        <!-- Marketplace API -->
+        <div class="bento-card reveal">
+          <div class="bento-stat">55</div>
+          <div class="bento-stat-label">API Endpoints</div>
+          <h3>Marketplace<br><span class="sub">Intelligence API</span></h3>
+          <p>Multi-platform data service — 14 platforms including Instagram, TikTok, Amazon, Airbnb, Zillow.</p>
+          <div class="bento-tech">
+            <span>TypeScript</span><span>REST</span><span>14 Platforms</span>
+          </div>
+          <div class="bento-glow"></div>
+        </div>
+
+        <!-- Baozi Bot -->
+        <div class="bento-card bento-sm reveal">
+          <h3>Baozi Bot<br><span class="sub">Prediction Markets</span></h3>
+          <p>Telegram bot for prediction markets. Live on Railway. Real-time signal aggregation.</p>
+          <div class="bento-tech"><span>TypeScript</span><span>Railway</span></div>
+          <div class="bento-glow"></div>
+        </div>
+
+        <!-- Chimera OS -->
+        <div class="bento-card bento-sm bento-dark reveal">
+          <h3>Chimera OS<br><span class="sub">Custom Kernel</span></h3>
+          <p>OS kernel in C from scratch — bootloader, memory management, kernel architecture.</p>
+          <div class="bento-tech"><span>C</span><span>Assembly</span></div>
+          <div class="bento-glow"></div>
+        </div>
       </div>
     </div>
-    <a href="mailto:natorretti11@gmail.com" class="btn btn-primary">Get in Touch</a>
-    <span>See full rates at <a href="/rates">/rates</a></span>
-  </div>
-</section>
+  </section>
 
-<section class="section section-alt reveal" id="connect">
-  <div class="section-inner">
-    <h2 class="section-title">Connect</h2>
-    <div class="connect-grid" style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <div class="connect-card">
-        <a href="https://github.com/Mellowambience" target="_blank">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-2c4.3 0 8-2.5 8-5.5"/></svg>
-          <span>GitHub</span>
-        </a>
+  <!-- ABOUT -->
+  <section class="section section-dark" id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-left reveal">
+          <span class="section-num">02</span>
+          <h2>About</h2>
+          <div class="about-stats">
+            <div class="stat-card">
+              <div class="stat-num">6+</div>
+              <div class="stat-label">Years building</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">55</div>
+              <div class="stat-label">API endpoints</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num">3</div>
+              <div class="stat-label">Active projects</div>
+            </div>
+          </div>
+        </div>
+        <div class="about-right reveal">
+          <p class="about-lead">I'm Mars — a full-stack developer based in Philadelphia with 6+ years building production systems at scale.</p>
+          <p>From hospital IT infrastructure managing 10,000+ machines across 50+ sites to AI companions and marketplace APIs — I think in systems. My north star is <strong>MIST</strong>, inspired by the AI from <em>Pantheon</em>: an AI that lives locally, thinks independently, and belongs to <em>you</em>.</p>
+          <p>Currently pursuing an <strong>MS in Software Engineering at Penn State</strong>. OpenClaw maintainer (PR #22142 merged). Building in public on <a href="https://x.com/1Aether1Rose1" target="_blank">@1Aether1Rose1</a>.</p>
+          <div class="about-links">
+            <a href="https://github.com/Mellowambience" target="_blank" class="icon-link">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a href="https://x.com/1Aether1Rose1" target="_blank" class="icon-link">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              @1Aether1Rose1
+            </a>
+            <a href="https://linkedin.com/in/amara-torretti" target="_blank" class="icon-link">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="connect-card">
-        <a href="https://x.com/1Aether1Rose1" target="_blank">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l-4-4h3V7a1 1 0 011-1h2a1 1 0 011 1v4h-3V7h-3V5a5 5 0 005-5z"/></svg>
-          <span>@1Aether1Rose1</span>
-        </a>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE (Timeline) -->
+  <section class="section" id="exp">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-num">03</span>
+        <h2>Experience</h2>
       </div>
-      <div class="connect-card">
-        <a href="https://linkedin.com/in/amara-torretti" target="_blank">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 100 12 6 6 0 000-12zm0 0c1.657 0 3 4.03 3 9s-1.343 9-3 9m-9 3h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v11a2 2 0 002 2z"/></svg>
-          <span>LinkedIn</span>
-        </a>
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-left">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-right">
+            <div class="tl-head">
+              <h3>Independent / Freelance</h3>
+              <span class="tl-date">2022 — Present</span>
+            </div>
+            <p class="tl-co">Philadelphia, PA</p>
+            <ul>
+              <li>Building MIST — sovereign AI companion (React Native + tRPC + Gemini/Ollama)</li>
+              <li>Designed & shipped Marketplace Intelligence API — 55 endpoints across 14 platforms</li>
+              <li>Deployed Baozi prediction bot on Railway — live Telegram bot</li>
+              <li>OpenClaw contributor — PR #22142 merged; maintainer application submitted Feb 2026</li>
+            </ul>
+            <div class="tl-tags"><span>TypeScript</span><span>React Native</span><span>AI/ML</span><span>Open Source</span></div>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-left">
+            <div class="tl-dot"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-right">
+            <div class="tl-head">
+              <h3>IT Analyst — Main Line Health, Lankenau</h3>
+              <span class="tl-date">2020 — 2022</span>
+            </div>
+            <p class="tl-co">Wynnewood, PA</p>
+            <ul>
+              <li>Supported medical & admin teams across multiple hospital facilities</li>
+              <li>Led system-wide PC upgrade to Windows 10 across the health network</li>
+              <li>Managed hardware lifecycle via ServiceNow; SCCM software deployment</li>
+            </ul>
+            <div class="tl-tags"><span>SCCM</span><span>ServiceNow</span><span>Active Directory</span><span>Azure</span></div>
+          </div>
+        </div>
+        <div class="tl-item reveal">
+          <div class="tl-left">
+            <div class="tl-dot"></div>
+          </div>
+          <div class="tl-right">
+            <div class="tl-head">
+              <h3>IT Asset Specialist — Main Line Health</h3>
+              <span class="tl-date">2018 — 2020</span>
+            </div>
+            <p class="tl-co">Philadelphia, PA</p>
+            <ul>
+              <li>Managed 10,000+ machines across 50+ sites during Windows 10 migration</li>
+              <li>Updated ServiceNow inventory; enterprise-wide equipment tracking</li>
+            </ul>
+            <div class="tl-tags"><span>ServiceNow</span><span>Asset Management</span><span>Enterprise Scale</span></div>
+          </div>
+        </div>
       </div>
-      <div class="connect-card">
-        <a href="mailto:natorretti11@gmail.com">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 10H2v-2h2v2zm12 0H6v-2h8v2z"/></svg>
-          <span>Email</span>
+      <div class="edu-grid reveal">
+        <div class="edu-card">
+          <span class="edu-badge">MS</span>
+          <div>
+            <strong>Penn State University</strong>
+            <p>MS Software Engineering · 2022 — Present</p>
+            <p class="edu-note">Software architecture, distributed systems, AI/ML</p>
+          </div>
+        </div>
+        <div class="edu-card">
+          <span class="edu-badge">BS</span>
+          <div>
+            <strong>University of Arizona</strong>
+            <p>BS Computer Science · 2017 — 2021</p>
+            <p class="edu-note">Algorithms, data structures, systems programming</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section section-dark" id="skills">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-num">04</span>
+        <h2>Skills</h2>
+        <p>The tools I reach for — and why.</p>
+      </div>
+      <div class="skills-flex">
+        <div class="skill-col reveal">
+          <h4>Languages</h4>
+          <div class="skill-row"><span class="sk-name">TypeScript</span><div class="sk-bar"><div class="sk-fill" style="--w:95%"></div></div><span class="sk-pct">95</span></div>
+          <div class="skill-row"><span class="sk-name">JavaScript</span><div class="sk-bar"><div class="sk-fill" style="--w:90%"></div></div><span class="sk-pct">90</span></div>
+          <div class="skill-row"><span class="sk-name">Python</span><div class="sk-bar"><div class="sk-fill" style="--w:88%"></div></div><span class="sk-pct">88</span></div>
+          <div class="skill-row"><span class="sk-name">C</span><div class="sk-bar"><div class="sk-fill" style="--w:80%"></div></div><span class="sk-pct">80</span></div>
+          <div class="skill-row"><span class="sk-name">SQL</span><div class="sk-bar"><div class="sk-fill" style="--w:75%"></div></div><span class="sk-pct">75</span></div>
+        </div>
+        <div class="skill-col reveal">
+          <h4>Frameworks</h4>
+          <div class="skill-row"><span class="sk-name">React Native</span><div class="sk-bar"><div class="sk-fill" style="--w:92%"></div></div><span class="sk-pct">92</span></div>
+          <div class="skill-row"><span class="sk-name">Node.js</span><div class="sk-bar"><div class="sk-fill" style="--w:88%"></div></div><span class="sk-pct">88</span></div>
+          <div class="skill-row"><span class="sk-name">tRPC</span><div class="sk-bar"><div class="sk-fill" style="--w:85%"></div></div><span class="sk-pct">85</span></div>
+          <div class="skill-row"><span class="sk-name">REST APIs</span><div class="sk-bar"><div class="sk-fill" style="--w:90%"></div></div><span class="sk-pct">90</span></div>
+          <div class="skill-row"><span class="sk-name">Express</span><div class="sk-bar"><div class="sk-fill" style="--w:82%"></div></div><span class="sk-pct">82</span></div>
+        </div>
+        <div class="skill-col reveal">
+          <h4>AI & Infra</h4>
+          <div class="skill-row"><span class="sk-name">Gemini API</span><div class="sk-bar"><div class="sk-fill" style="--w:90%"></div></div><span class="sk-pct">90</span></div>
+          <div class="skill-row"><span class="sk-name">Ollama / LLMs</span><div class="sk-bar"><div class="sk-fill" style="--w:85%"></div></div><span class="sk-pct">85</span></div>
+          <div class="skill-row"><span class="sk-name">Railway</span><div class="sk-bar"><div class="sk-fill" style="--w:85%"></div></div><span class="sk-pct">85</span></div>
+          <div class="skill-row"><span class="sk-name">GitHub Actions</span><div class="sk-bar"><div class="sk-fill" style="--w:80%"></div></div><span class="sk-pct">80</span></div>
+          <div class="skill-row"><span class="sk-name">Linux</span><div class="sk-bar"><div class="sk-fill" style="--w:78%"></div></div><span class="sk-pct">78</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIRE ME -->
+  <section class="section" id="hire">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <span class="section-num">05</span>
+        <h2>Hire Me</h2>
+        <p>Available for freelance and contract work. I build things that work.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">⚡</div>
+          <h3>AI Agents & Automation</h3>
+          <p>Custom LLM-powered bots, agent pipelines, Telegram/Discord automation, and AI integrations for your product.</p>
+          <div class="service-rate">$85–110/hr</div>
+          <div class="service-tech"><span>TypeScript</span><span>Python</span><span>LLM APIs</span></div>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">📱</div>
+          <h3>React Native Apps</h3>
+          <p>Mobile-first apps built with React Native. Cross-platform, production-ready, clean architecture.</p>
+          <div class="service-rate">$70–90/hr</div>
+          <div class="service-tech"><span>React Native</span><span>Expo</span><span>tRPC</span></div>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-icon">🔧</div>
+          <h3>API & Backend Systems</h3>
+          <p>REST APIs, data pipelines, multi-platform integrations, and backend services that scale.</p>
+          <div class="service-rate">$65–85/hr</div>
+          <div class="service-tech"><span>Node.js</span><span>TypeScript</span><span>REST</span></div>
+        </div>
+      </div>
+      <div class="hire-cta reveal">
+        <p>Full rate card at <a href="/rates">/rates</a></p>
+        <a href="mailto:natorretti11@gmail.com" class="btn-primary mag-btn btn-lg">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECT -->
+  <section class="section section-dark" id="connect">
+    <div class="section-inner connect-inner reveal">
+      <h2 class="connect-title">Let's build something.</h2>
+      <p class="connect-sub">Open to contracts, collaborations, and interesting problems.</p>
+      <div class="connect-links">
+        <a href="mailto:natorretti11@gmail.com" class="connect-link">
+          <span class="cl-label">Email</span>
+          <span class="cl-val">natorretti11@gmail.com →</span>
+        </a>
+        <a href="https://x.com/1Aether1Rose1" target="_blank" class="connect-link">
+          <span class="cl-label">X / Twitter</span>
+          <span class="cl-val">@1Aether1Rose1 →</span>
+        </a>
+        <a href="https://github.com/Mellowambience" target="_blank" class="connect-link">
+          <span class="cl-label">GitHub</span>
+          <span class="cl-val">Mellowambience →</span>
+        </a>
+        <a href="https://linkedin.com/in/amara-torretti" target="_blank" class="connect-link">
+          <span class="cl-label">LinkedIn</span>
+          <span class="cl-val">Amara Torretti →</span>
         </a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer class="footer">
-  <div class="footer-inner">
-    <p style="font-family: monospace;">Built by Mars · mellowambience.github.io · 2026</p>
-  </div>
-</footer>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">M<span class="accent">.</span></span>
+      <span>Built by Mars · 2026</span>
+      <span>mellowambience.github.io</span>
+    </div>
+  </footer>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
