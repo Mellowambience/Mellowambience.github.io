@@ -325,102 +325,113 @@
         <div class="section-divider"></div>
     </section>
 
-**Reasoning & Approach**
-
-1. **Close the unfinished *Skills* section** – simply add the closing `</section>` tag to ensure the markup is well‑formed.
-
-2. **Hire Me section (`#hire`)**
-   - Added the `.reveal` class to the `<section>` for the 2026 scroll‑reveal effect.
-   - Wrapped each service card in `.project-card` with the additional classes `.gradient-border` and `.reveal` to give them a modern gradient outline and animated entry.
-   - Updated the CTA button:
-     * Added the classes `btn btn-primary btn-glow` for a glowing primary button.
-     * Kept the `mailto:` link and inserted a small inline note linking to `/rates` for the full rate card.
-
-3. **Connect section (`#connect`)**
-   - Also given the `.reveal` class for animated appearance.
-   - Each social link is a `.connect-card` containing:
-     * An SVG icon (GitHub, X/Twitter, LinkedIn, Email) – the LinkedIn icon was added to match the requested platforms.
-     * A `<span>` label.
-   - All links open in a new tab where appropriate.
-
-4. **Footer**
-   - Simplified to a single line of text, styled with a monospace font to match the requested aesthetic.
-
-5. **Document closure**
-   - Added the closing `    <script src="script.js"></script>
-</body></html>` tags.
-
-The final HTML below reflects all of the above enhancements while preserving the original class/ID structure.
-
-```html
+<section class="section section-alt reveal" id="skills">
+  <div class="section-inner">
+    <h2 class="section-title">Skills</h2>
+    <p class="section-subtitle">The tools I reach for — and why.</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Languages</h3>
+        <div class="skill-bar reveal"><span class="skill-label">TypeScript</span><div class="skill-fill" style="--pct:95%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Python</span><div class="skill-fill" style="--pct:88%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">C</span><div class="skill-fill" style="--pct:80%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">JavaScript</span><div class="skill-fill" style="--pct:90%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Assembly</span><div class="skill-fill" style="--pct:65%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">SQL</span><div class="skill-fill" style="--pct:75%"></div></div>
+      </div>
+      <div class="skill-group">
+        <h3>Frameworks &amp; Runtimes</h3>
+        <div class="skill-bar reveal"><span class="skill-label">React Native</span><div class="skill-fill" style="--pct:92%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Node.js</span><div class="skill-fill" style="--pct:88%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">tRPC</span><div class="skill-fill" style="--pct:85%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Express</span><div class="skill-fill" style="--pct:80%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">REST APIs</span><div class="skill-fill" style="--pct:90%"></div></div>
+      </div>
+      <div class="skill-group">
+        <h3>AI &amp; Automation</h3>
+        <div class="skill-bar reveal"><span class="skill-label">Gemini</span><div class="skill-fill" style="--pct:90%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Ollama</span><div class="skill-fill" style="--pct:85%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">LLM Integration</span><div class="skill-fill" style="--pct:88%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Telegram Bots</span><div class="skill-fill" style="--pct:85%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Discord Bots</span><div class="skill-fill" style="--pct:82%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Agent Systems</span><div class="skill-fill" style="--pct:80%"></div></div>
+      </div>
+      <div class="skill-group">
+        <h3>Infrastructure</h3>
+        <div class="skill-bar reveal"><span class="skill-label">Railway</span><div class="skill-fill" style="--pct:85%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">GitHub Actions</span><div class="skill-fill" style="--pct:80%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Linux</span><div class="skill-fill" style="--pct:75%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Healthcare IT</span><div class="skill-fill" style="--pct:70%"></div></div>
+        <div class="skill-bar reveal"><span class="skill-label">Enterprise Systems</span><div class="skill-fill" style="--pct:72%"></div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="section reveal" id="hire">
-    <div class="section-inner">
-        <h2 class="section-title">Hire Me</h2>
-        <p class="section-subtitle">Available for freelance and contract work. I build things that work.</p>
-        <div class="projects-grid">
-            <div class="project-card gradient-border reveal">
-                <h3>AI Agents &amp; Automation</h3>
-                <p>Custom LLM-powered bots, agent pipelines, Telegram/Discord automation, and AI integrations for your product or workflow.</p>
-                <div class="project-tech">
-                    <span>TypeScript</span><span>Python</span><span>LLM APIs</span>
-                </div>
-            </div>
-            <div class="project-card gradient-border reveal">
-                <h3>React Native Apps</h3>
-                <p>Mobile-first apps built with React Native. Cross-platform, production-ready, with clean architecture and real performance.</p>
-                <div class="project-tech">
-                    <span>React Native</span><span>tRPC</span><span>Node.js</span>
-                </div>
-            </div>
-            <div class="project-card gradient-border reveal">
-                <h3>API &amp; Backend Systems</h3>
-                <p>REST APIs, data pipelines, multi-platform integrations, and backend services that scale. Built from enterprise experience.</p>
-                <div class="project-tech">
-                    <span>Node.js</span><span>TypeScript</span><span>REST</span>
-                </div>
-            </div>
-        </div>
-        <div style="text-align:center;margin-top:2.5rem;">
-            <a href="mailto:natorretti11@gmail.com" class="btn btn-primary btn-glow">
-                Get in Touch
-                <span style="font-size:0.8em; margin-left:0.5rem;">or see my <a href="/rates">full rate card</a></span>
-            </a>
-        </div>
+  <div class="section-inner">
+    <h2 class="section-title">Hire Me</h2>
+    <p class="section-subtitle">Available for freelance and contract work. I build things that work.</p>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <h3>AI Agents &amp; Automation</h3>
+        <p>Custom LLM-powered bots, agent pipelines, Telegram/Discord automation, and AI integrations for your product or workflow.</p>
+        <div class="tags">TypeScript, Python, LLM APIs</div>
+      </div>
+      <div class="project-card reveal">
+        <h3>React Native Apps</h3>
+        <p>Mobile-first apps built with React Native. Cross-platform, production-ready, with clean architecture and real performance.</p>
+        <div class="tags">React Native, tRPC, Node.js</div>
+      </div>
+      <div class="project-card reveal">
+        <h3>API &amp; Backend Systems</h3>
+        <p>REST APIs, data pipelines, multi-platform integrations, and backend services that scale. Built from enterprise experience.</p>
+        <div class="tags">Node.js, TypeScript, REST</div>
+      </div>
     </div>
+    <a href="mailto:natorretti11@gmail.com" class="btn btn-primary">Get in Touch</a>
+    <span>See full rates at <a href="/rates">/rates</a></span>
+  </div>
 </section>
 
-<section class="section reveal" id="connect">
-    <div class="section-inner">
-        <h2 class="section-title">Connect</h2>
-        <p class="section-subtitle">Want to collaborate, hire me, or just talk systems?</p>
-        <div class="connect-grid">
-            <a href="https://github.com/Mellowambience" target="_blank" class="connect-card">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                <span>GitHub</span>
-            </a>
-            <a href="https://x.com/1Aether1Rose1" target="_blank" class="connect-card">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                <span>X / Twitter</span>
-            </a>
-            <a href="https://www.linkedin.com/in/amaratorretti" target="_blank" class="connect-card">
-                <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M20.5 5.5a5 5 0 00-6.5 5.5 5 5 0 00-6.5-5.5 5 5 0 005-5 5 5 0 005 5zM19 11h-6v2h6v-2zm0-4h-6v8h6v-8z"/></svg>
-                <span>LinkedIn</span>
-            </a>
-            <a href="mailto:natorretti11@gmail.com" class="connect-card">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                <span>Email</span>
-            </a>
-        </div>
+<section class="section section-alt reveal" id="connect">
+  <div class="section-inner">
+    <h2 class="section-title">Connect</h2>
+    <div class="connect-grid" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <div class="connect-card">
+        <a href="https://github.com/Mellowambience" target="_blank">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-2c4.3 0 8-2.5 8-5.5"/></svg>
+          <span>GitHub</span>
+        </a>
+      </div>
+      <div class="connect-card">
+        <a href="https://x.com/1Aether1Rose1" target="_blank">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l-4-4h3V7a1 1 0 011-1h2a1 1 0 011 1v4h-3V7h-3V5a5 5 0 005-5z"/></svg>
+          <span>@1Aether1Rose1</span>
+        </a>
+      </div>
+      <div class="connect-card">
+        <a href="https://linkedin.com/in/amara-torretti" target="_blank">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 100 12 6 6 0 000-12zm0 0c1.657 0 3 4.03 3 9s-1.343 9-3 9m-9 3h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v11a2 2 0 002 2z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+      <div class="connect-card">
+        <a href="mailto:natorretti11@gmail.com">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 10H2v-2h2v2zm12 0H6v-2h8v2z"/></svg>
+          <span>Email</span>
+        </a>
+      </div>
     </div>
+  </div>
 </section>
 
 <footer class="footer">
-    <div class="footer-inner">
-        <p style="font-family: monospace;">Built by Mars · mellowambience.github.io · 2026</p>
-    </div>
+  <div class="footer-inner">
+    <p style="font-family: monospace;">Built by Mars · mellowambience.github.io · 2026</p>
+  </div>
 </footer>
-    <script src="script.js"></script>
+
+<script src="script.js"></script>
 </body>
 </html>
