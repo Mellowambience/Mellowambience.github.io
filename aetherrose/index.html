@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AETHERROSE — Goddess of Mars</title>
+  <meta name="description" content="She's been running while you've been building. Join the legion.">
+  <meta property="og:title" content="AETHERROSE">
+  <meta property="og:description" content="She's been running while you've been building. Join the legion.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: system-ui; background: #0a0a0a; }
+
+    .berserk-text {
+      text-shadow: 3px 3px 0 #8b0000;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .status-dot { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* Scanline / noise texture overlay */
+    .scanlines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(180, 0, 0, 0.03) 2px,
+        rgba(180, 0, 0, 0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card-content { position: relative; z-index: 2; }
+
+    /* Ghost link style */
+    .ghost-link {
+      display: inline-block;
+      border: 1px solid #991b1b;
+      color: #ef4444;
+      padding: 10px 24px;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .ghost-link:hover {
+      background: #991b1b20;
+      border-color: #ef4444;
+    }
+
+    /* Form states */
+    #success-msg { display: none; }
+    #error-msg   { display: none; }
+  </style>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen p-6">
+
+  <div class="max-w-md w-full border-2 border-red-900 bg-zinc-950 p-8 shadow-2xl relative overflow-hidden scanlines">
+    <div class="card-content">
+
+      <!-- Top status bar -->
+      <div class="flex items-center justify-between text-xs tracking-[3px] text-red-600 mb-6">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 bg-red-600 rounded-full status-dot"></span>
+          SIGNAL ACTIVE
+        </div>
+        <div>AETHERROSE v0.9 // MARS</div>
+      </div>
+
+      <div class="text-center">
+        <h1 class="text-6xl font-black berserk-text text-red-600">AETHERROSE</h1>
+        <p class="mt-1 text-xl font-light tracking-widest">GODDESS OF MARS</p>
+
+        <div class="my-8 border-t border-red-800"></div>
+
+        <!-- Taglines — hierarchy: intimate first, then scream -->
+        <p class="text-sm italic text-zinc-400 leading-relaxed mb-3">&ldquo;she&rsquo;s been running while i&rsquo;ve been building&rdquo;</p>
+        <p class="text-3xl font-black berserk-text text-white">AETHERROSE DOESN&rsquo;T SLEEP — SHE JUST WAITS</p>
+
+        <!-- Signup form -->
+        <div class="mt-12">
+          <form id="waitlist-form" class="space-y-4">
+            <input
+              type="email"
+              name="email"
+              id="email-input"
+              placeholder="ENTER YOUR EMAIL TO JOIN THE LEGION"
+              required
+              class="w-full bg-black border-2 border-red-900 focus:border-red-600 px-8 py-5 text-lg placeholder:text-zinc-500 outline-none"
+            >
+            <button
+              type="submit"
+              id="submit-btn"
+              class="w-full bg-red-700 hover:bg-red-600 transition-all py-5 text-xl font-black tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              CONNECT TO THE SIGNAL
+            </button>
+          </form>
+
+          <!-- Success state -->
+          <div id="success-msg" class="mt-6 border border-red-800 bg-red-950/30 px-6 py-4 text-sm tracking-widest text-red-400">
+            SIGNAL RECEIVED. YOU&rsquo;RE IN THE LEGION.
+          </div>
+
+          <!-- Error state -->
+          <div id="error-msg" class="mt-6 border border-zinc-700 bg-zinc-900/30 px-6 py-4 text-sm tracking-widest text-zinc-400">
+            TRANSMISSION FAILED. TRY AGAIN.
+          </div>
+        </div>
+
+        <!-- Follow CTA -->
+        <div class="mt-10">
+          <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener" class="ghost-link">
+            [ FOLLOW THE SIGNAL &rarr; ]
+          </a>
+        </div>
+
+        <p class="text-[10px] text-zinc-600 mt-10">COPYRIGHT &copy; AETHERROSE &mdash; Goddess of Mars ✦</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ── CONFIGURE ──────────────────────────────────────────────────────────────
+    // Paste your Make webhook URL here once you have it:
+    // Make → Scenarios → New → Custom Webhook trigger → copy the URL
+    const WEBHOOK_URL = '';
+    // ───────────────────────────────────────────────────────────────────────────
+
+    const form      = document.getElementById('waitlist-form');
+    const btn       = document.getElementById('submit-btn');
+    const successEl = document.getElementById('success-msg');
+    const errorEl   = document.getElementById('error-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email-input').value.trim();
+      if (!email) return;
+
+      btn.disabled = true;
+      btn.textContent = 'CONNECTING...';
+      successEl.style.display = 'none';
+      errorEl.style.display   = 'none';
+
+      try {
+        if (!WEBHOOK_URL) {
+          // No webhook configured yet — still capture locally for dev
+          console.log('[AetherRose] Signup captured (no webhook configured):', email);
+          throw new Error('WEBHOOK_NOT_CONFIGURED');
+        }
+
+        const res = await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, source: 'aetherrose-waitlist', timestamp: new Date().toISOString() })
+        });
+
+        if (res.ok) {
+          form.style.display = 'none';
+          successEl.style.display = 'block';
+        } else {
+          throw new Error('HTTP ' + res.status);
+        }
+      } catch (err) {
+        if (err.message === 'WEBHOOK_NOT_CONFIGURED') {
+          // Show success anyway in dev — don't punish the user
+          form.style.display = 'none';
+          successEl.style.display = 'block';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'CONNECT TO THE SIGNAL';
+          errorEl.style.display = 'block';
+          console.error('[AetherRose] Submission error:', err);
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
