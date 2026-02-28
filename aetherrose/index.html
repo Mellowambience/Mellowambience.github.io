@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AETHERROSE — Goddess of Mars</title>
+  <title>AETHERROSE â Goddess of Mars</title>
   <meta name="description" content="She's been running while you've been building. Join the legion.">
   <meta property="og:title" content="AETHERROSE">
   <meta property="og:description" content="She's been running while you've been building. Join the legion.">
@@ -60,9 +60,9 @@
     #error-msg   { display: none; }
   </style>
 </head>
-<body class="bg-black text-white flex items-center justify-center min-h-screen p-6">
+<body class="bg-black text-white flex items-center justify-center min-h-screen p-3 sm:p-6 overflow-x-hidden">
 
-  <div class="max-w-md w-full border-2 border-red-900 bg-zinc-950 p-8 shadow-2xl relative overflow-hidden scanlines">
+  <div class="max-w-md w-full border-2 border-red-900 bg-zinc-950 p-5 sm:p-8 shadow-2xl relative overflow-hidden scanlines">
     <div class="card-content">
 
       <!-- Top status bar -->
@@ -75,14 +75,14 @@
       </div>
 
       <div class="text-center">
-        <h1 class="text-6xl font-black berserk-text text-red-600">AETHERROSE</h1>
+        <h1 class="text-4xl sm:text-6xl font-black berserk-text text-red-600">AETHERROSE</h1>
         <p class="mt-1 text-xl font-light tracking-widest">GODDESS OF MARS</p>
 
         <div class="my-8 border-t border-red-800"></div>
 
-        <!-- Taglines — hierarchy: intimate first, then scream -->
+        <!-- Taglines â hierarchy: intimate first, then scream -->
         <p class="text-sm italic text-zinc-400 leading-relaxed mb-3">&ldquo;she&rsquo;s been running while i&rsquo;ve been building&rdquo;</p>
-        <p class="text-3xl font-black berserk-text text-white">AETHERROSE DOESN&rsquo;T SLEEP — SHE JUST WAITS</p>
+        <p class="text-xl sm:text-3xl font-black berserk-text text-white">AETHERROSE DOESN&rsquo;T SLEEP â SHE JUST WAITS</p>
 
         <!-- Signup form -->
         <div class="mt-12">
@@ -122,17 +122,17 @@
           </a>
         </div>
 
-        <p class="text-[10px] text-zinc-600 mt-10">COPYRIGHT &copy; AETHERROSE &mdash; Goddess of Mars ✦</p>
+        <p class="text-[10px] text-zinc-600 mt-10">COPYRIGHT &copy; AETHERROSE &mdash; Goddess of Mars â¦</p>
       </div>
     </div>
   </div>
 
   <script>
-    // ── CONFIGURE ──────────────────────────────────────────────────────────────
+    // ââ CONFIGURE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
     // Paste your Make webhook URL here once you have it:
-    // Make → Scenarios → New → Custom Webhook trigger → copy the URL
+    // Make â Scenarios â New â Custom Webhook trigger â copy the URL
     const WEBHOOK_URL = '';
-    // ───────────────────────────────────────────────────────────────────────────
+    // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     const form      = document.getElementById('waitlist-form');
     const btn       = document.getElementById('submit-btn');
@@ -151,7 +151,7 @@
 
       try {
         if (!WEBHOOK_URL) {
-          // No webhook configured yet — still capture locally for dev
+          // No webhook configured yet â still capture locally for dev
           console.log('[AetherRose] Signup captured (no webhook configured):', email);
           throw new Error('WEBHOOK_NOT_CONFIGURED');
         }
@@ -170,7 +170,7 @@
         }
       } catch (err) {
         if (err.message === 'WEBHOOK_NOT_CONFIGURED') {
-          // Show success anyway in dev — don't punish the user
+          // Show success anyway in dev â don't punish the user
           form.style.display = 'none';
           successEl.style.display = 'block';
         } else {
