@@ -578,93 +578,31 @@
   <!-- CRT VIBE BREAK -->
   <section id="vibe" style="padding: 5rem 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center;">
     <div style="text-align: center; margin-bottom: 2rem;">
-      <span style="text-transform: uppercase; letter-spacing: 4px; font-size: 0.7rem; color: rgba(192,132,252,0.6);">Transmission</span>
+      <span style="text-transform: uppercase; letter-spacing: 4px; font-size: 0.7rem; color: rgba(212,175,119,0.5);">✦ Transmission</span>
     </div>
 
-    <!-- CRT TV wrapper -->
-    <div class="crt-tv" style="
+    <!-- Clean frameless video embed -->
+    <div style="
       position: relative;
-      width: min(600px, 90vw);
-      aspect-ratio: 4/3;
-      background: #111;
-      border-radius: 24px 24px 32px 32px;
-      box-shadow:
-        0 0 0 6px #1a1a1a,
-        0 0 0 10px #0d0d0d,
-        0 0 40px rgba(0,0,0,0.9),
-        0 0 80px rgba(124,58,237,0.15),
-        inset 0 0 20px rgba(0,0,0,0.8);
-      padding: 2.5rem 2.5rem 4rem 2.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      width: min(680px, 90vw);
+      aspect-ratio: 16/9;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.8), 0 0 40px rgba(196,30,58,0.08);
     ">
-      <!-- Screen bezel -->
-      <div style="
-        position: relative;
-        width: 100%;
-        flex: 1;
-        background: #000;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow:
-          inset 0 0 30px rgba(0,0,0,0.9),
-          inset 0 0 60px rgba(0,0,0,0.5),
-          0 0 20px rgba(192,132,252,0.2);
-        border: 2px solid #0a0a0a;
-      ">
-        <!-- Scanline overlay -->
-        <div style="
-          position: absolute;
-          inset: 0;
-          background: repeating-linear-gradient(
-            to bottom,
-            transparent,
-            transparent 2px,
-            rgba(0,0,0,0.08) 2px,
-            rgba(0,0,0,0.08) 4px
-          );
-          pointer-events: none;
-          z-index: 2;
-          border-radius: 12px;
-        "></div>
-        <!-- Screen glare -->
-        <div style="
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 35%;
-          background: linear-gradient(to bottom, rgba(255,255,255,0.04), transparent);
-          pointer-events: none;
-          z-index: 3;
-          border-radius: 12px 12px 0 0;
-        "></div>
-        <!-- The actual video -->
-        <iframe
-          width="100%" height="100%"
-          src="https://www.youtube.com/embed/IRr98d-L3zQ?si=GC18D7SuJC5wMhml"
-          title="GUNSHIP - Black Sun On The Horizon"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-          style="position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 10px;"
-        ></iframe>
-      </div>
-
-      <!-- TV base knobs -->
-      <div style="
-        display: flex;
-        gap: 1.5rem;
-        margin-top: 1rem;
-        align-items: center;
-      ">
-        <div style="width: 10px; height: 10px; border-radius: 50%; background: #1a1a1a; border: 1px solid #333; box-shadow: 0 0 4px rgba(0,0,0,0.5);"></div>
-        <div style="width: 14px; height: 14px; border-radius: 50%; background: #1a1a1a; border: 1px solid #444; box-shadow: 0 0 6px rgba(124,58,237,0.3);"></div>
-        <div style="width: 10px; height: 10px; border-radius: 50%; background: #1a1a1a; border: 1px solid #333;"></div>
-      </div>
+      <iframe
+        width="100%" height="100%"
+        src="https://www.youtube.com/embed/IRr98d-L3zQ?si=GC18D7SuJC5wMhml"
+        title="GUNSHIP - Black Sun On The Horizon"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+        style="position: absolute; inset: 0; width: 100%; height: 100%;"
+      ></iframe>
     </div>
 
-    <p style="margin-top: 1.5rem; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.2);">GUNSHIP · Black Sun On The Horizon</p>
+    <p style="margin-top: 1.25rem; font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.18);">GUNSHIP · Black Sun On The Horizon</p>
   </section>
 
 
