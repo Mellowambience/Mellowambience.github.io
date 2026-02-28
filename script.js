@@ -96,7 +96,12 @@ class Particle {
     this.vx = (Math.random() - 0.5) * 0.4;
     this.vy = (Math.random() - 0.5) * 0.4;
     this.opacity = Math.random() * 0.5 + 0.1;
-    this.hue = Math.random() > 0.5 ? 270 : 190; // violet or cyan
+    // ✦ Aetherverse particle palette
+    const roll = Math.random();
+    if (roll < 0.35) this.hue = 350;       // crimson #C41E3A
+    else if (roll < 0.65) this.hue = 42;   // rose-gold #D4AF77
+    else if (roll < 0.85) this.hue = 270;  // violet #7C6AF7
+    else this.hue = 195;                   // aether cyan
   }
   update() {
     this.x += this.vx;
@@ -141,7 +146,7 @@ function drawLines() {
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.strokeStyle = `rgba(124, 58, 237, ${alpha})`;
+        ctx.strokeStyle = `rgba(212, 175, 119, ${alpha})`; // rose-gold aether lines
         ctx.lineWidth = 0.5;
         ctx.stroke();
       }
@@ -209,3 +214,50 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+
+
+// ✦ AETHERVERSE — Phase 0 additions
+
+// Inject Aetherverse cross-nav footer on all pages
+(function injectAetherNav() {
+  if (document.querySelector('.aether-nav')) return;
+  const nav = document.createElement('nav');
+  nav.className = 'aether-nav';
+  nav.setAttribute('aria-label', 'Aetherverse');
+  nav.innerHTML = `
+    <a href="https://mellowambience.github.io" class="aether-nav__logo">
+      <span aria-hidden="true">🌹</span>
+      <span>AetherHaven</span>
+    </a>
+    <ul class="aether-nav__links">
+      <li><a href="https://humanpalette.vercel.app">HumanPalette</a></li>
+      <li><a href="https://discord.gg/chThdcdN">Discord</a></li>
+      <li><a href="https://linktr.ee/1aether1rose1">✦ Links</a></li>
+    </ul>
+  `;
+  document.body.appendChild(nav);
+})();
+
+// ✦ Hidden easter egg: click the nav logo rose → aether whisper
+document.addEventListener('DOMContentLoaded', () => {
+  const logo = document.querySelector('.nav-logo, .aether-nav__logo');
+  if (!logo) return;
+  let clicks = 0;
+  logo.addEventListener('click', (e) => {
+    clicks++;
+    if (clicks === 3) {
+      clicks = 0;
+      // Flash fracture effect
+      const flash = document.createElement('div');
+      flash.style.cssText = 'position:fixed;inset:0;background:rgba(196,30,58,0.06);pointer-events:none;z-index:99998;animation:aether-flash 0.6s ease forwards;';
+      document.body.appendChild(flash);
+      setTimeout(() => flash.remove(), 700);
+      console.log('%c✦ you found the forge ✦', 'color:#D4AF77;font-family:serif;font-size:16px;');
+    }
+  });
+});
+
+// CSS for flash animation (injected once)
+const aetherStyle = document.createElement('style');
+aetherStyle.textContent = '@keyframes aether-flash { 0%{opacity:0} 30%{opacity:1} 100%{opacity:0} }';
+document.head.appendChild(aetherStyle);
