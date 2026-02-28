@@ -1,3 +1,4 @@
+@charset "UTF-8";
 
 /* ===== MOBILE RESPONSIVENESS PATCH ===== */
 *, *::before, *::after { box-sizing: border-box; }
@@ -758,7 +759,7 @@ nav.scrolled {
   position: relative;
 }
 .tl-right ul li::before {
-  content: 'â';
+  content: '\2014\00a0';
   position: absolute;
   left: 0;
   color: var(--text-3);
@@ -1137,7 +1138,7 @@ h1, h2, .hero-headline, .section-title {
 
 /* Rose bloom on card hover (CSS-only easter egg) */
 .bento-card::after, .service-card::after {
-  content: '🌹';
+  content: '\1F339';
   position: absolute;
   bottom: 10px;
   right: 14px;
