@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build: 2026-02-28T04:57:00Z -->
+<!-- build: 2026-02-28T05:35:00Z -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -78,6 +78,36 @@
     }
     .mission-note strong { color: #f472b6; }
   </style>
+
+  <!-- Mobile responsiveness overrides -->
+  <style>
+    @media (max-width: 640px) {
+      .bento-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .bento-md, .bento-lg, .bento-sm, .bento-xl {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+      }
+      .hero-headline { font-size: clamp(2rem, 10vw, 3.5rem) !important; }
+      .status-bar { overflow: hidden; }
+      .section-inner { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+      .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+      .services-grid { grid-template-columns: 1fr !important; }
+      .edu-grid { grid-template-columns: 1fr !important; }
+      .hire-grid { grid-template-columns: 1fr !important; }
+      .skills-flex { flex-wrap: wrap; gap: 0.5rem; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 768px) {
+      .bento-grid { grid-template-columns: 1fr !important; }
+      .bento-md, .bento-lg, .bento-sm, .bento-xl {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- Custom cursor -->
@@ -111,7 +141,7 @@
     <a href="#exp" class="mobile-link">Experience</a>
     <a href="#hire" class="mobile-link">Hire</a>
     <a href="/rates" class="mobile-link">Rates</a>
-    <a href="mailto:natorretti11@gmail.com" class="mobile-link">Contact</a>
+    <a href="https://calendly.com/natorretti11" target="_blank" class="mobile-link">Contact</a>
   </div>
 
   <!-- HERO -->
@@ -542,7 +572,7 @@
       </div>
       <div class="hire-cta reveal">
         <p>Full rate card at <a href="/rates">/rates</a></p>
-        <a href="mailto:natorretti11@gmail.com" class="btn-primary mag-btn btn-lg">Get in touch</a>
+        <a href="https://calendly.com/natorretti11" target="_blank" class="btn-primary mag-btn btn-lg">Get in touch</a>
       </div>
     </div>
   </section>
@@ -553,8 +583,8 @@
       <h2 class="connect-title">Let's build something.</h2>
       <p class="connect-sub">Open to contracts, collaborations, and interesting problems — especially at the intersection of AI and open science.</p>
       <div class="connect-links">
-        <a href="mailto:natorretti11@gmail.com" class="connect-link">
-          <span class="cl-label">Email</span>
+        <a href="https://calendly.com/natorretti11" class="connect-link">
+          <span class="cl-label">Book a call</span>
           <span class="cl-val">natorretti11@gmail.com →</span>
         </a>
         <a href="https://x.com/1Aether1Rose1" target="_blank" class="connect-link">
