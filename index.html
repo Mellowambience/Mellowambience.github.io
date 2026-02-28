@@ -591,5 +591,47 @@
   </footer>
 
   <script src="script.js"></script>
+  <!-- ✦ Gyroscope Parallax — aetherhaven -->
+  <script>
+  (function(){
+    var tiltX = 0, tiltY = 0;
+    var targetX = 0, targetY = 0;
+    var maxTilt = 18;
+
+    function applyTilt() {
+      tiltX += (targetX - tiltX) * 0.06;
+      tiltY += (targetY - tiltY) * 0.06;
+      var r = document.documentElement.style;
+      r.setProperty('--gyro-x', tiltX.toFixed(2) + 'px');
+      r.setProperty('--gyro-y', tiltY.toFixed(2) + 'px');
+      r.setProperty('--gyro-x-half', (tiltX * 0.5).toFixed(2) + 'px');
+      r.setProperty('--gyro-y-half', (tiltY * 0.5).toFixed(2) + 'px');
+      r.setProperty('--gyro-x-deep', (tiltX * 1.6).toFixed(2) + 'px');
+      r.setProperty('--gyro-y-deep', (tiltY * 1.6).toFixed(2) + 'px');
+      requestAnimationFrame(applyTilt);
+    }
+
+    function onOrientation(e) {
+      var gamma = Math.max(-45, Math.min(45, e.gamma || 0));
+      var beta  = Math.max(-45, Math.min(45, (e.beta  || 0) - 20));
+      targetX = (gamma / 45) * maxTilt;
+      targetY = (beta  / 45) * maxTilt;
+    }
+
+    if (typeof DeviceOrientationEvent !== 'undefined' &&
+        typeof DeviceOrientationEvent.requestPermission !== 'function') {
+      window.addEventListener('deviceorientation', onOrientation);
+    } else if (typeof DeviceOrientationEvent !== 'undefined') {
+      document.addEventListener('touchstart', function handler() {
+        DeviceOrientationEvent.requestPermission()
+          .then(function(s){ if (s === 'granted') window.addEventListener('deviceorientation', onOrientation); })
+          .catch(function(){});
+        document.removeEventListener('touchstart', handler);
+      }, { once: true });
+    }
+
+    requestAnimationFrame(applyTilt);
+  })();
+  </script>
 </body>
 </html>

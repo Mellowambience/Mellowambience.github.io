@@ -1051,3 +1051,41 @@ nav.scrolled {
   /* Connect links */
   .connect-links { flex-direction: column; gap: 0.75rem; }
 }
+
+
+
+/* ✦ Gyroscope Parallax Layers */
+:root {
+  --gyro-x: 0px;
+  --gyro-y: 0px;
+  --gyro-x-half: 0px;
+  --gyro-y-half: 0px;
+  --gyro-x-deep: 0px;
+  --gyro-y-deep: 0px;
+}
+
+/* Hero — mid layer */
+.hero-inner {
+  transform: translate(var(--gyro-x-half), var(--gyro-y-half));
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+/* Bento cards — surface layer, most movement */
+.bento-card {
+  transform: translate(var(--gyro-x), var(--gyro-y));
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+/* Glow bento — deepest parallax for drama */
+.bento-glow {
+  transform: translate(var(--gyro-x-deep), var(--gyro-y-deep));
+  transition: transform 0.05s linear;
+}
+
+/* Status bar — very subtle */
+.status-bar {
+  transform: translateX(var(--gyro-x-half));
+  transition: transform 0.05s linear;
+}
