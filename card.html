@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta property="og:title" content="Amara (Mars) Torretti — Software Engineer, AI Systems" />
-  <meta property="og:description" content="Building MIST — a self-healing LLM cascade. AI Systems & Automation, React Native, API. 6+ years engineering." />
+  <meta property="og:title" content="Amara (Mars) Torretti â Software Engineer, AI Systems" />
+  <meta property="og:description" content="Building MIST â a self-healing LLM cascade. AI Systems & Automation, React Native, API. 6+ years engineering." />
   <meta property="og:url" content="https://mellowambience.github.io/card" />
   <title>Amara (Mars) Torretti</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 520px;
+      max-width:100%;max-width:520px;
       background: rgba(8, 12, 22, 0.92);
       border: 1px solid rgba(0, 220, 200, 0.18);
       border-radius: 20px;
@@ -271,6 +271,21 @@
       .card { padding: 28px 20px; }
       .links-grid { grid-template-columns: 1fr; }
       .name { font-size: 22px; }
+    }
+  </style>
+
+  <style>
+    /* ===== MOBILE RESPONSIVENESS — auto-patched ===== */
+    * { box-sizing: border-box; }
+    img, video, iframe, embed, object { max-width: 100%; height: auto; }
+    table { width: 100%; overflow-x: auto; display: block; }
+
+    @media (max-width:100%;max-width:768px) {
+      body { overflow-x: hidden; }
+      [style*="width:"] { max-width: 100% !important; }
+    }
+    @media (max-width: 480px) {
+      body { font-size: 16px !important; }
     }
   </style>
 </head>
