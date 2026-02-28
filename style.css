@@ -996,13 +996,16 @@ nav.scrolled {
 }
 
 /* === RESPONSIVE === */
+
+/* Tablet: 768px - 900px */
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; gap: 2rem; padding-top: 6rem; }
   .hero-tag { grid-column: 1; }
-  .bento { grid-template-columns: repeat(4, 1fr); }
-  .bento-lg { grid-column: span 4; }
-  .bento-card { grid-column: span 4; }
-  .bento-sm { grid-column: span 2; }
+  .hero-right { grid-column: 1; }
+  .bento { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .bento-lg { grid-column: span 2; grid-row: span 1; }
+  .bento-card { grid-column: span 1; }
+  .bento-sm { grid-column: span 1; }
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .about-stats { flex-direction: row; }
   .skills-flex { grid-template-columns: 1fr; }
@@ -1012,12 +1015,39 @@ nav.scrolled {
   .burger { display: flex; }
   .mobile-menu { display: flex; }
   .hire-cta { flex-direction: column; text-align: center; }
+  .hire-grid { grid-template-columns: 1fr; }
 }
+
+/* Mobile: under 600px */
 @media (max-width: 600px) {
-  .bento-sm { grid-column: span 4; }
+  /* Bento: single column, all cards full width */
+  .bento { grid-template-columns: 1fr; gap: 0.75rem; }
+  .bento-lg, .bento-card, .bento-sm { grid-column: 1 / -1; grid-row: span 1; }
+
+  /* Hero */
+  .hero-inner { padding: 5.5rem 1.25rem 3rem; grid-template-columns: 1fr; }
+  .hero-name { font-size: clamp(2.5rem, 11vw, 4rem); }
+  .hero-right { grid-column: 1; }
+
+  /* Nav */
   nav { padding: 1rem 1.25rem; }
+
+  /* Sections */
   .section-inner { padding: 0 1.25rem; }
-  .hero-inner { padding: 5.5rem 1.25rem 3rem; }
   .footer-inner { flex-direction: column; text-align: center; }
   .about-stats { flex-direction: column; }
+  .about-grid { grid-template-columns: 1fr; }
+  .services-grid { grid-template-columns: 1fr; }
+  .edu-grid { grid-template-columns: 1fr; }
+  .hire-grid { grid-template-columns: 1fr; }
+  .hire-cta { flex-direction: column; text-align: center; }
+
+  /* Bento stat number - don't let it overflow */
+  .bento-stat { font-size: 2.5rem; }
+
+  /* Status bar */
+  .status-bar { overflow: hidden; }
+
+  /* Connect links */
+  .connect-links { flex-direction: column; gap: 0.75rem; }
 }
