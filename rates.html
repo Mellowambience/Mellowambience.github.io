@@ -34,7 +34,10 @@
         .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
         .section-divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
         @media (max-width: 600px) { .rate-table th, .rate-table td { padding: 0.65rem 0.5rem; font-size: 0.88rem; } }
-    </style>
+  
+    /* Table responsive wrapper */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+  </style>
 
   <style>
     /* ===== MOBILE RESPONSIVENESS â auto-patched ===== */
@@ -103,7 +106,7 @@
                 Ã¢ÂÂ¡ <strong>Floor rate: $60/hr.</strong> No exceptions Ã¢ÂÂ this covers any remote, async, or part-time engagement.
             </div>
 
-            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1rem;"><table class="rate-table">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1rem;"><div class="table-wrap"><table class="rate-table">
                 <thead>
                     <tr>
                         <th>Service</th>
@@ -138,12 +141,12 @@
                         <td>OSS contributions, code review, maintainer-level work (Android/React Native)</td>
                     </tr>
                 </tbody>
-            </table></div>
+            </table></div></div>
 
             <hr class="section-divider">
 
             <h3 style="margin-bottom:1rem;font-size:1.1rem;">Full-Time Contract (W2 Equivalent)</h3>
-            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1rem;"><table class="rate-table">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1rem;"><div class="table-wrap"><table class="rate-table">
                 <thead>
                     <tr><th>Commitment</th><th>Rate</th></tr>
                 </thead>
@@ -157,7 +160,7 @@
                         <td><span class="rate-price">$50 Ã¢ÂÂ $80/hr</span></td>
                     </tr>
                 </tbody>
-            </table></div>
+            </table></div></div>
         </div>
     </section>
 
@@ -167,7 +170,7 @@
             <h2 class="section-title">Project Estimates</h2>
             <p class="section-subtitle">Fixed-scope work. Quoted after a brief scoping call.</p>
 
-            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1rem;"><table class="rate-table">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:1rem;"><div class="table-wrap"><table class="rate-table">
                 <thead>
                     <tr><th>Project Type</th><th>Estimate</th></tr>
                 </thead>
@@ -215,7 +218,7 @@
                         <td><span class="rate-price">$400 Ã¢ÂÂ $1,200</span></td>
                     </tr>
                 </tbody>
-            </table></div>
+            </table></div></div>
 
             <p style="color:var(--text-muted);font-size:0.88rem;margin-top:1rem;">
                 Rates are negotiable for long-term engagements (3+ months). All estimates require a scoping call.
