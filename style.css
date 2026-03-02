@@ -552,3 +552,10 @@ body {
   .btn-primary, .btn-secondary, .btn-void { text-align: center; justify-content: center; }
   .footer-empire { grid-template-columns: 1fr 1fr; }
 }
+
+/* ── Hub stadium text layout ── */
+.hub-stadium-text { display: flex; flex-direction: column; justify-content: center; }
+
+/* ── About section layout ── */
+.about-statement { display: flex; flex-direction: column; gap: 1.25rem; }
+.about-stack { display: flex; flex-direction: column; gap: 1.5rem; }
