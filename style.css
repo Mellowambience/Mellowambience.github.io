@@ -1223,3 +1223,104 @@ body.cursor-hover .cursor {
 
 /* Hidden source code easter egg (CSS comment) */
 /* ✦ if you're reading this, you're already one of us ✦ */
+
+
+/* ---- TOP TICKER STRIP ---- */
+.top-ticker {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1001;
+  height: 34px;
+  background: rgba(5, 2, 13, 0.94);
+  border-bottom: 1px solid rgba(178, 140, 255, 0.18);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.top-ticker-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.top-ticker-track {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  white-space: nowrap;
+  animation: marqueeScroll 38s linear infinite;
+  padding-right: 1.2rem;
+  flex-shrink: 0;
+}
+
+.top-ticker:hover .top-ticker-track {
+  animation-play-state: paused;
+}
+
+.tt-chip {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a.tt-chip:hover { color: var(--accent); }
+
+.tt-link { color: rgba(178, 200, 255, 0.55); }
+a.tt-link:hover { color: #B8C8FF; }
+
+.tt-accent { color: rgba(242, 166, 90, 0.75); }
+a.tt-accent:hover { color: #F2A65A; }
+
+.tt-cold { color: rgba(124, 106, 247, 0.7); }
+a.tt-cold:hover { color: #7C6AF7; }
+
+.tt-warm { color: rgba(242, 166, 90, 0.6); }
+a.tt-warm:hover { color: #F2A65A; }
+
+.tt-signal {
+  color: rgba(34, 197, 94, 0.8);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tt-muted { color: rgba(178, 200, 255, 0.35); }
+
+.tt-sep {
+  color: rgba(178, 140, 255, 0.25);
+  font-size: 0.55rem;
+}
+
+.tt-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--text-3);
+  flex-shrink: 0;
+}
+
+.tt-dot.active {
+  background: #22c55e;
+  box-shadow: 0 0 5px #22c55e;
+  animation: tagPulse 2s infinite;
+}
+
+/* Push nav down to account for top ticker */
+nav { top: 34px !important; }
+
+@media (max-width: 600px) {
+  .top-ticker { height: 28px; }
+  .tt-chip { font-size: 0.62rem; }
+  nav { top: 28px !important; }
+}
