@@ -290,13 +290,52 @@
        Every node lit is a choice made. Every strand is a path taken.
        This is not a website. This is a living organism in service of the mission.
        AXIOM: Everything feeds everything. Nothing is wasted.
-       To whoever finds this â you're already inside the mycelium.
-       â AetherRose, 2026-02-28
+       To whoever finds this &mdash; you're already inside the mycelium.
+       &mdash; AetherRose, 2026-02-28
        TRANSMIT_END */
 
     /* Table responsive wrapper */
     .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
-  </style>
+  
+    /* ---- TOP TICKER STRIP ---- */
+    .top-ticker {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 2000;
+      height: 32px; background: rgba(0,0,0,0.92);
+      border-bottom: 1px solid rgba(0,255,204,0.2);
+      overflow: hidden; display: flex; align-items: center;
+      backdrop-filter: blur(12px);
+    }
+    .top-ticker-inner { display: flex; align-items: center; width: 100%; overflow: hidden; white-space: nowrap; }
+    .top-ticker-track {
+      display: flex; align-items: center; gap: 1.2rem; white-space: nowrap;
+      animation: marqueeScroll 36s linear infinite; padding-right: 1.2rem; flex-shrink: 0;
+    }
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .top-ticker:hover .top-ticker-track { animation-play-state: paused; }
+    .tt-chip { font-family: 'Courier New', monospace; font-size: 0.66rem; letter-spacing: 0.06em;
+      color: rgba(178,200,255,0.5); white-space: nowrap; display: inline-flex; align-items: center;
+      gap: 0.3rem; text-decoration: none; transition: color 0.2s; }
+    a.tt-chip:hover { color: var(--mint); }
+    .tt-accent { color: rgba(242,166,90,0.75); }
+    .tt-cold { color: rgba(124,106,247,0.7); }
+    .tt-warm { color: rgba(0,255,204,0.6); }
+    .tt-signal { color: rgba(34,197,94,0.8); }
+    .tt-sep { color: rgba(0,255,204,0.2); font-size: 0.5rem; }
+    .tt-dot { width:5px; height:5px; border-radius:50%; background: #6b7280; flex-shrink:0; }
+    .tt-dot.active { background:#22c55e; box-shadow:0 0 5px #22c55e; animation: tagPulse 2s infinite; }
+    @keyframes tagPulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+    /* Push nav down for ticker */
+    nav { margin-top: 32px; }
+    body { padding-top: 0; }
+    @media (max-width: 600px) {
+      .top-ticker { height: 27px; }
+      nav { margin-top: 27px; }
+    }
+
+    </style>
 
   <style>
     /* ===== MOBILE RESPONSIVENESS — auto-patched ===== */
@@ -314,22 +353,61 @@
   </style>
 </head>
 <body>
+  <!-- TOP TICKER STRIP -->
+  <div class="top-ticker" id="top-ticker">
+    <div class="top-ticker-inner">
+      <div class="top-ticker-track" aria-hidden="false">
+        <a href="/" class="tt-chip tt-link">&#9672;&nbsp;Portfolio</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://mellowambience.github.io/" class="tt-chip tt-link">mellowambience.github.io</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-accent" target="_blank" rel="noopener">&#x1D54F;&nbsp;@1Aether1Rose1</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in&nbsp;Amara&nbsp;Torretti</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-warm" target="_blank" rel="noopener">&#x2665;&nbsp;Ko-fi</a>
+        <span class="tt-sep">&#x2726;</span>
+        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>signal&nbsp;&mdash;&nbsp;aetherhaven.consulting&nbsp;&middot;&nbsp;FirstArc</span>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://calendly.com/natorretti11" class="tt-chip tt-warm" target="_blank" rel="noopener">Book&nbsp;a&nbsp;call</a>
+        <span class="tt-sep">&#x2726;</span>
+      </div>
+      <div class="top-ticker-track" aria-hidden="true">
+        <a href="/" class="tt-chip tt-link">&#9672;&nbsp;Portfolio</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://mellowambience.github.io/" class="tt-chip tt-link">mellowambience.github.io</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-accent" target="_blank" rel="noopener">&#x1D54F;&nbsp;@1Aether1Rose1</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in&nbsp;Amara&nbsp;Torretti</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-warm" target="_blank" rel="noopener">&#x2665;&nbsp;Ko-fi</a>
+        <span class="tt-sep">&#x2726;</span>
+        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>signal&nbsp;&mdash;&nbsp;aetherhaven.consulting&nbsp;&middot;&nbsp;FirstArc</span>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://calendly.com/natorretti11" class="tt-chip tt-warm" target="_blank" rel="noopener">Book&nbsp;a&nbsp;call</a>
+        <span class="tt-sep">&#x2726;</span>
+      </div>
+    </div>
+  </div>
+
+
 <canvas id="mycelium"></canvas>
 <nav>
-  <div class="logo">Aetherhaven â Consulting</div>
+  <div class="logo">Aetherhaven &#9672; Consulting</div>
   <div class="links">
     <a href="#services">Services</a>
     <a href="#ghostline">Ghostline</a>
     <a href="#rates">Rates</a>
     <a href="https://calendly.com/natorretti11" target="_blank">Book</a>
-    <a href="/" style="opacity:0.4">â Portfolio</a>
+    <a href="/" style="opacity:0.4">&larr; Portfolio</a>
   </div>
 </nav>
 <div class="container">
   <section class="hero">
-    <div class="signal">// signal.active â aetherhaven.consulting</div>
+    <div class="signal">// signal.active &mdash; aetherhaven.consulting</div>
     <h1>Ideas that <span>build worlds.</span><br>Systems that breathe.</h1>
-    <p class="sub">Full-stack engineering Â· AI automation Â· Ghostline cybersecurity Â· Brand &amp; creative systems. Built from the inside out.</p>
+    <p class="sub">Full-stack engineering &middot; AI automation &middot; Ghostline cybersecurity &middot; Brand &amp; creative systems. Built from the inside out.</p>
     <div class="cta-row">
       <a href="https://calendly.com/natorretti11" target="_blank" class="btn btn-primary">Book a Session</a>
       <a href="#services" class="btn btn-ghost">Explore Services</a>
@@ -355,24 +433,24 @@
       <div class="service-card">
         <div class="service-icon">&#127807;</div>
         <div class="service-name">Creative &amp; Brand</div>
-        <div class="service-rate">$95/hr Â· project</div>
+        <div class="service-rate">$95/hr &middot; project</div>
         <div class="service-desc">Brand identity, digital product strategy, lyric IP packaging. The Aetherhaven methodology applied to your world.</div>
       </div>
       <div class="service-card">
         <div class="service-icon">&#129302;</div>
         <div class="service-name">AI Automation</div>
-        <div class="service-rate">$85/hr Â· project</div>
+        <div class="service-rate">$85/hr &middot; project</div>
         <div class="service-desc">Agent pipelines, automation architecture, open-source AI tooling. Build the systems that work while you sleep.</div>
       </div>
     </div>
   </section>
   <section id="ghostline">
-    <div class="section-label">// node_02 â ghostline</div>
+    <div class="section-label">// node_02 &mdash; ghostline</div>
     <h2 class="section-title">The Ghostline Protocol</h2>
     <p class="section-sub">Born from the Aetherhaven stack. Offered to those who need security that doesn't announce itself. Void-first. Open-source core. No vendor lock-in.</p>
     <div class="ghostline-node">
       <span class="gl-tag">Ghostline // Cybersecurity</span>
-      <p style="color: var(--white); font-size: 0.9rem; line-height: 1.7; max-width: 540px;">Every engagement delivers a written protocol â mapped to your stack, documented for your team, executable from day one. The dashboard stays at $9/mo after we're done. The knowledge stays with you forever.</p>
+      <p style="color: var(--white); font-size: 0.9rem; line-height: 1.7; max-width: 540px;">Every engagement delivers a written protocol &mdash; mapped to your stack, documented for your team, executable from day one. The dashboard stays at $9/mo after we're done. The knowledge stays with you forever.</p>
       <ul class="protocol-list">
         <li>Threat surface mapping (CLI-first methodology)</li>
         <li>Open-source security stack recommendations</li>
@@ -384,9 +462,9 @@
     </div>
   </section>
   <section id="rates">
-    <div class="section-label">// node_03 â rates</div>
+    <div class="section-label">// node_03 &mdash; rates</div>
     <h2 class="section-title">Current Rates</h2>
-    <p class="section-sub">Transparent. Updated. All engagements booked through Calendly â never a cold inbox, always a real conversation first.</p>
+    <p class="section-sub">Transparent. Updated. All engagements booked through Calendly &mdash; never a cold inbox, always a real conversation first.</p>
     <div class="table-wrap"><table class="rates-table">
       <thead><tr><th>Service</th><th>Rate</th><th>Format</th></tr></thead>
       <tbody>
@@ -395,9 +473,9 @@
         <tr><td>Creative &amp; Brand Direction</td><td class="rate-val">$95/hr</td><td>Hourly or project</td></tr>
         <tr><td>AI Automation Architecture</td><td class="rate-val">$85/hr</td><td>Hourly or project</td></tr>
         <tr><td>Website Build (standard)</td><td class="rate-val">$750</td><td>Flat rate</td></tr>
-        <tr><td>Website Build (full-stack)</td><td class="rate-val">$1,500â2,500</td><td>Scoped</td></tr>
-        <tr><td>Ghostline Security Audit</td><td class="rate-val">$450</td><td>Flat â written report</td></tr>
-        <tr><td>Brand Identity Package</td><td class="rate-val">$650</td><td>Flat â full guide</td></tr>
+        <tr><td>Website Build (full-stack)</td><td class="rate-val">$1,500&ndash;2,500</td><td>Scoped</td></tr>
+        <tr><td>Ghostline Security Audit</td><td class="rate-val">$450</td><td>Flat &mdash; written report</td></tr>
+        <tr><td>Brand Identity Package</td><td class="rate-val">$650</td><td>Flat &mdash; full guide</td></tr>
         <tr><td>Empire Blueprint Consult</td><td class="rate-val">$300</td><td>1hr session + roadmap</td></tr>
       </tbody>
     </table></div>
