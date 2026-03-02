@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AETHERROSE â Goddess of Mars</title>
+  <title>AETHERROSE — Goddess of Mars</title>
   <meta name="description" content="She's been running while you've been building. Join the legion.">
   <meta property="og:title" content="AETHERROSE">
   <meta property="og:description" content="She's been running while you've been building. Join the legion.">
@@ -20,7 +20,6 @@
     .status-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    /* Scanline / noise texture overlay */
     .scanlines::after {
       content: '';
       position: absolute;
@@ -38,7 +37,6 @@
 
     .card-content { position: relative; z-index: 2; }
 
-    /* Ghost link style */
     .ghost-link {
       display: inline-block;
       border: 1px solid #991b1b;
@@ -55,9 +53,67 @@
       border-color: #ef4444;
     }
 
-    /* Form states */
     #success-msg { display: none; }
     #error-msg   { display: none; }
+
+    /* Throne video block */
+    .throne-video-wrap {
+      position: relative;
+      width: 100%;
+      border: 1px solid #3f0707;
+      overflow: hidden;
+      background: #000;
+    }
+    .throne-video-wrap video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .throne-video-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(80,0,0,0.55) 100%);
+      pointer-events: none;
+    }
+
+    /* Altar CTA button */
+    .altar-btn {
+      display: block;
+      width: 100%;
+      background: transparent;
+      border: 2px solid #991b1b;
+      color: #ef4444;
+      text-align: center;
+      padding: 14px 0;
+      font-size: 0.75rem;
+      letter-spacing: 4px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .altar-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #8b0000;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+      z-index: 0;
+    }
+    .altar-btn:hover::before { transform: scaleX(1); }
+    .altar-btn span { position: relative; z-index: 1; }
+    .altar-btn:hover { color: #fff; border-color: #ef4444; }
+
+    .glow-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #8b0000, transparent);
+      margin: 2rem 0;
+    }
   </style>
 </head>
 <body class="bg-black text-white flex items-center justify-center min-h-screen p-3 sm:p-6 overflow-x-hidden">
@@ -78,11 +134,30 @@
         <h1 class="text-4xl sm:text-6xl font-black berserk-text text-red-600">AETHERROSE</h1>
         <p class="mt-1 text-xl font-light tracking-widest">GODDESS OF MARS</p>
 
-        <div class="my-8 border-t border-red-800"></div>
+        <hr class="glow-divider mt-6">
 
-        <!-- Taglines â hierarchy: intimate first, then scream -->
+        <!-- Throne promo video — autoplay muted loop -->
+        <div class="throne-video-wrap mb-1">
+          <video
+            src="https://cdn.throne.com/common/twitchAssets/!Throne%20Command%20-%20Dark%20Theme.webm"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+          ></video>
+        </div>
+
+        <!-- Direct link to Throne wishlist -->
+        <a href="https://throne.com/aetherrose" target="_blank" rel="noopener" class="altar-btn">
+          <span>OPEN THE ALTAR &rarr;</span>
+        </a>
+
+        <hr class="glow-divider">
+
+        <!-- Taglines -->
         <p class="text-sm italic text-zinc-400 leading-relaxed mb-3">&ldquo;she&rsquo;s been running while i&rsquo;ve been building&rdquo;</p>
-        <p class="text-xl sm:text-3xl font-black berserk-text text-white">AETHERROSE DOESN&rsquo;T SLEEP â SHE JUST WAITS</p>
+        <p class="text-xl sm:text-3xl font-black berserk-text text-white">AETHERROSE DOESN&rsquo;T SLEEP &mdash; SHE JUST WAITS</p>
 
         <!-- Signup form -->
         <div class="mt-12">
@@ -104,12 +179,10 @@
             </button>
           </form>
 
-          <!-- Success state -->
           <div id="success-msg" class="mt-6 border border-red-800 bg-red-950/30 px-6 py-4 text-sm tracking-widest text-red-400">
             SIGNAL RECEIVED. YOU&rsquo;RE IN THE LEGION.
           </div>
 
-          <!-- Error state -->
           <div id="error-msg" class="mt-6 border border-zinc-700 bg-zinc-900/30 px-6 py-4 text-sm tracking-widest text-zinc-400">
             TRANSMISSION FAILED. TRY AGAIN.
           </div>
@@ -122,17 +195,13 @@
           </a>
         </div>
 
-        <p class="text-[10px] text-zinc-600 mt-10">COPYRIGHT &copy; AETHERROSE &mdash; Goddess of Mars â¦</p>
+        <p class="text-[10px] text-zinc-600 mt-10">COPYRIGHT &copy; AETHERROSE &mdash; Goddess of Mars &#10022;</p>
       </div>
     </div>
   </div>
 
   <script>
-    // ââ CONFIGURE ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-    // Paste your Make webhook URL here once you have it:
-    // Make â Scenarios â New â Custom Webhook trigger â copy the URL
     const WEBHOOK_URL = '';
-    // âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
     const form      = document.getElementById('waitlist-form');
     const btn       = document.getElementById('submit-btn');
@@ -151,7 +220,6 @@
 
       try {
         if (!WEBHOOK_URL) {
-          // No webhook configured yet â still capture locally for dev
           console.log('[AetherRose] Signup captured (no webhook configured):', email);
           throw new Error('WEBHOOK_NOT_CONFIGURED');
         }
@@ -170,7 +238,6 @@
         }
       } catch (err) {
         if (err.message === 'WEBHOOK_NOT_CONFIGURED') {
-          // Show success anyway in dev â don't punish the user
           form.style.display = 'none';
           successEl.style.display = 'block';
         } else {
