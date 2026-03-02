@@ -261,3 +261,103 @@ document.addEventListener('DOMContentLoaded', () => {
 const aetherStyle = document.createElement('style');
 aetherStyle.textContent = '@keyframes aether-flash { 0%{opacity:0} 30%{opacity:1} 100%{opacity:0} }';
 document.head.appendChild(aetherStyle);
+
+
+// === MIST ORACLE ===
+(function() {
+  const ORACLE_API = 'https://mist-oracle.vercel.app/api/mist-oracle';
+  const MAX_MSGS = 5;
+  let msgCount = 0;
+  let sessionId = 'portfolio-' + Math.random().toString(36).slice(2, 9);
+
+  const overlay  = document.getElementById('oracleOverlay');
+  const openBtn  = document.getElementById('openOracle');
+  const closeBtn = document.getElementById('closeOracle');
+  const messages = document.getElementById('oracleMessages');
+  const input    = document.getElementById('oracleInput');
+  const sendBtn  = document.getElementById('oracleSend');
+  const countEl  = document.getElementById('oracleMsgCount');
+
+  if (!openBtn || !overlay) return;
+
+  function openOracle() {
+    overlay.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+    input.focus();
+  }
+
+  function closeOracle() {
+    overlay.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', openOracle);
+  closeBtn.addEventListener('click', closeOracle);
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeOracle();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !overlay.hasAttribute('hidden')) closeOracle();
+  });
+
+  function appendMsg(text, type) {
+    const div = document.createElement('div');
+    div.className = 'oracle-msg oracle-msg--' + type;
+    const icon = document.createElement('span');
+    icon.className = 'oracle-msg-icon';
+    icon.textContent = type === 'user' ? '◈' : '◆';
+    const content = document.createElement('span');
+    content.textContent = text;
+    div.appendChild(icon);
+    div.appendChild(content);
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+    return div;
+  }
+
+  function updateCount() {
+    const rem = MAX_MSGS - msgCount;
+    countEl.textContent = rem <= 0 ? 'Message limit reached' : rem + ' message' + (rem === 1 ? '' : 's') + ' remaining';
+  }
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text || msgCount >= MAX_MSGS) return;
+
+    msgCount++;
+    updateCount();
+    input.value = '';
+    sendBtn.disabled = true;
+
+    appendMsg(text, 'user');
+
+    const typing = appendMsg('...', 'ai oracle-typing');
+
+    try {
+      const res = await fetch(ORACLE_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, context: 'mars-portfolio', sessionId })
+      });
+
+      if (!res.ok) throw new Error('Signal lost (' + res.status + ')');
+      const data = await res.json();
+      typing.remove();
+      appendMsg(data.reply || data.message || 'The void echoes back.', 'ai');
+    } catch (err) {
+      typing.remove();
+      appendMsg('Signal disrupted. ' + (err.message || 'Try again.'), 'ai oracle-msg--error');
+    } finally {
+      sendBtn.disabled = msgCount >= MAX_MSGS;
+      if (msgCount < MAX_MSGS) input.focus();
+    }
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+})();
