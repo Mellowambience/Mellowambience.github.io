@@ -770,5 +770,27 @@
   <iframe id='kofiframe' src='https://ko-fi.com/1aether1rose1/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='400' title='1aether1rose1'></iframe>
 </div>
 <!-- End Ko-fi Support Widget -->
+
+  <!-- Burger menu toggle -->
+  <script>
+    (function(){
+      var burger = document.getElementById('burger');
+      var menu   = document.getElementById('mobile-menu');
+      if (!burger || !menu) return;
+      burger.addEventListener('click', function() {
+        var open = menu.classList.toggle('open');
+        burger.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      // Close on link tap
+      menu.querySelectorAll('.mobile-link').forEach(function(link) {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          burger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
