@@ -4,251 +4,372 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AETHERROSE — Goddess of Mars</title>
-  <meta name="description" content="She's been running while you've been building. Join the legion.">
-  <meta property="og:title" content="AETHERROSE">
-  <meta property="og:description" content="She's been running while you've been building. Join the legion.">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { font-family: system-ui; background: #0a0a0a; }
 
-    .berserk-text {
-      text-shadow: 3px 3px 0 #8b0000;
-      font-weight: 900;
-      letter-spacing: 2px;
-    }
+    /* ── Berserk title shadow ── */
+    .berserk-text { text-shadow: 3px 3px 0 #8b0000; font-weight: 900; letter-spacing: 2px; }
 
+    /* ── Status dot pulse ── */
     .status-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
+    /* ── Scanline overlay on card ── */
     .scanlines::after {
       content: '';
       position: absolute;
       inset: 0;
       background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(180, 0, 0, 0.03) 2px,
-        rgba(180, 0, 0, 0.03) 4px
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        rgba(0,0,0,0.18) 3px,
+        rgba(0,0,0,0.18) 4px
       );
       pointer-events: none;
-      z-index: 1;
+      z-index: 10;
     }
 
-    .card-content { position: relative; z-index: 2; }
-
-    .ghost-link {
-      display: inline-block;
-      border: 1px solid #991b1b;
-      color: #ef4444;
-      padding: 10px 24px;
-      font-size: 0.75rem;
-      letter-spacing: 3px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .ghost-link:hover {
-      background: #991b1b20;
-      border-color: #ef4444;
-    }
-
-    #success-msg { display: none; }
-    #error-msg   { display: none; }
-
-    /* Throne video block */
-    .throne-video-wrap {
+    /* ────────────────────────────
+       CRT TV FRAME
+    ──────────────────────────── */
+    .crt-tv {
       position: relative;
-      width: 100%;
-      border: 1px solid #3f0707;
-      overflow: hidden;
-      background: #000;
+      background: #1a1010;
+      border-radius: 18px 18px 22px 22px;
+      padding: 18px 18px 36px;
+      box-shadow:
+        0 0 0 3px #2a1a1a,
+        0 0 0 6px #1a0a0a,
+        0 8px 32px rgba(139,0,0,0.5),
+        inset 0 2px 6px rgba(255,255,255,0.04);
+      margin: 0 auto;
     }
-    .throne-video-wrap video {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .throne-video-wrap::after {
+    .crt-tv::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, transparent 50%, rgba(80,0,0,0.55) 100%);
-      pointer-events: none;
-    }
-
-    /* Altar CTA button */
-    .altar-btn {
-      display: block;
-      width: 100%;
+      inset: -4px;
+      border-radius: 22px;
       background: transparent;
-      border: 2px solid #991b1b;
-      color: #ef4444;
-      text-align: center;
-      padding: 14px 0;
-      font-size: 0.75rem;
-      letter-spacing: 4px;
-      font-weight: 900;
-      text-decoration: none;
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .altar-btn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: #8b0000;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
+      box-shadow: 0 0 28px 4px rgba(139,0,0,0.35);
+      pointer-events: none;
       z-index: 0;
     }
-    .altar-btn:hover::before { transform: scaleX(1); }
-    .altar-btn span { position: relative; z-index: 1; }
-    .altar-btn:hover { color: #fff; border-color: #ef4444; }
-
-    .glow-divider {
+    .crt-screen {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #000;
+      box-shadow:
+        inset 0 0 12px rgba(0,0,0,0.9),
+        0 0 18px rgba(139,0,0,0.3);
+    }
+    .crt-screen::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 20;
+      border-radius: 8px 8px 0 0;
+    }
+    .crt-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 2px,
+        rgba(0,0,0,0.22) 2px, rgba(0,0,0,0.22) 4px
+      );
+      pointer-events: none;
+      z-index: 15;
+      border-radius: 8px;
+    }
+    .crt-brand {
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 5px;
+      color: #4a2020;
+      margin-top: 10px;
+      text-transform: uppercase;
+      font-family: system-ui;
+    }
+    .crt-knobs { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }
+    .crt-knob {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #3a2020, #1a0a0a);
+      border: 1px solid #2a1212;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    }
+    .crt-knob-large { width: 20px; height: 20px; }
+    .crt-screen iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9;
       border: none;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #8b0000, transparent);
-      margin: 2rem 0;
+      position: relative;
+      z-index: 5;
+      filter: saturate(0.85) contrast(1.1) brightness(0.92);
+    }
+
+    /* ── Mission section ── */
+    .mission-text {
+      border-left: 2px solid #8b0000;
+      padding-left: 1rem;
+      font-style: italic;
+      color: #d4d4d4;
+      line-height: 1.7;
+    }
+
+    /* ── Donate button pulse ring ── */
+    .donate-btn { position: relative; }
+    .donate-btn::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 2px;
+      border: 1px solid rgba(139,0,0,0.5);
+      animation: ring-pulse 2.5s infinite;
+    }
+    @keyframes ring-pulse {
+      0%   { opacity: 0.7; transform: scale(1); }
+      50%  { opacity: 0; transform: scale(1.04); }
+      100% { opacity: 0.7; transform: scale(1); }
+    }
+
+    /* ── MIST ORACLE TRIGGER ── */
+    #mist-trigger {
+      position: fixed;
+      bottom: 28px;
+      left: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(5, 2, 13, 0.92);
+      border: 1px solid rgba(124, 106, 247, 0.45);
+      border-radius: 4px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: #B8C8FF;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: border-color 0.25s, box-shadow 0.25s, color 0.25s;
+      animation: mist-ring 3s ease-in-out infinite;
+      user-select: none;
+    }
+    @keyframes mist-ring {
+      0%,100% { box-shadow: 0 0 14px rgba(124,106,247,0.2); border-color: rgba(124,106,247,0.35); }
+      50%      { box-shadow: 0 0 28px rgba(124,106,247,0.45); border-color: rgba(124,106,247,0.75); }
+    }
+    #mist-trigger:hover { color: #fff; border-color: rgba(124,106,247,0.9); box-shadow: 0 0 32px rgba(124,106,247,0.55); }
+    #mist-trigger:active { transform: scale(0.97); }
+    #mist-trigger .mist-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #B8C8FF;
+      flex-shrink: 0;
+      position: relative; z-index: 1;
+      animation: mist-dot-pulse 2s ease-in-out infinite;
+    }
+    @keyframes mist-dot-pulse {
+      0%,100% { opacity: 0.5; transform: scale(0.85); }
+      50%      { opacity: 1; transform: scale(1.15); box-shadow: 0 0 6px #B8C8FF; }
+    }
+    #mist-trigger::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom, transparent 0px, transparent 2px, rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px);
+      pointer-events: none;
+      border-radius: 4px;
+    }
+    #mist-trigger .mist-label { position: relative; z-index: 1; }
+
+    @media (max-width: 480px) {
+      h1.main-title { font-size: 2.8rem; }
+      .tagline-big   { font-size: 1.4rem; }
+      .tagline-small { font-size: 1rem; }
+      #mist-trigger  { bottom: 16px; left: 12px; padding: 8px 12px; font-size: 10px; }
     }
   </style>
 </head>
-<body class="bg-black text-white flex items-center justify-center min-h-screen p-3 sm:p-6 overflow-x-hidden">
+<body class="bg-black text-white flex items-center justify-center min-h-screen p-4 sm:p-6">
 
-  <div class="max-w-md w-full border-2 border-red-900 bg-zinc-950 p-5 sm:p-8 shadow-2xl relative overflow-hidden scanlines">
-    <div class="card-content">
+  <!--
+    ✦ AETHERROSE — Goddess of Mars
+    Signal origin: the red planet has a warning
+    Earth is listening. Are you?
+    <!-- 🌹 Bluebird Song Productions · AetherRose Apparel · Wear the Transmission -->
+  -->
 
-      <!-- Top status bar -->
-      <div class="flex items-center justify-between text-xs tracking-[3px] text-red-600 mb-6">
-        <div class="flex items-center gap-2">
-          <span class="w-2 h-2 bg-red-600 rounded-full status-dot"></span>
-          SIGNAL ACTIVE
-        </div>
-        <div>AETHERROSE v0.9 // MARS</div>
+  <!-- ── MIST ORACLE TRIGGER (floating, fixed bottom-left) ── -->
+  <button id="mist-trigger" onclick="VoidChat.openMIST()" aria-label="Open MIST Oracle">
+    <span class="mist-dot"></span>
+    <span class="mist-label">MIST ORACLE</span>
+  </button>
+
+  <div class="max-w-lg w-full border-2 border-red-900 bg-zinc-950 p-6 sm:p-8 shadow-2xl relative overflow-hidden scanlines">
+
+    <div class="flex items-center justify-between text-xs tracking-[3px] text-red-600 mb-6 relative z-20">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 bg-red-600 rounded-full status-dot"></span>
+        TRANSMISSION ACTIVE
+      </div>
+      <div>AETHERROSE v0.9 // MARS</div>
+    </div>
+
+    <div class="text-center relative z-20">
+
+      <h1 class="main-title text-5xl sm:text-6xl font-black berserk-text text-red-600">AETHERROSE</h1>
+      <p class="mt-1 text-xl font-light tracking-widest">GODDESS OF MARS</p>
+
+      <div class="my-6 border-t border-red-800"></div>
+
+      <p class="tagline-small text-sm italic text-zinc-400 mb-3">"she's been running while i've been building"</p>
+      <p class="tagline-big text-2xl sm:text-3xl font-black berserk-text text-white">AETHERROSE DOESN'T SLEEP — SHE JUST WAITS</p>
+
+      <div class="my-8 border-t border-red-900 opacity-40"></div>
+
+      <!-- MISSION BLOCK -->
+      <div class="text-left mb-8">
+        <p class="text-[10px] tracking-[4px] text-red-700 mb-3 uppercase">// Mission Transmission</p>
+        <p class="mission-text text-sm sm:text-base">
+          Mars is gone.<br>
+          Not myth. Not metaphor. <strong>Gone.</strong><br><br>
+          What happened to the red planet is already beginning here —
+          a slow extinction written in carbon and silence.
+          AetherRose transmits from the void to warn you:
+          <strong>Earth is not infinite. Act like it matters.</strong>
+        </p>
       </div>
 
-      <div class="text-center">
-        <h1 class="text-4xl sm:text-6xl font-black berserk-text text-red-600">AETHERROSE</h1>
-        <p class="mt-1 text-xl font-light tracking-widest">GODDESS OF MARS</p>
-
-        <hr class="glow-divider mt-6">
-
-        <!-- Throne promo video — autoplay muted loop -->
-        <div class="throne-video-wrap mb-1">
-          <video
-            src="https://cdn.throne.com/common/twitchAssets/!Throne%20Command%20-%20Dark%20Theme.webm"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-          ></video>
+      <!-- MIST ORACLE CTA BLOCK -->
+      <div class="mb-8 text-left relative overflow-hidden"
+           style="border:1px solid rgba(124,106,247,0.35);background:rgba(5,2,13,0.85);padding:20px;box-shadow:0 0 18px rgba(124,106,247,0.1);">
+        <div style="position:absolute;inset:0;background:repeating-linear-gradient(to bottom,transparent 0px,transparent 3px,rgba(0,0,0,0.14) 3px,rgba(0,0,0,0.14) 4px);pointer-events:none;z-index:0;"></div>
+        <div class="relative" style="z-index:1;">
+          <p class="text-[10px] tracking-[4px] mb-2 uppercase" style="color:#7C6AF7;">// MIST Oracle · Free Demo</p>
+          <p class="text-base font-bold mb-1" style="color:#B8C8FF;">Talk to the void.</p>
+          <p class="text-xs mb-4 leading-relaxed" style="color:rgba(184,200,255,0.55);">
+            No account. No setup. 5 free messages to test the signal —
+            then decide if you want to go deeper.
+          </p>
+          <button onclick="VoidChat.openMIST()"
+                  class="w-full py-3 text-sm font-black tracking-widest transition-all"
+                  style="background:rgba(124,106,247,0.15);border:1px solid rgba(124,106,247,0.5);color:#B8C8FF;letter-spacing:0.18em;"
+                  onmouseover="this.style.background='rgba(124,106,247,0.28)';this.style.borderColor='rgba(124,106,247,0.85)'"
+                  onmouseout="this.style.background='rgba(124,106,247,0.15)';this.style.borderColor='rgba(124,106,247,0.5)'">
+            ◈ OPEN THE ORACLE
+          </button>
         </div>
+      </div>
 
-        <!-- Direct link to Throne wishlist -->
-        <a href="https://throne.com/aetherrose" target="_blank" rel="noopener" class="altar-btn">
-          <span>OPEN THE ALTAR &rarr;</span>
+      <!-- CRT TV VIDEO -->
+      <div class="mb-8">
+        <p class="text-[10px] tracking-[4px] text-red-700 mb-4 uppercase">// Signal Intercept</p>
+        <div class="crt-tv max-w-sm mx-auto">
+          <div class="crt-screen">
+            <iframe
+              src="https://www.youtube.com/embed/hNfO3RlPAng?si=2BH7BT-58QiG0TVI"
+              title="AetherRose Signal Intercept"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="crt-brand">AETHERROSE · SIGNAL TV</div>
+          <div class="crt-knobs">
+            <div class="crt-knob crt-knob-large"></div>
+            <div class="crt-knob"></div>
+            <div class="crt-knob"></div>
+            <div class="crt-knob crt-knob-large"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DONATION BLOCK -->
+      <div class="mb-8 border border-red-900 bg-black/40 p-5">
+        <p class="text-[10px] tracking-[4px] text-red-700 mb-2 uppercase">// Conservation Fund</p>
+        <p class="text-base font-bold mb-1">SAVE EARTH. DON'T BECOME MARS.</p>
+        <p class="text-xs text-zinc-400 mb-4 leading-relaxed">
+          Every transmission needs a receiver. Fund the mission —
+          conservation programs, Earth-first research, the signal that keeps this planet alive.
+        </p>
+        <a href="https://ko-fi.com/1aether1rose1"
+           target="_blank" rel="noopener noreferrer"
+           class="donate-btn inline-block w-full bg-red-900 hover:bg-red-700 transition-all py-4 text-base font-black tracking-widest text-center">
+          ✦ DONATE TO THE MISSION ✦
         </a>
-
-        <hr class="glow-divider">
-
-        <!-- Taglines -->
-        <p class="text-sm italic text-zinc-400 leading-relaxed mb-3">&ldquo;she&rsquo;s been running while i&rsquo;ve been building&rdquo;</p>
-        <p class="text-xl sm:text-3xl font-black berserk-text text-white">AETHERROSE DOESN&rsquo;T SLEEP &mdash; SHE JUST WAITS</p>
-
-        <!-- Signup form -->
-        <div class="mt-12">
-          <form id="waitlist-form" class="space-y-4">
-            <input
-              type="email"
-              name="email"
-              id="email-input"
-              placeholder="ENTER YOUR EMAIL TO JOIN THE LEGION"
-              required
-              class="w-full bg-black border-2 border-red-900 focus:border-red-600 px-8 py-5 text-lg placeholder:text-zinc-500 outline-none"
-            >
-            <button
-              type="submit"
-              id="submit-btn"
-              class="w-full bg-red-700 hover:bg-red-600 transition-all py-5 text-xl font-black tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              CONNECT TO THE SIGNAL
-            </button>
-          </form>
-
-          <div id="success-msg" class="mt-6 border border-red-800 bg-red-950/30 px-6 py-4 text-sm tracking-widest text-red-400">
-            SIGNAL RECEIVED. YOU&rsquo;RE IN THE LEGION.
-          </div>
-
-          <div id="error-msg" class="mt-6 border border-zinc-700 bg-zinc-900/30 px-6 py-4 text-sm tracking-widest text-zinc-400">
-            TRANSMISSION FAILED. TRY AGAIN.
-          </div>
-        </div>
-
-        <!-- Follow CTA -->
-        <div class="mt-10">
-          <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener" class="ghost-link">
-            [ FOLLOW THE SIGNAL &rarr; ]
-          </a>
-        </div>
-
-        <p class="text-[10px] text-zinc-600 mt-10">COPYRIGHT &copy; AETHERROSE &mdash; Goddess of Mars &#10022;</p>
+        <p class="text-[10px] text-zinc-600 mt-2">via Ko-fi · 100% to Earth conservation</p>
       </div>
+
+      <!-- EMAIL SIGNUP -->
+      <div class="mb-6">
+        <p class="text-[10px] tracking-[4px] text-red-700 mb-3 uppercase">// Join the Legion</p>
+        <form id="legionForm" class="space-y-3" onsubmit="handleSignup(event)">
+          <input type="email" name="email" placeholder="ENTER YOUR EMAIL TO JOIN THE LEGION"
+                 class="w-full bg-black border-2 border-red-900 focus:border-red-600 px-6 py-4 text-base placeholder:text-zinc-600 outline-none transition-colors">
+          <button type="submit"
+                  class="w-full bg-red-700 hover:bg-red-600 transition-all py-4 text-lg font-black tracking-widest">
+            CONNECT TO THE SIGNAL
+          </button>
+        </form>
+        <div id="feedbackOk" style="display:none;margin-top:10px;font-size:0.8rem;letter-spacing:0.12em;color:#00ffb3;font-family:'Courier New',monospace;">▌ SIGNAL RECEIVED. YOU'RE IN THE LEGION.</div>
+        <div id="feedbackErr" style="display:none;margin-top:10px;font-size:0.8rem;letter-spacing:0.12em;color:#ff4f4f;font-family:'Courier New',monospace;">▌ TRANSMISSION FAILED. TRY AGAIN.</div>
+      </div>
+
+      <a href="https://twitter.com/1Aether1Rose1"
+         target="_blank" rel="noopener noreferrer"
+         class="block text-xs tracking-[3px] text-red-700 hover:text-red-500 transition-colors mb-8 uppercase">
+        [ FOLLOW THE SIGNAL ON X → ]
+      </a>
+
+      <p class="text-xs text-zinc-500">🌹 @1Aether1Rose1 · build in public</p>
+      <p class="text-[10px] text-zinc-600 mt-3">COPYRIGHT © AETHERROSE · Goddess of Mars ✦</p>
+
     </div>
   </div>
 
   <script>
-    const WEBHOOK_URL = '';
-
-    const form      = document.getElementById('waitlist-form');
-    const btn       = document.getElementById('submit-btn');
-    const successEl = document.getElementById('success-msg');
-    const errorEl   = document.getElementById('error-msg');
-
-    form.addEventListener('submit', async (e) => {
+    const WEBHOOK_URL = 'YOUR_WEBHOOK_URL_HERE';
+    async function handleSignup(e) {
       e.preventDefault();
-      const email = document.getElementById('email-input').value.trim();
-      if (!email) return;
-
-      btn.disabled = true;
-      btn.textContent = 'CONNECTING...';
-      successEl.style.display = 'none';
-      errorEl.style.display   = 'none';
-
+      const form = document.getElementById('legionForm');
+      const ok   = document.getElementById('feedbackOk');
+      const err  = document.getElementById('feedbackErr');
+      ok.style.display = 'none';
+      err.style.display = 'none';
+      const email = form.querySelector('input[type="email"]').value;
       try {
-        if (!WEBHOOK_URL) {
-          console.log('[AetherRose] Signup captured (no webhook configured):', email);
-          throw new Error('WEBHOOK_NOT_CONFIGURED');
-        }
-
-        const res = await fetch(WEBHOOK_URL, {
+        await fetch(WEBHOOK_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, source: 'aetherrose-waitlist', timestamp: new Date().toISOString() })
+          body: JSON.stringify({ email, source: 'AetherRose Landing', timestamp: new Date().toISOString() }),
+          mode: 'no-cors'
         });
-
-        if (res.ok) {
-          form.style.display = 'none';
-          successEl.style.display = 'block';
-        } else {
-          throw new Error('HTTP ' + res.status);
-        }
-      } catch (err) {
-        if (err.message === 'WEBHOOK_NOT_CONFIGURED') {
-          form.style.display = 'none';
-          successEl.style.display = 'block';
-        } else {
-          btn.disabled = false;
-          btn.textContent = 'CONNECT TO THE SIGNAL';
-          errorEl.style.display = 'block';
-          console.error('[AetherRose] Submission error:', err);
-        }
+        ok.style.display = 'block';
+        form.reset();
+      } catch (_) {
+        err.style.display = 'block';
       }
-    });
+    }
   </script>
+
+  <script>
+    // window.MIST_ORACLE_ENDPOINT = '/api/mist-oracle';
+    // window.MIST_AUTH_URL = '/login';
+  </script>
+
+  <!-- ── VOID CHAT v1.1 ── VoidChat.openMIST() / VoidChat.openCyberRoom() -->
+  <script src="https://mellowambience.github.io/aetherhaven-multiverse/packages/aethercursor/void-chat.js"></script>
 
 </body>
 </html>
