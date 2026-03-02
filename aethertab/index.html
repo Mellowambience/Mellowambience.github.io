@@ -1,1 +1,196 @@
-AETHERTAB_HTML_PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AetherTab &mdash; Productivity from the Void</title>
+  <meta name="description" content="A new tab that knows you're building something. Encrypted AI sidebar. Void Shards. Aetherhaven universe. Zero telemetry." />
+  <meta property="og:title" content="AetherTab &mdash; Productivity from the Void" />
+  <meta property="og:description" content="A Chrome extension with a soul. Encrypted AI, ambient focus, Aetherhaven lore." />
+  <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="bg" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div id="particles"></div>
+</div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="https://mellowambience.github.io" class="nav-logo">&#x27D0; AetherTab</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#security">Security</a>
+      <a href="#shards">Shards</a>
+      <a href="https://github.com/Mellowambience/aethertab" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://mellowambience.github.io" style="opacity:.6;">&#x2190; Aetherhaven</a>
+    </div>
+    <a href="https://github.com/Mellowambience/aethertab" class="nav-cta" target="_blank" rel="noopener">Get Extension</a>
+  </div>
+</nav>
+
+<!-- Public Beta Banner -->
+<div id="beta-banner">
+  <div class="beta-inner">
+    <span class="beta-pill">PUBLIC BETA</span>
+    <span class="beta-msg">v0.1 is live &mdash; install via Chrome dev mode while we prep the Web Store listing. <a href="https://github.com/Mellowambience/aethertab" target="_blank" rel="noopener">GitHub &#x2197;</a></span>
+    <button class="beta-close" onclick="this.parentElement.parentElement.style.display='none'" aria-label="Dismiss">&times;</button>
+  </div>
+</div>
+<style>
+#beta-banner{background:rgba(123,47,190,0.18);border-bottom:1px solid rgba(155,77,221,0.25);padding:10px 24px;position:relative;z-index:99;}
+.beta-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px;font-size:.8rem;color:rgba(224,170,255,.9);}
+.beta-pill{flex-shrink:0;font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.15em;padding:3px 10px;border-radius:9999px;background:rgba(155,77,221,.3);border:1px solid rgba(155,77,221,.5);color:#E0AAFF;}
+.beta-msg{flex:1;}
+.beta-msg a{color:#C77DFF;text-decoration:underline;}
+.beta-close{margin-left:auto;background:none;border:none;color:rgba(199,125,255,.6);font-size:1.1rem;cursor:pointer;flex-shrink:0;padding:0 4px;line-height:1;}
+.beta-close:hover{color:#E0AAFF;}
+@media(max-width:600px){.beta-msg{display:none;}}
+</style>
+
+<section id="hero">
+  <div class="section-inner">
+    <div class="hero-inner">
+      <a href="https://mellowambience.github.io" style="display:inline-flex;align-items:center;gap:6px;font-size:.75rem;color:rgba(155,77,221,.7);margin-bottom:16px;text-decoration:none;letter-spacing:.05em;transition:color .2s;" onmouseover="this.style.color='#C77DFF'" onmouseout="this.style.color='rgba(155,77,221,.7)'">&#x2190; Aetherhaven</a>
+      <p class="hero-eyebrow">Chrome Extension &middot; MV3 &middot; Free</p>
+      <h1 class="hero-title">The new tab<br /><span class="hero-accent">that knows you're<br />building something.</span></h1>
+      <p class="hero-sub">Aetherhaven universe. Encrypted AI sidebar. Void Shards cosmetic progression.<br />Zero <code>&lt;all_urls&gt;</code>. Zero telemetry. Zero compromises.</p>
+      <div class="hero-actions">
+        <a href="https://github.com/Mellowambience/aethertab" class="btn-primary" target="_blank" rel="noopener">Get the extension &#x2197;</a>
+        <a href="https://ko-fi.com/mellowambience" class="btn-ghost" target="_blank" rel="noopener">&#x263D; Keep the void lit</a>
+      </div>
+      <p class="hero-note">No account required. No signup. Opens the void immediately.</p>
+    </div>
+    <div class="hero-preview" aria-hidden="true">
+      <div class="preview-card">
+        <div class="preview-ticker">&#x2726; VOID &middot; AetherTab v0.1 live &middot; Keep the void lit &middot; Void Shards unlock rooms &middot; No &lt;all_urls&gt; &middot;</div>
+        <div class="preview-clock">
+          <span class="preview-time">11<span class="preview-colon">:</span>47</span>
+          <span class="preview-date">Monday, March 2</span>
+        </div>
+        <div class="preview-focus">
+          <span class="preview-focus-label">Today's focus</span>
+          <span class="preview-focus-text">Building the empire.</span>
+        </div>
+        <div class="preview-widgets">
+          <div class="pw">&#x1F319; 64&deg;F<br/><span>clear skies</span></div>
+          <div class="pw">FOCUS<br/>24:13<br/>&#x25B6;</div>
+          <div class="pw">&#x25C8;<br/>7<br/><span>shards</span></div>
+        </div>
+        <div class="preview-quote">&ldquo;The void does not wait. Neither do you.&rdquo; &mdash; AetherRose</div>
+        <div class="preview-footer">
+          <span class="preview-kofi">&#x263D; Keep the void lit</span>
+          <span>&#x25CE; Focus &middot; &#x25C8; Shards &middot; &#x2699;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="section-inner">
+    <p class="section-eyebrow">What&rsquo;s inside</p>
+    <h2 class="section-title">Built for builders.<br />Not browsers.</h2>
+    <div class="features-grid">
+      <div class="feat-card feat-large"><div class="feat-icon">&#x27D0;</div><h3>MIST Oracle Sidebar</h3><p>Your own AI brain &mdash; not a raw GPT-4o wrapper. MIST routes through your private Railway endpoint first, then falls back to Gemini 2.0 Flash &rarr; Groq &rarr; OpenAI. Your key, your agent, your cascade.</p><div class="feat-tag">AES-GCM encrypted key storage</div></div>
+      <div class="feat-card"><div class="feat-icon">&#x25C8;</div><h3>Void Shards</h3><p>Earn cosmetic currency from completed Pomodoro sessions. Unlock Aetherhaven room themes. No microtransactions. Pure progression.</p></div>
+      <div class="feat-card"><div class="feat-icon">&#x263D;</div><h3>AetherRose Daily Drops</h3><p>30 original affirmations in her voice. One per day. Deterministic &mdash; same quote for everyone, changes at midnight. A shared experience.</p></div>
+      <div class="feat-card"><div class="feat-icon">&#x25CE;</div><h3>Focus Mode</h3><p>One toggle. Everything dims except your intention. Your focus text stays lit. The void holds space.</p></div>
+      <div class="feat-card"><div class="feat-icon">&#x2726;</div><h3>Ambient Ticker</h3><p>Dual-rail CSS marquee. Aetherhaven lore, Ko-fi drops, product news. No JS libraries. Hover to pause.</p></div>
+      <div class="feat-card"><div class="feat-icon">&#x23F1;</div><h3>Pomodoro + Shards</h3><p>25-min focus, 5-min break. Complete a session, earn a Void Shard. The timer is the engine of progression.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="security">
+  <div class="section-inner">
+    <p class="section-eyebrow">Security architecture</p>
+    <h2 class="section-title">Most AI extensions see everything.<br /><span class="title-accent">AetherTab sees only what it needs.</span></h2>
+    <p class="section-sub">In 2025, 300+ malicious AI extensions were caught harvesting credentials and browsing history. This was built as the direct response.</p>
+    <div class="security-grid">
+      <div class="sec-row"><span class="sec-issue">API key storage</span><span class="sec-common">Plaintext in chrome.storage</span><span class="sec-ours">AES-GCM 256-bit encrypted. PBKDF2, 100k iterations, unique salt per install.</span></div>
+      <div class="sec-row"><span class="sec-issue">Host permissions</span><span class="sec-common">&lt;all_urls&gt; broad access</span><span class="sec-ours">Explicit allowlist &mdash; 5 domains only. No wildcard.</span></div>
+      <div class="sec-row"><span class="sec-issue">AI output rendering</span><span class="sec-common">Raw innerHTML (XSS vector)</span><span class="sec-ours">textContent only. No innerHTML from AI responses. Ever.</span></div>
+      <div class="sec-row"><span class="sec-issue">Content Security Policy</span><span class="sec-common">Missing or weak</span><span class="sec-ours">Strict script-src 'self'. No eval. No inline scripts.</span></div>
+      <div class="sec-row"><span class="sec-issue">Analytics</span><span class="sec-common">Google Analytics, Mixpanel, etc.</span><span class="sec-ours">None. Zero. Not a tracker in sight.</span></div>
+    </div>
+    <div class="permissions-box">
+      <p class="perms-label">Declared permissions</p>
+      <code class="perms-code">storage &middot; alarms &middot; sidePanel</code>
+      <p class="perms-sub">No identity. No tabs. No webRequest. No &lt;all_urls&gt;.</p>
+    </div>
+  </div>
+</section>
+
+<section id="shards">
+  <div class="section-inner shards-inner">
+    <div class="shards-text">
+      <p class="section-eyebrow">Void Shards</p>
+      <h2 class="section-title">The tab that<br />rewards you for working.</h2>
+      <p class="section-sub">Complete a Pomodoro &rarr; earn a Void Shard. Accumulate &rarr; unlock Aetherhaven room themes. Purely cosmetic. Purely earned.</p>
+      <div class="shard-thresholds">
+        <div class="st"><span class="st-shards">5 &#x25C8;</span><span class="st-unlock">Ember Glow theme</span></div>
+        <div class="st"><span class="st-shards">15 &#x25C8;</span><span class="st-unlock">The Amber Room</span></div>
+        <div class="st"><span class="st-shards">25 &#x25C8;</span><span class="st-unlock">Rose Chamber</span></div>
+        <div class="st"><span class="st-shards">50 &#x25C8;</span><span class="st-unlock">Void Core</span></div>
+      </div>
+    </div>
+    <div class="shards-visual" aria-hidden="true">
+      <div class="shard-demo">
+        <div class="shard-orb">&#x25C8;</div>
+        <div class="shard-count-demo">7</div>
+        <div class="shard-label-demo">shards</div>
+        <div class="shard-bar-wrap"><div class="shard-bar" style="width:47%"></div></div>
+        <div class="shard-progress-text">8 more &rarr; The Amber Room</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rose-quote">
+  <div class="section-inner quote-inner">
+    <blockquote class="big-quote">&ldquo;The extension is the distribution layer.<br />The empire is what it opens into.&rdquo;</blockquote>
+    <cite>&mdash; AetherRose</cite>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="section-inner cta-inner">
+    <h2 class="section-title">Open the void.</h2>
+    <p class="section-sub">Free. Open source. No account. No signup.</p>
+    <div class="cta-actions">
+      <a href="https://github.com/Mellowambience/aethertab" class="btn-primary btn-lg" target="_blank" rel="noopener">Get the extension</a>
+      <a href="https://mellowambience.github.io" class="btn-ghost">Back to Aetherhaven</a>
+    </div>
+    <div class="cta-support"><a href="https://ko-fi.com/mellowambience" target="_blank" rel="noopener" class="kofi-link">&#x263D; Keep the void lit &mdash; Ko-fi</a></div>
+    <p class="cta-builder">Built by <strong>Amara T.</strong> &mdash; Independent Security Researcher &amp; AI Productivity Builder</p>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="footer-inner">
+    <span class="footer-logo">&#x27D0; AetherTab</span>
+    <div class="footer-links">
+      <a href="https://github.com/Mellowambience/aethertab" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://mellowambience.github.io" target="_blank" rel="noopener">Aetherhaven Hub</a>
+      <a href="https://mellowambience.github.io/consulting" target="_blank" rel="noopener">Consulting</a>
+      <a href="https://mellowambience.github.io/portfolio" target="_blank" rel="noopener">Portfolio</a>
+      <a href="https://ko-fi.com/mellowambience" target="_blank" rel="noopener">Ko-fi</a>
+      <a href="https://twitter.com/1Aether1Rose1" target="_blank" rel="noopener">@1Aether1Rose1</a>
+    </div>
+    <span class="footer-copy">&copy; 2026 Amara T. The void is patient.</span>
+  </div>
+  <!-- &#x2726; Easter egg #2: "The quiet ones build the loudest things." &mdash; AetherRose -->
+</footer>
+
+<script src="landing.js"></script>
+</body>
+</html>
