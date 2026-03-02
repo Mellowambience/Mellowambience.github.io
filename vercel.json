@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "functions": {
+    "api/mist-oracle.ts": {
+      "runtime": "@vercel/node@4",
+      "memory": 256
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}
