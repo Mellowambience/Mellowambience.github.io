@@ -1,73 +1,82 @@
 <!DOCTYPE html>
-<!--build: 2026-03-02T22:20:00Z -->
+<!--
+  Aetherhaven · mellowambience.github.io
+  The stadium. Enter the void.
+  // The Bluebird Song plays here too.
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amara T. &mdash; Systems Thinker &amp; Builder</title>
-  <meta name="description" content="Full-stack developer building intelligent systems. MIST sovereign AI, AetherRose longevity research, AetherTab Chrome extension. Philadelphia, PA.">
-  <meta property="og:title" content="Amara T. &mdash; Systems Thinker &amp; Builder">
-  <meta property="og:description" content="Full-stack developer. MIST sovereign AI. AetherRose longevity research. AetherTab Chrome extension.">
+  <title>Amara T. — Systems Thinker & Builder</title>
+  <meta name="description" content="Full-stack developer building intelligent systems. MIST sovereign AI, AetherRose longevity research, AetherTab Chrome extension. Aetherhaven Hub. Philadelphia, PA.">
+  <meta property="og:title" content="Amara T. — Systems Thinker & Builder">
+  <meta property="og:description" content="Full-stack developer. MIST sovereign AI. AetherRose. AetherTab. The Hub.">
   <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- CANVAS PARTICLE FIELD -->
+  <canvas id="void-canvas" aria-hidden="true"></canvas>
 
   <!-- TOP TICKER -->
   <div class="top-ticker" id="top-ticker">
     <div class="top-ticker-inner">
       <div class="top-ticker-track" aria-hidden="false">
-        <a href="https://mellowambience.github.io/" class="tt-chip tt-link" target="_blank" rel="noopener">mellowambience.github.io</a>
+        <a href="https://mellowambience.github.io/" class="tt-chip tt-link">mellowambience.github.io</a>
         <span class="tt-sep">&#x2726;</span>
-        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">&#x1D54F;&nbsp;@1Aether1Rose1</a>
+        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">𝕏&nbsp;@1Aether1Rose1</a>
         <span class="tt-sep">&#x2726;</span>
-        <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">&#x1F4F8;&nbsp;@amara_solace111</a>
+        <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">📸&nbsp;@amara_solace111</a>
         <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>SIGNAL&nbsp;&mdash;&nbsp;building FirstArc &middot; image provenance for creators</span>
+        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
         <span class="tt-sep">&#x2726;</span>
-        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">&#x25A6;&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
+        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
         <span class="tt-sep">&#x2726;</span>
-        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">&#x2665;&nbsp;Ko-fi&nbsp;/&nbsp;1aether1rose1</a>
+        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">♥&nbsp;Ko-fi&nbsp;/&nbsp;1aether1rose1</a>
         <span class="tt-sep">&#x2726;</span>
-        <a href="https://humanpalette.xyz" class="tt-chip tt-link" target="_blank" rel="noopener">&#x25C8;&nbsp;HumanPalette</a>
+        <a href="/aethertab" class="tt-chip tt-link tt-accent">⟐&nbsp;AetherTab&nbsp;—&nbsp;public&nbsp;beta&nbsp;live</a>
         <span class="tt-sep">&#x2726;</span>
-        <a href="/aethertab" class="tt-chip tt-link tt-accent">&#x27D0;&nbsp;AetherTab&nbsp;&mdash;&nbsp;public&nbsp;beta&nbsp;live</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in&nbsp;Amara&nbsp;Torretti</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://github.com/Mellowambience" class="tt-chip tt-link" target="_blank" rel="noopener">&#x2665;&nbsp;github/Mellowambience</a>
-        <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal tt-muted">Phase&nbsp;0&nbsp;&middot;&nbsp;vision locked &middot; prototype live</span>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://mellowambience.github.io/" class="tt-chip tt-link" target="_blank" rel="noopener">mellowambience.github.io</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">&#x1D54F;&nbsp;@1Aether1Rose1</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">&#x1F4F8;&nbsp;@amara_solace111</a>
-        <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>SIGNAL&nbsp;&mdash;&nbsp;building FirstArc &middot; image provenance for creators</span>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">&#x25A6;&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">&#x2665;&nbsp;Ko-fi&nbsp;/&nbsp;1aether1rose1</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://humanpalette.xyz" class="tt-chip tt-link" target="_blank" rel="noopener">&#x25C8;&nbsp;HumanPalette</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="/aethertab" class="tt-chip tt-link tt-accent">&#x27D0;&nbsp;AetherTab&nbsp;&mdash;&nbsp;public&nbsp;beta&nbsp;live</a>
+        <a href="https://github.com/Mellowambience/aetherhaven-hub" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">🌑&nbsp;Aetherhaven&nbsp;Hub&nbsp;—&nbsp;entering&nbsp;the&nbsp;void</a>
         <span class="tt-sep">&#x2726;</span>
         <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in&nbsp;Amara&nbsp;Torretti</a>
         <span class="tt-sep">&#x2726;</span>
-        <a href="https://github.com/Mellowambience" class="tt-chip tt-link" target="_blank" rel="noopener">&#x2665;&nbsp;github/Mellowambience</a>
+        <a href="https://humanpalette.xyz" class="tt-chip tt-link" target="_blank" rel="noopener">◈&nbsp;HumanPalette</a>
         <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal tt-muted">Phase&nbsp;0&nbsp;&middot;&nbsp;vision locked &middot; prototype live</span>
+        <span class="tt-chip tt-signal tt-muted">Phase&nbsp;1&nbsp;·&nbsp;Hub&nbsp;scaffolded&nbsp;·&nbsp;void&nbsp;lobby&nbsp;live</span>
+        <span class="tt-sep">&#x2726;</span>
+        <!-- RAIL 2 REPEAT -->
+        <a href="https://mellowambience.github.io/" class="tt-chip tt-link">mellowambience.github.io</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">𝕏&nbsp;@1Aether1Rose1</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">📸&nbsp;@amara_solace111</a>
+        <span class="tt-sep">&#x2726;</span>
+        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">♥&nbsp;Ko-fi&nbsp;/&nbsp;1aether1rose1</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="/aethertab" class="tt-chip tt-link tt-accent">⟐&nbsp;AetherTab&nbsp;—&nbsp;public&nbsp;beta&nbsp;live</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://github.com/Mellowambience/aetherhaven-hub" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">🌑&nbsp;Aetherhaven&nbsp;Hub&nbsp;—&nbsp;entering&nbsp;the&nbsp;void</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in&nbsp;Amara&nbsp;Torretti</a>
+        <span class="tt-sep">&#x2726;</span>
+        <a href="https://humanpalette.xyz" class="tt-chip tt-link" target="_blank" rel="noopener">◈&nbsp;HumanPalette</a>
+        <span class="tt-sep">&#x2726;</span>
+        <span class="tt-chip tt-signal tt-muted">Phase&nbsp;1&nbsp;·&nbsp;Hub&nbsp;scaffolded&nbsp;·&nbsp;void&nbsp;lobby&nbsp;live</span>
       </div>
     </div>
   </div>
 
+  <!-- NAV -->
   <nav id="nav">
     <a href="#" class="nav-logo">M<span class="accent">.</span></a>
     <div class="nav-links">
@@ -79,7 +88,8 @@
       <a href="/card">Card</a>
       <a href="/portfolio">Design</a>
       <a href="/consulting" class="accent">Consulting</a>
-      <a href="/aethertab" style="display:inline-flex;align-items:center;gap:5px;">AetherTab <span style="font-size:0.6rem;background:rgba(155,77,221,0.25);border:1px solid rgba(155,77,221,0.4);border-radius:9999px;padding:1px 7px;color:#C77DFF;letter-spacing:0.05em;">BETA</span></a>
+      <a href="/aethertab" style="display:inline-flex;align-items:center;gap:5px;">AetherTab <span class="nav-beta-pill">BETA</span></a>
+      <a href="https://github.com/Mellowambience/aetherhaven-hub" class="nav-hub-link" target="_blank" rel="noopener">🌑 Hub</a>
     </div>
     <a href="https://calendly.com/natorretti11" target="_blank" class="nav-cta mag-btn">Get in touch</a>
     <button class="burger" id="burger" aria-label="Menu">
@@ -87,7 +97,7 @@
     </button>
   </nav>
 
-  <!-- Mobile menu -->
+  <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobile-menu">
     <a href="#work" class="mobile-link">Work</a>
     <a href="#about" class="mobile-link">About</a>
@@ -96,59 +106,109 @@
     <a href="/rates" class="mobile-link">Rates</a>
     <a href="/portfolio" class="mobile-link">Design</a>
     <a href="/consulting" class="mobile-link accent">Consulting</a>
-    <a href="/aethertab" class="mobile-link">AetherTab &#x2726; Beta</a>
+    <a href="/aethertab" class="mobile-link">AetherTab ✦ Beta</a>
+    <a href="https://github.com/Mellowambience/aetherhaven-hub" class="mobile-link">🌑 Aetherhaven Hub</a>
     <a href="https://calendly.com/natorretti11" target="_blank" class="mobile-link">Contact</a>
   </div>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-inner">
-      <div class="hero-tag">
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HERO — FULL VIEWPORT STADIUM                   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="hero-stadium" id="home">
+    <!-- Ambient glow orbs -->
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
+
+    <div class="hero-stadium-inner">
+      <!-- Eyebrow -->
+      <div class="hero-eyebrow reveal-up">
         <span class="tag-dot"></span>
         Available for hire &middot; Philadelphia, PA
       </div>
-      <h1 class="hero-name">
-        <span class="line-wrap"><span class="line-text">Systems</span></span>
-        <span class="line-wrap"><span class="line-text">Thinker<span class="amp">&</span></span></span>
-        <span class="line-wrap"><span class="line-text hero-name-mars">Builder</span></span>
+
+      <!-- The name — as big as it can be -->
+      <h1 class="hero-massive reveal-up delay-1">
+        <span class="hero-line-1">Systems</span>
+        <span class="hero-line-2">Thinker<span class="amp">&</span></span>
+        <span class="hero-line-3 hero-accent-mars">Builder</span>
       </h1>
-      <div class="hero-right">
-        <p class="hero-desc">
-          I'm <strong>Mars</strong> &mdash; full-stack developer building intelligent systems at the edge of code and biology.
-          Creating <span class="highlight">MIST</span>, a sovereign AI that lives on your terms, and
-          <span class="highlight">AetherRose</span>, longevity research through open science.
-          TypeScript &middot; Python &middot; C &middot; React Native &middot; 6+ years.
+
+      <!-- One-liner underneath the name -->
+      <p class="hero-sub reveal-up delay-2">
+        Mars — building intelligent systems at the edge of code and biology.
+        MIST · AetherRose · AetherTab · <a href="https://github.com/Mellowambience/aetherhaven-hub" class="hero-hub-link" target="_blank">Aetherhaven Hub</a>.
+      </p>
+
+      <!-- CTAs side by side -->
+      <div class="hero-ctas reveal-up delay-3">
+        <a href="#work" class="btn-primary mag-btn">View Work</a>
+        <a href="https://calendly.com/natorretti11" target="_blank" class="btn-secondary">Get in touch</a>
+        <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" class="btn-void">🌑 Enter the Hub</a>
+      </div>
+
+      <!-- Arc bar — canonical Aether signal -->
+      <div class="arc-bar reveal-up delay-4" aria-hidden="true"></div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div class="scroll-cue" aria-hidden="true">
+      <span class="scroll-line"></span>
+      <span class="scroll-label">scroll</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HUB TEASER — FULL BLEED STADIUM FEATURE        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="hub-stadium" id="hub">
+    <div class="hub-stadium-inner">
+      <div class="hub-stadium-text reveal-up">
+        <span class="hub-eyebrow">Now Building</span>
+        <h2 class="hub-title">Aetherhaven Hub</h2>
+        <p class="hub-desc">
+          The Mothership. A living world where travelers drift through void rooms,
+          leave transmissions, and find their sector. Inspired by VMK, Habbo Hotel,
+          MapleStory, RuneScape. The gravitational center of everything.
         </p>
-        <div style="margin: .75rem 0;">
-          <span class="contrib-badge">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-            Contributor @anthropics &middot; PRs open
-          </span>
+        <div class="hub-rooms">
+          <span class="hub-room">🌑 Void Lobby</span>
+          <span class="hub-room muted">🌹 Rose Garden</span>
+          <span class="hub-room muted">⚒️ The Forge</span>
+          <span class="hub-room muted">📖 Codex Hall</span>
+          <span class="hub-room muted">🌌 Echo Sector</span>
         </div>
-        <div class="hero-ctas">
-          <a href="#work" class="btn-primary mag-btn">View Work</a>
-          <a href="https://calendly.com/natorretti11" target="_blank" class="btn-secondary">Get in touch</a>
+        <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" class="btn-void">Enter the Void →</a>
+      </div>
+      <div class="hub-stadium-visual reveal-up delay-2" aria-hidden="true">
+        <div class="hub-orb-container">
+          <div class="hub-ring hub-ring-1"></div>
+          <div class="hub-ring hub-ring-2"></div>
+          <div class="hub-ring hub-ring-3"></div>
+          <div class="hub-core">🌑</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WORK -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- WORK — BENTO MAXIMALIST                        -->
+  <!-- ═══════════════════════════════════════════════ -->
   <section class="section" id="work">
     <div class="section-inner">
-      <div class="section-header reveal">
+      <div class="section-header reveal-up">
         <span class="section-num">01</span>
         <h2>Selected Work</h2>
-        <p>Systems I've built &mdash; from production infrastructure to open science.</p>
+        <p>Systems I've built — from production infrastructure to open science.</p>
       </div>
       <div class="bento">
 
-        <!-- Featured MIST card -->
+        <!-- MIST — featured flagship -->
         <div class="bento-card bento-lg reveal">
           <div class="bento-badge">Flagship</div>
-          <div class="bento-sprint">ACTIVE SPRINT &middot; MVP Q1 2026</div>
+          <div class="bento-sprint">ACTIVE SPRINT · MVP Q1 2026</div>
           <h3>MIST<br><span class="sub">Sovereign AI Companion</span></h3>
-          <p>Dual-path AI architecture &mdash; cloud (Gemini) with local fallback (Ollama). React Native mobile app via tRPC gateway. An AI that lives locally, thinks independently, and belongs to <em>you</em>. Inspired by MIST from <em>Pantheon</em>.</p>
+          <p>Dual-path AI — cloud (Gemini) with local fallback (Ollama). React Native via tRPC. An AI that lives locally, thinks independently, and belongs to <em>you</em>. Inspired by MIST from <em>Pantheon</em>.</p>
           <div class="bento-tech">
             <span>TypeScript</span><span>React Native</span><span>tRPC</span><span>Gemini</span><span>Ollama</span>
           </div>
@@ -158,22 +218,34 @@
         <!-- AetherRose -->
         <div class="bento-card bento-rose reveal">
           <div class="bento-badge">Open Science</div>
-          <div class="bento-sprint">LONGEVITY &middot; MIT LICENSE</div>
+          <div class="bento-sprint">LONGEVITY · MIT LICENSE</div>
           <h3>AetherRose<br><span class="sub">Longevity Research Tool</span></h3>
-          <p>Trajectory modeling tool for hormone optimization, cellular repair, and radiation resistance research. Part of Aetherhaven &mdash; a long-horizon mission at the intersection of AI and human biology. Recipe v0.1 (NANOROSE) published.</p>
+          <p>Trajectory modeling for hormone optimization, cellular repair, and radiation resistance. Part of Aetherhaven. NANOROSE v0.1 published.</p>
           <div class="bento-tech">
             <span>Python</span><span>Streamlit</span><span>Claude</span><span>MIT</span>
           </div>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- OpenClaw infrastructure -->
+        <!-- Aetherhaven Hub — NEW featured card -->
+        <div class="bento-card bento-hub reveal">
+          <div class="bento-badge hub-badge">🌑 Now Live</div>
+          <h3>Aetherhaven Hub<br><span class="sub">Game-Inspired Social World</span></h3>
+          <p>7 rooms. Void Shards. Traveller ranks. Forge Quests tied to GitHub issues. The empire's gravitational center. VMK · Habbo · MapleStory · RuneScape.</p>
+          <div class="bento-tech">
+            <span>Next.js 15</span><span>Supabase Realtime</span><span>Framer Motion</span>
+          </div>
+          <a href="https://github.com/Mellowambience/aetherhaven-hub" class="bento-link" target="_blank">Enter the Void →</a>
+          <div class="bento-glow"></div>
+        </div>
+
+        <!-- OpenClaw -->
         <div class="bento-card bento-infra reveal">
           <div class="bento-badge">Infrastructure</div>
           <div class="bento-stat">114</div>
           <div class="bento-stat-label">production startups</div>
           <h3>OpenClaw<br><span class="sub">AI Infrastructure Backbone</span></h3>
-          <p>Core maintainer. Hosted wrappers, one-click deploy services, and critical PR work (#22142 merged) keeping the ecosystem running. Vital infrastructure for the agent economy.</p>
+          <p>Core maintainer. Hosted wrappers, one-click deploy, critical PRs keeping the ecosystem running.</p>
           <div class="bento-tech">
             <span>TypeScript</span><span>x402</span><span>Agent Economy</span>
           </div>
@@ -184,11 +256,23 @@
         <div class="bento-card reveal">
           <div class="bento-badge sprint">Active Sprint</div>
           <h3>HumanPalette<br><span class="sub">Human-Only Art Exchange</span></h3>
-          <p>Swipe-native marketplace connecting collectors with verified human artists. Zero AI-generated content. Stripe Connect escrow + EAS attestation on Base.</p>
+          <p>Swipe-native marketplace for verified human artists. Zero AI-generated content. Stripe Connect + EAS attestation on Base.</p>
           <div class="bento-tech">
             <span>React Native</span><span>Supabase</span><span>Stripe</span><span>EAS</span>
           </div>
-          <a href="https://humanpalette.vercel.app" class="bento-link" target="_blank">View App &#8594;</a>
+          <a href="https://humanpalette.vercel.app" class="bento-link" target="_blank">View App →</a>
+          <div class="bento-glow"></div>
+        </div>
+
+        <!-- AetherTab -->
+        <div class="bento-card bento-aethertab reveal">
+          <div class="bento-badge sprint">Public Beta</div>
+          <h3>AetherTab<br><span class="sub">Chrome New Tab Extension</span></h3>
+          <p>Encrypted AI sidebar (MIST cascade), Void Shards progression, AetherRose drops, Pomodoro. Zero &lt;all_urls&gt;. Zero telemetry.</p>
+          <div class="bento-tech">
+            <span>Chrome MV3</span><span>AES-GCM</span><span>MIST Oracle</span>
+          </div>
+          <a href="/aethertab" class="bento-link">View Product →</a>
           <div class="bento-glow"></div>
         </div>
 
@@ -197,29 +281,17 @@
           <div class="bento-stat">55</div>
           <div class="bento-stat-label">API Endpoints</div>
           <h3>Marketplace<br><span class="sub">Intelligence API</span></h3>
-          <p>Multi-platform data service &mdash; 14 platforms including Instagram, TikTok, Amazon, Airbnb, Zillow.</p>
+          <p>Multi-platform data service — 14 platforms including Instagram, TikTok, Amazon, Airbnb, Zillow.</p>
           <div class="bento-tech">
             <span>TypeScript</span><span>REST</span><span>14 Platforms</span>
           </div>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- AetherTab Chrome Extension -->
-        <div class="bento-card reveal" style="border-color:rgba(155,77,221,0.3);">
-          <div class="bento-badge sprint">Public Beta</div>
-          <h3>AetherTab<br><span class="sub">Chrome New Tab Extension</span></h3>
-          <p>A new tab that knows you're building something. Encrypted AI sidebar (MIST cascade), Void Shards cosmetic progression, AetherRose daily drops, Pomodoro timer. Zero &lt;all_urls&gt;. Zero telemetry.</p>
-          <div class="bento-tech">
-            <span>Chrome MV3</span><span>AES-GCM</span><span>MIST Oracle</span><span>Void Shards</span>
-          </div>
-          <a href="/aethertab" class="bento-link">View Product &#8594;</a>
-          <div class="bento-glow"></div>
-        </div>
-
-        <!-- AetherProof voice pipeline -->
+        <!-- AetherProof -->
         <div class="bento-card bento-sm reveal">
           <h3>AetherProof<br><span class="sub">Voice AI Pipeline</span></h3>
-          <p>Real-time voice pipeline using Gemini Live API. PCM 16kHz WebSocket streaming with camera input for presence verification.</p>
+          <p>Real-time voice via Gemini Live API. PCM 16kHz WebSocket + camera presence verification.</p>
           <div class="bento-tech"><span>Python</span><span>Gemini Live</span><span>WebSocket</span></div>
           <div class="bento-glow"></div>
         </div>
@@ -227,17 +299,17 @@
         <!-- Chimera OS -->
         <div class="bento-card bento-sm bento-dark reveal">
           <h3>Chimera OS<br><span class="sub">Custom Kernel</span></h3>
-          <p>OS kernel in C from scratch &mdash; bootloader, memory management, kernel architecture.</p>
+          <p>OS kernel in C from scratch — bootloader, memory management, full kernel architecture.</p>
           <div class="bento-tech"><span>C</span><span>Assembly</span></div>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- Meghan Kylie Artist Management -->
+        <!-- Meghan Kylie -->
         <div class="bento-card bento-sm reveal">
           <div class="bento-tag">Artist Management</div>
           <h3>Meghan Kylie<br><span class="accent">Music</span></h3>
-          <p>Manager for Philly-based indie pop/emo artist Meghan Kylie &mdash; debut album THIEF, booking, EPK, site build.</p>
-          <a href="https://mellowambience.github.io/meghan-kylie-landing/" class="bento-link" target="_blank">Visit Site &#8594;</a>
+          <p>Manager for Philly-based indie pop/emo artist — debut album THIEF, booking, EPK, site.</p>
+          <a href="https://mellowambience.github.io/meghan-kylie-landing/" class="bento-link" target="_blank">Visit Site →</a>
           <div class="bento-glow"></div>
         </div>
 
@@ -245,20 +317,22 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ABOUT — FULL WIDTH, ARCHITECTURAL              -->
+  <!-- ═══════════════════════════════════════════════ -->
   <section class="section section-alt" id="about">
     <div class="section-inner">
-      <div class="section-header reveal">
+      <div class="section-header reveal-up">
         <span class="section-num">02</span>
         <h2>About</h2>
       </div>
-      <div class="about-grid">
-        <div class="about-main reveal">
-          <p>I build at the intersection of AI, biology, and culture. Security researcher by training, systems architect by habit, creative by nature.</p>
-          <p>My work spans sovereign AI (MIST), longevity science (AetherRose), human art markets (HumanPalette), and the infrastructure that keeps the agent economy running (OpenClaw). Now adding Chrome extensions to the empire.</p>
-          <p>Based in Philadelphia. Available for consulting, builds, and collaborations that matter.</p>
+      <div class="about-stadium">
+        <div class="about-statement reveal-up">
+          <p class="about-big">I build at the intersection of<br><span class="about-accent">AI, biology, and culture.</span></p>
+          <p class="about-body">Security researcher by training. Systems architect by habit. Creative by nature.<br>
+          Based in Philadelphia. Available for consulting, builds, and collaborations that matter.</p>
         </div>
-        <div class="about-stack reveal">
+        <div class="about-stack reveal-up delay-2">
           <div class="stack-group">
             <span class="stack-label">Languages</span>
             <div class="stack-chips">
@@ -282,10 +356,12 @@
     </div>
   </section>
 
-  <!-- EXPERIENCE -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- EXPERIENCE                                     -->
+  <!-- ═══════════════════════════════════════════════ -->
   <section class="section" id="exp">
     <div class="section-inner">
-      <div class="section-header reveal">
+      <div class="section-header reveal-up">
         <span class="section-num">03</span>
         <h2>Experience</h2>
       </div>
@@ -293,7 +369,7 @@
         <div class="exp-item reveal">
           <div class="exp-meta">
             <span class="exp-role">AI Security Researcher &amp; Builder</span>
-            <span class="exp-date">2024 &ndash; Present</span>
+            <span class="exp-date">2024 – Present</span>
           </div>
           <div class="exp-org">Independent / Aetherhaven</div>
           <p class="exp-desc">Building sovereign AI systems, longevity tools, and Chrome extensions. Security research on browser extension attack surfaces. Open-source contributor.</p>
@@ -301,7 +377,7 @@
         <div class="exp-item reveal">
           <div class="exp-meta">
             <span class="exp-role">Core Maintainer</span>
-            <span class="exp-date">2025 &ndash; Present</span>
+            <span class="exp-date">2025 – Present</span>
           </div>
           <div class="exp-org">OpenClaw / Baozi</div>
           <p class="exp-desc">Infrastructure maintainer for the AI agent economy. 114+ production startups. Critical PR merges keeping the x402 ecosystem stable.</p>
@@ -309,19 +385,21 @@
         <div class="exp-item reveal">
           <div class="exp-meta">
             <span class="exp-role">Artist Manager</span>
-            <span class="exp-date">2024 &ndash; Present</span>
+            <span class="exp-date">2024 – Present</span>
           </div>
           <div class="exp-org">Meghan Kylie Music</div>
-          <p class="exp-desc">Full-service management for Philly indie pop/emo artist. Booking, EPK, web development, release strategy.</p>
+          <p class="exp-desc">Full-service management — booking, EPK, web, release strategy. Philly indie pop/emo, debut album THIEF.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HIRE -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HIRE — CONSULTING TIERS, STADIUM CARDS        -->
+  <!-- ═══════════════════════════════════════════════ -->
   <section class="section section-alt" id="hire">
     <div class="section-inner">
-      <div class="section-header reveal">
+      <div class="section-header reveal-up">
         <span class="section-num">04</span>
         <h2>Work With Me</h2>
       </div>
@@ -348,22 +426,111 @@
           <p>Full engagement + PoC code drop + roadmap. The complete picture.</p>
         </div>
       </div>
-      <div style="text-align:center;margin-top:2rem;">
-        <a href="/consulting" class="btn-primary mag-btn">View Consulting Details &#8594;</a>
+      <div style="text-align:center;margin-top:2.5rem;">
+        <a href="/consulting" class="btn-primary mag-btn">View Consulting Details →</a>
       </div>
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <span class="footer-logo">M<span class="accent">.</span></span>
-      <span>Built by Mars &middot; 2026</span>
-      <span>mellowambience.github.io</span>
-      <span><a href="/aethertab" style="color:rgba(199,125,255,0.7);text-decoration:none;font-size:0.75rem;">&#x27D0; AetherTab Beta</a></span>
-      <span><a href="https://mellowambience.github.io/meghan-kylie-landing/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.4);text-decoration:none;font-size:0.75rem;">Artist: Meghan Kylie</a></span>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FOOTER — EMPIRE MAP                           -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <footer class="footer-stadium">
+    <div class="footer-stadium-inner">
+
+      <!-- Left: brand -->
+      <div class="footer-brand">
+        <span class="footer-logo">M<span class="accent">.</span></span>
+        <span class="footer-tagline">Systems Thinker & Builder</span>
+        <span class="footer-location">Philadelphia, PA · 2026</span>
+      </div>
+
+      <!-- Center: empire nav -->
+      <nav class="footer-empire" aria-label="Empire navigation">
+        <div class="footer-empire-col">
+          <span class="footer-col-label">Products</span>
+          <a href="/aethertab">AetherTab <span class="footer-pill">Beta</span></a>
+          <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank">Aetherhaven Hub 🌑</a>
+          <a href="https://humanpalette.vercel.app" target="_blank">HumanPalette</a>
+        </div>
+        <div class="footer-empire-col">
+          <span class="footer-col-label">Research</span>
+          <a href="#">AetherRose</a>
+          <a href="#">MIST</a>
+          <a href="#">FirstArc</a>
+        </div>
+        <div class="footer-empire-col">
+          <span class="footer-col-label">Connect</span>
+          <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener">𝕏 @1Aether1Rose1</a>
+          <a href="https://instagram.com/amara_solace111" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://discord.gg/aetherhaven" target="_blank" rel="noopener">Discord</a>
+          <a href="https://ko-fi.com/1aether1rose1" target="_blank" rel="noopener">Ko-fi</a>
+          <a href="https://linkedin.com/in/amara-torretti" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="footer-empire-col">
+          <span class="footer-col-label">Work</span>
+          <a href="/consulting">Consulting</a>
+          <a href="/rates">Rates</a>
+          <a href="/portfolio">Design</a>
+          <a href="/card">Card</a>
+          <a href="https://mellowambience.github.io/meghan-kylie-landing/" target="_blank">Meghan Kylie</a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Bottom strip -->
+    <div class="footer-strip">
+      <span>Built by Mars · mellowambience.github.io</span>
+      <span class="footer-strip-sep">·</span>
+      <span>All sectors navigable. All travelers welcome.</span>
     </div>
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    // Void particle canvas — inline for GitHub Pages compatibility
+    (function(){
+      const canvas = document.getElementById('void-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const COLORS = ['#B8C8FF','#7C6AF7','#F2A65A','#C9956A','#E8E0FF'];
+      const COUNT = 55;
+      let particles = [];
+
+      function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function mkp(){
+        return {
+          x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+          vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25,
+          r: Math.random()*1.4+.4, o: Math.random()*.45+.08,
+          od:(Math.random()-.5)*.006, c:COLORS[Math.floor(Math.random()*COLORS.length)]
+        };
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      particles = Array.from({length:COUNT}, mkp);
+
+      function frame(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy; p.o+=p.od;
+          if(p.x<-8) p.x=canvas.width+8; if(p.x>canvas.width+8) p.x=-8;
+          if(p.y<-8) p.y=canvas.height+8; if(p.y>canvas.height+8) p.y=-8;
+          if(p.o<.05||p.o>.6) p.od*=-1;
+          ctx.save(); ctx.globalAlpha=p.o; ctx.fillStyle=p.c;
+          ctx.shadowBlur=5; ctx.shadowColor=p.c;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+          ctx.restore();
+        });
+        requestAnimationFrame(frame);
+      }
+      frame();
+    })();
+  </script>
 </body>
 </html>
