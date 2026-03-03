@@ -560,3 +560,87 @@ body {
 /* ── About section layout ── */
 .about-statement { display: flex; flex-direction: column; gap: 1.25rem; }
 .about-stack { display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* ═══════════════════════════════════════════════════════
+   WORK WITH ME — TIER THEMES
+   Tier 1: Rose Gold  |  Tier 2: Soul Silver  |  Tier 3: SPACEx
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Rose Gold (Tier 1) ───────────────────────────────── */
+.hire-card.theme-rose-gold {
+  --tier-accent:   #C9956A;
+  --tier-glow:     rgba(201,149,106,0.18);
+  --tier-border:   rgba(201,149,106,0.35);
+  --tier-price:    #E8C4A0;
+  background: linear-gradient(145deg, rgba(5,2,13,0.97), rgba(201,149,106,0.07)) !important;
+  border-top: 1px solid var(--tier-border);
+}
+.hire-card.theme-rose-gold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 40px rgba(201,149,106,0.06);
+  pointer-events: none;
+}
+.hire-card.theme-rose-gold:hover {
+  background: linear-gradient(145deg, rgba(8,4,18,0.99), rgba(201,149,106,0.12)) !important;
+  box-shadow: 0 0 28px rgba(201,149,106,0.12);
+}
+.hire-card.theme-rose-gold .hire-tier  { color: var(--tier-accent); }
+.hire-card.theme-rose-gold .hire-price { color: var(--tier-price); text-shadow: 0 0 18px rgba(201,149,106,0.4); }
+.hire-card.theme-rose-gold .hire-reach { color: var(--tier-accent); opacity: .65; }
+
+/* ── Soul Silver (Tier 2) ─────────────────────────────── */
+.hire-card.theme-soul-silver {
+  --tier-accent:   #A8BDD4;
+  --tier-glow:     rgba(168,189,212,0.15);
+  --tier-border:   rgba(168,189,212,0.28);
+  --tier-price:    #D6E4F0;
+  background: linear-gradient(145deg, rgba(5,2,13,0.97), rgba(168,189,212,0.06)) !important;
+  border-top: 1px solid var(--tier-border);
+}
+.hire-card.theme-soul-silver::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 40px rgba(168,189,212,0.04);
+  pointer-events: none;
+}
+.hire-card.theme-soul-silver:hover {
+  background: linear-gradient(145deg, rgba(8,4,18,0.99), rgba(168,189,212,0.10)) !important;
+  box-shadow: 0 0 28px rgba(168,189,212,0.10);
+}
+.hire-card.theme-soul-silver .hire-tier  { color: var(--tier-accent); }
+.hire-card.theme-soul-silver .hire-price { color: var(--tier-price); text-shadow: 0 0 18px rgba(168,189,212,0.35); }
+.hire-card.theme-soul-silver .hire-reach { color: var(--tier-accent); opacity: .65; }
+
+/* ── SPACEx (Tier 3) ──────────────────────────────────── */
+.hire-card.theme-spacex {
+  --tier-accent:   #F2A65A;
+  --tier-glow:     rgba(242,166,90,0.14);
+  --tier-border:   rgba(242,166,90,0.28);
+  --tier-price:    #FFD19A;
+  background: linear-gradient(145deg, rgba(3,1,10,0.99), rgba(124,106,247,0.08), rgba(242,166,90,0.05)) !important;
+  border-top: 1px solid var(--tier-border);
+}
+.hire-card.theme-spacex::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 50px rgba(242,166,90,0.05), inset 0 0 20px rgba(124,106,247,0.06);
+  pointer-events: none;
+}
+.hire-card.theme-spacex:hover {
+  background: linear-gradient(145deg, rgba(5,2,13,0.99), rgba(124,106,247,0.12), rgba(242,166,90,0.08)) !important;
+  box-shadow: 0 0 32px rgba(242,166,90,0.10), 0 0 16px rgba(124,106,247,0.08);
+}
+.hire-card.theme-spacex .hire-tier  { color: var(--tier-accent); }
+.hire-card.theme-spacex .hire-price { color: var(--tier-price); text-shadow: 0 0 22px rgba(242,166,90,0.45); }
+.hire-card.theme-spacex .hire-reach { color: var(--tier-accent); opacity: .65; }
+
+/* Ensure cards have position:relative for ::before pseudo */
+.hire-card { position: relative; }
+
