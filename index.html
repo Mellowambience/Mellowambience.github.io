@@ -34,7 +34,7 @@
         <span class="tt-sep">&#x2726;</span>
         <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">📸&nbsp;@amara_solace111</a>
         <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
+        <span class="tt-chip tt-signal" data-lang-chip><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
         <span class="tt-sep">&#x2726;</span>
         <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
         <span class="tt-sep">&#x2726;</span>
@@ -57,7 +57,7 @@
         <span class="tt-sep">&#x2726;</span>
         <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">📸&nbsp;@amara_solace111</a>
         <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
+        <span class="tt-chip tt-signal" data-lang-chip><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
         <span class="tt-sep">&#x2726;</span>
         <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
         <span class="tt-sep">&#x2726;</span>
@@ -659,7 +659,6 @@
       return [local].concat(rest);
     }
 
-    var chip = null;
     function findChip() {
       // Find the .tt-signal chip
       var chips = document.querySelectorAll('.tt-signal');
@@ -669,34 +668,30 @@
       return null;
     }
 
-    var queue, idx = 0, localCode, intervalMs = 4000, localMs = 8000;
+    var chips = [], queue, idx = 0, localCode, intervalMs = 4000, localMs = 8000;
 
     function cycleNext() {
-      if (!chip) { chip = findChip(); if (!chip) return; }
+      if (!chips.length) { chips = Array.from(document.querySelectorAll('[data-lang-chip]')); if (!chips.length) return; }
       var entry = queue[idx];
       idx = (idx + 1) % queue.length;
 
-      chip.style.transition = 'opacity 0.4s';
-      chip.style.opacity = '0';
-      setTimeout(function() {
-        // Rebuild chip content: dot + label badge + tagline
-        chip.innerHTML =
-          '<span class="tt-dot active"></span>' +
-          '<span class="tt-lang-badge" style="' +
-            'font-size:9px;letter-spacing:.08em;opacity:.6;margin-right:5px;' +
-            'text-transform:uppercase;font-weight:700;">' + entry[1] + '</span>' +
-          'SIGNAL — ' + entry[2];
-        chip.style.opacity = '1';
-      }, 420);
+      // Update ALL marquee rail copies simultaneously — no opacity fade (fights marquee CSS)
+      var content =
+        '<span class="tt-dot active"></span>' +
+        '<span class="tt-lang-badge" style="' +
+          'font-size:9px;letter-spacing:.08em;opacity:.6;margin-right:5px;' +
+          'text-transform:uppercase;font-weight:700;">' + entry[1] + '</span>' +
+        'SIGNAL — ' + entry[2];
+      for (var i = 0; i < chips.length; i++) { chips[i].innerHTML = content; }
 
       // Local language lingers longer
       var nextDelay = (entry[0] === localCode) ? localMs : intervalMs;
-      setTimeout(cycleNext, nextDelay + 420);
+      setTimeout(cycleNext, nextDelay);
     }
 
     function init() {
-      chip = findChip();
-      if (!chip) return;
+      chips = Array.from(document.querySelectorAll('[data-lang-chip]'));
+      if (!chips.length) return;
       localCode = detectLangCode();
       queue = buildQueue(localCode);
       // Start after a short pause so the page settles
