@@ -580,5 +580,133 @@
     })();
   </script>
 
+
+  <!-- Multilingual ticker cycling — global hub for the ultimate social media experience -->
+  <script>
+  (function(){
+    // All languages: [lang-code, label, tagline]
+    var LANGS = [
+      ["en",  "EN",  "the ultimate social media experience · global hub · open to all"],
+      ["es",  "ES",  "la experiencia definitiva en redes sociales · hub global · abierto a todos"],
+      ["zh",  "中文", "终极社交媒体体验 · 全球枢纽 · 向所有人开放"],
+      ["ar",  "AR",  "تجربة التواصل الاجتماعي النهائية · مركز عالمي · مفتوح للجميع"],
+      ["hi",  "HI",  "अंतिम सोशल मीडिया अनुभव · वैश्विक केंद्र · सभी के लिए खुला"],
+      ["pt",  "PT",  "a experiência definitiva nas redes sociais · hub global · aberto a todos"],
+      ["fr",  "FR",  "l'expérience ultime des réseaux sociaux · hub mondial · ouvert à tous"],
+      ["de",  "DE",  "das ultimative Social-Media-Erlebnis · globaler Hub · offen für alle"],
+      ["ja",  "日本語","究極のソーシャルメディア体験 · グローバルハブ · 誰でも参加可能"],
+      ["ko",  "한국어","궁극의 소셜 미디어 경험 · 글로벌 허브 · 모두에게 열려 있음"],
+      ["ru",  "RU",  "лучший опыт в социальных сетях · глобальный хаб · открыт для всех"],
+      ["it",  "IT",  "l'esperienza social definitiva · hub globale · aperto a tutti"],
+      ["nl",  "NL",  "de ultieme sociale media-ervaring · wereldwijde hub · open voor iedereen"],
+      ["tr",  "TR",  "nihai sosyal medya deneyimi · küresel merkez · herkese açık"],
+      ["pl",  "PL",  "najlepsza platforma social media · globalny hub · otwarty dla wszystkich"],
+      ["sv",  "SV",  "den ultimata sociala medieupplevelsen · global nav · öppen för alla"],
+      ["id",  "ID",  "pengalaman media sosial terbaik · pusat global · terbuka untuk semua"],
+      ["vi",  "VI",  "trải nghiệm mạng xã hội đỉnh cao · trung tâm toàn cầu · mở cho tất cả"],
+      ["th",  "TH",  "ประสบการณ์โซเชียลมีเดียสูงสุด · ศูนย์กลางโลก · เปิดสำหรับทุกคน"],
+      ["sw",  "SW",  "uzoefu wa mwisho wa mitandao ya kijamii · kitovu cha dunia · wazi kwa wote"]
+    ];
+
+    // Timezone → language code mapping (region → best-fit language)
+    var TZ_LANG = {
+      "America": "en", "Europe/London": "en", "Europe/Dublin": "en",
+      "Europe/Paris": "fr", "Europe/Lyon": "fr", "Europe/Brussels": "fr",
+      "Europe/Berlin": "de", "Europe/Vienna": "de", "Europe/Zurich": "de",
+      "Europe/Rome": "it", "Europe/Milan": "it",
+      "Europe/Madrid": "es", "America/Mexico": "es", "America/Bogota": "es",
+      "America/Lima": "es", "America/Santiago": "es", "America/Buenos_Aires": "es",
+      "America/Sao_Paulo": "pt", "Europe/Lisbon": "pt",
+      "Europe/Moscow": "ru", "Europe/Kiev": "ru",
+      "Europe/Warsaw": "pl", "Europe/Stockholm": "sv",
+      "Europe/Amsterdam": "nl",
+      "Europe/Istanbul": "tr",
+      "Asia/Tokyo": "ja", "Asia/Osaka": "ja",
+      "Asia/Seoul": "ko",
+      "Asia/Shanghai": "zh", "Asia/Beijing": "zh", "Asia/Hong_Kong": "zh", "Asia/Taipei": "zh",
+      "Asia/Kolkata": "hi", "Asia/Calcutta": "hi",
+      "Asia/Riyadh": "ar", "Asia/Dubai": "ar", "Africa/Cairo": "ar",
+      "Asia/Jakarta": "id", "Asia/Makassar": "id",
+      "Asia/Ho_Chi_Minh": "vi", "Asia/Hanoi": "vi",
+      "Asia/Bangkok": "th",
+      "Africa/Nairobi": "sw", "Africa/Dar_es_Salaam": "sw"
+    };
+
+    function detectLangCode() {
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+        // Exact match first
+        if (TZ_LANG[tz]) return TZ_LANG[tz];
+        // Region prefix match
+        for (var key in TZ_LANG) {
+          if (tz.startsWith(key.split("/")[0])) return TZ_LANG[key];
+        }
+      } catch(e){}
+      return "en";
+    }
+
+    function buildQueue(localCode) {
+      // Put local language first, then round-robin through the rest
+      var local = null, rest = [];
+      for (var i = 0; i < LANGS.length; i++) {
+        if (LANGS[i][0] === localCode) local = LANGS[i];
+        else rest.push(LANGS[i]);
+      }
+      if (!local) local = LANGS[0];
+      return [local].concat(rest);
+    }
+
+    var chip = null;
+    function findChip() {
+      // Find the .tt-signal chip
+      var chips = document.querySelectorAll('.tt-signal');
+      for (var i = 0; i < chips.length; i++) {
+        if (chips[i].querySelector('.tt-dot')) return chips[i];
+      }
+      return null;
+    }
+
+    var queue, idx = 0, localCode, intervalMs = 4000, localMs = 8000;
+
+    function cycleNext() {
+      if (!chip) { chip = findChip(); if (!chip) return; }
+      var entry = queue[idx];
+      idx = (idx + 1) % queue.length;
+
+      chip.style.transition = 'opacity 0.4s';
+      chip.style.opacity = '0';
+      setTimeout(function() {
+        // Rebuild chip content: dot + label badge + tagline
+        chip.innerHTML =
+          '<span class="tt-dot active"></span>' +
+          '<span class="tt-lang-badge" style="' +
+            'font-size:9px;letter-spacing:.08em;opacity:.6;margin-right:5px;' +
+            'text-transform:uppercase;font-weight:700;">' + entry[1] + '</span>' +
+          'SIGNAL — ' + entry[2];
+        chip.style.opacity = '1';
+      }, 420);
+
+      // Local language lingers longer
+      var nextDelay = (entry[0] === localCode) ? localMs : intervalMs;
+      setTimeout(cycleNext, nextDelay + 420);
+    }
+
+    function init() {
+      chip = findChip();
+      if (!chip) return;
+      localCode = detectLangCode();
+      queue = buildQueue(localCode);
+      // Start after a short pause so the page settles
+      setTimeout(cycleNext, 3000);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+  </script>
+
 </body>
 </html>
