@@ -549,5 +549,39 @@
       els.forEach(function(el) { io.observe(el); });
     })();
   </script>
+
+  <!-- Burger menu toggle -->
+  <script>
+    (function(){
+      var burger = document.getElementById('burger');
+      var menu   = document.getElementById('mobile-menu');
+      if (!burger || !menu) return;
+      burger.addEventListener('click', function() {
+        var open = menu.classList.toggle('open');
+        burger.classList.toggle('active', open);
+        burger.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      menu.querySelectorAll('.mobile-link').forEach(function(link) {
+        link.addEventListener('click', function() {
+          menu.classList.remove('open');
+          burger.classList.remove('active');
+          burger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+      // Close on outside tap
+      document.addEventListener('click', function(e) {
+        if (menu.classList.contains('open') &&
+            !menu.contains(e.target) && !burger.contains(e.target)) {
+          menu.classList.remove('open');
+          burger.classList.remove('active');
+          burger.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
