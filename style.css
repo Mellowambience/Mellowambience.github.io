@@ -467,6 +467,7 @@ body {
 .hire-price { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700; color: var(--sigil-white); line-height: 1; }
 .hire-dur { font-size: .72rem; font-family: var(--font-mono); color: var(--text-muted); }
+.hire-reach { font-size: .68rem; font-family: var(--font-mono); color: var(--accent); opacity: .55; letter-spacing: .06em; margin-top: .15rem; }
 .hire-card h3 { font-size: 1rem; font-weight: 600; color: var(--sigil-white); margin-top: .5rem; }
 .hire-card p { font-size: .85rem; color: var(--text-body); line-height: 1.65; }
 
