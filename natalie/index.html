@@ -7,473 +7,699 @@
   <meta name="description" content="Natalie Cohen — occupational therapist, writer, and advocate for healing through everyday living." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
+    /* =============================================
+       NATALIE COHEN — MERMAID EDITION
+       deep ocean · iridescent · alive
+       // no moon. ever.
+    ============================================= */
     :root {
-      --ocean-deep:    #1a4a5c;
-      --ocean-mid:     #2d7d9a;
-      --ocean-light:   #5fb3cc;
-      --seafoam:       #a8d8da;
-      --sand:          #f5efe6;
-      --sand-dark:     #e8ddd0;
-      --coral:         #e07b6a;
-      --driftwood:     #8b6f5e;
-      --text-dark:     #2c2c2c;
-      --text-mid:      #555;
-      --text-light:    #888;
-      --white:         #ffffff;
+      --abyss:        #030d1a;
+      --deep:         #041624;
+      --midnight:     #062038;
+      --ocean:        #0a3d5c;
+      --teal:         #0e7490;
+      --seafoam:      #22d3ee;
+      --pearl:        #e0f7fa;
+      --foam:         #f0fafb;
+      --coral:        #f4736a;
+      --rose:         #fb7185;
+      --gold:         #fbbf24;
+      --lavender:     #a78bfa;
+      --iris:         #c4b5fd;
+      --shimmer-1:    #22d3ee;
+      --shimmer-2:    #a78bfa;
+      --shimmer-3:    #fb7185;
+      --text-light:   rgba(224,247,250,0.9);
+      --text-mid:     rgba(224,247,250,0.65);
+      --text-dim:     rgba(224,247,250,0.4);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--sand);
-      color: var(--text-dark);
+      background: var(--abyss);
+      color: var(--text-light);
       line-height: 1.7;
-      font-size: 16px;
+      overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+    /* ---- SCROLLBAR ---- */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--abyss); }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+
+    /* =============================================
+       BUBBLES (ambient background)
+    ============================================= */
+    .bubbles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -60px;
+      border-radius: 50%;
+      opacity: 0;
+      animation: rise linear infinite;
+      background: radial-gradient(circle at 35% 35%,
+        rgba(34,211,238,0.35),
+        rgba(167,139,250,0.12) 60%,
+        transparent 100%);
+      border: 1px solid rgba(34,211,238,0.2);
+    }
+    .bubble:nth-child(1)  { width:18px;height:18px; left:8%;  animation-duration:14s; animation-delay:0s;   }
+    .bubble:nth-child(2)  { width:10px;height:10px; left:18%; animation-duration:18s; animation-delay:2s;   }
+    .bubble:nth-child(3)  { width:24px;height:24px; left:28%; animation-duration:12s; animation-delay:5s;   }
+    .bubble:nth-child(4)  { width:8px; height:8px;  left:38%; animation-duration:20s; animation-delay:1s;   }
+    .bubble:nth-child(5)  { width:16px;height:16px; left:48%; animation-duration:15s; animation-delay:7s;   }
+    .bubble:nth-child(6)  { width:12px;height:12px; left:58%; animation-duration:17s; animation-delay:3s;   }
+    .bubble:nth-child(7)  { width:20px;height:20px; left:68%; animation-duration:13s; animation-delay:9s;   }
+    .bubble:nth-child(8)  { width:9px; height:9px;  left:78%; animation-duration:19s; animation-delay:4s;   }
+    .bubble:nth-child(9)  { width:14px;height:14px; left:88%; animation-duration:16s; animation-delay:6s;   }
+    .bubble:nth-child(10) { width:22px;height:22px; left:94%; animation-duration:11s; animation-delay:8s;   }
+    .bubble:nth-child(11) { width:7px; height:7px;  left:13%; animation-duration:22s; animation-delay:11s;  }
+    .bubble:nth-child(12) { width:15px;height:15px; left:53%; animation-duration:14s; animation-delay:13s;  }
+
+    @keyframes rise {
+      0%   { transform: translateY(0) translateX(0) scale(1);   opacity: 0; }
+      10%  { opacity: 0.7; }
+      50%  { transform: translateY(-45vh) translateX(18px) scale(1.05); }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-105vh) translateX(-12px) scale(0.85); opacity: 0; }
+    }
+
+    /* =============================================
+       NAV
+    ============================================= */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      z-index: 100;
-      background: rgba(250, 246, 240, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--sand-dark);
-      padding: 0 2rem;
-      height: 60px;
+      z-index: 200;
+      padding: 0 2.5rem;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: rgba(3,13,26,0.75);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(34,211,238,0.12);
     }
-
     nav .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: var(--ocean-deep);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--seafoam);
       text-decoration: none;
-      letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-
+    nav ul { list-style: none; display: flex; gap: 2.2rem; }
     nav a {
       text-decoration: none;
       color: var(--text-mid);
-      font-size: 0.875rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       font-weight: 400;
-      letter-spacing: 0.04em;
-      transition: color 0.2s;
+      transition: color 0.25s;
+    }
+    nav a:hover { color: var(--seafoam); }
+
+    /* =============================================
+       SHIMMER TEXT UTILITY
+    ============================================= */
+    .shimmer {
+      background: linear-gradient(
+        120deg,
+        var(--shimmer-1) 0%,
+        var(--shimmer-2) 33%,
+        var(--shimmer-3) 66%,
+        var(--shimmer-1) 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer-flow 5s linear infinite;
+    }
+    @keyframes shimmer-flow {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
     }
 
-    nav a:hover { color: var(--ocean-mid); }
-
-    /* ── HERO ── */
+    /* =============================================
+       HERO
+    ============================================= */
     .hero {
+      position: relative;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 7rem 2rem 4rem;
-      background:
-        linear-gradient(180deg,
-          rgba(26,74,92,0.08) 0%,
-          rgba(168,216,218,0.18) 50%,
-          rgba(245,239,230,0) 100%),
-        var(--sand);
-      position: relative;
+      padding: 8rem 2rem 6rem;
       overflow: hidden;
+      z-index: 1;
     }
 
-    /* gentle wave SVG at bottom of hero */
-    .hero::after {
+    /* deep water radial glow */
+    .hero::before {
       content: '';
       position: absolute;
-      bottom: -2px; left: 0; right: 0;
-      height: 80px;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80'%3E%3Cpath fill='%23f5efe6' d='M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat bottom center / cover;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 40%,
+          rgba(14,116,144,0.25) 0%,
+          rgba(10,61,92,0.15) 50%,
+          transparent 100%),
+        radial-gradient(ellipse 40% 30% at 25% 70%,
+          rgba(167,139,250,0.1) 0%,
+          transparent 70%),
+        radial-gradient(ellipse 30% 25% at 75% 25%,
+          rgba(251,113,133,0.08) 0%,
+          transparent 70%);
+      z-index: 0;
     }
 
-    .hero-wave-top {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, var(--ocean-light), var(--seafoam), var(--ocean-mid));
-    }
+    .hero-content { position: relative; z-index: 2; }
 
     .hero-eyebrow {
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--ocean-mid);
-      margin-bottom: 1.2rem;
-      font-weight: 500;
+      color: var(--seafoam);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+      opacity: 0.8;
     }
 
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      color: var(--ocean-deep);
-      line-height: 1.15;
-      margin-bottom: 1.2rem;
-      max-width: 680px;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: var(--ocean-mid);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
     }
 
     .hero-sub {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--text-mid);
-      max-width: 520px;
-      margin-bottom: 2.5rem;
+      max-width: 480px;
+      margin: 0 auto 3rem;
       font-weight: 300;
+      line-height: 1.8;
     }
 
     .hero-cta-group {
       display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
+      gap: 1.2rem;
       justify-content: center;
+      flex-wrap: wrap;
     }
 
+    /* floating orb decoration */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 {
+      width: 400px; height: 400px;
+      background: rgba(14,116,144,0.18);
+      top: 10%; left: -10%;
+      animation: orb-drift 12s ease-in-out infinite alternate;
+    }
+    .orb-2 {
+      width: 300px; height: 300px;
+      background: rgba(167,139,250,0.12);
+      bottom: 15%; right: -8%;
+      animation: orb-drift 16s ease-in-out infinite alternate-reverse;
+    }
+    .orb-3 {
+      width: 200px; height: 200px;
+      background: rgba(251,113,133,0.1);
+      top: 60%; left: 40%;
+      animation: orb-drift 10s ease-in-out infinite alternate;
+    }
+    @keyframes orb-drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, -20px) scale(1.08); }
+    }
+
+    /* =============================================
+       WAVE DIVIDERS
+    ============================================= */
+    .wave-divider {
+      position: relative;
+      overflow: hidden;
+      line-height: 0;
+      z-index: 1;
+    }
+    .wave-divider svg {
+      display: block;
+      width: 100%;
+    }
+    .wave-animate path {
+      animation: wave-shift 8s ease-in-out infinite alternate;
+      transform-origin: center;
+    }
+    .wave-animate path:nth-child(2) {
+      animation-delay: -4s;
+      opacity: 0.5;
+    }
+    @keyframes wave-shift {
+      0%   { d: path("M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z"); }
+      100% { d: path("M0,16 C180,48 420,0 720,24 C1020,48 1260,8 1440,20 L1440,64 L0,64 Z"); }
+    }
+
+    /* =============================================
+       BUTTONS
+    ============================================= */
     .btn {
       display: inline-block;
-      padding: 0.75rem 1.8rem;
+      padding: 0.8rem 2rem;
       border-radius: 2rem;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       text-decoration: none;
-      transition: all 0.22s;
       cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--ocean-deep);
-      color: var(--white);
-      border: 2px solid var(--ocean-deep);
-    }
-
-    .btn-primary:hover {
-      background: var(--ocean-mid);
-      border-color: var(--ocean-mid);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(45,125,154,0.25);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--ocean-deep);
-      border: 2px solid var(--ocean-deep);
-    }
-
-    .btn-outline:hover {
-      background: var(--ocean-deep);
-      color: var(--white);
-      transform: translateY(-1px);
-    }
-
-    /* ── SECTIONS ── */
-    section { padding: 5rem 2rem; }
-
-    .container {
-      max-width: 860px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--ocean-light);
-      font-weight: 500;
-      margin-bottom: 0.6rem;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 4vw, 2.6rem);
-      color: var(--ocean-deep);
-      line-height: 1.2;
-      margin-bottom: 1.6rem;
-    }
-
-    /* ── ABOUT ── */
-    #about {
-      background: var(--white);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    @media (max-width: 640px) {
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      nav ul { gap: 1.2rem; }
-    }
-
-    .about-text p {
-      color: var(--text-mid);
-      margin-bottom: 1.1rem;
-      font-size: 1rem;
-    }
-
-    .about-text p:last-child { margin-bottom: 0; }
-
-    .about-aside {
-      border-left: 3px solid var(--seafoam);
-      padding-left: 1.6rem;
-    }
-
-    .credential-list {
-      list-style: none;
-      margin-top: 0.5rem;
-    }
-
-    .credential-list li {
-      font-size: 0.9rem;
-      color: var(--text-mid);
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--sand-dark);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .credential-list li::before {
-      content: '~';
-      color: var(--ocean-light);
-      font-weight: 600;
-      flex-shrink: 0;
-    }
-
-    .credential-list li:last-child { border-bottom: none; }
-
-    /* ── OT PRACTICE ── */
-    #practice {
-      background: var(--sand);
-    }
-
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-
-    .pillar-card {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 1.8rem;
-      border-top: 3px solid var(--ocean-light);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .pillar-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(45,125,154,0.12);
-    }
-
-    .pillar-icon {
-      font-size: 1.6rem;
-      margin-bottom: 0.8rem;
-      display: block;
-    }
-
-    .pillar-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      color: var(--ocean-deep);
-      margin-bottom: 0.5rem;
-    }
-
-    .pillar-card p {
-      font-size: 0.88rem;
-      color: var(--text-light);
-      line-height: 1.6;
-    }
-
-    /* ── WRITING / BLOG ── */
-    #writing {
-      background: var(--white);
-    }
-
-    .blog-intro {
-      font-size: 1rem;
-      color: var(--text-mid);
-      max-width: 580px;
-      margin-bottom: 2.5rem;
-    }
-
-    .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.8rem;
-    }
-
-    .post-card {
-      border: 1px solid var(--sand-dark);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: box-shadow 0.2s;
-    }
-
-    .post-card:hover {
-      box-shadow: 0 6px 24px rgba(0,0,0,0.07);
-    }
-
-    .post-card-header {
-      background: linear-gradient(135deg, var(--seafoam) 0%, var(--ocean-light) 100%);
-      padding: 2rem 1.6rem 1.4rem;
-    }
-
-    .post-tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--ocean-deep);
-      font-weight: 600;
-      background: rgba(255,255,255,0.55);
-      border-radius: 20px;
-      padding: 0.2rem 0.6rem;
-      display: inline-block;
-      margin-bottom: 0.8rem;
-    }
-
-    .post-card-header h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
-      color: var(--ocean-deep);
-      line-height: 1.3;
-    }
-
-    .post-card-body {
-      padding: 1.2rem 1.6rem 1.6rem;
-    }
-
-    .post-card-body p {
-      font-size: 0.88rem;
-      color: var(--text-mid);
-      margin-bottom: 1rem;
-    }
-
-    .post-date {
-      font-size: 0.78rem;
-      color: var(--text-light);
-      letter-spacing: 0.05em;
-    }
-
-    .post-coming-soon .post-card-header {
-      background: var(--sand-dark);
-      opacity: 0.7;
-    }
-
-    .post-coming-soon .post-card-header h3 {
-      color: var(--text-light);
-    }
-
-    .coming-badge {
-      display: inline-block;
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: var(--sand-dark);
-      color: var(--text-light);
-      padding: 0.2rem 0.6rem;
-      border-radius: 20px;
-      margin-bottom: 0.8rem;
-    }
-
-    /* ── CONNECT ── */
-    #connect {
-      background: var(--ocean-deep);
-      text-align: center;
+      transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
       overflow: hidden;
     }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.12) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    .btn:hover::after { transform: translateX(100%); }
 
+    .btn-primary {
+      background: linear-gradient(135deg, var(--teal), var(--ocean));
+      color: var(--pearl);
+      border: 1px solid rgba(34,211,238,0.4);
+      box-shadow: 0 0 20px rgba(14,116,144,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 35px rgba(34,211,238,0.5), 0 8px 20px rgba(0,0,0,0.3);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--seafoam);
+      border: 1px solid rgba(34,211,238,0.4);
+    }
+    .btn-outline:hover {
+      background: rgba(34,211,238,0.1);
+      border-color: var(--seafoam);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 20px rgba(34,211,238,0.2);
+    }
+
+    /* =============================================
+       SECTIONS — SHARED
+    ============================================= */
+    section {
+      position: relative;
+      padding: 6rem 2rem;
+      z-index: 1;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--seafoam);
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+      opacity: 0.7;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       ABOUT
+    ============================================= */
+    #about { background: var(--deep); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 680px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      nav ul { gap: 1.2rem; }
+      .hero h1 { font-size: clamp(2.4rem, 10vw, 4rem); }
+    }
+    .about-text p {
+      color: var(--text-mid);
+      margin-bottom: 1.2rem;
+      font-size: 0.975rem;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    /* iridescent card */
+    .iris-card {
+      background: linear-gradient(145deg,
+        rgba(14,116,144,0.15) 0%,
+        rgba(167,139,250,0.08) 50%,
+        rgba(251,113,133,0.06) 100%);
+      border: 1px solid transparent;
+      border-radius: 16px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .iris-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(145deg,
+        rgba(34,211,238,0.5),
+        rgba(167,139,250,0.3),
+        rgba(251,113,133,0.3),
+        rgba(34,211,238,0.5));
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    .credential-list { list-style: none; }
+    .credential-list li {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(34,211,238,0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .credential-list li::before {
+      content: '~';
+      color: var(--seafoam);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+    .credential-list li:last-child { border-bottom: none; }
+    .credential-list a { color: var(--seafoam); text-decoration: none; }
+    .credential-list a:hover { color: var(--iris); }
+
+    /* =============================================
+       OT PRACTICE — SCALES
+    ============================================= */
+    #practice {
+      background: var(--midnight);
+    }
+    #practice::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%,
+        rgba(14,116,144,0.08) 0%,
+        transparent 70%);
+      pointer-events: none;
+    }
+    .scales-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+    .scale-card {
+      background: rgba(255,255,255,0.03);
+      border-radius: 16px;
+      padding: 2rem 1.6rem;
+      border: 1px solid rgba(34,211,238,0.1);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .scale-card::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: conic-gradient(
+        from 180deg at 50% 50%,
+        rgba(34,211,238,0.06) 0deg,
+        rgba(167,139,250,0.06) 120deg,
+        rgba(251,113,133,0.06) 240deg,
+        rgba(34,211,238,0.06) 360deg
+      );
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .scale-card:hover::before { opacity: 1; }
+    .scale-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(34,211,238,0.35);
+      box-shadow:
+        0 12px 40px rgba(0,0,0,0.3),
+        0 0 30px rgba(34,211,238,0.08);
+    }
+    .scale-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .scale-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--pearl);
+      margin-bottom: 0.6rem;
+    }
+    .scale-card p {
+      font-size: 0.86rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+
+    /* =============================================
+       WRITING / BLOG
+    ============================================= */
+    #writing { background: var(--deep); }
+    .blog-intro {
+      font-size: 0.975rem;
+      color: var(--text-mid);
+      max-width: 560px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      line-height: 1.9;
+    }
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.6rem;
+    }
+    .post-card {
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(34,211,238,0.1);
+      transition: all 0.3s ease;
+    }
+    .post-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(167,139,250,0.35);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.35), 0 0 30px rgba(167,139,250,0.08);
+    }
+    .post-card-header {
+      padding: 2rem 1.8rem 1.6rem;
+      background: linear-gradient(135deg,
+        rgba(14,116,144,0.3) 0%,
+        rgba(167,139,250,0.15) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .post-card-header::after {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34,211,238,0.2), transparent 70%);
+      pointer-events: none;
+    }
+    .post-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--seafoam);
+      background: rgba(34,211,238,0.12);
+      border: 1px solid rgba(34,211,238,0.25);
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      display: inline-block;
+      margin-bottom: 0.9rem;
+    }
+    .coming-badge {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--iris);
+      background: rgba(167,139,250,0.12);
+      border: 1px solid rgba(167,139,250,0.25);
+      border-radius: 20px;
+      padding: 0.2rem 0.7rem;
+      display: inline-block;
+      margin-bottom: 0.9rem;
+    }
+    .post-card-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--pearl);
+      line-height: 1.35;
+    }
+    .post-card-body {
+      padding: 1.3rem 1.8rem 1.8rem;
+    }
+    .post-card-body p {
+      font-size: 0.86rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      line-height: 1.65;
+    }
+    .post-date {
+      font-size: 0.75rem;
+      color: rgba(34,211,238,0.4);
+      letter-spacing: 0.06em;
+    }
+
+    /* =============================================
+       CONNECT
+    ============================================= */
+    #connect {
+      background: var(--abyss);
+      text-align: center;
+    }
     #connect::before {
       content: '';
       position: absolute;
-      top: -2px; left: 0; right: 0;
-      height: 60px;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60'%3E%3Cpath fill='%23ffffff' d='M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,0 L0,0 Z'/%3E%3C/svg%3E") no-repeat top center / cover;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%,
+          rgba(14,116,144,0.12) 0%,
+          rgba(167,139,250,0.06) 50%,
+          transparent 100%);
+      pointer-events: none;
     }
-
-    #connect .section-label { color: var(--seafoam); }
-
-    #connect .section-title { color: var(--white); }
-
     .connect-sub {
-      color: rgba(255,255,255,0.7);
-      max-width: 460px;
-      margin: 0 auto 2.5rem;
-      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 440px;
+      margin: 0 auto 3rem;
+      font-size: 0.975rem;
+      font-weight: 300;
+      line-height: 1.9;
     }
-
     .connect-links {
       display: flex;
-      gap: 1rem;
+      gap: 1.2rem;
       justify-content: center;
       flex-wrap: wrap;
     }
-
-    .connect-links .btn-primary {
-      background: var(--coral);
-      border-color: var(--coral);
+    .btn-coral {
+      background: linear-gradient(135deg, #f4736a, #fb7185);
+      color: #fff;
+      border: 1px solid rgba(244,115,106,0.4);
+      box-shadow: 0 0 20px rgba(244,115,106,0.3);
+    }
+    .btn-coral:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 35px rgba(244,115,106,0.5);
     }
 
-    .connect-links .btn-primary:hover {
-      background: #c96a5a;
-      border-color: #c96a5a;
+    /* =============================================
+       SEAWEED AMBIENT DECORATION
+    ============================================= */
+    .seaweed {
+      position: absolute;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+    }
+    .seaweed-left  { left:  2%; }
+    .seaweed-right { right: 3%; }
+    .seaweed path {
+      transform-origin: bottom center;
+      animation: sway 6s ease-in-out infinite alternate;
+    }
+    .seaweed-right path { animation-direction: alternate-reverse; }
+    @keyframes sway {
+      0%   { transform: rotate(-6deg) scaleX(1); }
+      100% { transform: rotate(6deg)  scaleX(0.96); }
     }
 
-    .connect-links .btn-outline {
-      color: var(--white);
-      border-color: rgba(255,255,255,0.4);
-    }
-
-    .connect-links .btn-outline:hover {
-      background: rgba(255,255,255,0.15);
-      border-color: rgba(255,255,255,0.7);
-      color: var(--white);
-    }
-
-    /* ── FOOTER ── */
+    /* =============================================
+       FOOTER
+    ============================================= */
     footer {
-      background: var(--ocean-deep);
-      color: rgba(255,255,255,0.4);
+      background: var(--abyss);
+      border-top: 1px solid rgba(34,211,238,0.08);
       text-align: center;
-      padding: 1.5rem 2rem;
-      font-size: 0.8rem;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 2rem;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      position: relative;
+      z-index: 1;
     }
-
-    footer a {
-      color: rgba(255,255,255,0.55);
-      text-decoration: none;
-    }
-
+    footer a { color: rgba(34,211,238,0.5); text-decoration: none; }
     footer a:hover { color: var(--seafoam); }
   </style>
 </head>
 <body>
+
+  <!-- AMBIENT BUBBLES -->
+  <div class="bubbles" aria-hidden="true">
+    <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+    <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+    <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+    <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+  </div>
 
   <!-- NAV -->
   <nav>
@@ -488,36 +714,52 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-wave-top"></div>
-    <p class="hero-eyebrow">Occupational Therapist &amp; Writer</p>
-    <h1>Where healing lives in<br/><em>the everyday</em></h1>
-    <p class="hero-sub">
-      Helping people reclaim the things that matter most —
-      the rituals, relationships, and routines that make a life whole.
-    </p>
-    <div class="hero-cta-group">
-      <a href="#about" class="btn btn-primary">Meet Natalie</a>
-      <a href="#writing" class="btn btn-outline">Read the Blog</a>
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-orb orb-3"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Occupational Therapist &amp; Writer</p>
+      <h1>
+        <span class="shimmer">Where healing lives</span><br/>
+        <span style="color:var(--pearl);font-style:italic;">in the everyday</span>
+      </h1>
+      <p class="hero-sub">
+        Helping people reclaim the things that matter most —
+        the rituals, relationships, and routines that make a life whole.
+      </p>
+      <div class="hero-cta-group">
+        <a href="#about" class="btn btn-primary">Meet Natalie</a>
+        <a href="#writing" class="btn btn-outline">Read the Blog</a>
+      </div>
     </div>
   </section>
+
+  <!-- WAVE TRANSITION -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 64" preserveAspectRatio="none" height="64"
+         xmlns="http://www.w3.org/2000/svg">
+      <path fill="#041624" d="M0,32 C240,60 480,8 720,32 C960,56 1200,10 1440,28 L1440,64 L0,64 Z"/>
+      <path fill="rgba(34,211,238,0.07)" d="M0,40 C360,70 720,10 1080,40 C1260,55 1380,30 1440,38 L1440,64 L0,64 Z"/>
+    </svg>
+  </div>
 
   <!-- ABOUT -->
   <section id="about">
     <div class="container">
-      <p class="section-label">About</p>
-      <h2 class="section-title">Natalie Cohen, OTR/L</h2>
+      <p class="section-label reveal">About</p>
+      <h2 class="section-title reveal">Natalie Cohen, <em>OTR/L</em></h2>
       <div class="about-grid">
-        <div class="about-text">
+        <div class="about-text reveal">
           <p>
-            I'm an occupational therapist with a passion for the intersection
+            I’m an occupational therapist with a passion for the intersection
             of health, identity, and the small-but-mighty moments that define
             how we move through the world. OT, to me, is never just about
-            function — it's about meaning.
+            function — it’s about meaning.
           </p>
           <p>
             I work at the edge of the clinical and the human: helping clients
             build or rebuild the daily occupations that anchor their sense of
-            self. Whether that's returning to work after injury, adapting a
+            self. Whether that’s returning to work after injury, adapting a
             morning routine, or simply rediscovering joy in a task once
             taken for granted.
           </p>
@@ -525,83 +767,102 @@
             Outside the clinic I write — about OT, about bodies, about what
             it means to live well inside the life you actually have.
             Eventually this space will also be home to my own practice.
-            For now, it's a place to think out loud.
+            For now, it’s a place to think out loud.
           </p>
         </div>
-        <div class="about-aside">
-          <p class="section-label" style="margin-bottom:1rem;">Credentials &amp; Background</p>
+        <div class="iris-card reveal">
+          <p class="section-label" style="margin-bottom:1.2rem;">Credentials &amp; Background</p>
           <ul class="credential-list">
             <li>Occupational Therapist, OTR/L</li>
-            <li>Holistic, client-centered care approach</li>
-            <li>Interest in mental health &amp; psychosocial OT</li>
+            <li>Holistic, client-centered care</li>
+            <li>Mental health &amp; psychosocial OT</li>
             <li>Advocacy through writing &amp; education</li>
-            <li>Philadelphia, PA area</li>
-            <li>LinkedIn — <a href="https://www.linkedin.com/in/natalie-cohen-94182828/" target="_blank" rel="noopener" style="color:var(--ocean-mid);text-decoration:none;">natalie-cohen</a></li>
+            <li>Philadelphia, PA</li>
+            <li>LinkedIn &mdash; <a href="https://www.linkedin.com/in/natalie-cohen-94182828/" target="_blank" rel="noopener">natalie-cohen</a></li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- WAVE -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"
+         xmlns="http://www.w3.org/2000/svg">
+      <path fill="#062038" d="M0,20 C300,50 600,0 900,25 C1100,40 1300,10 1440,20 L1440,50 L0,50 Z"/>
+    </svg>
+  </div>
+
   <!-- OT PRACTICE -->
   <section id="practice">
-    <div class="container">
-      <p class="section-label">OT Practice</p>
-      <h2 class="section-title">What occupational therapy actually is</h2>
-      <p style="color:var(--text-mid);max-width:580px;margin-bottom:0;">
-        OT is one of the most misunderstood professions in healthcare — and one
-        of the most quietly powerful. Here's what I believe it's really about.
+    <!-- seaweed decorations -->
+    <svg class="seaweed seaweed-left" width="60" height="200" viewBox="0 0 60 200">
+      <path d="M30,200 Q10,170 30,140 Q50,110 30,80 Q10,50 30,20" stroke="#22d3ee" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </svg>
+    <svg class="seaweed seaweed-right" width="60" height="180" viewBox="0 0 60 180">
+      <path d="M30,180 Q50,155 30,125 Q10,95 30,65 Q50,35 30,10" stroke="#22d3ee" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="container" style="position:relative;z-index:1;">
+      <p class="section-label reveal">OT Practice</p>
+      <h2 class="section-title reveal">What occupational therapy <em>actually is</em></h2>
+      <p class="reveal" style="color:var(--text-mid);max-width:560px;font-weight:300;line-height:1.9;">
+        OT is one of the most misunderstood professions in healthcare —
+        and one of the most quietly powerful.
       </p>
-      <div class="pillars">
-        <div class="pillar-card">
-          <span class="pillar-icon">🌊</span>
+      <div class="scales-grid">
+        <div class="scale-card reveal">
+          <span class="scale-icon">🪟</span>
           <h3>Occupation as Identity</h3>
-          <p>We are what we do. The things we engage in — how we care for ourselves, connect with others, contribute to the world — are how we know ourselves.</p>
+          <p>We are what we do. The rituals of everyday life — how we care for ourselves, connect with others, contribute to the world — are how we know ourselves.</p>
         </div>
-        <div class="pillar-card">
-          <span class="pillar-icon">🐚</span>
+        <div class="scale-card reveal">
+          <span class="scale-icon">🐚</span>
           <h3>Holistic by Design</h3>
-          <p>OT sees the whole person — mind, body, environment, context. Every treatment plan is tailored to what a specific person, in a specific life, actually needs.</p>
+          <p>OT sees the whole person — mind, body, environment, context. Every plan is tailored to what a specific person, in a specific life, actually needs.</p>
         </div>
-        <div class="pillar-card">
-          <span class="pillar-icon">🪸</span>
+        <div class="scale-card reveal">
+          <span class="scale-icon">🪸</span>
           <h3>Meaning Over Mechanics</h3>
-          <p>It's not just about regaining movement or building a skill. It's about why that movement matters — and who you get to be again once you have it.</p>
+          <p>It’s not just about regaining movement. It’s about why that movement matters — and who you get to be again once you have it.</p>
         </div>
-        <div class="pillar-card">
-          <span class="pillar-icon">🌿</span>
+        <div class="scale-card reveal">
+          <span class="scale-icon">🌊</span>
           <h3>Own Practice — Coming</h3>
-          <p>Working toward a private OT practice rooted in these values. More details soon. If you're curious or want to connect early, reach out.</p>
+          <p>Building toward a private OT practice rooted in these values. More soon. Curious? Reach out early.</p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- WAVE -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50"
+         xmlns="http://www.w3.org/2000/svg">
+      <path fill="#041624" d="M0,25 C200,0 500,50 800,25 C1000,10 1300,45 1440,30 L1440,50 L0,50 Z"/>
+    </svg>
+  </div>
+
   <!-- WRITING -->
   <section id="writing">
     <div class="container">
-      <p class="section-label">Writing</p>
-      <h2 class="section-title">Thoughts from the tide</h2>
-      <p class="blog-intro">
+      <p class="section-label reveal">Writing</p>
+      <h2 class="section-title reveal">Thoughts from <span class="shimmer">the tide</span></h2>
+      <p class="blog-intro reveal">
         Short pieces on OT, on living well, on the body as a place you have
         to make peace with. Written from the clinical and the personal.
       </p>
       <div class="posts-grid">
-
-        <!-- placeholder post 1 -->
-        <div class="post-card post-coming-soon">
+        <div class="post-card reveal">
           <div class="post-card-header">
             <span class="coming-badge">Coming soon</span>
             <h3>What OT actually means (and why nobody explains it well)</h3>
           </div>
           <div class="post-card-body">
-            <p>The elevator pitch I've been meaning to write since my first clinical rotation.</p>
+            <p>The elevator pitch I’ve been meaning to write since my first clinical rotation.</p>
             <span class="post-date">— First post</span>
           </div>
         </div>
-
-        <!-- placeholder post 2 -->
-        <div class="post-card post-coming-soon">
+        <div class="post-card reveal">
           <div class="post-card-header">
             <span class="coming-badge">Coming soon</span>
             <h3>The smallest things: on daily routines and their invisible weight</h3>
@@ -611,9 +872,7 @@
             <span class="post-date">— In draft</span>
           </div>
         </div>
-
-        <!-- placeholder post 3 -->
-        <div class="post-card post-coming-soon">
+        <div class="post-card reveal">
           <div class="post-card-header">
             <span class="coming-badge">Coming soon</span>
             <h3>Healing is not linear — and neither is occupational therapy</h3>
@@ -623,30 +882,32 @@
             <span class="post-date">— In draft</span>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
+  <!-- WAVE -->
+  <div class="wave-divider">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60"
+         xmlns="http://www.w3.org/2000/svg">
+      <path fill="#030d1a" d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,60 L0,60 Z"/>
+      <path fill="rgba(34,211,238,0.05)" d="M0,40 C400,10 800,60 1200,30 C1320,20 1400,40 1440,35 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+
   <!-- CONNECT -->
   <section id="connect">
-    <div class="container">
-      <p class="section-label">Connect</p>
-      <h2 class="section-title">Let's stay in touch</h2>
-      <p class="connect-sub">
+    <div class="container" style="position:relative;z-index:1;">
+      <p class="section-label reveal">Connect</p>
+      <h2 class="section-title reveal">Let’s stay in <span class="shimmer">touch</span></h2>
+      <p class="connect-sub reveal">
         Whether you want to talk OT, discuss a collaboration, or just
-        say hello — find me on LinkedIn or send a note.
+        say hello — find me on LinkedIn or drop a note.
       </p>
-      <div class="connect-links">
-        <a
-          href="https://www.linkedin.com/in/natalie-cohen-94182828/"
-          class="btn btn-primary"
-          target="_blank" rel="noopener"
-        >LinkedIn</a>
-        <a
-          href="mailto:natec824@gmail.com"
-          class="btn btn-outline"
-        >Say hello</a>
+      <div class="connect-links reveal">
+        <a href="https://www.linkedin.com/in/natalie-cohen-94182828/"
+           class="btn btn-primary" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:natec824@gmail.com" class="btn btn-coral">Say hello</a>
       </div>
     </div>
   </section>
@@ -654,9 +915,26 @@
   <!-- FOOTER -->
   <footer>
     <p>Natalie Cohen, OTR/L &nbsp;·&nbsp; Philadelphia, PA &nbsp;·&nbsp;
-      Made with care by <a href="https://mellowambience.github.io" target="_blank" rel="noopener">Aetherhaven</a>
+      Made with care by <a href="https://mellowambiences.github.io" target="_blank" rel="noopener">Aetherhaven</a>
     </p>
   </footer>
+
+  <!-- SCROLL REVEAL -->
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          // stagger siblings
+          const siblings = [...e.target.parentElement.querySelectorAll('.reveal')];
+          const idx = siblings.indexOf(e.target);
+          setTimeout(() => e.target.classList.add('visible'), idx * 80);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
 
 </body>
 </html>
