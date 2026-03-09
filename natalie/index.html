@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Natalie Cohen, OTR/L — Occupational Therapist &amp; Writer</title>
+  <meta name="description" content="Natalie Cohen — occupational therapist, writer, and advocate for healing through everyday living." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ocean-deep:    #1a4a5c;
+      --ocean-mid:     #2d7d9a;
+      --ocean-light:   #5fb3cc;
+      --seafoam:       #a8d8da;
+      --sand:          #f5efe6;
+      --sand-dark:     #e8ddd0;
+      --coral:         #e07b6a;
+      --driftwood:     #8b6f5e;
+      --text-dark:     #2c2c2c;
+      --text-mid:      #555;
+      --text-light:    #888;
+      --white:         #ffffff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--sand);
+      color: var(--text-dark);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250, 246, 240, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--sand-dark);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--ocean-deep);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.875rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--ocean-mid); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 7rem 2rem 4rem;
+      background:
+        linear-gradient(180deg,
+          rgba(26,74,92,0.08) 0%,
+          rgba(168,216,218,0.18) 50%,
+          rgba(245,239,230,0) 100%),
+        var(--sand);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* gentle wave SVG at bottom of hero */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 80px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80'%3E%3Cpath fill='%23f5efe6' d='M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z'/%3E%3C/svg%3E") no-repeat bottom center / cover;
+    }
+
+    .hero-wave-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--ocean-light), var(--seafoam), var(--ocean-mid));
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ocean-mid);
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      color: var(--ocean-deep);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      max-width: 680px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--ocean-mid);
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: all 0.22s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--ocean-deep);
+      color: var(--white);
+      border: 2px solid var(--ocean-deep);
+    }
+
+    .btn-primary:hover {
+      background: var(--ocean-mid);
+      border-color: var(--ocean-mid);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(45,125,154,0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ocean-deep);
+      border: 2px solid var(--ocean-deep);
+    }
+
+    .btn-outline:hover {
+      background: var(--ocean-deep);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ocean-light);
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      color: var(--ocean-deep);
+      line-height: 1.2;
+      margin-bottom: 1.6rem;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      nav ul { gap: 1.2rem; }
+    }
+
+    .about-text p {
+      color: var(--text-mid);
+      margin-bottom: 1.1rem;
+      font-size: 1rem;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .about-aside {
+      border-left: 3px solid var(--seafoam);
+      padding-left: 1.6rem;
+    }
+
+    .credential-list {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
+    .credential-list li {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--sand-dark);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .credential-list li::before {
+      content: '~';
+      color: var(--ocean-light);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .credential-list li:last-child { border-bottom: none; }
+
+    /* ── OT PRACTICE ── */
+    #practice {
+      background: var(--sand);
+    }
+
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .pillar-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.8rem;
+      border-top: 3px solid var(--ocean-light);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(45,125,154,0.12);
+    }
+
+    .pillar-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .pillar-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--ocean-deep);
+      margin-bottom: 0.5rem;
+    }
+
+    .pillar-card p {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ── WRITING / BLOG ── */
+    #writing {
+      background: var(--white);
+    }
+
+    .blog-intro {
+      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .post-card {
+      border: 1px solid var(--sand-dark);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .post-card:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+    }
+
+    .post-card-header {
+      background: linear-gradient(135deg, var(--seafoam) 0%, var(--ocean-light) 100%);
+      padding: 2rem 1.6rem 1.4rem;
+    }
+
+    .post-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ocean-deep);
+      font-weight: 600;
+      background: rgba(255,255,255,0.55);
+      border-radius: 20px;
+      padding: 0.2rem 0.6rem;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+    }
+
+    .post-card-header h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--ocean-deep);
+      line-height: 1.3;
+    }
+
+    .post-card-body {
+      padding: 1.2rem 1.6rem 1.6rem;
+    }
+
+    .post-card-body p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+
+    .post-date {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    .post-coming-soon .post-card-header {
+      background: var(--sand-dark);
+      opacity: 0.7;
+    }
+
+    .post-coming-soon .post-card-header h3 {
+      color: var(--text-light);
+    }
+
+    .coming-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--sand-dark);
+      color: var(--text-light);
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ── CONNECT ── */
+    #connect {
+      background: var(--ocean-deep);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #connect::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: 0; right: 0;
+      height: 60px;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60'%3E%3Cpath fill='%23ffffff' d='M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,0 L0,0 Z'/%3E%3C/svg%3E") no-repeat top center / cover;
+    }
+
+    #connect .section-label { color: var(--seafoam); }
+
+    #connect .section-title { color: var(--white); }
+
+    .connect-sub {
+      color: rgba(255,255,255,0.7);
+      max-width: 460px;
+      margin: 0 auto 2.5rem;
+      font-size: 1rem;
+    }
+
+    .connect-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .connect-links .btn-primary {
+      background: var(--coral);
+      border-color: var(--coral);
+    }
+
+    .connect-links .btn-primary:hover {
+      background: #c96a5a;
+      border-color: #c96a5a;
+    }
+
+    .connect-links .btn-outline {
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .connect-links .btn-outline:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.7);
+      color: var(--white);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ocean-deep);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 1.5rem 2rem;
+      font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--seafoam); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">Natalie Cohen</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#practice">OT Practice</a></li>
+      <li><a href="#writing">Writing</a></li>
+      <li><a href="#connect">Connect</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-wave-top"></div>
+    <p class="hero-eyebrow">Occupational Therapist &amp; Writer</p>
+    <h1>Where healing lives in<br/><em>the everyday</em></h1>
+    <p class="hero-sub">
+      Helping people reclaim the things that matter most —
+      the rituals, relationships, and routines that make a life whole.
+    </p>
+    <div class="hero-cta-group">
+      <a href="#about" class="btn btn-primary">Meet Natalie</a>
+      <a href="#writing" class="btn btn-outline">Read the Blog</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <p class="section-label">About</p>
+      <h2 class="section-title">Natalie Cohen, OTR/L</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm an occupational therapist with a passion for the intersection
+            of health, identity, and the small-but-mighty moments that define
+            how we move through the world. OT, to me, is never just about
+            function — it's about meaning.
+          </p>
+          <p>
+            I work at the edge of the clinical and the human: helping clients
+            build or rebuild the daily occupations that anchor their sense of
+            self. Whether that's returning to work after injury, adapting a
+            morning routine, or simply rediscovering joy in a task once
+            taken for granted.
+          </p>
+          <p>
+            Outside the clinic I write — about OT, about bodies, about what
+            it means to live well inside the life you actually have.
+            Eventually this space will also be home to my own practice.
+            For now, it's a place to think out loud.
+          </p>
+        </div>
+        <div class="about-aside">
+          <p class="section-label" style="margin-bottom:1rem;">Credentials &amp; Background</p>
+          <ul class="credential-list">
+            <li>Occupational Therapist, OTR/L</li>
+            <li>Holistic, client-centered care approach</li>
+            <li>Interest in mental health &amp; psychosocial OT</li>
+            <li>Advocacy through writing &amp; education</li>
+            <li>Philadelphia, PA area</li>
+            <li>LinkedIn — <a href="https://www.linkedin.com/in/natalie-cohen-94182828/" target="_blank" rel="noopener" style="color:var(--ocean-mid);text-decoration:none;">natalie-cohen</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OT PRACTICE -->
+  <section id="practice">
+    <div class="container">
+      <p class="section-label">OT Practice</p>
+      <h2 class="section-title">What occupational therapy actually is</h2>
+      <p style="color:var(--text-mid);max-width:580px;margin-bottom:0;">
+        OT is one of the most misunderstood professions in healthcare — and one
+        of the most quietly powerful. Here's what I believe it's really about.
+      </p>
+      <div class="pillars">
+        <div class="pillar-card">
+          <span class="pillar-icon">🌊</span>
+          <h3>Occupation as Identity</h3>
+          <p>We are what we do. The things we engage in — how we care for ourselves, connect with others, contribute to the world — are how we know ourselves.</p>
+        </div>
+        <div class="pillar-card">
+          <span class="pillar-icon">🐚</span>
+          <h3>Holistic by Design</h3>
+          <p>OT sees the whole person — mind, body, environment, context. Every treatment plan is tailored to what a specific person, in a specific life, actually needs.</p>
+        </div>
+        <div class="pillar-card">
+          <span class="pillar-icon">🪸</span>
+          <h3>Meaning Over Mechanics</h3>
+          <p>It's not just about regaining movement or building a skill. It's about why that movement matters — and who you get to be again once you have it.</p>
+        </div>
+        <div class="pillar-card">
+          <span class="pillar-icon">🌿</span>
+          <h3>Own Practice — Coming</h3>
+          <p>Working toward a private OT practice rooted in these values. More details soon. If you're curious or want to connect early, reach out.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <section id="writing">
+    <div class="container">
+      <p class="section-label">Writing</p>
+      <h2 class="section-title">Thoughts from the tide</h2>
+      <p class="blog-intro">
+        Short pieces on OT, on living well, on the body as a place you have
+        to make peace with. Written from the clinical and the personal.
+      </p>
+      <div class="posts-grid">
+
+        <!-- placeholder post 1 -->
+        <div class="post-card post-coming-soon">
+          <div class="post-card-header">
+            <span class="coming-badge">Coming soon</span>
+            <h3>What OT actually means (and why nobody explains it well)</h3>
+          </div>
+          <div class="post-card-body">
+            <p>The elevator pitch I've been meaning to write since my first clinical rotation.</p>
+            <span class="post-date">— First post</span>
+          </div>
+        </div>
+
+        <!-- placeholder post 2 -->
+        <div class="post-card post-coming-soon">
+          <div class="post-card-header">
+            <span class="coming-badge">Coming soon</span>
+            <h3>The smallest things: on daily routines and their invisible weight</h3>
+          </div>
+          <div class="post-card-body">
+            <p>Why helping someone return to making their morning coffee can be the most meaningful work in the room.</p>
+            <span class="post-date">— In draft</span>
+          </div>
+        </div>
+
+        <!-- placeholder post 3 -->
+        <div class="post-card post-coming-soon">
+          <div class="post-card-header">
+            <span class="coming-badge">Coming soon</span>
+            <h3>Healing is not linear — and neither is occupational therapy</h3>
+          </div>
+          <div class="post-card-body">
+            <p>On setting goals that honor the actual texture of recovery, not the ideal version of it.</p>
+            <span class="post-date">— In draft</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECT -->
+  <section id="connect">
+    <div class="container">
+      <p class="section-label">Connect</p>
+      <h2 class="section-title">Let's stay in touch</h2>
+      <p class="connect-sub">
+        Whether you want to talk OT, discuss a collaboration, or just
+        say hello — find me on LinkedIn or send a note.
+      </p>
+      <div class="connect-links">
+        <a
+          href="https://www.linkedin.com/in/natalie-cohen-94182828/"
+          class="btn btn-primary"
+          target="_blank" rel="noopener"
+        >LinkedIn</a>
+        <a
+          href="mailto:natec824@gmail.com"
+          class="btn btn-outline"
+        >Say hello</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Natalie Cohen, OTR/L &nbsp;·&nbsp; Philadelphia, PA &nbsp;·&nbsp;
+      Made with care by <a href="https://mellowambience.github.io" target="_blank" rel="noopener">Aetherhaven</a>
+    </p>
+  </footer>
+
+</body>
+</html>
