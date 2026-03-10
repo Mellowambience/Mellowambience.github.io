@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divinity: Static — Production Cockpit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #020617; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .animate-spin { animation: spin 1s linear infinite; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .fade-in { animation: fadeIn 0.4s ease forwards; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const Icon = ({ d, size = 18, cls = "" }) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+           strokeLinejoin="round" className={cls}>
+        <path d={d} />
+      </svg>
+    );
+    const icons = {
+      Activity: "M22 12h-4l-3 9L9 3l-3 9H2",
+      Mic2:     "M19 11a7 7 0 0 1-7 7m0 0a7 7 0 0 1-7-7m7 7v4m0 0H8m4 0h4M12 3a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V7a4 4 0 0 1 4-4z",
+      Sparkles: "M12 3l1.09 3.26L16.36 7.5l-3.27 1.09L12 12l-1.09-3.41L7.64 7.5l3.27-1.09L12 3zM5 14l.73 2.18L8 17l-2.27.82L5 20l-.73-2.18L2 17l2.27-.82L5 14zM19 14l.73 2.18L22 17l-2.27.82L19 20l-.73-2.18L16 17l2.27-.82L19 14z",
+      Music:    "M9 18V5l12-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm12-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z",
+      Volume2:  "M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07",
+      Zap:      "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+      Book:     "M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z",
+      Image:    "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 2 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z",
+      Loader:   "M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83",
+      Copy:     "M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-4-4H8zM14 2v6h6M8 10h8M8 14h8M8 18h5",
+    };
+
+    const songStructure = [
+      { name: 'Intro',    duration: 30, genre: 'Trance/Ambient',  energy: 20,  description: 'Shimmering pads & "Mercy" hums',   bpm: 140 },
+      { name: 'Verse 1',  duration: 30, genre: 'Sad Rap / Trap',  energy: 40,  description: 'Heavy 808s & Whisper vocals',        bpm: 140 },
+      { name: 'Build-up', duration: 15, genre: 'Trance/DnB',      energy: 70,  description: 'Snare rolls & Rising filters',       bpm: '140 → 172' },
+      { name: 'Drop 1',   duration: 30, genre: 'Liquid DnB',      energy: 90,  description: 'Rolling breaks & Soaring leads',     bpm: 172 },
+      { name: 'Verse 2',  duration: 30, genre: 'Trap/Trance',     energy: 60,  description: 'Aggressive rap & Arpeggios',         bpm: 140 },
+      { name: 'Bridge',   duration: 30, genre: 'Cinematic',       energy: 30,  description: 'Latin choral chants & Strings',      bpm: 140 },
+      { name: 'Drop 2',   duration: 30, genre: 'DnB/Trance',      energy: 100, description: '"The Matrix" high-speed hybrid',     bpm: 172 },
+      { name: 'Outro',    duration: 30, genre: 'Ambient',         energy: 10,  description: 'Fading echoes & Piano',              bpm: 140 },
+    ];
+
+    const calcDelays = (bpm) => {
+      const q = 60000 / bpm;
+      return {
+        quarter:      q.toFixed(2),
+        eighth:       (q / 2).toFixed(2),
+        dottedEighth: (q * 0.75).toFixed(2),
+        sixteenth:    (q / 4).toFixed(2),
+      };
+    };
+
+    const App = () => {
+      const [activeSection, setActiveSection] = useState(0);
+      const [bpm, setBpm] = useState(140);
+      const [tab, setTab] = useState('structure');
+      const [prompt, setPrompt] = useState('');
+      const [history, setHistory] = useState([]);
+      const [loading, setLoading] = useState(false);
+      const [error, setError] = useState(null);
+
+      const delays = calcDelays(bpm);
+
+      const callGemini = async (userPrompt, system, label) => {
+        const key = window.__GEMINI_KEY__ || '';
+        if (!key) { setError('No Gemini API key configured.'); return; }
+        setLoading(true); setError(null);
+        let attempt = 0;
+        const request = async () => {
+          try {
+            const res = await fetch(
+              `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${key}`,
+              { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: userPrompt }] }], systemInstruction: { parts: [{ text: system }] } }) }
+            );
+            if (!res.ok) throw new Error('API error');
+            const d = await res.json();
+            return d.candidates?.[0]?.content?.parts?.[0]?.text ?? '(no output)';
+          } catch (e) {
+            if (++attempt < 4) { await new Promise(r => setTimeout(r, 2 ** attempt * 400)); return request(); }
+            throw e;
+          }
+        };
+        try {
+          const text = await request();
+          setHistory(h => [{ label, text }, ...h].slice(0, 3));
+        } catch { setError('The Divine connection was interrupted. Try again.'); }
+        finally { setLoading(false); }
+      };
+
+      const sys_lyrics = "You are a specialized ghostwriter for a hybrid music project combining Sad Rap, Trap, Liquid DnB, and Trance. The theme is 'Suicide Sadness but Divinely Gifted'. The vocals are ethereal like Mercy from Overwatch. Write 8 bars blending digital/glitch metaphors with spiritual/angelic imagery.";
+      const sys_latin  = "You are a Latin scholar and music producer. Generate 3-5 short, atmospheric Latin phrases for a song bridge. Themes: light, darkness, eternal static, divine healing. Provide Latin and English translation.";
+      const sys_visual = "You are a creative director. Generate a highly detailed Midjourney/Imagen prompt. Aesthetic: Cyber-Baroque - Renaissance religious art x Matrix-style green code, glowing fiber-optic halos, ethereal porcelain figures in a digital void.";
+
+      const tabs = [
+        { id: 'structure', label: 'Timeline',     iconKey: 'Activity' },
+        { id: 'vocals',    label: 'Vocal Chain',  iconKey: 'Mic2'     },
+        { id: 'ai',        label: 'AI Studio',    iconKey: 'Sparkles' },
+        { id: 'reference', label: 'Reference',    iconKey: 'Music'    },
+        { id: 'bpm',       label: 'BPM Sync',     iconKey: 'Zap'      },
+      ];
+
+      return (
+        <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
+          <div className="max-w-5xl mx-auto space-y-6">
+            <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/60 p-6 rounded-2xl border border-slate-800 shadow-xl backdrop-blur-sm">
+              <div>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Divinity: Static</h1>
+                <p className="text-slate-400 text-sm mt-1">Production Automation &amp; AI Studio</p>
+              </div>
+              <div className="flex items-center gap-2 bg-slate-800/60 p-1.5 rounded-xl">
+                <button onClick={() => setBpm(140)} className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${bpm === 140 ? 'bg-cyan-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}>140 Trap</button>
+                <button onClick={() => setBpm(172)} className={`px-4 py-2 rounded-lg text-sm font-semibold transition ${bpm === 172 ? 'bg-purple-500 text-white shadow-lg' : 'text-slate-400 hover:text-white'}`}>172 DnB</button>
+              </div>
+            </header>
+            <nav className="flex gap-1.5 p-1 bg-slate-900 rounded-xl border border-slate-800 overflow-x-auto">
+              {tabs.map(t => (
+                <button key={t.id} onClick={() => setTab(t.id)} className={`flex-1 min-w-[90px] flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm transition whitespace-nowrap ${tab === t.id ? 'bg-slate-800 text-cyan-400' : 'text-slate-500 hover:bg-slate-800/50 hover:text-slate-300'}`}>
+                  <Icon d={icons[t.iconKey]} size={16} />{t.label}
+                </button>
+              ))}
+            </nav>
+            <div className="min-h-[480px]">
+              {tab === 'structure' && (
+                <div className="space-y-3 fade-in">
+                  {songStructure.map((s, i) => {
+                    const elapsed = songStructure.slice(0, i).reduce((a, b) => a + b.duration, 0);
+                    const ts = i === 0 ? '0:00' : `${Math.floor(elapsed / 60)}:${String(elapsed % 60).padStart(2, '0')}`;
+                    return (
+                      <div key={i} onClick={() => setActiveSection(i)} className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${activeSection === i ? 'bg-cyan-500/10 border-cyan-500/40' : 'bg-slate-900 border-slate-800 hover:border-slate-700'}`}>
+                        <span className="w-12 text-center text-xs font-mono text-slate-500 shrink-0">{ts}</span>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-semibold text-slate-200">{s.name}</span>
+                            <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 uppercase tracking-widest">{s.genre}</span>
+                            <span className="text-[10px] text-slate-600">{typeof s.bpm === 'string' ? s.bpm : `${s.bpm} BPM`}</span>
+                          </div>
+                          <p className="text-sm text-slate-500 truncate">{s.description}</p>
+                        </div>
+                        <div className="w-28 shrink-0 hidden md:block">
+                          <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-cyan-500 to-purple-500" style={{ width: `${s.energy}%` }} />
+                          </div>
+                          <p className="text-[10px] text-slate-600 text-right mt-1">{s.energy}% energy</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+              {tab === 'vocals' && (
+                <div className="grid md:grid-cols-2 gap-6 fade-in">
+                  <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 className="text-lg font-bold flex items-center gap-2 text-cyan-400"><Icon d={icons.Mic2} size={20} /> Signal Path</h3>
+                    <div className="space-y-2.5">
+                      {[{step:'Low Cut',detail:'120 Hz HPF'},{step:'De-Esser',detail:'7 kHz'},{step:'Opto Compression',detail:'Soft knee, 4:1'},{step:'Tube Saturation',detail:'Subtle drive'},{step:'Pitch Correction',detail:'Ethereal flex'}].map((item, i) => (
+                        <div key={i} className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                          <div><span className="text-slate-200 text-sm font-medium">{item.step}</span><span className="text-slate-500 text-xs ml-2">— {item.detail}</span></div>
+                          <div className="h-1.5 w-10 bg-cyan-900/50 rounded-full overflow-hidden"><div className="h-full bg-cyan-500 w-3/4" /></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 className="text-lg font-bold flex items-center gap-2 text-purple-400"><Icon d={icons.Volume2} size={20} /> Ethereal Sends</h3>
+                    {[{label:'Main Reverb',val:'Large Hall · 4.2s Decay · 20ms Pre-delay',color:'border-cyan-500'},{label:'Stereo Delay',val:'Dotted 1/8th · BPM Sync',color:'border-purple-500'},{label:'Shimmer Reverb',val:'Send only · Pitch-shifted +1 oct',color:'border-pink-500'}].map((item, i) => (
+                      <div key={i} className={`p-4 bg-slate-800/50 rounded-xl border-l-4 ${item.color}`}>
+                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{item.label}</p>
+                        <p className="text-sm text-slate-300 mt-0.5">{item.val}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {tab === 'ai' && (
+                <div className="space-y-5 fade-in">
+                  <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Divine Inspiration Context</label>
+                    <textarea value={prompt} onChange={e => setPrompt(e.target.value)} placeholder="Enter a mood, feeling, or lyric fragment..." className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-slate-200 text-sm focus:border-cyan-500 outline-none transition h-24 resize-none" />
+                    <div className="flex flex-wrap gap-3 mt-4">
+                      <button disabled={loading} onClick={() => callGemini(prompt || 'Write a verse about feeling like a glitching angel in a digital purgatory.', sys_lyrics, '✨ Lyrics')} className="flex-1 min-w-[140px] flex items-center justify-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-4 rounded-xl transition text-sm disabled:opacity-40">{loading ? <Icon d={icons.Loader} size={16} cls="animate-spin" /> : <Icon d={icons.Sparkles} size={16} />}✨ Lyrics</button>
+                      <button disabled={loading} onClick={() => callGemini(prompt || 'Generate bridge phrases about the soul being a universe.', sys_latin, '✦ Latin')} className="flex-1 min-w-[140px] flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold py-3 px-4 rounded-xl transition text-sm disabled:opacity-40">{loading ? <Icon d={icons.Loader} size={16} cls="animate-spin" /> : <Icon d={icons.Book} size={16} />}✦ Latin</button>
+                      <button disabled={loading} onClick={() => callGemini(prompt || 'Visualize the Divinity: Static album cover.', sys_visual, '🎨 Visual')} className="flex-1 min-w-[140px] flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3 px-4 rounded-xl border border-slate-700 transition text-sm disabled:opacity-40">{loading ? <Icon d={icons.Loader} size={16} cls="animate-spin" /> : <Icon d={icons.Image} size={16} />}🎨 Visual</button>
+                    </div>
+                  </div>
+                  {error && <div className="p-4 bg-red-900/20 border border-red-500/40 rounded-xl text-red-400 text-sm flex items-center gap-3"><Icon d={icons.Zap} size={16} />{error}</div>}
+                  {history.map((entry, i) => (
+                    <div key={i} className="bg-slate-900 p-6 rounded-2xl border border-slate-800 fade-in group relative">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{entry.label}</span>
+                        <button onClick={() => navigator.clipboard.writeText(entry.text)} className="flex items-center gap-1 text-xs bg-slate-800 text-slate-400 px-3 py-1 rounded-md hover:text-white transition opacity-0 group-hover:opacity-100"><Icon d={icons.Copy} size={12} />Copy</button>
+                      </div>
+                      <pre className="whitespace-pre-wrap font-serif text-base text-slate-200 leading-relaxed italic">{entry.text}</pre>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {tab === 'reference' && (
+                <div className="bg-slate-900 p-6 rounded-2xl border border-slate-800 fade-in space-y-4">
+                  <h3 className="text-lg font-bold text-slate-200 flex items-center gap-2"><Icon d={icons.Music} size={18} />Reference Tracks</h3>
+                  <div className="relative w-full rounded-xl overflow-hidden border border-slate-700" style={{ paddingTop: '56.25%' }}>
+                    <iframe className="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/videoseries?si=N3xveE2bFq2XIMP0&list=PLwBBwjcjWsijrquVPdZV_2DlLDQjD7IX7" title="Divinity: Static Reference Playlist" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+                  </div>
+                  <p className="text-xs text-slate-600">Trap to DnB to Trance hybrid arc reference.</p>
+                </div>
+              )}
+              {tab === 'bpm' && (
+                <div className="bg-slate-900 p-8 rounded-2xl border border-slate-800 fade-in">
+                  <p className="text-xs text-slate-500 uppercase tracking-widest mb-6 text-center">Delay times at <span className="text-cyan-400 font-bold">{bpm} BPM</span></p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[{label:'1/4 Note',val:delays.quarter},{label:'1/8 Note',val:delays.eighth},{label:'Dotted 1/8',val:delays.dottedEighth},{label:'1/16 Note',val:delays.sixteenth}].map((d, i) => (
+                      <div key={i} className="bg-slate-800/50 p-6 rounded-2xl border border-slate-700 text-center hover:border-cyan-500/50 transition">
+                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-2">{d.label}</p>
+                        <p className="text-2xl font-mono text-cyan-400">{d.val}</p>
+                        <p className="text-[10px] text-slate-600 mt-1">ms</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            <footer className="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-col md:flex-row items-center justify-between text-[10px] text-slate-500 gap-2">
+              <div className="flex items-center gap-4">
+                <span className="uppercase tracking-tighter">Project: Statica Divina</span>
+                <span className="uppercase tracking-tighter">{bpm} BPM</span>
+              </div>
+              <a href="https://mellowambience.github.io" className="text-slate-600 hover:text-slate-400 transition">← Aetherhaven</a>
+            </footer>
+          </div>
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
