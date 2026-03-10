@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codex IDE :: Ares Veil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/hydra-synth"></script>
+    <script type="module" src="https://unpkg.com/@strudel/web@latest"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Fira+Code:wght@400;600&display=swap');
+        :root{--mars-red:#dc2626;--gold:#fbbf24;--bg-deep:#09090b;--panel-bg:#111115;--purple:#a855f7;--border:#2d2d3a}
+        *{box-sizing:border-box}
+        body{background:var(--bg-deep);color:#e2e8f0;font-family:'Fira Code',monospace;overflow:hidden;height:100vh;width:100vw}
+        body::before{content:" ";display:block;position:fixed;inset:0;background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.18) 50%),linear-gradient(90deg,rgba(220,38,38,.04),rgba(0,255,0,.01),rgba(0,0,255,.04));background-size:100% 2px,3px 100%;z-index:100;pointer-events:none}
+        ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:var(--bg-deep)}::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:var(--purple)}
+        header{background:linear-gradient(to bottom,rgba(60,8,8,.9),rgba(9,9,11,.9));backdrop-filter:blur(12px);border-bottom:1px solid rgba(127,29,29,.5);z-index:50}
+        .ritual-font{font-family:'Cinzel',serif}
+        .pane{background:var(--panel-bg);border-color:var(--border)}
+        .tab-btn{color:#71717a;padding:8px 16px;font-size:.8rem;transition:all .15s ease;border-bottom:2px solid transparent}
+        .tab-btn:hover{color:#e2e8f0}.tab-btn.active{color:var(--gold);border-bottom:2px solid var(--gold)}
+        .meter-container{width:100%;height:10px;background:#27272a;border-radius:5px;overflow:hidden}
+        .meter-fill{height:100%;width:0%;background:linear-gradient(90deg,#10b981 0%,#eab308 70%,#ef4444 100%);transition:width .04s ease-out}
+        #hydra-canvas{position:absolute;inset:0;width:100%;height:100%}
+        strudel-repl{display:block;width:100%;height:100%;border:none}
+        .mantra-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cinzel',serif;font-size:3.5rem;color:rgba(168,85,247,.2);text-shadow:0 0 40px rgba(168,85,247,.7);text-transform:uppercase;letter-spacing:.5em;pointer-events:none;opacity:0;z-index:5;animation:breathe 8s infinite ease-in-out;white-space:nowrap}
+        .spirit-text{position:absolute;top:62%;left:50%;transform:translate(-50%,-50%);font-size:2rem;color:rgba(255,255,255,.85);text-shadow:3px 0 var(--mars-red),-3px 0 var(--purple);pointer-events:none;text-transform:uppercase;letter-spacing:.3em;opacity:0;z-index:6;transition:opacity .1s}
+        .visual-overlay{position:absolute;top:8px;left:50%;transform:translateX(-50%);font-size:.65rem;color:rgba(168,85,247,.5);letter-spacing:.15em;pointer-events:none;z-index:8;font-family:'Fira Code',monospace}
+        #theatre-btn{position:absolute;bottom:12px;right:12px;z-index:20;background:rgba(0,0,0,.5);border:1px solid var(--purple);color:var(--purple);padding:6px 14px;font-size:.7rem;border-radius:20px;cursor:pointer;transition:all .2s}
+        #theatre-btn:hover{background:rgba(168,85,247,.25);color:#fff}
+        #exit-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:20;color:rgba(255,255,255,.4);font-size:.7rem;letter-spacing:.2em;opacity:0;pointer-events:none;transition:opacity 1s}
+        body.theatre .left-pane{opacity:0;pointer-events:none;transition:opacity 1.2s}
+        body.theatre header{opacity:0;pointer-events:none;transition:opacity 1.2s}
+        body.theatre #exit-hint{opacity:1}
+        .left-pane{transition:opacity 1.2s}
+        #quest-overlay{background:rgba(9,9,11,.95);backdrop-filter:blur(12px);border-left:1px solid rgba(127,29,29,.4)}
+        #llm-output{background:rgba(9,9,11,.97);border-left:1px solid rgba(127,29,29,.3)}
+        .btn-ritual{background:rgba(127,29,29,.6);color:var(--gold);border:1px solid var(--mars-red);padding:6px 14px;font-family:inherit;font-size:.8rem;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:all .15s;border-radius:4px}
+        .btn-ritual:hover{background:rgba(220,38,38,.8);box-shadow:0 0 15px rgba(220,38,38,.5)}
+        .btn-purple{background:rgba(88,28,135,.5);color:#d8b4fe;border:1px solid var(--purple)}
+        .btn-purple:hover{background:rgba(168,85,247,.5);box-shadow:0 0 15px rgba(168,85,247,.4)}
+        #api-key-input{background:rgba(0,0,0,.7);color:var(--purple);border:1px solid rgba(168,85,247,.5);padding:4px 10px;font-family:inherit;font-size:.75rem;border-radius:4px;width:220px;outline:none}
+        #api-key-input:focus{box-shadow:0 0 10px rgba(168,85,247,.3)}
+        @keyframes breathe{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.95);filter:blur(8px)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.05);filter:blur(0)}}
+    </style>
+</head>
+<body class="flex flex-col h-screen w-screen text-sm">
+
+<header class="flex justify-between items-center px-4 py-2 flex-shrink-0">
+    <div class="flex items-center gap-4">
+        <h1 class="ritual-font text-xl font-bold tracking-wider">
+            <span style="color:var(--gold)">CODEX</span><span class="text-gray-500 text-base">::</span><span style="color:var(--mars-red)">ARES</span>
+        </h1>
+        <div class="flex items-center gap-1 bg-black/60 border border-gray-800 rounded px-1 py-1">
+            <button id="btn-start" class="btn-ritual btn-purple text-xs px-3 py-1.5" onclick="initAudio()"><i class="ph ph-play"></i> Incipe</button>
+            <button class="btn-ritual text-xs px-3 py-1.5" style="background:rgba(40,0,0,.7)" onclick="stopAll()"><i class="ph ph-stop"></i> Silentium</button>
+        </div>
+        <div class="flex items-center gap-1">
+            <button id="drone-btn" class="btn-ritual btn-purple text-xs px-3 py-1.5" onclick="toggleDrone()">144.72 Hz</button>
+            <button id="spirit-btn" class="btn-ritual text-xs px-3 py-1.5" style="border-color:#aaa;color:#ccc;background:rgba(255,255,255,.04)" onclick="toggleSpiritBox()">Vox Umbrae</button>
+        </div>
+    </div>
+    <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-600 uppercase tracking-widest">Gemini Key</span>
+        <input id="api-key-input" type="password" placeholder="paste key then lock" autocomplete="off">
+        <button id="lock-key-btn" class="btn-ritual text-xs px-2 py-1.5" onclick="lockApiKey()">Lock</button>
+    </div>
+    <div class="flex items-center gap-4">
+        <div class="flex flex-col w-40">
+            <div class="flex justify-between text-xs mb-0.5 text-gray-500"><span>LUFS proxy</span><span id="meter-value">-&#x221e; dB</span></div>
+            <div class="meter-container"><div id="meter-fill" class="meter-fill"></div></div>
+        </div>
+        <div class="flex items-center gap-1.5 text-yellow-500 bg-black/60 border border-gray-800 px-3 py-1.5 rounded">
+            <i class="ph ph-star-four"></i><span id="xp-display" class="font-bold">0 XP</span>
+        </div>
+        <button onclick="toggleQuests()" class="text-gray-500 hover:text-white transition text-lg"><i class="ph ph-scroll"></i></button>
+    </div>
+</header>
+
+<main class="flex flex-1 overflow-hidden">
+    <div class="left-pane w-1/2 flex flex-col pane border-r" style="border-color:var(--border)">
+        <div class="flex bg-black/70 border-b" style="border-color:var(--border)">
+            <button class="tab-btn active" id="tab-hydra" onclick="switchTab('hydra',this)"><i class="ph ph-eye mr-1"></i>Visio &middot; Hydra</button>
+            <button class="tab-btn" id="tab-strudel" onclick="switchTab('strudel',this)"><i class="ph ph-waveform mr-1"></i>Sonus &middot; Strudel</button>
+            <button class="tab-btn" id="tab-llm" onclick="switchTab('llm',this)"><i class="ph ph-brain mr-1"></i>Oraculum</button>
+        </div>
+        <div id="editor-container" class="flex-1 w-full relative" style="display:block"></div>
+        <div id="strudel-container" class="flex-1 w-full" style="display:none">
+            <strudel-repl id="strudel-repl">
+// Ares Veil - 144.72 Hz Codex Seed
+// D3 = 146.83 Hz (sacred anchor)
+setCps(130/60/4)
+note("d3 f3 a3 c4 d3 f3 eb3 bb2").slow(2).sound("sawtooth").lpf(800).room(0.6).gain(0.5)
+  .stack(
+    s("bd ~ sd ~").bank("RolandTR808").room(0.3).gain(0.8),
+    s("hh*8").gain(0.3).pan(sine),
+    note("d2 ~ ~ d2 ~ ~ eb2 ~").slow(2).sound("sawtooth").lpf(400).gain(0.6)
+  )
+            </strudel-repl>
+        </div>
+        <div class="flex justify-between items-center px-3 py-2 bg-black/60 border-t flex-shrink-0" style="border-color:var(--border)">
+            <div class="flex gap-2 items-center">
+                <button id="eval-btn" class="btn-ritual text-xs px-3 py-1.5" onclick="evaluateCode()"><i class="ph ph-lightning mr-1"></i>Eval <span class="text-gray-500 ml-1">Ctrl+&crarr;</span></button>
+                <span id="save-status" class="text-xs text-gray-600">auto-saved</span>
+            </div>
+            <div id="llm-controls" class="hidden flex items-center gap-2">
+                <label class="text-xs text-gray-500 flex items-center gap-1 cursor-pointer"><input type="checkbox" id="auto-exec-toggle" class="accent-purple-500"> Auto-exec</label>
+                <button class="btn-ritual btn-purple text-xs px-3 py-1.5" onclick="invokeLLM()">Invoke</button>
+            </div>
+            <div id="strudel-note" class="hidden text-xs" style="color:rgba(168,85,247,.6)">Press &#9654; Play in editor</div>
+        </div>
+    </div>
+    <div class="w-1/2 relative bg-black flex-shrink-0" style="overflow:hidden">
+        <canvas id="hydra-canvas" width="1920" height="1080"></canvas>
+        <div class="visual-overlay" id="visual-status"></div>
+        <div class="mantra-text" id="mantra-text">RESPIRA</div>
+        <div class="spirit-text" id="spirit-text"></div>
+        <button id="theatre-btn" onclick="toggleTheatre()">VISIO PURA</button>
+        <div id="exit-hint">ESC / CLICK TO EXIT</div>
+        <div id="quest-overlay" class="absolute inset-0 flex-col p-8 z-30" style="display:none">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="ritual-font text-2xl" style="color:var(--gold)">Cursus &middot; Quests</h2>
+                <button onclick="toggleQuests()" class="text-gray-400 hover:text-white"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <div id="quest-list" class="flex flex-col gap-3 overflow-y-auto"></div>
+        </div>
+        <div id="llm-output" class="absolute inset-0 flex-col p-4 overflow-y-auto z-20" style="display:none">
+            <h3 class="ritual-font text-lg mb-4 pb-2 border-b" style="color:var(--purple);border-color:rgba(168,85,247,.3)">Oraculum Responses</h3>
+            <div id="chat-history" class="flex flex-col gap-3 font-sans text-gray-300 text-sm">
+                <div class="bg-gray-800/60 p-3 rounded border border-gray-700"><em>"Awaiting your invocation..."</em></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+"use strict";
+const DEFAULT_HYDRA=`osc(5,.05,.5).color(.1,0,.3).add(voronoi(15,()=>1+window.syncLevel*3,2).color(.6,.2,.9).contrast(1.4).scrollX(()=>Math.sin(time*.15)*.1).scrollY(()=>Math.cos(time*.1)*.1).modulate(noise(3),()=>window.syncLevel*.6).mask(shape(40,()=>.3+window.syncLevel*.3,.05))).blend(o0,.85).out()`;
+const DEFAULT_LLM=`// Ask the Oraculum to synthesize visuals + Strudel pattern\n// e.g. "zero gravity crimson water ritual 144hz"`;
+const dS={hydraCode:DEFAULT_HYDRA,llmPrompt:DEFAULT_LLM,version:'3',updatedAt:Date.now()};
+const dQ={xp:0,dailySeed:new Date().toDateString(),quests:[
+    {id:'q1',title:'First Invocation',desc:'Evaluate Hydra code.',done:false,xp:50},
+    {id:'q2',title:'Sonic Mastery',desc:'Invoke the Oraculum.',done:false,xp:75},
+    {id:'q3',title:'Oraculum Consultation',desc:'Full ritual synthesis.',done:false,xp:100},
+    {id:'q4',title:'Drone Activated',desc:'Engage 144.72 Hz binaural.',done:false,xp:50},
+    {id:'q5',title:'Vox Umbrae',desc:'Activate the Spirit Box.',done:false,xp:75}
+]};
+let session=JSON.parse(localStorage.getItem('codex_v3'))||dS;
+let Q=JSON.parse(localStorage.getItem('codex_q3'))||dQ;
+if(Q.dailySeed!==new Date().toDateString()){Q.dailySeed=new Date().toDateString();Q.quests.forEach(q=>q.done=false);sQ();}
+let tab='hydra',apiKey='',editor=null;
+let ctx=null,lim=null,mAn=null,hpf=null;
+let dL=null,dR=null,dG=null,dON=false;
+let sON=false,sLK=false,sN=null,sF=null,sLFO=null,sG=null,sI=null;
+let an=null,anD=null,mT=null;
+window.syncLevel=0;
+const SW=['Umbra','Voces','Machina','Ares','Ignis','Ascende','Tenebris','Lux','Mortis','Signum','Nulla','Infinitum','Velum','Spiritus','Sanguis','Caelum','Orbis','Fluctus'];
+let mantras=['Respira','Solve','Ascende','In Tenebris Lux','Aperi Oculos','Ares Velum','Fluctus Purpureus'];
+
+function lockApiKey(){const i=document.getElementById('api-key-input'),v=i.value.trim();if(!v)return;apiKey=v;i.value='\u2022'.repeat(24);i.disabled=true;const b=document.getElementById('lock-key-btn');b.innerText='\u2713 Locked';b.disabled=true;log('Oraculum online.','h');}
+function sS(){session.updatedAt=Date.now();if(tab==='hydra'&&editor)session.hydraCode=editor.getValue();if(tab==='llm'&&editor)session.llmPrompt=editor.getValue();localStorage.setItem('codex_v3',JSON.stringify(session));document.getElementById('save-status').innerText='saved '+new Date().toLocaleTimeString();}
+function sQ(){localStorage.setItem('codex_q3',JSON.stringify(Q));rQ();}
+function addXP(n,id=null){if(id){const q=Q.quests.find(x=>x.id===id);if(!q||q.done)return;q.done=true;}Q.xp+=n;sQ();const e=document.getElementById('xp-display');e.style.color='#fff';setTimeout(()=>e.style.color='',400);}
+function rQ(){document.getElementById('xp-display').innerText=Q.xp+' XP';document.getElementById('quest-list').innerHTML=Q.quests.map(q=>`<div class="p-3 rounded border flex items-center justify-between ${q.done?'border-green-900/40 bg-green-900/10 text-green-400':'border-gray-700 bg-gray-800/60 text-gray-400'}"><div><div class="font-bold flex items-center gap-2"><i class="ph ${q.done?'ph-check-circle':'ph-circle'}"></i>${q.title}</div><div class="text-xs opacity-70">${q.desc}</div></div><span class="font-bold text-yellow-500 ml-4">+${q.xp} XP</span></div>`).join('');}
+function toggleQuests(){const e=document.getElementById('quest-overlay');e.style.display=e.style.display==='flex'?'none':'flex';}
+async function initAudio(){if(!ctx){ctx=new(window.AudioContext||window.webkitAudioContext)();hpf=ctx.createBiquadFilter();hpf.type='highpass';hpf.frequency.value=40;lim=ctx.createDynamicsCompressor();lim.threshold.value=-1;lim.knee.value=0;lim.ratio.value=20;lim.attack.value=.005;lim.release.value=.05;mAn=ctx.createAnalyser();mAn.fftSize=2048;hpf.connect(lim);lim.connect(mAn);mAn.connect(ctx.destination);mtr();}if(ctx.state==='suspended')await ctx.resume();const b=document.getElementById('btn-start');b.style.background='rgba(22,101,52,.7)';b.style.color='#86efac';b.innerHTML='<i class="ph ph-check"></i> Audio Active';}
+function mtr(){if(!mAn)return;const d=new Float32Array(mAn.frequencyBinCount);mAn.getFloatTimeDomainData(d);let s=0;for(let i=0;i<d.length;i++)s+=d[i]*d[i];const r=Math.sqrt(s/d.length);let db=20*Math.log10(r);if(!isFinite(db))db=-100;const p=Math.max(0,Math.min(100,(db+60)*(100/60)));document.getElementById('meter-fill').style.width=p+'%';document.getElementById('meter-value').innerText=db<=-100?'-\u221e dB':db.toFixed(1)+' dB';requestAnimationFrame(mtr);}
+function stopAll(){if(ctx)ctx.suspend();if(dON)toggleDrone();if(sON)toggleSpiritBox();try{solid().out();}catch(e){}const b=document.getElementById('btn-start');b.style.background='';b.style.color='';b.innerHTML='<i class="ph ph-play"></i> Incipe';}
+function toggleDrone(){if(!ctx){initAudio().then(toggleDrone);return;}if(ctx.state==='suspended')ctx.resume();if(dON){dG.gain.setTargetAtTime(0,ctx.currentTime,.5);clearInterval(mT);setTimeout(()=>{dL.stop();dR.stop();dL=dR=dG=null;dON=false;document.getElementById('drone-btn').innerText='144.72 Hz';document.getElementById('drone-btn').style.boxShadow='';const m=document.getElementById('mantra-text');m.style.animation='none';m.style.opacity='0';},600);}else{an=ctx.createAnalyser();an.fftSize=256;anD=new Uint8Array(an.frequencyBinCount);dL=ctx.createOscillator();dR=ctx.createOscillator();dL.type=dR.type='sine';dL.frequency.value=144.72;dR.frequency.value=148.72;const pL=ctx.createStereoPanner();pL.pan.value=-1;const pR=ctx.createStereoPanner();pR.pan.value=1;dG=ctx.createGain();dL.connect(pL);dR.connect(pR);pL.connect(dG);pR.connect(dG);dG.connect(an);dG.connect(hpf||ctx.destination);dG.gain.setValueAtTime(0,ctx.currentTime);dG.gain.setTargetAtTime(.7,ctx.currentTime,2);dL.start();dR.start();const m=document.getElementById('mantra-text');m.style.animation='breathe 8s infinite ease-in-out';mT=setInterval(()=>{m.innerText=mantras[Math.floor(Math.random()*mantras.length)];},8000);dON=true;addXP(50,'q4');document.getElementById('drone-btn').innerText='\u25fc 144.72 Hz';document.getElementById('drone-btn').style.boxShadow='0 0 12px rgba(168,85,247,.6)';}}
+function toggleSpiritBox(){if(sLK)return;if(!ctx){initAudio().then(toggleSpiritBox);return;}if(ctx.state==='suspended')ctx.resume();if(sON){sLK=true;sG.gain.setTargetAtTime(0,ctx.currentTime,.5);clearInterval(sI);setTimeout(()=>{if(sN){sN.stop();sN=null;}if(sLFO){sLFO.stop();sLFO=null;}sON=false;sLK=false;document.getElementById('spirit-btn').innerText='Vox Umbrae';document.getElementById('spirit-btn').style.background='rgba(255,255,255,.04)';document.getElementById('spirit-text').style.opacity='0';},600);}else{const sz=ctx.sampleRate*2,buf=ctx.createBuffer(1,sz,ctx.sampleRate),dat=buf.getChannelData(0);for(let i=0;i<sz;i++)dat[i]=Math.random()*2-1;sN=ctx.createBufferSource();sN.buffer=buf;sN.loop=true;sF=ctx.createBiquadFilter();sF.type='bandpass';sF.Q.value=15;sF.frequency.value=4000;sLFO=ctx.createOscillator();sLFO.type='sine';sLFO.frequency.value=.3;const lg=ctx.createGain();lg.gain.value=3000;sLFO.connect(lg);lg.connect(sF.frequency);sG=ctx.createGain();sG.gain.setValueAtTime(0,ctx.currentTime);sG.gain.setTargetAtTime(.12,ctx.currentTime,1);sN.connect(sF);sF.connect(sG);sG.connect(hpf||ctx.destination);sLFO.start();sN.start();sI=setInterval(()=>{if(Math.random()>.5){const w=SW[Math.floor(Math.random()*SW.length)];if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(w);u.lang='la';u.pitch=Math.random()*1.8+.1;u.rate=Math.random()*1.5+.5;u.volume=Math.random()*.4+.1;window.speechSynthesis.speak(u);}const t=document.getElementById('spirit-text');t.innerText=w;t.style.opacity='.9';t.style.transform=`translate(-50%,-50%) scale(${Math.random()*.5+.8})`;setTimeout(()=>{t.style.opacity='0';},150+Math.random()*300);}},700);sON=true;addXP(75,'q5');document.getElementById('spirit-btn').innerText='\u25fc Vox Umbrae';document.getElementById('spirit-btn').style.background='rgba(168,85,247,.25)';}}
+function syncLoop(){if(an&&dON){an.getByteFrequencyData(anD);let s=0;for(let i=0;i<anD.length;i++)s+=anD[i];window.syncLevel=window.syncLevel*.8+(s/anD.length/255)*.2;}else{window.syncLevel*=.95;}requestAnimationFrame(syncLoop);}syncLoop();
+let hydraInstance=null;
+function initHydra(){try{hydraInstance=new Hydra({canvas:document.getElementById('hydra-canvas'),detectAudio:false,makeGlobal:true});setTimeout(rdv,400);}catch(e){log('Hydra init error: '+e.message);}}
+function rdv(){try{osc(5,.05,.5).color(.1,0,.3).add(voronoi(15,()=>1+window.syncLevel*3,2).color(.6,.2,.9).contrast(1.4).scrollX(()=>Math.sin(time*.15)*.1).scrollY(()=>Math.cos(time*.1)*.1).modulate(noise(3),()=>window.syncLevel*.6).mask(shape(40,()=>.3+window.syncLevel*.3,.05))).blend(o0,.85).out();document.getElementById('visual-status').innerText='SYS.RENDER_DEFAULT';}catch(e){}}
+function evalH(code){const BL=/document\.cookie|localStorage\.|sessionStorage\.|indexedDB\.|XMLHttpRequest/gi;if(BL.test(code)){log('Guardrail blocked.','e');return;}try{new Function(code)();addXP(10,'q1');document.getElementById('visual-status').innerText='SYS.RENDER_ACTIVE // SEED:'+Math.floor(Math.random()*10000);}catch(e){log('Hydra error: '+e.message,'e');rdv();}}
+function evaluateCode(){if(tab==='hydra'&&editor)evalH(editor.getValue());else if(tab==='llm')invokeLLM();}
+async function callGemini(p,sys,json=false){if(!apiKey){log('No API key.','e');return null;}const pay={contents:[{parts:[{text:p}]}],systemInstruction:{parts:[{text:sys}]}};if(json){pay.generationConfig={responseMimeType:'application/json',responseSchema:{type:'OBJECT',properties:{hydraCode:{type:'STRING'},strudelPattern:{type:'STRING'},lore:{type:'STRING'},mantras:{type:'ARRAY',items:{type:'STRING'}}},required:['hydraCode','strudelPattern','lore','mantras']}};}
+let r=0;const att=async()=>{const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pay)});if(!res.ok)throw new Error('HTTP '+res.status);const d=await res.json();const t=d.candidates?.[0]?.content?.parts?.[0]?.text;if(!t)throw new Error('empty');return json?JSON.parse(t):t;};const retry=async()=>{try{return await att();}catch(e){if(r<3){r++;await new Promise(x=>setTimeout(x,Math.pow(2,r)*1000));return retry();}throw e;}};try{return await retry();}catch(e){log('Oraculum: '+e.message,'e');return null;}}
+async function invokeLLM(){const p=editor?editor.getValue().trim():'';if(!p)return;addXP(15,'q2');addXP(25,'q3');const h=document.getElementById('chat-history');h.innerHTML+=`<div class="bg-purple-900/20 p-3 rounded border border-purple-900/40"><span class="text-xs text-purple-400 block mb-1">You:</span><pre class="font-sans text-sm whitespace-pre-wrap">${esc(p)}</pre></div>`;const lid='l'+Date.now();h.innerHTML+=`<div id="${lid}" class="bg-gray-800/60 p-3 rounded border border-gray-700 text-gray-500 text-xs">Consulting Oraculum...</div>`;sc();const SYS='You are VELUM_MARTIS, agentic architect of psychedelic ritual trance. hydraCode: valid Hydra-synth chain using ()=>window.syncLevel for audio reactivity, ends with .out(). strudelPattern: runnable Strudel anchored to D3 (146.83Hz ~144.72Hz). lore: 2-3 sentence dark ritual chant. mantras: 3-5 short words.';const res=await callGemini(p,SYS,true);document.getElementById(lid)?.remove();if(!res){h.innerHTML+=`<div class="text-red-500 text-xs p-2">Transmission failed.</div>`;sc();return;}const{hydraCode,strudelPattern,lore,mantras:nm}=res;if(nm?.length)mantras=nm;h.innerHTML+=`<div class="bg-gray-800/60 p-3 rounded border border-gray-700"><span class="text-xs text-purple-400 ritual-font block mb-2">Oraculum:</span><p class="font-sans text-sm mb-3 text-gray-300">${esc(lore)}</p><div class="mb-3"><div class="text-xs text-yellow-600 mb-1 uppercase">Strudel &rarr; paste into Sonus tab</div><pre class="bg-black/70 p-2 rounded text-xs text-green-400 overflow-x-auto border border-gray-700">${esc(strudelPattern)}</pre></div><div><div class="text-xs text-purple-600 mb-1 uppercase">Hydra Code</div><pre class="bg-black/70 p-2 rounded text-xs text-purple-300 overflow-x-auto border border-gray-700">${esc(hydraCode)}</pre></div></div>`;sc();evalH(hydraCode);if(tab==='hydra'&&editor)editor.setValue(hydraCode);else{session.hydraCode=hydraCode;sS();}document.getElementById('mantra-text').innerText=mantras[Math.floor(Math.random()*mantras.length)];const ae=document.getElementById('auto-exec-toggle').checked;if(ae&&strudelPattern){const el=document.getElementById('strudel-repl');if(el)el.textContent=strudelPattern;}log('Synthesis complete.','h');}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function sc(){const p=document.getElementById('llm-output');p.scrollTop=p.scrollHeight;}
+function log(t,type='n'){const c={h:'color:#a855f7',e:'color:#ef4444',n:'color:#71717a'};console.log('%c> '+t,c[type]||c.n);}
+require.config({paths:{vs:'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs'}});
+require(['vs/editor/editor.main'],function(){
+    monaco.editor.defineTheme('ares-dark',{base:'vs-dark',inherit:true,rules:[{token:'comment',foreground:'4b5577',fontStyle:'italic'},{token:'keyword',foreground:'f472b6'},{token:'number',foreground:'a78bfa'},{token:'string',foreground:'fbbf24'}],colors:{'editor.background':'#111115','editor.lineHighlightBackground':'#1a1a20','editorLineNumber.foreground':'#3f3f56'}});
+    editor=monaco.editor.create(document.getElementById('editor-container'),{value:session.hydraCode,language:'javascript',theme:'ares-dark',minimap:{enabled:false},fontSize:13,fontFamily:"'Fira Code',monospace",automaticLayout:true,padding:{top:12}});
+    editor.onDidChangeModelContent(()=>{if(tab==='hydra')session.hydraCode=editor.getValue();if(tab==='llm')session.llmPrompt=editor.getValue();clearTimeout(window.st);window.st=setTimeout(sS,1200);});
+    editor.addCommand(monaco.KeyMod.CtrlCmd|monaco.KeyCode.Enter,evaluateCode);
+    initHydra();rQ();log('Codex IDE :: Ares Veil online. Paste Gemini key to activate Oraculum.');
+});
+function switchTab(t,b){sS();tab=t;document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active');const ew=document.getElementById('editor-container'),sw=document.getElementById('strudel-container'),lc=document.getElementById('llm-controls'),lo=document.getElementById('llm-output'),sn=document.getElementById('strudel-note'),eb=document.getElementById('eval-btn');ew.style.display='none';sw.style.display='none';lc.classList.add('hidden');lo.style.display='none';sn.classList.add('hidden');eb.style.display='';if(t==='hydra'){ew.style.display='block';editor.setValue(session.hydraCode);monaco.editor.setModelLanguage(editor.getModel(),'javascript');}else if(t==='strudel'){sw.style.display='flex';sn.classList.remove('hidden');eb.style.display='none';}else if(t==='llm'){ew.style.display='block';editor.setValue(session.llmPrompt);monaco.editor.setModelLanguage(editor.getModel(),'markdown');lc.classList.remove('hidden');lo.style.display='flex';}}
+function toggleTheatre(){document.body.classList.toggle('theatre');document.getElementById('theatre-btn').innerText=document.body.classList.contains('theatre')?'EXIT':'VISIO PURA';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('theatre')){document.body.classList.remove('theatre');document.getElementById('theatre-btn').innerText='VISIO PURA';}});
+document.addEventListener('click',e=>{if(document.body.classList.contains('theatre')&&!['theatre-btn','exit-hint'].includes(e.target.id)){document.body.classList.remove('theatre');document.getElementById('theatre-btn').innerText='VISIO PURA';}});
+window.addEventListener('resize',()=>{if(editor)editor.layout();});
+</script>
+</body>
+</html>
