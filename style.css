@@ -913,3 +913,115 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   .signal-stats { flex-direction: column; }
   .signal-stat-card { min-width: unset; }
 }
+
+
+/* ══════════════════════════════════════
+   AETHERBROWSER — HYBRID NODE EXTRAS
+══════════════════════════════════════ */
+
+/* Repo vitals strip */
+.sys-repo-vitals {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.srv-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  border-right: 1px solid var(--border);
+}
+.srv-item:last-child { border-right: none; }
+.srv-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .18em;
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+.srv-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Clone block */
+.sys-clone-block {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 20px;
+  border: 1px solid rgba(168,85,247,.2);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(168,85,247,.04);
+}
+.sys-clone-cmd {
+  flex: 1;
+  display: block;
+  padding: 10px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ghost);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: all;
+}
+.sys-clone-copy {
+  padding: 10px 14px;
+  background: rgba(168,85,247,.12);
+  border: none;
+  border-left: 1px solid rgba(168,85,247,.2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  color: var(--plasma);
+  cursor: pointer;
+  transition: background .2s, color .2s;
+  flex-shrink: 0;
+}
+.sys-clone-copy:hover {
+  background: rgba(168,85,247,.24);
+  color: #bf7dff;
+}
+
+/* Link row */
+.sys-link-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.sys-star-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--amber);
+  padding: 5px 12px;
+  border: 1px solid rgba(245,158,11,.2);
+  border-radius: 6px;
+  background: rgba(245,158,11,.06);
+  transition: all .2s;
+}
+.sys-star-btn:hover {
+  background: rgba(245,158,11,.14);
+  border-color: rgba(245,158,11,.4);
+}
+
+/* Responsive adjustments for vitals strip */
+@media (max-width: 480px) {
+  .sys-repo-vitals { flex-direction: column; }
+  .srv-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .srv-item:last-child { border-bottom: none; }
+  .sys-clone-cmd { font-size: 9px; }
+}

@@ -179,27 +179,61 @@
         <div class="sys-node sys-node-large" id="sys-browser">
           <div class="sys-node-header">
             <div class="sys-status-row">
-              <span class="sys-dot dot-green"></span>
-              <span class="sys-status-text">Building</span>
+              <span class="sys-dot dot-green pulse"></span>
+              <span class="sys-status-text">Active build</span>
             </div>
             <span class="sys-tag">FLAGSHIP</span>
           </div>
+
           <div class="sys-glyph" aria-hidden="true">◈</div>
           <h3 class="sys-name">AetherBrowser</h3>
           <p class="sys-desc">
-            Not a reskin. A sovereign machine. Tauri v2 desktop browser
-            with MIST AI built-in, Ghostline security running at the kernel level,
-            and Subspace as the new-tab Agent OS. Your browser finally works for you.
+            Not a reskin. A sovereign machine. Tauri&nbsp;v2 desktop browser
+            with MIST AI built-in, Ghostline security at the kernel level,
+            and Subspace as the new-tab Agent&nbsp;OS.
+            Your browser finally works <em>for you</em>.
           </p>
+
+          <!-- Repo vitals strip -->
+          <div class="sys-repo-vitals">
+            <div class="srv-item">
+              <span class="srv-label">REPO</span>
+              <span class="srv-value">Mellowambience/aetherbrowser</span>
+            </div>
+            <div class="srv-item">
+              <span class="srv-label">BRANCH</span>
+              <span class="srv-value">main</span>
+            </div>
+            <div class="srv-item">
+              <span class="srv-label">PHASE</span>
+              <span class="srv-value">1–2 scaffold live</span>
+            </div>
+          </div>
+
           <div class="sys-tags">
             <span>Tauri v2</span>
             <span>Rust</span>
             <span>TypeScript</span>
             <span>AI-native</span>
+            <span>Ghostline</span>
+            <span>MIST</span>
+            <span>Subspace</span>
           </div>
-          <a href="https://github.com/Mellowambiences/aetherbrowser" target="_blank" rel="noopener" class="sys-link">
-            View repo <span aria-hidden="true">→</span>
-          </a>
+
+          <!-- Clone block -->
+          <div class="sys-clone-block">
+            <code class="sys-clone-cmd">git clone https://github.com/Mellowambience/aetherbrowser.git</code>
+            <button class="sys-clone-copy" onclick="navigator.clipboard.writeText('git clone https://github.com/Mellowambience/aetherbrowser.git').then(()=>{this.textContent='Copied';setTimeout(()=>this.textContent='Copy',1500)})" aria-label="Copy clone command">Copy</button>
+          </div>
+
+          <div class="sys-link-row">
+            <a href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener" class="sys-link">
+              View on GitHub <span aria-hidden="true">→</span>
+            </a>
+            <a href="https://github.com/Mellowambience/aetherbrowser/stargazers" target="_blank" rel="noopener" class="sys-star-btn">
+              ☆ Star
+            </a>
+          </div>
         </div>
 
         <!-- MIST -->
@@ -284,7 +318,7 @@
               </p>
             </div>
             <div class="sys-aethertab-ctas">
-              <a href="https://github.com/Mellowambiences/aethertab" target="_blank" rel="noopener" class="sys-link">GitHub →</a>
+              <a href="https://github.com/Mellowambience/aethertab" target="_blank" rel="noopener" class="sys-link">GitHub →</a>
               <a href="https://mellowambience.github.io/aethertab" target="_blank" rel="noopener" class="sys-link-ghost">Landing page →</a>
             </div>
           </div>
@@ -294,7 +328,7 @@
 
       <!-- More projects link -->
       <div class="systems-more">
-        <a href="https://github.com/Mellowambiences" target="_blank" rel="noopener" class="systems-more-link">
+        <a href="https://github.com/Mellowambience" target="_blank" rel="noopener" class="systems-more-link">
           <span>See all repos on GitHub</span>
           <span class="sml-arrow">→</span>
         </a>
