@@ -1,155 +1,386 @@
 <!DOCTYPE html>
 <!--
-  Aetherhaven · mellowambience.github.io
-  The stadium. Enter the void.
-  // The Bluebird Song plays here too.
+  mellowambience.github.io — Aetherhaven Empire
+  Subspace Agent OS lives here. Enter the void.
+  Rev 2.0 — Mar 2026
 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amara T. — Systems Thinker & Builder</title>
-  <meta name="description" content="Full-stack developer building intelligent systems. MIST sovereign AI, AetherRose longevity research, AetherTab Chrome extension. Aetherhaven Hub. Philadelphia, PA.">
-  <meta property="og:title" content="Amara T. — Systems Thinker & Builder">
-  <meta property="og:description" content="Full-stack developer. MIST sovereign AI. AetherRose. AetherTab. The Hub.">
+  <title>Amara (Mars) — Systems Thinker & Builder | Aetherhaven</title>
+  <meta name="description" content="Full-stack developer building sovereign AI systems, browsers, and worlds. MIST · AetherBrowser · Ghostline · Aetherhaven Hub. Philadelphia, PA.">
+  <meta property="og:title" content="Amara (Mars) — Aetherhaven">
+  <meta property="og:description" content="Sovereign AI. Custom browser. Living worlds. Building at the edge of code and biology.">
   <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- CANVAS PARTICLE FIELD -->
+  <!-- PARTICLE CANVAS -->
   <canvas id="void-canvas" aria-hidden="true"></canvas>
 
-  <!-- TOP TICKER -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- FULLSCREEN OVERLAY — SUBSPACE AGENT OS                 -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="subspace-overlay" class="subspace-overlay" aria-hidden="true" role="dialog" aria-label="Subspace Agent OS">
+    <div class="subspace-topbar">
+      <span class="ss-logo">⟁ SUBSPACE</span>
+      <div class="ss-topbar-center">
+        <span class="ss-status-dot online"></span>
+        <span class="ss-status-text">Agent OS Online</span>
+      </div>
+      <button class="ss-close-btn" id="ss-close" aria-label="Exit Subspace">✕ EXIT</button>
+    </div>
+
+    <div class="subspace-body">
+      <!-- LEFT — Agent Hub -->
+      <aside class="ss-agent-hub">
+        <div class="ss-section-label">AGENTS</div>
+        <button class="ss-agent-node active" data-agent="mist">
+          <span class="ss-dot" style="background:#a855f7;box-shadow:0 0 8px #a855f7"></span>
+          <span class="ss-agent-name">MIST</span>
+          <span class="ss-agent-sub">AI Companion</span>
+        </button>
+        <button class="ss-agent-node" data-agent="ghostline">
+          <span class="ss-dot" style="background:#ef4444;box-shadow:0 0 8px #ef4444"></span>
+          <span class="ss-agent-name">Ghostline</span>
+          <span class="ss-agent-sub">Security</span>
+        </button>
+        <button class="ss-agent-node" data-agent="openclaw">
+          <span class="ss-dot" style="background:#3b82f6;box-shadow:0 0 8px #3b82f6"></span>
+          <span class="ss-agent-name">OpenClaw</span>
+          <span class="ss-agent-sub">Dispatch</span>
+        </button>
+        <button class="ss-agent-node" data-agent="oracle">
+          <span class="ss-dot" style="background:#f59e0b;box-shadow:0 0 8px #f59e0b"></span>
+          <span class="ss-agent-name">Oracle</span>
+          <span class="ss-agent-sub">Intelligence</span>
+        </button>
+
+        <div class="ss-section-label" style="margin-top:20px">COMMS</div>
+        <button class="ss-agent-node offline" data-agent="discord">
+          <span class="ss-dot" style="background:#5865f2;opacity:.4"></span>
+          <span class="ss-agent-name">Discord</span>
+          <span class="ss-agent-sub">Offline</span>
+        </button>
+        <button class="ss-agent-node offline" data-agent="telegram">
+          <span class="ss-dot" style="background:#0ea5e9;opacity:.4"></span>
+          <span class="ss-agent-name">Telegram</span>
+          <span class="ss-agent-sub">Offline</span>
+        </button>
+        <button class="ss-agent-node offline" data-agent="github">
+          <span class="ss-dot" style="background:#94a3b8;opacity:.4"></span>
+          <span class="ss-agent-name">GitHub</span>
+          <span class="ss-agent-sub">Offline</span>
+        </button>
+
+        <div class="ss-section-label" style="margin-top:20px">EMPIRE</div>
+        <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" class="ss-empire-link">🌑 Hub</a>
+        <a href="https://github.com/Mellowambience/aetherbrowser" target="_blank" class="ss-empire-link">⟁ AetherBrowser</a>
+        <a href="https://github.com/Mellowambience/clawd" target="_blank" class="ss-empire-link">∴ MIST / clawd</a>
+        <a href="https://github.com/Mellowambience/ghostline" target="_blank" class="ss-empire-link">👻 Ghostline</a>
+        <a href="https://github.com/Mellowambience/aetherhaven-empire-index" target="_blank" class="ss-empire-link">◈ Empire Index</a>
+      </aside>
+
+      <!-- CENTER — Canvas -->
+      <main class="ss-canvas">
+        <div class="ss-mode-bar">
+          <button class="ss-mode-btn active" data-mode="chat">Chat</button>
+          <button class="ss-mode-btn" data-mode="canvas">Canvas</button>
+          <button class="ss-mode-btn" data-mode="multicast">Multicast</button>
+          <button class="ss-mode-btn" data-mode="monitor">Monitor</button>
+        </div>
+        <div class="ss-messages" id="ss-messages">
+          <div class="ss-msg ss-msg-system">
+            <span class="ss-msg-icon">⟁</span>
+            <div class="ss-msg-body">
+              <div class="ss-msg-author">SUBSPACE</div>
+              <div class="ss-msg-text">Agent OS initialized. MIST online. Ghostline scanning. Welcome, Mars.</div>
+            </div>
+          </div>
+          <div class="ss-msg ss-msg-mist">
+            <span class="ss-msg-icon" style="color:#a855f7">✦</span>
+            <div class="ss-msg-body">
+              <div class="ss-msg-author" style="color:#a855f7">MIST</div>
+              <div class="ss-msg-text">Hello, Mars. AetherBrowser scaffold is live on GitHub. Subspace is now embedded on the main site. What are we building next?</div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- RIGHT — Context Dock -->
+      <aside class="ss-context-dock">
+        <div class="ss-section-label">CURRENT PAGE</div>
+        <div class="ss-dock-item">
+          <span class="ss-dock-label">Site</span>
+          <span class="ss-dock-val">mellowambience.github.io</span>
+        </div>
+
+        <div class="ss-section-label" style="margin-top:16px;color:#ef4444">GHOSTLINE</div>
+        <div class="ss-ghost-status">
+          <span style="color:#4ade80">● All clear</span>
+          <span class="ss-dock-sub">0 trackers detected</span>
+        </div>
+
+        <div class="ss-section-label" style="margin-top:16px">ACTIVE BUILDS</div>
+        <div class="ss-task-item">
+          <span class="ss-task-dot" style="background:#a855f7"></span>
+          <div>
+            <div class="ss-task-name">AetherBrowser</div>
+            <div class="ss-task-phase">Phase 1 — Shell</div>
+          </div>
+        </div>
+        <div class="ss-task-item">
+          <span class="ss-task-dot" style="background:#f59e0b"></span>
+          <div>
+            <div class="ss-task-name">Subspace OS</div>
+            <div class="ss-task-phase">Live on site ✓</div>
+          </div>
+        </div>
+        <div class="ss-task-item">
+          <span class="ss-task-dot" style="background:#3b82f6"></span>
+          <div>
+            <div class="ss-task-name">MIST / clawd</div>
+            <div class="ss-task-phase">Active sprint</div>
+          </div>
+        </div>
+
+        <div class="ss-section-label" style="margin-top:16px">VOID SHARDS</div>
+        <div class="ss-themes">
+          <button class="ss-theme-btn active" data-theme="void">Void</button>
+          <button class="ss-theme-btn" data-theme="rose">Rose Garden</button>
+          <button class="ss-theme-btn" data-theme="forge">The Forge</button>
+          <button class="ss-theme-btn" data-theme="ghost">Ghost</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- OMNI INPUT -->
+    <div class="ss-omni-bar">
+      <span class="ss-omni-prefix" id="ss-prefix">msg</span>
+      <input
+        type="text"
+        class="ss-omni-input"
+        id="ss-input"
+        placeholder="/ command   @ agent   ! ghost action   ~ broadcast to all   or just talk to MIST"
+        autocomplete="off"
+      >
+      <button class="ss-omni-send" id="ss-send">⏎</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- TOP TICKER                                      -->
+  <!-- ═══════════════════════════════════════════════ -->
   <div class="top-ticker" id="top-ticker">
     <div class="top-ticker-inner">
       <div class="top-ticker-track" aria-hidden="false">
-        <a href="https://mellowambience.github.io/" class="tt-chip tt-link">mellowambience.github.io</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">𝕏&nbsp;@1Aether1Rose1</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">📸&nbsp;@amara_solace111</a>
-        <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal" data-lang-chip><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">♥&nbsp;Ko-fi&nbsp;/&nbsp;1aether1rose1</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="/aethertab" class="tt-chip tt-link tt-accent">⟐&nbsp;AetherTab&nbsp;—&nbsp;public&nbsp;beta&nbsp;live</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://github.com/Mellowambience/aetherhaven-hub" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">🌑&nbsp;Aetherhaven&nbsp;Hub&nbsp;—&nbsp;entering&nbsp;the&nbsp;void</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in&nbsp;Amara&nbsp;Torretti</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://humanpalette.xyz" class="tt-chip tt-link" target="_blank" rel="noopener">◈&nbsp;HumanPalette</a>
-        <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal tt-muted">Phase&nbsp;1&nbsp;·&nbsp;Hub&nbsp;scaffolded&nbsp;·&nbsp;void&nbsp;lobby&nbsp;live</span>
-        <span class="tt-sep">&#x2726;</span>
-        <!-- RAIL 2 REPEAT -->
-        <a href="https://mellowambience.github.io/" class="tt-chip tt-link">mellowambience.github.io</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">𝕏&nbsp;@1Aether1Rose1</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://instagram.com/amara_solace111" class="tt-chip tt-link" target="_blank" rel="noopener">📸&nbsp;@amara_solace111</a>
-        <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal" data-lang-chip><span class="tt-dot active"></span>SIGNAL&nbsp;—&nbsp;building FirstArc · image provenance for creators</span>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆&nbsp;Discord&nbsp;/&nbsp;AETHERHAVEN</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">♥&nbsp;Ko-fi&nbsp;/&nbsp;1aether1rose1</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="/aethertab" class="tt-chip tt-link tt-accent">⟐&nbsp;AetherTab&nbsp;—&nbsp;public&nbsp;beta&nbsp;live</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://github.com/Mellowambience/aetherhaven-hub" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">🌑&nbsp;Aetherhaven&nbsp;Hub&nbsp;—&nbsp;entering&nbsp;the&nbsp;void</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in&nbsp;Amara&nbsp;Torretti</a>
-        <span class="tt-sep">&#x2726;</span>
-        <a href="https://humanpalette.xyz" class="tt-chip tt-link" target="_blank" rel="noopener">◈&nbsp;HumanPalette</a>
-        <span class="tt-sep">&#x2726;</span>
-        <span class="tt-chip tt-signal tt-muted">Phase&nbsp;1&nbsp;·&nbsp;Hub&nbsp;scaffolded&nbsp;·&nbsp;void&nbsp;lobby&nbsp;live</span>
+        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">𝕏 @1Aether1Rose1</a>
+        <span class="tt-sep">✦</span>
+        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>NOW BUILDING — AetherBrowser · Sovereign Desktop Browser</span>
+        <span class="tt-sep">✦</span>
+        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆ Discord / AETHERHAVEN</a>
+        <span class="tt-sep">✦</span>
+        <a href="/aethertab" class="tt-chip tt-link tt-accent">⟐ AetherTab — public beta live</a>
+        <span class="tt-sep">✦</span>
+        <a href="https://github.com/Mellowambience/aetherbrowser" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">⟁ AetherBrowser — scaffold live</a>
+        <span class="tt-sep">✦</span>
+        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">♥ Ko-fi</a>
+        <span class="tt-sep">✦</span>
+        <a href="https://github.com/Mellowambience/aetherhaven-hub" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">🌑 Aetherhaven Hub</a>
+        <span class="tt-sep">✦</span>
+        <a href="https://linkedin.com/in/amara-torretti" class="tt-chip tt-cold" target="_blank" rel="noopener">in Amara Torretti</a>
+        <span class="tt-sep">✦</span>
+        <!-- repeat -->
+        <a href="https://x.com/1Aether1Rose1" class="tt-chip tt-link tt-accent" target="_blank" rel="noopener">𝕏 @1Aether1Rose1</a>
+        <span class="tt-sep">✦</span>
+        <span class="tt-chip tt-signal"><span class="tt-dot active"></span>NOW BUILDING — AetherBrowser · Sovereign Desktop Browser</span>
+        <span class="tt-sep">✦</span>
+        <a href="https://discord.gg/aetherhaven" class="tt-chip tt-link tt-cold" target="_blank" rel="noopener">◆ Discord / AETHERHAVEN</a>
+        <span class="tt-sep">✦</span>
+        <a href="/aethertab" class="tt-chip tt-link tt-accent">⟐ AetherTab — public beta live</a>
+        <span class="tt-sep">✦</span>
+        <a href="https://github.com/Mellowambience/aetherbrowser" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">⟁ AetherBrowser — scaffold live</a>
+        <span class="tt-sep">✦</span>
+        <a href="https://ko-fi.com/1aether1rose1" class="tt-chip tt-link tt-warm" target="_blank" rel="noopener">♥ Ko-fi</a>
+        <span class="tt-sep">✦</span>
+        <a href="https://github.com/Mellowambience/aetherhaven-hub" class="tt-chip tt-link tt-violet" target="_blank" rel="noopener">🌑 Aetherhaven Hub</a>
+        <span class="tt-sep">✦</span>
       </div>
     </div>
   </div>
 
-  <!-- NAV -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- MAIN NAV                                        -->
+  <!-- ═══════════════════════════════════════════════ -->
   <nav id="nav">
     <a href="#" class="nav-logo">M<span class="accent">.</span></a>
+
     <div class="nav-links">
       <a href="#work">Work</a>
       <a href="#about">About</a>
       <a href="#exp">Experience</a>
       <a href="#hire">Hire</a>
       <a href="/rates">Rates</a>
-      <a href="/card">Card</a>
       <a href="/portfolio">Design</a>
       <a href="/consulting" class="accent">Consulting</a>
       <a href="/aethertab" style="display:inline-flex;align-items:center;gap:5px;">AetherTab <span class="nav-beta-pill">BETA</span></a>
-      <a href="https://mellowambience.github.io/BluebirdSongProductions/" target="_blank" rel="noopener">🪶 Bluebird</a>
+      <a href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener" class="nav-new-pill">⟁ AetherBrowser</a>
       <a href="https://github.com/Mellowambience/aetherhaven-hub" class="nav-hub-link" target="_blank" rel="noopener">🌑 Hub</a>
     </div>
-    <button class="burger" id="burger" aria-label="Menu">
-      <span></span><span></span>
-    </button>
+
+    <div class="nav-right">
+      <button class="btn-subspace" id="open-subspace" aria-label="Open Subspace Agent OS">
+        <span class="ss-btn-dot"></span>
+        Subspace
+      </button>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-    <a href="#work" class="mobile-link">Work</a>
-    <a href="#about" class="mobile-link">About</a>
-    <a href="#exp" class="mobile-link">Experience</a>
-    <a href="#hire" class="mobile-link">Hire</a>
-    <a href="/rates" class="mobile-link">Rates</a>
-    <a href="/portfolio" class="mobile-link">Design</a>
-    <a href="/consulting" class="mobile-link accent">Consulting</a>
-    <a href="/aethertab" class="mobile-link">AetherTab ✦ Beta</a>
-    <a href="https://github.com/Mellowambience/aetherhaven-hub" class="mobile-link">🌑 Aetherhaven Hub</a>
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FULL-SCREEN MENU OVERLAY                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="fullscreen-menu" id="fullscreen-menu" aria-hidden="true">
+    <div class="fm-inner">
+      <div class="fm-left">
+        <nav class="fm-nav">
+          <a href="#work" class="fm-link" data-close-menu>
+            <span class="fm-num">01</span>Work
+          </a>
+          <a href="#about" class="fm-link" data-close-menu>
+            <span class="fm-num">02</span>About
+          </a>
+          <a href="#exp" class="fm-link" data-close-menu>
+            <span class="fm-num">03</span>Experience
+          </a>
+          <a href="#hire" class="fm-link" data-close-menu>
+            <span class="fm-num">04</span>Hire
+          </a>
+          <a href="/rates" class="fm-link">
+            <span class="fm-num">05</span>Rates
+          </a>
+          <a href="/portfolio" class="fm-link">
+            <span class="fm-num">06</span>Design
+          </a>
+          <a href="/consulting" class="fm-link fm-accent">
+            <span class="fm-num">07</span>Consulting
+          </a>
+        </nav>
+      </div>
+      <div class="fm-right">
+        <div class="fm-projects">
+          <div class="fm-projects-label">Projects</div>
+          <a href="/aethertab" class="fm-proj-item">
+            <span class="fm-proj-icon">⟐</span>
+            <div>
+              <div class="fm-proj-name">AetherTab</div>
+              <div class="fm-proj-desc">Chrome extension · Public Beta</div>
+            </div>
+          </a>
+          <a href="https://github.com/Mellowambience/aetherbrowser" target="_blank" class="fm-proj-item">
+            <span class="fm-proj-icon">⟁</span>
+            <div>
+              <div class="fm-proj-name">AetherBrowser</div>
+              <div class="fm-proj-desc">Sovereign desktop browser · Scaffold live</div>
+            </div>
+          </a>
+          <a href="https://github.com/Mellowambience/clawd" target="_blank" class="fm-proj-item">
+            <span class="fm-proj-icon">∴</span>
+            <div>
+              <div class="fm-proj-name">MIST / clawd</div>
+              <div class="fm-proj-desc">Sovereign AI companion · Active sprint</div>
+            </div>
+          </a>
+          <a href="https://github.com/Mellowambience/ghostline" target="_blank" class="fm-proj-item">
+            <span class="fm-proj-icon">👻</span>
+            <div>
+              <div class="fm-proj-name">Ghostline</div>
+              <div class="fm-proj-desc">Cybersecurity suite · CLI-first</div>
+            </div>
+          </a>
+          <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" class="fm-proj-item">
+            <span class="fm-proj-icon">🌑</span>
+            <div>
+              <div class="fm-proj-name">Aetherhaven Hub</div>
+              <div class="fm-proj-desc">Game-inspired social world</div>
+            </div>
+          </a>
+        </div>
+        <div class="fm-socials">
+          <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener">𝕏</a>
+          <a href="https://discord.gg/aetherhaven" target="_blank" rel="noopener">Discord</a>
+          <a href="https://github.com/Mellowambience" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://linkedin.com/in/amara-torretti" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://ko-fi.com/1aether1rose1" target="_blank" rel="noopener">Ko-fi</a>
+        </div>
+        <!-- ENTER SUBSPACE FROM MENU -->
+        <button class="fm-subspace-btn" id="fm-open-subspace">
+          <span class="ss-btn-dot"></span>
+          Enter Subspace Agent OS
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- HERO — FULL VIEWPORT STADIUM                   -->
+  <!-- HERO                                            -->
   <!-- ═══════════════════════════════════════════════ -->
   <section class="hero-stadium" id="home">
-    <!-- Ambient glow orbs -->
     <div class="orb orb-1" aria-hidden="true"></div>
     <div class="orb orb-2" aria-hidden="true"></div>
     <div class="orb orb-3" aria-hidden="true"></div>
 
     <div class="hero-stadium-inner">
-      <!-- Eyebrow -->
       <div class="hero-eyebrow reveal-up">
         <span class="tag-dot"></span>
         Available for hire &middot; Philadelphia, PA
       </div>
-
-      <!-- The name — as big as it can be -->
       <h1 class="hero-massive reveal-up delay-1">
         <span class="hero-line-1">Systems</span>
         <span class="hero-line-2">Thinker<span class="amp">&</span></span>
         <span class="hero-line-3 hero-accent-mars">Builder</span>
       </h1>
-
-      <!-- One-liner underneath the name -->
       <p class="hero-sub reveal-up delay-2">
-        Mars — building intelligent systems at the edge of code and biology.
-        MIST · AetherRose · AetherTab · <a href="https://github.com/Mellowambience/aetherhaven-hub" class="hero-hub-link" target="_blank">Aetherhaven Hub</a>.
+        Mars — building sovereign AI, custom browsers, and digital worlds at the edge of code and biology.
+        MIST · AetherBrowser · Ghostline · <a href="https://github.com/Mellowambiences/aetherhaven-hub" class="hero-hub-link" target="_blank">Aetherhaven Hub</a>.
       </p>
-
-      <!-- CTAs side by side -->
       <div class="hero-ctas reveal-up delay-3">
         <a href="#work" class="btn-primary mag-btn">View Work</a>
-        <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" class="btn-void">🌑 Enter the Hub</a>
+        <button class="btn-void mag-btn" id="hero-subspace-btn">⟁ Enter Subspace</button>
+        <a href="https://github.com/Mellowambiences/aetherhaven-hub" target="_blank" class="btn-ghost">🌑 Aetherhaven Hub</a>
       </div>
-
-      <!-- Arc bar — canonical Aether signal -->
       <div class="arc-bar reveal-up delay-4" aria-hidden="true"></div>
     </div>
 
-    <!-- Scroll cue -->
+    <!-- SUBSPACE PREVIEW CARD in hero -->
+    <div class="hero-subspace-preview reveal-up delay-4" id="hero-ss-preview">
+      <div class="hsp-header">
+        <span class="hsp-dot" style="background:#a855f7"></span>
+        <span class="hsp-dot" style="background:#ef4444"></span>
+        <span class="hsp-dot" style="background:#3b82f6"></span>
+        <span class="hsp-title">⟁ SUBSPACE — Agent OS</span>
+        <button class="hsp-expand" id="hsp-expand-btn" title="Open Subspace fullscreen">⤢</button>
+      </div>
+      <div class="hsp-body">
+        <div class="hsp-message">
+          <span class="hsp-agent" style="color:#a855f7">MIST</span>
+          <span class="hsp-text">AetherBrowser scaffold committed to GitHub. Subspace is live on the main page. What's next?</span>
+        </div>
+        <div class="hsp-input-row">
+          <input type="text" class="hsp-input" id="hsp-input" placeholder="Talk to MIST or / command...">
+          <button class="hsp-send" id="hsp-send">⏎</button>
+        </div>
+      </div>
+    </div>
+
     <div class="scroll-cue" aria-hidden="true">
       <span class="scroll-line"></span>
       <span class="scroll-label">scroll</span>
@@ -157,7 +388,58 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- HUB TEASER — FULL BLEED STADIUM FEATURE        -->
+  <!-- AETHERBROWSER FEATURE SECTION                   -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="browser-stadium" id="aetherbrowser">
+    <div class="browser-stadium-inner">
+      <div class="browser-text reveal-up">
+        <span class="hub-eyebrow">Now Scaffolded</span>
+        <h2 class="hub-title">AetherBrowser</h2>
+        <p class="hub-desc">
+          Not a Chromium reskin. A sovereign desktop browser built on Tauri v2 — with MIST AI built-in,
+          Ghostline security on every URL, and Subspace as the new tab page.
+          Cherry-picked from 7 existing repos across the Aetherhaven empire.
+        </p>
+        <div class="hub-rooms">
+          <span class="hub-room">⟁ Tauri v2 Shell</span>
+          <span class="hub-room muted">👻 Ghostline Security</span>
+          <span class="hub-room muted">∴ MIST AI Sidebar</span>
+          <span class="hub-room muted">⟁ Subspace New Tab</span>
+          <span class="hub-room muted">⌘ Command Palette</span>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+          <a href="https://github.com/Mellowambience/aetherbrowser" target="_blank" class="btn-void">View Repo →</a>
+          <button class="btn-primary" onclick="openSubspace()">⟁ Open Subspace</button>
+        </div>
+      </div>
+      <div class="browser-visual reveal-up delay-2" aria-hidden="true">
+        <!-- Mini Subspace mockup -->
+        <div class="browser-mockup">
+          <div class="bm-titlebar">
+            <span class="bm-dot bm-red"></span>
+            <span class="bm-dot bm-yellow"></span>
+            <span class="bm-dot bm-green"></span>
+            <span class="bm-url">about:subspace</span>
+          </div>
+          <div class="bm-body">
+            <div class="bm-sidebar">
+              <div class="bm-agent bm-mist">✦ MIST</div>
+              <div class="bm-agent bm-ghost">👻 Ghostline</div>
+              <div class="bm-agent bm-claw">⟁ OpenClaw</div>
+            </div>
+            <div class="bm-canvas">
+              <div class="bm-msg"><span class="bm-purple">MIST</span> — Hello, Mars.</div>
+              <div class="bm-msg" style="opacity:.6"><span class="bm-red">GHOST</span> — 0 trackers detected.</div>
+              <div class="bm-cursor"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HUB TEASER                                      -->
   <!-- ═══════════════════════════════════════════════ -->
   <section class="hub-stadium" id="hub">
     <div class="hub-stadium-inner">
@@ -176,7 +458,7 @@
           <span class="hub-room muted">📖 Codex Hall</span>
           <span class="hub-room muted">🌌 Echo Sector</span>
         </div>
-        <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" class="btn-void">Enter the Void →</a>
+        <a href="https://github.com/Mellowambiences/aetherhaven-hub" target="_blank" class="btn-void">Enter the Void →</a>
       </div>
       <div class="hub-stadium-visual reveal-up delay-2" aria-hidden="true">
         <div class="hub-orb-container">
@@ -190,7 +472,7 @@
   </section>
 
   <!-- ═══════════════════════════════════════════════ -->
-  <!-- WORK — BENTO MAXIMALIST                        -->
+  <!-- WORK — BENTO                                    -->
   <!-- ═══════════════════════════════════════════════ -->
   <section class="section" id="work">
     <div class="section-inner">
@@ -201,100 +483,80 @@
       </div>
       <div class="bento">
 
-        <!-- MIST — featured flagship -->
         <div class="bento-card bento-lg reveal">
           <div class="bento-badge">Flagship</div>
           <div class="bento-sprint">ACTIVE SPRINT · MVP Q1 2026</div>
           <h3>MIST<br><span class="sub">Sovereign AI Companion</span></h3>
-          <p>Dual-path AI — cloud (Gemini) with local fallback (Ollama). React Native via tRPC. An AI that lives locally, thinks independently, and belongs to <em>you</em>. Inspired by MIST from <em>Pantheon</em>.</p>
-          <div class="bento-tech">
-            <span>TypeScript</span><span>React Native</span><span>tRPC</span><span>Gemini</span><span>Ollama</span>
-          </div>
+          <p>Dual-path AI — cloud (Gemini) with local fallback (Ollama). React Native via tRPC. An AI that lives locally, thinks independently, and belongs to <em>you</em>.</p>
+          <div class="bento-tech"><span>TypeScript</span><span>React Native</span><span>tRPC</span><span>Gemini</span><span>Ollama</span></div>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- AetherRose -->
+        <div class="bento-card bento-browser reveal">
+          <div class="bento-badge" style="background:rgba(168,85,247,.2);color:#a855f7">⟁ New</div>
+          <div class="bento-sprint">SCAFFOLD LIVE · TAURI V2</div>
+          <h3>AetherBrowser<br><span class="sub">Sovereign Desktop Browser</span></h3>
+          <p>Tauri v2 shell + MIST AI sidebar + Ghostline security + Subspace Agent OS as new tab. Cherry-picked from 7 repos.</p>
+          <div class="bento-tech"><span>Tauri v2</span><span>TypeScript</span><span>Rust</span><span>Ghostline</span></div>
+          <a href="https://github.com/Mellowambiences/aetherbrowser" class="bento-link" target="_blank">View Repo →</a>
+          <div class="bento-glow"></div>
+        </div>
+
         <div class="bento-card bento-rose reveal">
           <div class="bento-badge">Open Science</div>
           <div class="bento-sprint">LONGEVITY · MIT LICENSE</div>
           <h3>AetherRose<br><span class="sub">Longevity Research Tool</span></h3>
           <p>Trajectory modeling for hormone optimization, cellular repair, and radiation resistance. Part of Aetherhaven. NANOROSE v0.1 published.</p>
-          <div class="bento-tech">
-            <span>Python</span><span>Streamlit</span><span>Claude</span><span>MIT</span>
-          </div>
+          <div class="bento-tech"><span>Python</span><span>Streamlit</span><span>Claude</span><span>MIT</span></div>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- Aetherhaven Hub — NEW featured card -->
         <div class="bento-card bento-hub reveal">
           <div class="bento-badge hub-badge">🌑 Now Live</div>
           <h3>Aetherhaven Hub<br><span class="sub">Game-Inspired Social World</span></h3>
-          <p>7 rooms. Void Shards. Traveller ranks. Forge Quests tied to GitHub issues. The empire's gravitational center. VMK · Habbo · MapleStory · RuneScape.</p>
-          <div class="bento-tech">
-            <span>Next.js 15</span><span>Supabase Realtime</span><span>Framer Motion</span>
-          </div>
-          <a href="https://github.com/Mellowambience/aetherhaven-hub" class="bento-link" target="_blank">Enter the Void →</a>
+          <p>7 rooms. Void Shards. Traveller ranks. Forge Quests tied to GitHub issues. VMK · Habbo · MapleStory · RuneScape.</p>
+          <div class="bento-tech"><span>Next.js 15</span><span>Supabase Realtime</span><span>Framer Motion</span></div>
+          <a href="https://github.com/Mellowambiences/aetherhaven-hub" class="bento-link" target="_blank">Enter the Void →</a>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- OpenClaw -->
         <div class="bento-card bento-infra reveal">
           <div class="bento-badge">Infrastructure</div>
           <div class="bento-stat">114</div>
           <div class="bento-stat-label">production startups</div>
           <h3>OpenClaw<br><span class="sub">AI Infrastructure Backbone</span></h3>
           <p>Core maintainer. Hosted wrappers, one-click deploy, critical PRs keeping the ecosystem running.</p>
-          <div class="bento-tech">
-            <span>TypeScript</span><span>x402</span><span>Agent Economy</span>
-          </div>
+          <div class="bento-tech"><span>TypeScript</span><span>x402</span><span>Agent Economy</span></div>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- HumanPalette -->
         <div class="bento-card reveal">
           <div class="bento-badge sprint">Active Sprint</div>
           <h3>HumanPalette<br><span class="sub">Human-Only Art Exchange</span></h3>
           <p>Swipe-native marketplace for verified human artists. Zero AI-generated content. Stripe Connect + EAS attestation on Base.</p>
-          <div class="bento-tech">
-            <span>React Native</span><span>Supabase</span><span>Stripe</span><span>EAS</span>
-          </div>
+          <div class="bento-tech"><span>React Native</span><span>Supabase</span><span>Stripe</span><span>EAS</span></div>
           <a href="https://humanpalette.vercel.app" class="bento-link" target="_blank">View App →</a>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- AetherTab -->
         <div class="bento-card bento-aethertab reveal">
           <div class="bento-badge sprint">Public Beta</div>
           <h3>AetherTab<br><span class="sub">Chrome New Tab Extension</span></h3>
-          <p>Encrypted AI sidebar (MIST cascade), Void Shards progression, AetherRose drops, Pomodoro. Zero &lt;all_urls&gt;. Zero telemetry.</p>
-          <div class="bento-tech">
-            <span>Chrome MV3</span><span>AES-GCM</span><span>MIST Oracle</span>
-          </div>
+          <p>Encrypted AI sidebar (MIST cascade), Void Shards progression, Pomodoro. Zero &lt;all_urls&gt;. Zero telemetry.</p>
+          <div class="bento-tech"><span>Chrome MV3</span><span>AES-GCM</span><span>MIST Oracle</span></div>
           <a href="/aethertab" class="bento-link">View Product →</a>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- Marketplace API -->
         <div class="bento-card reveal">
           <div class="bento-stat">55</div>
           <div class="bento-stat-label">API Endpoints</div>
           <h3>Marketplace<br><span class="sub">Intelligence API</span></h3>
           <p>Multi-platform data service — 14 platforms including Instagram, TikTok, Amazon, Airbnb, Zillow.</p>
-          <div class="bento-tech">
-            <span>TypeScript</span><span>REST</span><span>14 Platforms</span>
-          </div>
+          <div class="bento-tech"><span>TypeScript</span><span>REST</span><span>14 Platforms</span></div>
           <div class="bento-glow"></div>
         </div>
 
-        <!-- AetherProof -->
-        <div class="bento-card bento-sm reveal">
-          <h3>AetherProof<br><span class="sub">Voice AI Pipeline</span></h3>
-          <p>Real-time voice via Gemini Live API. PCM 16kHz WebSocket + camera presence verification.</p>
-          <div class="bento-tech"><span>Python</span><span>Gemini Live</span><span>WebSocket</span></div>
-          <div class="bento-glow"></div>
-        </div>
-
-        <!-- Chimera OS -->
         <div class="bento-card bento-sm bento-dark reveal">
           <h3>Chimera OS<br><span class="sub">Custom Kernel</span></h3>
           <p>OS kernel in C from scratch — bootloader, memory management, full kernel architecture.</p>
@@ -302,7 +564,6 @@
           <div class="bento-glow"></div>
         </div>
 
-        <!-- Meghan Kylie -->
         <div class="bento-card bento-sm reveal">
           <div class="bento-tag">Artist Management</div>
           <h3>Meghan Kylie<br><span class="accent">Music</span></h3>
@@ -315,9 +576,7 @@
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- ABOUT — FULL WIDTH, ARCHITECTURAL              -->
-  <!-- ═══════════════════════════════════════════════ -->
+  <!-- ABOUT -->
   <section class="section section-alt" id="about">
     <div class="section-inner">
       <div class="section-header reveal-up">
@@ -333,30 +592,22 @@
         <div class="about-stack reveal-up delay-2">
           <div class="stack-group">
             <span class="stack-label">Languages</span>
-            <div class="stack-chips">
-              <span>TypeScript</span><span>Python</span><span>C</span><span>SQL</span><span>Bash</span>
-            </div>
+            <div class="stack-chips"><span>TypeScript</span><span>Python</span><span>C</span><span>Rust</span><span>SQL</span><span>Bash</span></div>
           </div>
           <div class="stack-group">
             <span class="stack-label">Frameworks</span>
-            <div class="stack-chips">
-              <span>React Native</span><span>Next.js</span><span>FastAPI</span><span>LangGraph</span><span>tRPC</span>
-            </div>
+            <div class="stack-chips"><span>React Native</span><span>Next.js</span><span>Tauri v2</span><span>FastAPI</span><span>tRPC</span></div>
           </div>
           <div class="stack-group">
             <span class="stack-label">Infrastructure</span>
-            <div class="stack-chips">
-              <span>Supabase</span><span>Railway</span><span>Vercel</span><span>Docker</span><span>Chrome MV3</span>
-            </div>
+            <div class="stack-chips"><span>Supabase</span><span>Railway</span><span>Vercel</span><span>Docker</span><span>Chrome MV3</span></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- EXPERIENCE                                     -->
-  <!-- ═══════════════════════════════════════════════ -->
+  <!-- EXPERIENCE -->
   <section class="section" id="exp">
     <div class="section-inner">
       <div class="section-header reveal-up">
@@ -370,7 +621,7 @@
             <span class="exp-date">2024 – Present</span>
           </div>
           <div class="exp-org">Independent / Aetherhaven</div>
-          <p class="exp-desc">Building sovereign AI systems, longevity tools, and Chrome extensions. Security research on browser extension attack surfaces. Open-source contributor.</p>
+          <p class="exp-desc">Building sovereign AI systems, custom browsers, longevity tools, and Chrome extensions. Security research on browser extension attack surfaces. Open-source contributor.</p>
         </div>
         <div class="exp-item reveal">
           <div class="exp-meta">
@@ -386,505 +637,48 @@
             <span class="exp-date">2024 – Present</span>
           </div>
           <div class="exp-org">Meghan Kylie Music</div>
-          <p class="exp-desc">Full-service management — booking, EPK, web, release strategy. Philly indie pop/emo, debut album THIEF.</p>
+          <p class="exp-desc">Full artist management — booking, EPK, merch, web, social strategy, debut album THIEF.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- HIRE — CONSULTING TIERS, STADIUM CARDS        -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <section class="section section-alt" id="hire">
-    <div class="section-inner">
-      <div class="section-header reveal-up">
+  <!-- HIRE -->
+  <section class="section section-hire" id="hire">
+    <div class="section-inner hire-inner">
+      <div class="hire-text reveal-up">
         <span class="section-num">04</span>
-        <h2>Work With Me</h2>
-        <p class="section-sub">I build things that ship and secure things that matter.<br>Pick your flavor of chaos.</p>
-      </div>
-      <div class="hire-grid">
-        <div class="hire-card reveal">
-          <div class="hire-tier">// node_01 · builder</div>
-          <div class="hire-price">$85<span style="font-size:1rem;font-weight:400;opacity:.5">/hr</span></div>
-          <div class="hire-dur">Hourly · milestone · or "just fix it"</div>
-          <div class="hire-reach">AI agents · React Native · TypeScript APIs · Python automation</div>
-          <h3>Technical Build</h3>
-          <p>You have the vision. I make it run. LLM pipelines, mobile apps, multi-platform APIs, Railway deploys. Code that works while you sleep.</p>
+        <h2>Let's Build Something</h2>
+        <p>Available for full-stack development, AI systems architecture, security research, and creative tech consulting. Based in Philadelphia — remote-first.</p>
+        <div class="hire-ctas">
+          <a href="/consulting" class="btn-primary mag-btn">Consulting Info</a>
+          <a href="/rates" class="btn-void">View Rates</a>
+          <a href="/card" class="btn-ghost">Digital Card</a>
         </div>
-        <div class="hire-card hire-featured reveal">
-          <div class="hire-tier">// node_02 · ghostline</div>
-          <div class="hire-price">$110<span style="font-size:1rem;font-weight:400;opacity:.5">/hr</span></div>
-          <div class="hire-dur">Audit · protocol · or ongoing retainer</div>
-          <div class="hire-reach">Threat mapping · extension security · open-source stack</div>
-          <h3>Security Consulting</h3>
-          <p>Void-first. CLI-native. No vendor lock-in, ever. You get a written protocol mapped to your stack, executable from day one. The dashboard stays. The knowledge stays longer.</p>
-        </div>
-        <div class="hire-card reveal">
-          <div class="hire-tier">// node_03 · empire</div>
-          <div class="hire-price">$95<span style="font-size:1rem;font-weight:400;opacity:.5">/hr</span></div>
-          <div class="hire-dur">Project-scoped · brand · or creative systems</div>
-          <div class="hire-reach">Brand identity · digital strategy · lyric IP · Aetherhaven method</div>
-          <h3>Creative & Brand</h3>
-          <p>The Aetherhaven methodology applied to your world. Brand that has a soul. Strategy that knows where it's going. Built from the inside out.</p>
-        </div>
-      </div>
-      <div style="text-align:center;margin-top:2.5rem;">
-        <a href="/consulting" class="btn-primary mag-btn">View Full Rate Card →</a>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- FOOTER — EMPIRE MAP                           -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <footer class="footer-stadium">
-    <div class="footer-stadium-inner">
-
-      <!-- Left: brand -->
-      <div class="footer-brand">
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-left">
         <span class="footer-logo">M<span class="accent">.</span></span>
-        <span class="footer-tagline">Systems Thinker & Builder</span>
-        <span class="footer-location">Philadelphia, PA · 2026</span>
+        <span class="footer-sub">Amara (Mars) · Philadelphia, PA · Systems Thinker & Builder</span>
       </div>
-
-      <!-- Center: empire nav -->
-      <nav class="footer-empire" aria-label="Empire navigation">
-        <div class="footer-empire-col">
-          <span class="footer-col-label">Products</span>
-          <a href="/aethertab">AetherTab <span class="footer-pill">Beta</span></a>
-          <a href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank">Aetherhaven Hub 🌑</a>
-          <a href="https://humanpalette.vercel.app" target="_blank">HumanPalette</a>
-        </div>
-        <div class="footer-empire-col">
-          <span class="footer-col-label">Research</span>
-          <a href="#">AetherRose</a>
-          <a href="#">MIST</a>
-          <a href="#">FirstArc</a>
-        </div>
-        <div class="footer-empire-col">
-          <span class="footer-col-label">Connect</span>
-          <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener">𝕏 @1Aether1Rose1</a>
-          <a href="https://instagram.com/amara_solace111" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://discord.gg/aetherhaven" target="_blank" rel="noopener">Discord</a>
-          <a href="https://ko-fi.com/1aether1rose1" target="_blank" rel="noopener">Ko-fi</a>
-          <a href="https://linkedin.com/in/amara-torretti" target="_blank" rel="noopener">LinkedIn</a>
-        </div>
-        <div class="footer-empire-col">
-          <span class="footer-col-label">Work</span>
-          <a href="/consulting">Consulting</a>
-          <a href="/rates">Rates</a>
-          <a href="/portfolio">Design</a>
-          <a href="/card">Card</a>
-          <a href="https://mellowambience.github.io/meghan-kylie-landing/" target="_blank">Meghan Kylie</a>
-        </div>
-      </nav>
-    </div>
-
-    <!-- Bottom strip -->
-    <div class="footer-strip">
-      <span>Built by Mars · mellowambience.github.io</span>
-      <span class="footer-strip-sep">·</span>
-      <span>All sectors navigable. All travelers welcome.</span>
+      <div class="footer-links">
+        <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener">𝕏</a>
+        <a href="https://discord.gg/aetherhaven" target="_blank" rel="noopener">Discord</a>
+        <a href="https://github.com/Mellowambiences" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/amara-torretti" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://ko-fi.com/1aether1rose1" target="_blank" rel="noopener">Ko-fi</a>
+      </div>
+      <div class="footer-right">
+        <button class="footer-subspace-btn" onclick="openSubspace()">⟁ Subspace</button>
+      </div>
     </div>
   </footer>
 
   <script src="script.js"></script>
-  <script>
-    // Void particle canvas — inline for GitHub Pages compatibility
-    (function(){
-      const canvas = document.getElementById('void-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const COLORS = ['#B8C8FF','#7C6AF7','#F2A65A','#C9956A','#E8E0FF'];
-      const COUNT = 55;
-      let particles = [];
-
-      function resize(){
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-
-      function mkp(){
-        return {
-          x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-          vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25,
-          r: Math.random()*1.4+.4, o: Math.random()*.45+.08,
-          od:(Math.random()-.5)*.006, c:COLORS[Math.floor(Math.random()*COLORS.length)]
-        };
-      }
-
-      resize();
-      window.addEventListener('resize', resize);
-      particles = Array.from({length:COUNT}, mkp);
-
-      function frame(){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        particles.forEach(p=>{
-          p.x+=p.vx; p.y+=p.vy; p.o+=p.od;
-          if(p.x<-8) p.x=canvas.width+8; if(p.x>canvas.width+8) p.x=-8;
-          if(p.y<-8) p.y=canvas.height+8; if(p.y>canvas.height+8) p.y=-8;
-          if(p.o<.05||p.o>.6) p.od*=-1;
-          ctx.save(); ctx.globalAlpha=p.o; ctx.fillStyle=p.c;
-          ctx.shadowBlur=5; ctx.shadowColor=p.c;
-          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-          ctx.restore();
-        });
-        requestAnimationFrame(frame);
-      }
-      frame();
-    })();
-  </script>
-
-  <!-- Scroll reveal observer -->
-  <script>
-    (function(){
-      var els = document.querySelectorAll('.reveal, .reveal-up');
-      if (!els.length) return;
-      var io = new IntersectionObserver(function(entries) {
-        entries.forEach(function(e) {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-            io.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-      els.forEach(function(el) { io.observe(el); });
-    })();
-  </script>
-
-  <!-- Burger menu toggle -->
-  <script>
-    (function(){
-      var burger = document.getElementById('burger');
-      var menu   = document.getElementById('mobile-menu');
-      if (!burger || !menu) return;
-      burger.addEventListener('click', function() {
-        var open = menu.classList.toggle('open');
-        burger.classList.toggle('active', open);
-        burger.setAttribute('aria-expanded', open);
-        document.body.style.overflow = open ? 'hidden' : '';
-      });
-      menu.querySelectorAll('.mobile-link').forEach(function(link) {
-        link.addEventListener('click', function() {
-          menu.classList.remove('open');
-          burger.classList.remove('active');
-          burger.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        });
-      });
-      // Close on outside tap
-      document.addEventListener('click', function(e) {
-        if (menu.classList.contains('open') &&
-            !menu.contains(e.target) && !burger.contains(e.target)) {
-          menu.classList.remove('open');
-          burger.classList.remove('active');
-          burger.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        }
-      });
-    })();
-  </script>
-
-
-  <!-- Multilingual ticker cycling — global hub for the ultimate social media experience -->
-  <script>
-  (function(){
-    // All languages: [lang-code, label, tagline]
-    var LANGS = [
-      ["en",  "EN",  "the ultimate social media experience · global hub · open to all"],
-      ["es",  "ES",  "la experiencia definitiva en redes sociales · hub global · abierto a todos"],
-      ["zh",  "中文", "终极社交媒体体验 · 全球枢纽 · 向所有人开放"],
-      ["ar",  "AR",  "تجربة التواصل الاجتماعي النهائية · مركز عالمي · مفتوح للجميع"],
-      ["hi",  "HI",  "अंतिम सोशल मीडिया अनुभव · वैश्विक केंद्र · सभी के लिए खुला"],
-      ["pt",  "PT",  "a experiência definitiva nas redes sociais · hub global · aberto a todos"],
-      ["fr",  "FR",  "l'expérience ultime des réseaux sociaux · hub mondial · ouvert à tous"],
-      ["de",  "DE",  "das ultimative Social-Media-Erlebnis · globaler Hub · offen für alle"],
-      ["ja",  "日本語","究極のソーシャルメディア体験 · グローバルハブ · 誰でも参加可能"],
-      ["ko",  "한국어","궁극의 소셜 미디어 경험 · 글로벌 허브 · 모두에게 열려 있음"],
-      ["ru",  "RU",  "лучший опыт в социальных сетях · глобальный хаб · открыт для всех"],
-      ["it",  "IT",  "l'esperienza social definitiva · hub globale · aperto a tutti"],
-      ["nl",  "NL",  "de ultieme sociale media-ervaring · wereldwijde hub · open voor iedereen"],
-      ["tr",  "TR",  "nihai sosyal medya deneyimi · küresel merkez · herkese açık"],
-      ["pl",  "PL",  "najlepsza platforma social media · globalny hub · otwarty dla wszystkich"],
-      ["sv",  "SV",  "den ultimata sociala medieupplevelsen · global nav · öppen för alla"],
-      ["id",  "ID",  "pengalaman media sosial terbaik · pusat global · terbuka untuk semua"],
-      ["vi",  "VI",  "trải nghiệm mạng xã hội đỉnh cao · trung tâm toàn cầu · mở cho tất cả"],
-      ["th",  "TH",  "ประสบการณ์โซเชียลมีเดียสูงสุด · ศูนย์กลางโลก · เปิดสำหรับทุกคน"],
-      ["sw",  "SW",  "uzoefu wa mwisho wa mitandao ya kijamii · kitovu cha dunia · wazi kwa wote"]
-    ];
-
-    // Timezone → language code mapping (region → best-fit language)
-    var TZ_LANG = {
-      "America": "en", "Europe/London": "en", "Europe/Dublin": "en",
-      "Europe/Paris": "fr", "Europe/Lyon": "fr", "Europe/Brussels": "fr",
-      "Europe/Berlin": "de", "Europe/Vienna": "de", "Europe/Zurich": "de",
-      "Europe/Rome": "it", "Europe/Milan": "it",
-      "Europe/Madrid": "es", "America/Mexico": "es", "America/Bogota": "es",
-      "America/Lima": "es", "America/Santiago": "es", "America/Buenos_Aires": "es",
-      "America/Sao_Paulo": "pt", "Europe/Lisbon": "pt",
-      "Europe/Moscow": "ru", "Europe/Kiev": "ru",
-      "Europe/Warsaw": "pl", "Europe/Stockholm": "sv",
-      "Europe/Amsterdam": "nl",
-      "Europe/Istanbul": "tr",
-      "Asia/Tokyo": "ja", "Asia/Osaka": "ja",
-      "Asia/Seoul": "ko",
-      "Asia/Shanghai": "zh", "Asia/Beijing": "zh", "Asia/Hong_Kong": "zh", "Asia/Taipei": "zh",
-      "Asia/Kolkata": "hi", "Asia/Calcutta": "hi",
-      "Asia/Riyadh": "ar", "Asia/Dubai": "ar", "Africa/Cairo": "ar",
-      "Asia/Jakarta": "id", "Asia/Makassar": "id",
-      "Asia/Ho_Chi_Minh": "vi", "Asia/Hanoi": "vi",
-      "Asia/Bangkok": "th",
-      "Africa/Nairobi": "sw", "Africa/Dar_es_Salaam": "sw"
-    };
-
-    function detectLangCode() {
-      try {
-        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-        // Exact match first
-        if (TZ_LANG[tz]) return TZ_LANG[tz];
-        // Region prefix match
-        for (var key in TZ_LANG) {
-          if (tz.startsWith(key.split("/")[0])) return TZ_LANG[key];
-        }
-      } catch(e){}
-      return "en";
-    }
-
-    function buildQueue(localCode) {
-      // Put local language first, then round-robin through the rest
-      var local = null, rest = [];
-      for (var i = 0; i < LANGS.length; i++) {
-        if (LANGS[i][0] === localCode) local = LANGS[i];
-        else rest.push(LANGS[i]);
-      }
-      if (!local) local = LANGS[0];
-      return [local].concat(rest);
-    }
-
-    function findChip() {
-      // Find the .tt-signal chip
-      var chips = document.querySelectorAll('.tt-signal');
-      for (var i = 0; i < chips.length; i++) {
-        if (chips[i].querySelector('.tt-dot')) return chips[i];
-      }
-      return null;
-    }
-
-    var chips = [], queue, idx = 0, localCode, intervalMs = 4000, localMs = 8000;
-
-    function cycleNext() {
-      if (!chips.length) { chips = Array.from(document.querySelectorAll('[data-lang-chip]')); if (!chips.length) return; }
-      var entry = queue[idx];
-      idx = (idx + 1) % queue.length;
-
-      // Update ALL marquee rail copies simultaneously — no opacity fade (fights marquee CSS)
-      var content =
-        '<span class="tt-dot active"></span>' +
-        '<span class="tt-lang-badge" style="' +
-          'font-size:9px;letter-spacing:.08em;opacity:.6;margin-right:5px;' +
-          'text-transform:uppercase;font-weight:700;">' + entry[1] + '</span>' +
-        'SIGNAL — ' + entry[2];
-      for (var i = 0; i < chips.length; i++) { chips[i].innerHTML = content; }
-
-      // Local language lingers longer
-      var nextDelay = (entry[0] === localCode) ? localMs : intervalMs;
-      setTimeout(cycleNext, nextDelay);
-    }
-
-    function init() {
-      chips = Array.from(document.querySelectorAll('[data-lang-chip]'));
-      if (!chips.length) return;
-      localCode = detectLangCode();
-      queue = buildQueue(localCode);
-      // Start after a short pause so the page settles
-      setTimeout(cycleNext, 3000);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  })();
-  </script>
-
-
-  <!-- Dynamic global sales + follower counts by timezone/region -->
-  <script>
-  (function(){
-    // [region-label, t1-followers, t1-sales, t2-followers, t2-sales, t3-followers, t3-sales]
-    var REGIONS = [
-      ["North America",  "69K",   "$2.1M",  "420K",  "$18.4M", "5K",   "$890K"],
-      ["Latin America",  "54K",   "$1.3M",  "310K",  "$11.2M", "3.8K", "$420K"],
-      ["Western Europe", "81K",   "$3.4M",  "490K",  "$22.7M", "6.1K", "$1.1M"],
-      ["Eastern Europe", "42K",   "$980K",  "260K",  "$8.6M",  "2.9K", "$310K"],
-      ["Middle East",    "63K",   "$4.2M",  "380K",  "$27.1M", "4.4K", "$760K"],
-      ["Africa",         "38K",   "$610K",  "195K",  "$4.8M",  "2.1K", "$190K"],
-      ["South Asia",     "112K",  "$1.8M",  "640K",  "$13.9M", "7.2K", "$680K"],
-      ["East Asia",      "97K",   "$5.7M",  "580K",  "$34.2M", "6.8K", "$1.4M"],
-      ["Southeast Asia", "74K",   "$2.3M",  "445K",  "$16.5M", "5.5K", "$920K"],
-      ["Oceania",        "29K",   "$1.6M",  "178K",  "$9.3M",  "2.2K", "$380K"]
-    ];
-
-    // IANA timezone prefix → region index
-    var TZ_REGION = {
-      "America/New_York":    0, "America/Chicago":     0, "America/Denver":  0,
-      "America/Los_Angeles": 0, "America/Toronto":     0, "America/Vancouver": 0,
-      "America/Mexico":      1, "America/Bogota":      1, "America/Lima":    1,
-      "America/Santiago":    1, "America/Sao_Paulo":   1, "America/Buenos":  1,
-      "Europe/London":       2, "Europe/Paris":        2, "Europe/Berlin":   2,
-      "Europe/Madrid":       2, "Europe/Rome":         2, "Europe/Amsterdam":2,
-      "Europe/Lisbon":       2, "Europe/Brussels":     2, "Europe/Zurich":   2,
-      "Europe/Warsaw":       3, "Europe/Moscow":       3, "Europe/Kiev":     3,
-      "Europe/Bucharest":    3, "Europe/Budapest":     3,
-      "Asia/Riyadh":         4, "Asia/Dubai":          4, "Asia/Baghdad":    4,
-      "Africa/Cairo":        4, "Asia/Jerusalem":      4,
-      "Africa/Nairobi":      5, "Africa/Lagos":        5, "Africa/Jo":       5,
-      "Africa/Casablanca":   5,
-      "Asia/Kolkata":        6, "Asia/Calcutta":       6, "Asia/Karachi":    6,
-      "Asia/Dhaka":          6,
-      "Asia/Tokyo":          7, "Asia/Seoul":          7, "Asia/Shanghai":   7,
-      "Asia/Beijing":        7, "Asia/Hong_Kong":      7, "Asia/Taipei":     7,
-      "Asia/Singapore":      8, "Asia/Jakarta":        8, "Asia/Bangkok":    8,
-      "Asia/Kuala":          8, "Asia/Manila":         8, "Asia/Ho_Chi":     8,
-      "Australia":           9, "Pacific/Auckland":    9, "Pacific/Sydney":  9
-    };
-
-    function detectRegionIdx() {
-      try {
-        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
-        if (TZ_REGION[tz] !== undefined) return TZ_REGION[tz];
-        for (var key in TZ_REGION) {
-          if (tz.startsWith(key.split("/")[0])) return TZ_REGION[key];
-        }
-      } catch(e){}
-      return 0; // default North America
-    }
-
-    var t1 = null, t2 = null, t3 = null;
-    var idx = 0, localIdx = 0;
-    var BASE_MS = 5000, LOCAL_MS = 10000;
-
-    function fadeSwap(el, text) {
-      if (!el) return;
-      el.style.transition = 'opacity 0.35s';
-      el.style.opacity = '0';
-      setTimeout(function() {
-        el.textContent = text;
-        el.style.opacity = '1';
-      }, 370);
-    }
-
-    function cycle() {
-      var r = REGIONS[idx];
-      fadeSwap(t1, r[1] + ' followers · ' + r[2] + ' sales — ' + r[0]);
-      fadeSwap(t2, r[3] + ' followers · ' + r[4] + ' sales — ' + r[0]);
-      fadeSwap(t3, r[5] + ' followers · ' + r[6] + ' sales — ' + r[0]);
-
-      var delay = (idx === localIdx) ? LOCAL_MS : BASE_MS;
-      idx = (idx + 1) % REGIONS.length;
-      setTimeout(cycle, delay + 370);
-    }
-
-    function init() {
-      t1 = document.getElementById('reach-t1');
-      t2 = document.getElementById('reach-t2');
-      t3 = document.getElementById('reach-t3');
-      if (!t1 || !t2 || !t3) return;
-      localIdx = detectRegionIdx();
-      idx = localIdx; // start with local region
-      setTimeout(cycle, 2500);
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else { init(); }
-  })();
-  </script>
-
-
-<!-- ╔══ AETHERHAVEN HUB NAV ══════════════════════════════════╗ -->
-<!-- ║  Interconnected pages · mellowambience.github.io        ║ -->
-<!-- ╚══════════════════════════════════════════════════════════╝ -->
-<nav class="ahnav" aria-label="Aetherhaven network">
-  <div class="ahnav-inner">
-    <span class="ahnav-logo">✦ Aetherhaven</span>
-    <div class="ahnav-links">
-      <span class="ahnav-item ahnav-active">⟁ Aetherhaven</span>
-      <a href="https://mellowambience.github.io/BluebirdSongProductions/" class="ahnav-item" title="Bluebird">🪶 Bluebird</a>
-      <a href="https://mellowambience.github.io/natalie/" class="ahnav-item" title="Natalie">🌊 Natalie</a>
-      <a href="https://mellowambience.github.io/aethertab/" class="ahnav-item" title="AetherTab">⟐ AetherTab</a>
-    </div>
-  </div>
-</nav>
-<style>
-  .ahnav {
-    position: fixed;
-    bottom: 1.2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10000;
-    pointer-events: auto;
-  }
-  .ahnav-inner {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
-    background: rgba(10,8,20,0.92);
-    border: 1px solid rgba(155,48,255,0.25);
-    border-radius: 50px;
-    padding: 0.45rem 0.7rem;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 0 24px rgba(155,48,255,0.15), 0 4px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
-    white-space: nowrap;
-    max-width: calc(100vw - 2rem);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .ahnav-inner::-webkit-scrollbar { display: none; }
-  .ahnav-logo {
-    font-size: 0.58rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #c8bfe8;
-    padding: 0.2rem 0.7rem 0.2rem 0.3rem;
-    border-right: 1px solid rgba(155,48,255,0.25);
-    margin-right: 0.3rem;
-    flex-shrink: 0;
-    font-weight: 600;
-  }
-  .ahnav-links {
-    display: flex;
-    align-items: center;
-    gap: 0.15rem;
-  }
-  .ahnav-item {
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
-    padding: 0.3rem 0.7rem;
-    border-radius: 50px;
-    text-decoration: none;
-    color: #c8bfe8;
-    transition: color 0.15s, background 0.15s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  a.ahnav-item:hover {
-    color: #F0F0FF;
-    background: rgba(155,48,255,0.1);
-  }
-  .ahnav-active {
-    color: #C060FF;
-    background: rgba(155,48,255,0.18);
-    font-weight: 600;
-    cursor: default;
-  }
-  @media (max-width: 480px) {
-    .ahnav-logo { display: none; }
-    .ahnav-item { font-size: 0.6rem; padding: 0.28rem 0.55rem; }
-  }
-</style>
-<!-- ╚══ /AETHERHAVEN HUB NAV ═══════════════════════════════════╝ -->
 </body>
 </html>

@@ -1,363 +1,258 @@
-// === CURSOR ===
-const cursor = document.getElementById('cursor');
-const dot = document.getElementById('cursor-dot');
-let mx = -100, my = -100, cx = -100, cy = -100;
+// mellowambience.github.io — script.js
+// Rev 2.0 — Subspace Agent OS + fullscreen menu + particles
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  dot.style.left = mx + 'px';
-  dot.style.top = my + 'px';
-  document.body.classList.add('cursor-ready');
-});
+/* ══════════════════════════════════════
+   PARTICLE CANVAS
+══════════════════════════════════════ */
+(function initParticles() {
+  const canvas = document.getElementById('void-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
 
-// Smooth cursor follow
-function animateCursor() {
-  cx += (mx - cx) * 0.12;
-  cy += (my - cy) * 0.12;
-  cursor.style.left = cx + 'px';
-  cursor.style.top = cy + 'px';
-  requestAnimationFrame(animateCursor);
-}
-animateCursor();
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
 
-// Hover state on interactive elements
-document.querySelectorAll('a, button, .bento-card, .service-card, .connect-link').forEach(el => {
-  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-});
-
-// === NAV SCROLL ===
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-});
-
-// === MOBILE MENU ===
-const burger = document.getElementById('burger');
-const menu = document.getElementById('mobile-menu');
-let menuOpen = false;
-burger.addEventListener('click', () => {
-  menuOpen = !menuOpen;
-  menu.classList.toggle('open', menuOpen);
-  burger.style.opacity = menuOpen ? '0.5' : '1';
-});
-document.querySelectorAll('.mobile-link').forEach(link => {
-  link.addEventListener('click', () => {
-    menuOpen = false;
-    menu.classList.remove('open');
-    burger.style.opacity = '1';
-  });
-});
-
-// === SCROLL REVEAL ===
-const revealEls = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      // Stagger children
-      const delay = entry.target.dataset.delay || 0;
-      setTimeout(() => {
-        entry.target.classList.add('visible');
-      }, delay);
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-// Stagger bento cards
-document.querySelectorAll('.bento-card').forEach((el, i) => {
-  el.dataset.delay = i * 80;
-});
-document.querySelectorAll('.tl-item').forEach((el, i) => {
-  el.dataset.delay = i * 100;
-});
-document.querySelectorAll('.service-card').forEach((el, i) => {
-  el.dataset.delay = i * 100;
-});
-
-revealEls.forEach(el => revealObserver.observe(el));
-
-// === PARTICLE CANVAS ===
-const canvas = document.getElementById('hero-canvas');
-const ctx = canvas.getContext('2d');
-let W, H, particles = [], mouse = { x: null, y: null };
-
-function resize() {
-  W = canvas.width = canvas.offsetWidth;
-  H = canvas.height = canvas.offsetHeight;
-}
-
-class Particle {
-  constructor() { this.reset(); }
-  reset() {
+  function Particle() {
     this.x = Math.random() * W;
     this.y = Math.random() * H;
-    this.r = Math.random() * 1.5 + 0.3;
-    this.vx = (Math.random() - 0.5) * 0.4;
-    this.vy = (Math.random() - 0.5) * 0.4;
-    this.opacity = Math.random() * 0.5 + 0.1;
-    // ✦ Aetherverse particle palette
-    const roll = Math.random();
-    if (roll < 0.35) this.hue = 350;       // crimson #C41E3A
-    else if (roll < 0.65) this.hue = 42;   // rose-gold #D4AF77
-    else if (roll < 0.85) this.hue = 270;  // violet #7C6AF7
-    else this.hue = 195;                   // aether cyan
+    this.r = Math.random() * 1.2 + 0.2;
+    this.dx = (Math.random() - 0.5) * 0.15;
+    this.dy = (Math.random() - 0.5) * 0.15;
+    this.alpha = Math.random() * 0.5 + 0.1;
   }
-  update() {
-    this.x += this.vx;
-    this.y += this.vy;
-    if (this.x < 0 || this.x > W) this.vx *= -1;
-    if (this.y < 0 || this.y > H) this.vy *= -1;
-    // Mouse repulsion
-    if (mouse.x !== null) {
-      const dx = this.x - mouse.x, dy = this.y - mouse.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 100) {
-        this.vx += dx / dist * 0.3;
-        this.vy += dy / dist * 0.3;
-        // clamp speed
-        const speed = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
-        if (speed > 2) { this.vx /= speed * 0.5; this.vy /= speed * 0.5; }
-      }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: 120 }, () => new Particle());
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(168,85,247,${p.alpha})`;
+      ctx.fill();
+      p.x += p.dx; p.y += p.dy;
+      if (p.x < 0 || p.x > W) p.dx *= -1;
+      if (p.y < 0 || p.y > H) p.dy *= -1;
     }
+    requestAnimationFrame(draw);
   }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-    ctx.fillStyle = `hsla(${this.hue}, 80%, 70%, ${this.opacity})`;
-    ctx.fill();
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+
+/* ══════════════════════════════════════
+   NAV SCROLL BEHAVIOUR
+══════════════════════════════════════ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('nav-scrolled', window.scrollY > 40);
+}, { passive: true });
+
+/* ══════════════════════════════════════
+   FULLSCREEN MENU
+══════════════════════════════════════ */
+const burger = document.getElementById('burger');
+const fullscreenMenu = document.getElementById('fullscreen-menu');
+
+function openMenu() {
+  fullscreenMenu.classList.add('open');
+  fullscreenMenu.setAttribute('aria-hidden', 'false');
+  burger.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+  fullscreenMenu.classList.remove('open');
+  fullscreenMenu.setAttribute('aria-hidden', 'true');
+  burger.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+burger.addEventListener('click', () => {
+  if (fullscreenMenu.classList.contains('open')) closeMenu();
+  else openMenu();
+});
+
+document.querySelectorAll('[data-close-menu]').forEach(el => {
+  el.addEventListener('click', closeMenu);
+});
+
+document.getElementById('fm-open-subspace').addEventListener('click', () => {
+  closeMenu();
+  openSubspace();
+});
+
+/* ══════════════════════════════════════
+   SUBSPACE AGENT OS
+══════════════════════════════════════ */
+const subspaceOverlay = document.getElementById('subspace-overlay');
+
+function openSubspace() {
+  subspaceOverlay.classList.add('open');
+  subspaceOverlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('ss-input').focus();
+}
+
+function closeSubspace() {
+  subspaceOverlay.classList.remove('open');
+  subspaceOverlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('ss-close').addEventListener('click', closeSubspace);
+document.getElementById('open-subspace').addEventListener('click', openSubspace);
+document.getElementById('hero-subspace-btn').addEventListener('click', openSubspace);
+
+// Escape key closes either overlay
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (subspaceOverlay.classList.contains('open')) closeSubspace();
+    else if (fullscreenMenu.classList.contains('open')) closeMenu();
   }
-}
+});
 
-function initParticles() {
-  const count = Math.min(Math.floor(W * H / 10000), 120);
-  particles = Array.from({ length: count }, () => new Particle());
-}
-
-function drawLines() {
-  const maxDist = 130;
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < maxDist) {
-        const alpha = (1 - dist / maxDist) * 0.12;
-        ctx.beginPath();
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.strokeStyle = `rgba(212, 175, 119, ${alpha})`; // rose-gold aether lines
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      }
-    }
-  }
-}
-
-function animate() {
-  ctx.clearRect(0, 0, W, H);
-  particles.forEach(p => { p.update(); p.draw(); });
-  drawLines();
-  requestAnimationFrame(animate);
-}
-
-const heroSection = document.querySelector('.hero');
-if (canvas && heroSection) {
-  resize();
-  initParticles();
-  animate();
-  window.addEventListener('resize', () => { resize(); initParticles(); });
-  heroSection.addEventListener('mousemove', e => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
+// Agent node selection
+document.querySelectorAll('.ss-agent-node').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.ss-agent-node').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
   });
-  heroSection.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+});
+
+// Canvas mode switching
+document.querySelectorAll('.ss-mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.ss-mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Omni-input prefix detection
+const ssInput = document.getElementById('ss-input');
+const ssPrefix = document.getElementById('ss-prefix');
+const PREFIX_MAP = { '/': 'cmd', '@': 'agent', '!': 'ghost', '~': 'broadcast' };
+const PREFIX_COLORS = { '/': '#a855f7', '@': '#3b82f6', '!': '#ef4444', '~': '#f59e0b', 'msg': '#64748b' };
+
+ssInput.addEventListener('input', () => {
+  const first = ssInput.value[0];
+  const mode = PREFIX_MAP[first] || 'msg';
+  ssPrefix.textContent = mode;
+  ssPrefix.style.color = PREFIX_COLORS[first] || PREFIX_COLORS['msg'];
+});
+
+// Send message in Subspace
+function sendSubspaceMessage() {
+  const val = ssInput.value.trim();
+  if (!val) return;
+  const msgs = document.getElementById('ss-messages');
+
+  // User message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'ss-msg ss-msg-user';
+  userMsg.innerHTML = `<span class="ss-msg-icon">▸</span><div class="ss-msg-body"><div class="ss-msg-author" style="color:#e2e8f0">Mars</div><div class="ss-msg-text">${escapeHtml(val)}</div></div>`;
+  msgs.appendChild(userMsg);
+  ssInput.value = '';
+  ssPrefix.textContent = 'msg';
+  ssPrefix.style.color = PREFIX_COLORS['msg'];
+
+  // Simulated MIST response
+  setTimeout(() => {
+    const mistResponses = [
+      "On it. What context do I need?",
+      "Got it. Working on that now.",
+      "Noted. Adding to the active build queue.",
+      "That connects to AetherBrowser Phase 2 — AI sidebar extraction from clawd. Proceeding.",
+      "Acknowledged. Ghostline is scanning. No threats detected.",
+      "Empire index updated. What's the priority order?",
+    ];
+    const r = mistResponses[Math.floor(Math.random() * mistResponses.length)];
+    const mistMsg = document.createElement('div');
+    mistMsg.className = 'ss-msg ss-msg-mist';
+    mistMsg.innerHTML = `<span class="ss-msg-icon" style="color:#a855f7">✦</span><div class="ss-msg-body"><div class="ss-msg-author" style="color:#a855f7">MIST</div><div class="ss-msg-text">${r}</div></div>`;
+    msgs.appendChild(mistMsg);
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 600);
+
+  msgs.scrollTop = msgs.scrollHeight;
 }
 
-// === MAGNETIC BUTTONS ===
+document.getElementById('ss-send').addEventListener('click', sendSubspaceMessage);
+ssInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendSubspaceMessage(); });
+
+// Theme switching
+document.querySelectorAll('.ss-theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.ss-theme-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Future: swap CSS custom property theme
+  });
+});
+
+/* ══════════════════════════════════════
+   HERO SUBSPACE PREVIEW (MINI CARD)
+══════════════════════════════════════ */
+document.getElementById('hsp-expand-btn').addEventListener('click', openSubspace);
+
+function sendHspMessage() {
+  const inp = document.getElementById('hsp-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  inp.value = '';
+  // Relay to full Subspace
+  ssInput.value = val;
+  openSubspace();
+  setTimeout(sendSubspaceMessage, 100);
+}
+
+document.getElementById('hsp-send').addEventListener('click', sendHspMessage);
+document.getElementById('hsp-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') sendHspMessage();
+});
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .reveal-up').forEach(el => observer.observe(el));
+
+/* ══════════════════════════════════════
+   MAGNETIC BUTTONS
+══════════════════════════════════════ */
 document.querySelectorAll('.mag-btn').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const rect = btn.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) * 0.25;
-    const dy = (e.clientY - cy) * 0.25;
-    btn.style.transform = `translate(${dx}px, ${dy}px)`;
+  btn.addEventListener('mousemove', (e) => {
+    const r = btn.getBoundingClientRect();
+    const x = e.clientX - r.left - r.width / 2;
+    const y = e.clientY - r.top - r.height / 2;
+    btn.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
   });
   btn.addEventListener('mouseleave', () => {
     btn.style.transform = '';
   });
 });
 
-// === NAV ACTIVE STATE ===
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
-const activeObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      navLinks.forEach(link => link.classList.remove('active'));
-      const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { threshold: 0.4 });
-sections.forEach(s => activeObserver.observe(s));
+/* ══════════════════════════════════════
+   UTIL
+══════════════════════════════════════ */
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-// === SMOOTH SCROLL ===
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-
-
-// ✦ AETHERVERSE — Phase 0 additions
-
-// Inject Aetherverse cross-nav footer on all pages
-(function injectAetherNav() {
-  if (document.querySelector('.aether-nav')) return;
-  const nav = document.createElement('nav');
-  nav.className = 'aether-nav';
-  nav.setAttribute('aria-label', 'Aetherverse');
-  nav.innerHTML = `
-    <a href="https://mellowambience.github.io" class="aether-nav__logo">
-      <span aria-hidden="true">🌹</span>
-      <span>AetherHaven</span>
-    </a>
-    <ul class="aether-nav__links">
-      <li><a href="https://humanpalette.vercel.app">HumanPalette</a></li>
-      <li><a href="https://discord.gg/chThdcdN">Discord</a></li>
-      <li><a href="https://linktr.ee/1aether1rose1">✦ Links</a></li>
-    </ul>
-  `;
-  document.body.appendChild(nav);
-})();
-
-// ✦ Hidden easter egg: click the nav logo rose → aether whisper
-document.addEventListener('DOMContentLoaded', () => {
-  const logo = document.querySelector('.nav-logo, .aether-nav__logo');
-  if (!logo) return;
-  let clicks = 0;
-  logo.addEventListener('click', (e) => {
-    clicks++;
-    if (clicks === 3) {
-      clicks = 0;
-      // Flash fracture effect
-      const flash = document.createElement('div');
-      flash.style.cssText = 'position:fixed;inset:0;background:rgba(196,30,58,0.06);pointer-events:none;z-index:99998;animation:aether-flash 0.6s ease forwards;';
-      document.body.appendChild(flash);
-      setTimeout(() => flash.remove(), 700);
-      console.log('%c✦ you found the forge ✦', 'color:#D4AF77;font-family:serif;font-size:16px;');
-    }
-  });
-});
-
-// CSS for flash animation (injected once)
-const aetherStyle = document.createElement('style');
-aetherStyle.textContent = '@keyframes aether-flash { 0%{opacity:0} 30%{opacity:1} 100%{opacity:0} }';
-document.head.appendChild(aetherStyle);
-
-
-// === MIST ORACLE ===
-(function() {
-  const ORACLE_API = 'https://mist-oracle.vercel.app/api/mist-oracle';
-  const MAX_MSGS = 5;
-  let msgCount = 0;
-  let sessionId = 'portfolio-' + Math.random().toString(36).slice(2, 9);
-
-  const overlay  = document.getElementById('oracleOverlay');
-  const openBtn  = document.getElementById('openOracle');
-  const closeBtn = document.getElementById('closeOracle');
-  const messages = document.getElementById('oracleMessages');
-  const input    = document.getElementById('oracleInput');
-  const sendBtn  = document.getElementById('oracleSend');
-  const countEl  = document.getElementById('oracleMsgCount');
-
-  if (!openBtn || !overlay) return;
-
-  function openOracle() {
-    overlay.removeAttribute('hidden');
-    document.body.style.overflow = 'hidden';
-    input.focus();
-  }
-
-  function closeOracle() {
-    overlay.setAttribute('hidden', '');
-    document.body.style.overflow = '';
-  }
-
-  openBtn.addEventListener('click', openOracle);
-  closeBtn.addEventListener('click', closeOracle);
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) closeOracle();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && !overlay.hasAttribute('hidden')) closeOracle();
-  });
-
-  function appendMsg(text, type) {
-    const div = document.createElement('div');
-    div.className = 'oracle-msg oracle-msg--' + type;
-    const icon = document.createElement('span');
-    icon.className = 'oracle-msg-icon';
-    icon.textContent = type === 'user' ? '◈' : '◆';
-    const content = document.createElement('span');
-    content.textContent = text;
-    div.appendChild(icon);
-    div.appendChild(content);
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-    return div;
-  }
-
-  function updateCount() {
-    const rem = MAX_MSGS - msgCount;
-    countEl.textContent = rem <= 0 ? 'Message limit reached' : rem + ' message' + (rem === 1 ? '' : 's') + ' remaining';
-  }
-
-  async function sendMessage() {
-    const text = input.value.trim();
-    if (!text || msgCount >= MAX_MSGS) return;
-
-    msgCount++;
-    updateCount();
-    input.value = '';
-    sendBtn.disabled = true;
-
-    appendMsg(text, 'user');
-
-    const typing = appendMsg('...', 'ai oracle-typing');
-
-    try {
-      const res = await fetch(ORACLE_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, context: 'mars-portfolio', sessionId })
-      });
-
-      if (!res.ok) throw new Error('Signal lost (' + res.status + ')');
-      const data = await res.json();
-      typing.remove();
-      appendMsg(data.reply || data.message || 'The void echoes back.', 'ai');
-    } catch (err) {
-      typing.remove();
-      appendMsg('Signal disrupted. ' + (err.message || 'Try again.'), 'ai oracle-msg--error');
-    } finally {
-      sendBtn.disabled = msgCount >= MAX_MSGS;
-      if (msgCount < MAX_MSGS) input.focus();
-    }
-  }
-
-  sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-})();
+/* expose openSubspace globally for inline onclick */
+window.openSubspace = openSubspace;
