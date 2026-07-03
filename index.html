@@ -1,534 +1,123 @@
 <!DOCTYPE html>
 <!--
-  mellowambience.github.io — Aetherhaven
-  Rev 3.0 — "The Void Is Home"
-  Not a portfolio. A world.
-  Mar 2026
+  mellowambience.github.io — Aetherhaven Mothership
+  Rev 4.0 — "The Signal Is Alive"
+  Jul 2026
 -->
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Aetherhaven — Mars builds worlds</title>
-  <meta name="description" content="Amara (Mars) builds sovereign AI systems, browsers, and living worlds. AetherBrowser · MIST · Ghostline · Subspace. Philadelphia.">
-  <meta property="og:title" content="Aetherhaven">
-  <meta property="og:description" content="Sovereign AI. Custom browser. Living worlds.">
-  <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#04040a">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Aetherhaven Mothership — Amara's Repo Constellation</title>
+  <meta name="description" content="The mothership for Amara's repositories, AI systems, games, creative tools, and living-world experiments." />
+  <meta property="og:title" content="Aetherhaven Mothership" />
+  <meta property="og:description" content="A living hub for Amara's repos, worlds, AI systems, games, and creative tech." />
+  <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#05030b" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--void:#05030b;--deep:#0b0618;--ink:#f8f3ff;--muted:rgba(248,243,255,.68);--dim:rgba(248,243,255,.45);--line:rgba(248,243,255,.15);--glass:rgba(255,255,255,.065);--glass2:rgba(255,255,255,.105);--green:#39ff6e;--cyan:#67e8f9;--violet:#a855f7;--rose:#fb7185;--gold:#f6d365;--shadow:0 30px 90px rgba(0,0,0,.45)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 18% 3%,rgba(168,85,247,.28),transparent 32rem),radial-gradient(circle at 88% 10%,rgba(103,232,249,.16),transparent 30rem),radial-gradient(circle at 52% 92%,rgba(57,255,110,.12),transparent 34rem),linear-gradient(180deg,var(--void),#090512 48%,#020104);color:var(--ink);font-family:"Space Grotesk",system-ui,sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(circle at 50% 20%,black,transparent 72%);z-index:-2}.stars{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.8;background-image:radial-gradient(circle,rgba(255,255,255,.55) 1px,transparent 1.5px),radial-gradient(circle,rgba(103,232,249,.45) 1px,transparent 1.5px),radial-gradient(circle,rgba(57,255,110,.4) 1px,transparent 1.5px);background-size:180px 180px,260px 260px,340px 340px;background-position:0 0,70px 110px,190px 40px;animation:drift 45s linear infinite}@keyframes drift{to{background-position:180px 180px,330px 370px,530px 380px}}a{color:inherit;text-decoration:none}.wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}.nav{position:fixed;inset:0 0 auto;z-index:9;background:rgba(5,3,11,.68);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.08)}.nav .wrap{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;gap:10px;align-items:center;font-family:Cinzel,serif;font-weight:900;letter-spacing:.11em}.brand b{color:var(--green);text-shadow:0 0 22px rgba(57,255,110,.55)}.links{display:flex;gap:8px;align-items:center}.links a{padding:10px 12px;border-radius:999px;color:var(--muted);font-size:.92rem}.links a:hover{background:rgba(255,255,255,.08);color:var(--ink)}.cta{background:linear-gradient(135deg,var(--green),var(--cyan));color:#041006!important;font-weight:800}.hero{min-height:100vh;display:grid;place-items:center;padding:130px 0 90px}.eyebrow,.tag{font-family:"JetBrains Mono",monospace;text-transform:uppercase;letter-spacing:.13em;font-size:.78rem;color:var(--green)}.pulse{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 18px var(--green);margin-right:10px}.title{font-family:Cinzel,serif;font-size:clamp(3.8rem,10.8vw,10.5rem);line-height:.82;letter-spacing:-.07em;margin:26px 0 18px;max-width:1040px}.title span{display:block}.title em{font-style:normal;background:linear-gradient(135deg,var(--ink),var(--gold),var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}.sub{max-width:780px;color:var(--muted);font-size:clamp(1.08rem,2vw,1.35rem);line-height:1.65}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.btn{border:1px solid var(--line);background:var(--glass);border-radius:999px;padding:13px 17px;font-weight:700}.btn.primary{background:linear-gradient(135deg,var(--green),var(--cyan));color:#041006;border:0}.btn:hover,.card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.28);background:var(--glass2)}.status{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}.chip,.card,.mission,.contact-card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.078),rgba(255,255,255,.035));backdrop-filter:blur(18px);box-shadow:var(--shadow)}.chip{border-radius:18px;padding:16px;color:var(--muted)}.chip strong{display:block;color:var(--ink);margin-bottom:4px}.section{padding:96px 0}.section-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:28px}.section h2{font-family:Cinzel,serif;font-size:clamp(2.4rem,5vw,5.4rem);line-height:.95;letter-spacing:-.055em;margin:12px 0}.section p.lead{color:var(--muted);line-height:1.65;max-width:650px}.mission{border-radius:32px;padding:34px;display:grid;grid-template-columns:1.25fr .75fr;gap:26px}.mission h3{font-family:Cinzel,serif;font-size:clamp(2rem,4vw,4.2rem);line-height:1;margin:0 0 18px}.mission p{color:var(--muted);font-size:1.05rem;line-height:1.75}.metrics{display:grid;gap:12px}.metric{border:1px solid var(--line);border-radius:22px;padding:18px;background:rgba(0,0,0,.16)}.metric b{font-size:2.2rem;color:var(--green)}.metric span{display:block;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{border-radius:28px;padding:24px;transition:180ms ease;position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:-1px;background:radial-gradient(circle at 18% 0%,rgba(57,255,110,.16),transparent 15rem);opacity:.9;pointer-events:none}.card.big{grid-column:span 2}.card .top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:22px}.state{font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--green);text-transform:uppercase;letter-spacing:.1em}.badge{font-size:.72rem;border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:var(--muted)}.glyph{font-size:2.6rem;color:var(--cyan);text-shadow:0 0 22px rgba(103,232,249,.4)}.card h3{font-size:1.55rem;margin:10px 0 8px}.card p{color:var(--muted);line-height:1.55}.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.tags span{font-size:.78rem;padding:7px 9px;border-radius:999px;background:rgba(255,255,255,.08);color:var(--muted)}.repo-link{display:inline-flex;margin-top:20px;color:var(--green);font-weight:800}.lanes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.lane{border:1px solid var(--line);border-radius:24px;padding:18px;background:rgba(255,255,255,.05)}.lane h3{margin:0 0 8px}.lane p{color:var(--muted);line-height:1.55}.contact{display:grid;grid-template-columns:1fr 1fr;gap:16px}.contact-card{border-radius:28px;padding:26px}.contact-card h3{font-size:1.55rem;margin:0 0 10px}.contact-card p{color:var(--muted);line-height:1.6}.footer{border-top:1px solid var(--line);padding:34px 0;color:var(--dim)}.footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}.small{font-family:"JetBrains Mono",monospace;font-size:.8rem;color:var(--dim)}@media(max-width:860px){.links{display:none}.status,.grid,.lanes,.contact,.mission{grid-template-columns:1fr}.card.big{grid-column:auto}.section-head{display:block}.hero{place-items:end start}.title{font-size:clamp(3.6rem,18vw,6.5rem)}}
+  </style>
 </head>
 <body>
-
-  <!-- PARTICLE CANVAS -->
-  <canvas id="void-canvas" aria-hidden="true"></canvas>
-
-  <!-- ═══════════════════════════ NAV ═══════════════════════════ -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">
-        <span class="nav-logo-glyph">⟁</span>
-        <span class="nav-logo-text">AETHERHAVEN</span>
-      </a>
-      <div class="nav-links">
-        <a href="#signal" class="nav-link">About</a>
-        <a href="#systems" class="nav-link">Systems</a>
-        <a href="#frequency" class="nav-link">Work</a>
-        <a href="#portal" class="nav-link">Contact</a>
-        <a href="https://github.com/Mellowambience" target="_blank" rel="noopener" class="nav-link nav-link-ghost">GitHub</a>
-        <a href="#portal" class="nav-cta">Open a Channel</a>
+  <div class="stars" aria-hidden="true"></div>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top"><b>⟁</b><span>AETHERHAVEN</span></a>
+      <div class="links">
+        <a href="#mothership">Mothership</a><a href="#constellation">Repos</a><a href="#lanes">Work</a><a href="#portal">Contact</a><a href="https://github.com/Mellowambience" target="_blank" rel="noopener">GitHub</a><a class="cta" href="#portal">Open Channel</a>
       </div>
-      <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
-        <span></span><span></span>
-      </button>
     </div>
   </nav>
 
-  <!-- ═══════════════════════════ BOOT / HERO ═══════════════════════════ -->
-  <section class="boot" id="boot">
-    <div class="boot-inner">
-      <div class="boot-eyebrow">
-        <span class="boot-dot"></span>
-        <span class="boot-label">SYSTEM ONLINE &mdash; AETHERHAVEN v3.0</span>
-      </div>
-
-      <h1 class="boot-title">
-        <span class="boot-line-1">The void</span>
-        <span class="boot-line-2">is <em>home.</em></span>
-      </h1>
-
-      <p class="boot-sub">
-        Amara (Mars) builds sovereign AI, living worlds, and the browser that thinks with you.
-        This is the operating system of a life at the edge of code and creation.
-      </p>
-
-      <div class="boot-ctas">
-        <a href="#signal" class="boot-btn-primary">Enter the system</a>
-        <a href="#systems" class="boot-btn-ghost">See what's running</a>
-      </div>
-
-      <div class="boot-status">
-        <div class="boot-status-item">
-          <span class="bsi-dot bsi-green"></span>
-          <span>AetherBrowser <em>building</em></span>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow"><span class="pulse"></span>AETHERHAVEN MOTHERSHIP // REV 4.0</div>
+        <h1 class="title"><span>All signals</span><span>return <em>home.</em></span></h1>
+        <p class="sub">This is the central command deck for Amara's worlds: AI-native tools, browser experiments, game prototypes, creative systems, security ideas, and the living constellation of repos orbiting the same vision.</p>
+        <div class="actions">
+          <a class="btn primary" href="#constellation">Enter repo constellation</a>
+          <a class="btn" href="https://github.com/Mellowambience" target="_blank" rel="noopener">View GitHub fleet</a>
+          <a class="btn" href="#portal">Hire / collaborate</a>
         </div>
-        <div class="boot-status-item">
-          <span class="bsi-dot bsi-purple"></span>
-          <span>MIST <em>active</em></span>
-        </div>
-        <div class="boot-status-item">
-          <span class="bsi-dot bsi-cyan"></span>
-          <span>Ghostline <em>watching</em></span>
-        </div>
-        <div class="boot-status-item">
-          <span class="bsi-dot bsi-amber"></span>
-          <span>Subspace <em>online</em></span>
+        <div class="status">
+          <div class="chip"><strong>Flagship</strong>AetherBrowser + AetherTab</div>
+          <div class="chip"><strong>Worlds</strong>Pet Grave, Goldmaze, RPG experiments</div>
+          <div class="chip"><strong>Systems</strong>MIST, Ghostline, Chimera, Clawd</div>
+          <div class="chip"><strong>Signal</strong>Remote-first creator-engineer</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="boot-scroll-hint" aria-hidden="true">
-      <div class="bsh-line"></div>
-      <span>scroll</span>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ SIGNAL / ABOUT ═══════════════════════════ -->
-  <section class="signal" id="signal">
-    <div class="signal-inner">
-      <div class="signal-label">
-        <span class="section-tag">01 &mdash; SIGNAL</span>
-      </div>
-
-      <div class="signal-grid">
-        <div class="signal-manifesto">
-          <h2 class="signal-heading">
-            I build things<br>that don't exist yet.
-          </h2>
-          <p class="signal-body large">
-            I'm <strong>Amara</strong>, known as Mars. Full-stack developer, security researcher,
-            and systems thinker based in Philadelphia. I've been building at the edge of
-            code and culture for 7+ years — and the edge keeps moving, so I keep building.
-          </p>
-          <p class="signal-body">
-            Aetherhaven is the name I gave the world I'm constructing:
-            a browser that thinks with you, an AI that's actually yours,
-            security that operates like a ghost, and a new-tab page that's
-            an actual command center.
-          </p>
-          <p class="signal-body">
-            I don't build for the portfolio. I build because the thing
-            needs to exist, and I'm the one who can make it real.
-          </p>
-          <div class="signal-cta-row">
-            <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener" class="signal-chip">𝕏 Follow the build</a>
-            <a href="https://discord.gg/aetherhaven" target="_blank" rel="noopener" class="signal-chip">Discord</a>
-            <a href="https://github.com/Mellowambience" target="_blank" rel="noopener" class="signal-chip">GitHub</a>
-            <a href="https://ko-fi.com/mellowambience" target="_blank" rel="noopener" class="signal-chip">Ko-fi</a>
-          </div>
-        </div>
-
-        <div class="signal-stats">
-          <div class="signal-stat-card">
-            <span class="ssc-num">7<sup>+</sup></span>
-            <span class="ssc-label">Years building at the edge</span>
-          </div>
-          <div class="signal-stat-card">
-            <span class="ssc-num">114</span>
-            <span class="ssc-label">Production startups supported</span>
-          </div>
-          <div class="signal-stat-card accent-green">
-            <span class="ssc-num">4</span>
-            <span class="ssc-label">Live sovereign systems</span>
-          </div>
-          <div class="signal-stat-card">
-            <span class="ssc-num">∞</span>
-            <span class="ssc-label">Ideas in the queue</span>
-          </div>
-          <div class="signal-location-card">
-            <div class="slc-top">
-              <span class="slc-dot"></span>
-              <span class="slc-label">LOCATION</span>
-            </div>
-            <div class="slc-city">Philadelphia, PA</div>
-            <div class="slc-sub">Remote-first &middot; Available worldwide</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ SYSTEMS ═══════════════════════════ -->
-  <section class="systems" id="systems">
-    <div class="systems-inner">
-      <div class="systems-header">
-        <span class="section-tag">02 &mdash; SYSTEMS</span>
-        <h2 class="systems-heading">What's running.</h2>
-        <p class="systems-sub">Four sovereign systems. One ecosystem. All yours.</p>
-      </div>
-
-      <div class="systems-grid">
-
-        <!-- AetherBrowser — FLAGSHIP -->
-        <div class="sys-node sys-node-large" id="sys-browser">
-          <div class="sys-node-header">
-            <div class="sys-status-row">
-              <span class="sys-dot dot-green pulse"></span>
-              <span class="sys-status-text">Active build</span>
-            </div>
-            <span class="sys-tag">FLAGSHIP</span>
-          </div>
-
-          <div class="sys-glyph" aria-hidden="true">◈</div>
-          <h3 class="sys-name">AetherBrowser</h3>
-          <p class="sys-desc">
-            Not a reskin. A sovereign machine. Tauri&nbsp;v2 desktop browser
-            with MIST AI built-in, Ghostline security at the kernel level,
-            and Subspace as the new-tab Agent&nbsp;OS.
-            Your browser finally works <em>for you</em>.
-          </p>
-
-          <!-- Repo vitals strip -->
-          <div class="sys-repo-vitals">
-            <div class="srv-item">
-              <span class="srv-label">REPO</span>
-              <span class="srv-value">Mellowambience/aetherbrowser</span>
-            </div>
-            <div class="srv-item">
-              <span class="srv-label">BRANCH</span>
-              <span class="srv-value">main</span>
-            </div>
-            <div class="srv-item">
-              <span class="srv-label">PHASE</span>
-              <span class="srv-value">1–2 scaffold live</span>
-            </div>
-          </div>
-
-          <div class="sys-tags">
-            <span>Tauri v2</span>
-            <span>Rust</span>
-            <span>TypeScript</span>
-            <span>AI-native</span>
-            <span>Ghostline</span>
-            <span>MIST</span>
-            <span>Subspace</span>
-          </div>
-
-          <!-- Clone block -->
-          <div class="sys-clone-block">
-            <code class="sys-clone-cmd">git clone https://github.com/Mellowambience/aetherbrowser.git</code>
-            <button class="sys-clone-copy" onclick="navigator.clipboard.writeText('git clone https://github.com/Mellowambience/aetherbrowser.git').then(()=>{this.textContent='Copied';setTimeout(()=>this.textContent='Copy',1500)})" aria-label="Copy clone command">Copy</button>
-          </div>
-
-          <div class="sys-link-row">
-            <a href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener" class="sys-link">
-              View on GitHub <span aria-hidden="true">→</span>
-            </a>
-            <a href="https://github.com/Mellowambience/aetherbrowser/stargazers" target="_blank" rel="noopener" class="sys-star-btn">
-              ☆ Star
-            </a>
-          </div>
-        </div>
-
-        <!-- MIST -->
-        <div class="sys-node" id="sys-mist">
-          <div class="sys-node-header">
-            <div class="sys-status-row">
-              <span class="sys-dot dot-purple"></span>
-              <span class="sys-status-text">Active</span>
-            </div>
-          </div>
-          <div class="sys-glyph" aria-hidden="true">⬡</div>
-          <h3 class="sys-name">MIST</h3>
-          <p class="sys-desc">
-            Your AI. Dual-path: cloud via Gemini or fully local via Ollama.
-            Zero data leaves your machine unless you say so.
-          </p>
-          <div class="sys-tags">
-            <span>tRPC</span>
-            <span>Ollama</span>
-            <span>Gemini</span>
-          </div>
-        </div>
-
-        <!-- Ghostline -->
-        <div class="sys-node" id="sys-ghostline">
-          <div class="sys-node-header">
-            <div class="sys-status-row">
-              <span class="sys-dot dot-cyan"></span>
-              <span class="sys-status-text">Watching</span>
-            </div>
-          </div>
-          <div class="sys-glyph" aria-hidden="true">◎</div>
-          <h3 class="sys-name">Ghostline</h3>
-          <p class="sys-desc">
-            Browser security that operates like a ghost. Tracker overlay,
-            vault check, DNS shield, shadow audit. You see everything they don't want you to see.
-          </p>
-          <div class="sys-tags">
-            <span>Chrome MV3</span>
-            <span>Privacy</span>
-            <span>Security</span>
-          </div>
-        </div>
-
-        <!-- Subspace -->
-        <div class="sys-node" id="sys-subspace">
-          <div class="sys-node-header">
-            <div class="sys-status-row">
-              <span class="sys-dot dot-amber"></span>
-              <span class="sys-status-text">Online</span>
-            </div>
-          </div>
-          <div class="sys-glyph" aria-hidden="true">⟁</div>
-          <h3 class="sys-name">Subspace</h3>
-          <p class="sys-desc">
-            The new-tab page, reimagined as an Agent OS. Four-panel command center.
-            Talk to MIST, route commands, watch your agents work.
-          </p>
-          <div class="sys-tags">
-            <span>Agent OS</span>
-            <span>New Tab</span>
-            <span>Multi-agent</span>
-          </div>
-        </div>
-
-        <!-- AetherTab -->
-        <div class="sys-node sys-node-wide" id="sys-aethertab">
-          <div class="sys-node-header">
-            <div class="sys-status-row">
-              <span class="sys-dot dot-green pulse"></span>
-              <span class="sys-status-text">Live on GitHub</span>
-            </div>
-            <span class="sys-tag sys-tag-green">SHIP IT</span>
-          </div>
-          <div class="sys-node-content-row">
-            <div>
-              <div class="sys-glyph" aria-hidden="true">⊞</div>
-              <h3 class="sys-name">AetherTab</h3>
-              <p class="sys-desc">
-                The Chrome extension that started it all. AI sidebar, encrypted local storage,
-                Void Shards themes, MV3 permission model. Ready for the Chrome Web Store.
-              </p>
-            </div>
-            <div class="sys-aethertab-ctas">
-              <a href="https://github.com/Mellowambience/aethertab" target="_blank" rel="noopener" class="sys-link">GitHub →</a>
-              <a href="https://mellowambience.github.io/aethertab" target="_blank" rel="noopener" class="sys-link-ghost">Landing page →</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- More projects link -->
-      <div class="systems-more">
-        <a href="https://github.com/Mellowambience" target="_blank" rel="noopener" class="systems-more-link">
-          <span>See all repos on GitHub</span>
-          <span class="sml-arrow">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ FREQUENCY / WORK ═══════════════════════════ -->
-  <section class="frequency" id="frequency">
-    <div class="frequency-inner">
-      <div class="freq-header">
-        <span class="section-tag">03 &mdash; FREQUENCY</span>
-        <h2 class="freq-heading">What I do<br>for others.</h2>
-      </div>
-
-      <div class="freq-grid">
-        <div class="freq-service">
-          <div class="freq-service-num">01</div>
-          <h3 class="freq-service-name">Full-Stack Development</h3>
-          <p class="freq-service-desc">Production systems from schema to deploy. TypeScript, React, Node, Rust, Tauri — whatever the job needs.</p>
-          <div class="freq-rate">$85 <span>/ hr</span></div>
-        </div>
-        <div class="freq-service">
-          <div class="freq-service-num">02</div>
-          <h3 class="freq-service-name">AI Systems Architecture</h3>
-          <p class="freq-service-desc">Agents, pipelines, sovereign AI setups. Local-first or cloud-hybrid — built to be actually yours.</p>
-          <div class="freq-rate">$110 <span>/ hr</span></div>
-        </div>
-        <div class="freq-service">
-          <div class="freq-service-num">03</div>
-          <h3 class="freq-service-name">Security Research</h3>
-          <p class="freq-service-desc">Browser security, tracker analysis, privacy architecture. I find what others miss.</p>
-          <div class="freq-rate">$110 <span>/ hr</span></div>
-        </div>
-        <div class="freq-service">
-          <div class="freq-service-num">04</div>
-          <h3 class="freq-service-name">Creative Tech Consulting</h3>
-          <p class="freq-service-desc">Brand systems, digital worlds, things that didn't exist before the call. Think bigger, build weirder.</p>
-          <div class="freq-rate">$95 <span>/ hr</span></div>
-        </div>
-      </div>
-
-      <div class="freq-proof">
-        <div class="freq-proof-num">114<span>+</span></div>
-        <div class="freq-proof-text">production startups supported across fintech, healthtech, creative platforms, and infrastructure.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ PORTAL / CONTACT ═══════════════════════════ -->
-  <section class="portal" id="portal">
-    <div class="portal-inner">
-      <span class="section-tag">04 &mdash; PORTAL</span>
-
-      <h2 class="portal-heading">Open a channel.</h2>
-      <p class="portal-sub">
-        Building something ambitious? Need a collaborator who ships?
-        Or just want to talk about sovereign AI at 2am?
-        The void is open.
-      </p>
-
-      <div class="portal-options">
-        <a href="mailto:natorretti11@gmail.com" class="portal-option portal-option-primary">
-          <span class="po-icon">✉</span>
+    <section class="section" id="mothership">
+      <div class="wrap">
+        <div class="mission">
           <div>
-            <div class="po-label">Email directly</div>
-            <div class="po-sub">natorretti11@gmail.com</div>
+            <div class="tag">01 // Mothership Manifest</div>
+            <h3>Not a portfolio. A launch bay.</h3>
+            <p>Aetherhaven is the home base for everything I build: prototypes that become products, ideas that become systems, experiments that become worlds, and repos that act like rooms inside one larger vessel.</p>
+            <p>I build at the intersection of full-stack engineering, AI systems, browser tools, security research, game design, and emotionally alive creative technology.</p>
+            <div class="actions"><a class="btn primary" href="mailto:natorretti11@gmail.com">Email Amara</a><a class="btn" href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener">Follow the build</a></div>
           </div>
-        </a>
-        <a href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener" class="portal-option">
-          <span class="po-icon">𝕏</span>
-          <div>
-            <div class="po-label">Follow the build</div>
-            <div class="po-sub">@1Aether1Rose1</div>
+          <div class="metrics">
+            <div class="metric"><b>∞</b><span>Ideas routed through one mothership</span></div>
+            <div class="metric"><b>7+</b><span>Years building at the edge</span></div>
+            <div class="metric"><b>100%</b><span>Remote-first, async-friendly</span></div>
+            <div class="metric"><b>1</b><span>Unified creative operating system</span></div>
           </div>
-        </a>
-        <a href="https://discord.gg/aetherhaven" target="_blank" rel="noopener" class="portal-option">
-          <span class="po-icon">◈</span>
-          <div>
-            <div class="po-label">Join the Discord</div>
-            <div class="po-sub">Aetherhaven community</div>
-          </div>
-        </a>
-        <a href="https://ko-fi.com/mellowambience" target="_blank" rel="noopener" class="portal-option">
-          <span class="po-icon">♡</span>
-          <div>
-            <div class="po-label">Support the work</div>
-            <div class="po-sub">Ko-fi</div>
-          </div>
-        </a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <span class="footer-logo">⟁ AETHERHAVEN</span>
-        <span class="footer-version">Rev 3.0 &mdash; Mar 2026</span>
+    <section class="section" id="constellation">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="tag">02 // Repo Constellation</div><h2>Docking bays.</h2></div>
+          <p class="lead">Each repo is a module in the larger ship: some are public launch bays, some are experimental labs, some are private/under-construction decks.</p>
+        </div>
+        <div class="grid">
+          <article class="card big"><div class="top"><span class="state">Flagship build</span><span class="badge">Browser / AI OS</span></div><div class="glyph">◈</div><h3>AetherBrowser</h3><p>A sovereign desktop browser direction: AI-native, privacy-aware, and built around a command-center experience instead of passive browsing.</p><div class="tags"><span>Tauri</span><span>Rust</span><span>TypeScript</span><span>MIST</span><span>Ghostline</span></div><a class="repo-link" href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener">Open repo →</a></article>
+          <article class="card"><div class="top"><span class="state">Hub module</span><span class="badge">Home base</span></div><div class="glyph">⟁</div><h3>Aetherhaven Hub</h3><p>The meta-layer: a place to gather identity, projects, docs, links, launch notes, and the story of the whole ecosystem.</p><div class="tags"><span>Hub</span><span>Docs</span><span>Launchpad</span></div><a class="repo-link" href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" rel="noopener">Open repo →</a></article>
+          <article class="card"><div class="top"><span class="state">Web deck</span><span class="badge">Site system</span></div><div class="glyph">▣</div><h3>Webspace</h3><p>A web-facing module for experiments, landing pages, interface concepts, and public-facing creative tech.</p><div class="tags"><span>Web</span><span>Frontend</span><span>Interface</span></div><a class="repo-link" href="https://github.com/Mellowambience/webspace" target="_blank" rel="noopener">Open repo →</a></article>
+          <article class="card"><div class="top"><span class="state">World seed</span><span class="badge">Game / myth</span></div><div class="glyph">◎</div><h3>The Goldmaze</h3><p>A mythic game-world seed: maze logic, gold-light mystery, and the feeling of wandering through a symbolic machine.</p><div class="tags"><span>Game</span><span>World</span><span>Myth</span></div><a class="repo-link" href="https://github.com/Mellowambience/the-goldmaze" target="_blank" rel="noopener">Open repo →</a></article>
+          <article class="card"><div class="top"><span class="state">Living world</span><span class="badge">Pet game</span></div><div class="glyph">♡</div><h3>Pet Grave</h3><p>A softer emotional world module: pet-game energy, memory, grief, affection, and cozy-spooky interaction design.</p><div class="tags"><span>Pets</span><span>Cozy</span><span>Game</span></div><a class="repo-link" href="https://github.com/Mellowambience/pet-grave" target="_blank" rel="noopener">Open repo →</a></article>
+          <article class="card"><div class="top"><span class="state">Retro lab</span><span class="badge">Fantasy console</span></div><div class="glyph">✦</div><h3>Pico16 PlutoMars</h3><p>A tiny pixel-engine / retro-console bay for small game loops, cartridge-feeling experiments, and fast playful prototypes.</p><div class="tags"><span>Pixel</span><span>Prototype</span><span>Game</span></div><a class="repo-link" href="https://github.com/Mellowambience/pico16-plutomars" target="_blank" rel="noopener">Open repo →</a></article>
+          <article class="card"><div class="top"><span class="state">Tooling bay</span><span class="badge">Agentic dev</span></div><div class="glyph">⬡</div><h3>Clawd / Openclaw</h3><p>Developer-tool and agent-workflow experiments for shaping how AI, local tools, and project context can work together.</p><div class="tags"><span>Agents</span><span>CLI</span><span>Workflow</span></div><a class="repo-link" href="https://github.com/Mellowambience/openclaw" target="_blank" rel="noopener">Open public module →</a></article>
+          <article class="card"><div class="top"><span class="state">System lore</span><span class="badge">Private / experimental</span></div><div class="glyph">☽</div><h3>Chimera, Mythos, Ghostline</h3><p>Deeper internal systems for identity, security, mythic interfaces, and experiments that may surface when they are ready.</p><div class="tags"><span>Private bays</span><span>Security</span><span>MythOS</span></div><a class="repo-link" href="https://github.com/Mellowambience" target="_blank" rel="noopener">See the fleet →</a></article>
+        </div>
       </div>
-      <div class="footer-right">
-        <span class="footer-coords">39.9526° N, 75.1652° W &mdash; Philadelphia</span>
-        <span class="footer-copy">Built with love &amp; chaos. All rights reserved.</span>
+    </section>
+
+    <section class="section" id="lanes">
+      <div class="wrap">
+        <div class="section-head"><div><div class="tag">03 // Work Lanes</div><h2>What the ship builds.</h2></div><p class="lead">The projects are different shapes, but the engine underneath is consistent: ambitious systems, emotional interfaces, fast prototypes, and worlds that feel alive.</p></div>
+        <div class="lanes">
+          <div class="lane"><h3>AI Systems</h3><p>Agent workflows, local/cloud AI setups, memory architecture, creative copilots, and tool-using interfaces.</p></div>
+          <div class="lane"><h3>Living Worlds</h3><p>Game prototypes, cozy fantasy systems, social spaces, pet worlds, RPG loops, and worldbuilding engines.</p></div>
+          <div class="lane"><h3>Browser / Security</h3><p>New-tab command centers, privacy overlays, tracker awareness, extension concepts, and safer browsing tools.</p></div>
+          <div class="lane"><h3>Creative Tech</h3><p>Launch pages, brand systems, interactive art, content engines, and mythic product experiences.</p></div>
+        </div>
       </div>
-    </div>
-  </footer>
+    </section>
 
-  <script>
-  // ═══════════════════════════════════════════
-  // PARTICLE CANVAS — void field
-  // ═══════════════════════════════════════════
-  (function() {
-    const canvas = document.getElementById('void-canvas');
-    const ctx = canvas.getContext('2d');
-    let W, H, particles = [], animId;
+    <section class="section" id="portal">
+      <div class="wrap">
+        <div class="section-head"><div><div class="tag">04 // Portal</div><h2>Open a channel.</h2></div><p class="lead">Hiring, collaboration, patronage, feedback, repo scouting, or “this is weird and I want in” — all routes dock here.</p></div>
+        <div class="contact">
+          <a class="contact-card" href="mailto:natorretti11@gmail.com"><h3>✉ Email directly</h3><p>natorretti11@gmail.com</p></a>
+          <a class="contact-card" href="https://github.com/Mellowambience" target="_blank" rel="noopener"><h3>◈ GitHub fleet</h3><p>Browse the public repos, prototypes, tools, and launch bays.</p></a>
+          <a class="contact-card" href="https://x.com/1Aether1Rose1" target="_blank" rel="noopener"><h3>𝕏 Follow the signal</h3><p>Build notes, ideas, experiments, screenshots, and public dev energy.</p></a>
+          <a class="contact-card" href="https://ko-fi.com/mellowambience" target="_blank" rel="noopener"><h3>♡ Support the work</h3><p>Fuel the mothership, the worlds, and the next strange beautiful prototype.</p></a>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    function resize() {
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    }
-
-    function Particle() {
-      this.reset();
-    }
-    Particle.prototype.reset = function() {
-      this.x = Math.random() * W;
-      this.y = Math.random() * H;
-      this.r = Math.random() * 1.2 + 0.2;
-      this.vx = (Math.random() - 0.5) * 0.15;
-      this.vy = (Math.random() - 0.5) * 0.15;
-      const palette = ['rgba(168,85,247,', 'rgba(57,255,110,', 'rgba(103,232,249,', 'rgba(240,244,255,'];
-      this.col = palette[Math.floor(Math.random() * palette.length)];
-      this.alpha = Math.random() * 0.5 + 0.1;
-    };
-    Particle.prototype.update = function() {
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
-    };
-    Particle.prototype.draw = function() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-      ctx.fillStyle = this.col + this.alpha + ')';
-      ctx.fill();
-    };
-
-    function init() {
-      resize();
-      particles = Array.from({ length: 120 }, () => new Particle());
-    }
-
-    function loop() {
-      ctx.clearRect(0, 0, W, H);
-      particles.forEach(p => { p.update(); p.draw(); });
-      animId = requestAnimationFrame(loop);
-    }
-
-    window.addEventListener('resize', resize);
-    init();
-    loop();
-  })();
-
-  // ═══════════════════════════════════════════
-  // NAV — scroll behavior
-  // ═══════════════════════════════════════════
-  (function() {
-    const nav = document.getElementById('nav');
-    let lastY = 0;
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      nav.classList.toggle('nav-scrolled', y > 60);
-      nav.classList.toggle('nav-hidden', y > lastY + 10 && y > 200);
-      nav.classList.remove('nav-hidden', y < lastY - 5);
-      lastY = y;
-    }, { passive: true });
-
-    // Hamburger
-    const btn = document.getElementById('nav-hamburger');
-    const links = document.querySelector('.nav-links');
-    btn.addEventListener('click', () => {
-      btn.classList.toggle('open');
-      links.classList.toggle('open');
-    });
-  })();
-
-  // ═══════════════════════════════════════════
-  // REVEAL — intersection observer
-  // ═══════════════════════════════════════════
-  (function() {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('revealed');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  })();
-  </script>
+  <footer class="footer"><div class="wrap"><span>⟁ AETHERHAVEN MOTHERSHIP — Rev 4.0 / Jul 2026</span><span class="small">Philadelphia signal // remote-first // built with love & chaos</span></div></footer>
 </body>
 </html>
