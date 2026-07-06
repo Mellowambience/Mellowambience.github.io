@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "name": "Amara Torretti",
+    "site": "Aetherhaven",
+    "positioning": "Remote-first creator-engineer building AI systems, browser tools, games, security experiments, and emotionally alive creative technology."
+  },
+  "safeRule": "Dockmaster drafts. You approve. Private workers act. You review before merge.",
+  "projects": [
+    {
+      "name": "AetherBrowser",
+      "type": "Browser / AI OS",
+      "status": "Flagship build",
+      "path": "browser/security",
+      "summary": "A sovereign desktop browser direction: AI-native, privacy-aware, and built around a command-center experience instead of passive browsing.",
+      "tags": ["Tauri", "Rust", "TypeScript", "MIST", "Ghostline"],
+      "repo": "https://github.com/Mellowambience/aetherbrowser"
+    },
+    {
+      "name": "Pet Grave",
+      "type": "Game / Living World",
+      "status": "Emotional vertical slice",
+      "path": "games",
+      "summary": "A cozy-spooky pet world about grief, affection, memory, and gentle interaction design.",
+      "tags": ["Game", "Cozy", "Pets", "Memory"],
+      "repo": "https://github.com/Mellowambience/pet-grave"
+    },
+    {
+      "name": "Aetherhaven",
+      "type": "Portfolio / Command Deck",
+      "status": "Public mothership",
+      "path": "site",
+      "summary": "The central hub for Amara's projects, repo constellation, work lanes, and agentic command layer.",
+      "tags": ["GitHub Pages", "Portfolio", "Agentic"],
+      "repo": "https://github.com/Mellowambience/Mellowambience.github.io"
+    },
+    {
+      "name": "Ghostline",
+      "type": "Security / Privacy",
+      "status": "Research lane",
+      "path": "browser/security",
+      "summary": "A shadow-sentinel direction for safer browsing, privacy overlays, and agentic awareness.",
+      "tags": ["Security", "Browser", "Privacy"]
+    },
+    {
+      "name": "MIST",
+      "type": "AI Companion / Agent",
+      "status": "System lore",
+      "path": "ai",
+      "summary": "A local-first companion and agentic workflow concept for creative project continuity.",
+      "tags": ["AI", "Agents", "Memory"]
+    },
+    {
+      "name": "Clawd / Openclaw",
+      "type": "Agentic Dev Tool",
+      "status": "Tooling bay",
+      "path": "ai",
+      "summary": "Developer-tool and agent-workflow experiments for shaping how AI, local tools, and project context work together.",
+      "tags": ["Agents", "CLI", "Workflow"],
+      "repo": "https://github.com/Mellowambience/openclaw"
+    }
+  ],
+  "services": [
+    "AI prototype sprint",
+    "Browser/extension prototype",
+    "Creative tech landing page",
+    "Game vertical-slice polish",
+    "README/portfolio upgrade"
+  ]
+}
