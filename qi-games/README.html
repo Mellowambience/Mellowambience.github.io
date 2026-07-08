@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QI-Games — Quantum Intelligent Games</title>
+<style>
+  :root { --indigo:#2a1b6e; --indigo2:#3a2a9e; --glow:#b4a3ff; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: 'Segoe UI', system-ui, sans-serif;
+         background: radial-gradient(circle at 50% 0%, #1a1450, #0a0820 70%);
+         color: #f4f1ff; min-height:100vh; display:flex; align-items:center;
+         justify-content:center; }
+  .wrap { max-width: 640px; padding: 48px 24px; text-align:center; }
+  h1 { font-size: 2.4rem; letter-spacing: 2px; margin:0 0 8px;
+       background: linear-gradient(90deg,#b4a3ff,#6ab0ff);
+       -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .sub { color:#b9b2e8; margin:0 0 32px; }
+  .cards { display:grid; gap:14px; grid-template-columns:1fr; }
+  a.card { display:block; padding:18px 20px; border-radius:14px;
+           background:rgba(58,42,158,.25); border:1px solid rgba(180,163,255,.3);
+           color:#f4f1ff; text-decoration:none; transition:.2s; text-align:left; }
+  a.card:hover { background:rgba(58,42,158,.45); transform:translateY(-2px);
+                 box-shadow:0 8px 24px rgba(106,176,255,.2); }
+  a.card b { font-size:1.05rem; }
+  a.card span { display:block; color:#b9b2e8; font-size:.9rem; margin-top:4px; }
+  .foot { margin-top:36px; color:#7a72b8; font-size:.85rem; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🜂 QI-GAMES</h1>
+    <p class="sub">Quantum Intelligent Games — a sovereign, local-first world where
+      5 autonomous agents live, trade, and <b>build the world as they live</b>.</p>
+    <div class="cards">
+      <a class="card" href="society3d.html">
+        <b>▶ Living 3D World</b>
+        <span>Real-time Three.js world. WASD to play the "YOU" avatar, share the
+              economy with the agents. Hybrid quantum+classical planner (0 JS errors).</span>
+      </a>
+      <a class="card" href="agent_vision.html">
+        <b>👁 Agent Vision</b>
+        <span>First-person POV of one autonomous agent — watch the live thinking trace
+              (classical / quantum / blended / best).</span>
+      </a>
+      <a class="card" href="index.html">
+        <b>✦ Engine Index</b>
+        <span>Entry hub + links to the agentic ECS core.</span>
+      </a>
+    </div>
+    <p class="foot">Sovereign by design — no cloud, no rented engine. Agents think for themselves.</p>
+  </div>
+</body>
+</html>

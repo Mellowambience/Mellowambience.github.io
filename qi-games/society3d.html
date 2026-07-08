@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QI-Games — Living 3D World (agents build it as they live)</title>
+<style>
+  :root{ --bg:#06040c; --panel:#120b22; --ink:#e9e2ff; --dim:#9b8fc7; --gold:#ffcf5c; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI",system-ui,sans-serif; overflow:hidden; }
+  #wrap{ display:flex; height:100%; }
+  #view{ flex:1; position:relative; }
+  canvas{ display:block; }
+  #hud{ position:absolute; top:10px; left:10px; font-size:12px; opacity:.8;
+    text-shadow:0 1px 2px #000; pointer-events:none; }
+  #panel{ width:320px; background:var(--panel); padding:14px; overflow-y:auto;
+    border-left:1px solid #2a1d4d; }
+  h1{ font-size:15px; margin:0 0 10px; letter-spacing:.5px; }
+  .sec{ font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--dim);
+    margin:14px 0 6px; }
+  .row{ display:flex; justify-content:space-between; font-size:13px; padding:2px 0; }
+  .row b{ color:var(--gold); }
+  #trace{ font-size:11px; line-height:1.5; height:160px; overflow-y:auto;
+    background:#0c0718; padding:8px; border-radius:6px; }
+  .dot{ display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:#5cff9d; margin-right:5px; vertical-align:middle; }
+  button{ background:#271a45; color:var(--ink); border:1px solid #3c2a63;
+    border-radius:6px; padding:7px 10px; cursor:pointer; font-size:12px; }
+  button:hover{ background:#34235c; }
+  .bar{ height:6px; background:#241638; border-radius:3px; overflow:hidden; margin-top:3px; }
+  .bar > i{ display:block; height:100%; background:linear-gradient(90deg,#ff5c8a,#ffcf5c); }
+  #badge{ display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px;
+    background:#1c3a2b; color:#7dffb0; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="view">
+    <canvas id="c"></canvas>
+    <div id="hud">
+      QI-Games · LIVING 3D WORLD<br>
+      autonomous agents building their own world<br>
+      drag to orbit · scroll to zoom · WASD = move YOU
+    </div>
+  </div>
+  <div id="panel">
+    <h1>🜂 Agent Society (3D)</h1>
+    <span id="badge">mode: —</span>
+    <div class="sec">World State</div>
+    <div class="row"><span>structures built</span><b id="nStruct">0</b></div>
+    <div class="row"><span>food in world</span><b id="nFood">0</b></div>
+    <div class="row"><span>crystals</span><b id="nCrys">0</b></div>
+    <div class="row"><span>market price</span><b id="mPrice">1.00</b></div>
+    <div class="sec">Agents</div>
+    <div id="agents"></div>
+    <div class="sec">Thinking Trace</div>
+    <div id="trace"></div>
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      <button id="reset">↻ Reset</button>
+      <button id="spawn">+ Agent</button>
+      <button id="join">★ YOU</button>
+    </div>
+    <div class="sec" style="color:var(--gold)">You (WASD / arrows)</div>
+    <div class="row"><span>coins</span><b id="youCoins">0¢</b></div>
+    <div class="row"><span>carry</span><b id="youCarry">—</b></div>
+  </div>
+</div>
+
+<!-- Vendored locally: no CDN, no hidden network (sovereign/offline) -->
+<script src="vendor/three.min.js"></script>
+<!-- Offline-trained VQC score table (quantum planner layer) -->
+<script src="quantum/scores.js"></script>
+<!-- Authored sprites as textures -->
+<script src="assets/sprites.js"></script>
+<script>
+// ===========================================================================
+// QI-Games Living 3D World — a JS port of engine/society.py
+// Agents (forager/trader/builder) live in a 3D world and BUILD it:
+//   foragers eat + drop seeds (food regrows)
+//   traders sell crystals -> coins
+//   builders spend coins -> persistent Structures (gardens/crystal nodes)
+//   structures self-produce content -> world sustains itself
+// ===========================================================================
+const FORAGER="forager", TRADER="trader", BUILDER="builder", SCOUT="scout", CURATOR="curator", YOU="you";
+const ROLE_COLOR={forager:0x5cff9d, trader:0xffcf5c, builder:0xff6ec7, scout:0x6ab0ff, curator:0xc792ff, you:0x00ffff};
+const ROLE_SPRITE={forager:"fairy", trader:"spellbook", builder:"crystal", scout:"crystal", curator:"spellbook", you:"fairy"};
+const MARKET={x:0,y:4};
+const BUILD_COST=2, BUILD_CD=4.0, STRUCT_T=6.0, FOOD_REGROW_P=0.25, FOOD_SELL=0.5;
+const SEEK=2.2, HUNGER=0.002, DT=1/60, GROUND=11, GROUND_HALF=5.5;
+
+// ---- hybrid quantum-classical survival planner (browser port of core.py) ----
+let Q_TABLE=null;
+function loadQuantum(){ try{ Q_TABLE = window.QIG_QUANTUM||null; }catch(e){ Q_TABLE=null; } }
+function classicalPlan(n){ return {seek_food:n.hunger, wander:0.2}; }
+function quantumLookup(n){
+  if(!Q_TABLE) return null;
+  const S=Q_TABLE.states, Sc=Q_TABLE.scores; let bi=0,bd=1e9;
+  for(let i=0;i<S.length;i++){ const d=(S[i][0]-n.hunger)**2+(S[i][1]-0)**2; if(d<bd){bd=d;bi=i;} }
+  return {seek_food:Sc[bi][0], wander:Sc[bi][1]};
+}
+function decide(n){
+  const c=classicalPlan(n), q=quantumLookup(n);
+  let blended,best,mode;
+  if(!q){ blended=c; mode="classical"; }
+  else { blended={seek_food:0.6*c.seek_food+0.4*q.seek_food, wander:0.6*c.wander+0.4*q.wander}; mode="hybrid"; }
+  best = blended.seek_food>=blended.wander ? "seek_food":"wander";
+  PLANNER_LAST={classical:c,quantum:q,blended,best,mode};
+  return best;
+}
+let PLANNER_LAST=null;
+
+// ---- ECS (minimal) ----
+let ecs, sprites={};
+function createECS(){
+  const e={next:0,comp:{},sys:[]};
+  e.create=()=>++e.next;
+  e.add=(id,t,d)=>{ e.comp[t]=e.comp[t]||{}; e.comp[t][id]=d; };
+  e.get=(id,t)=>(e.comp[t]||{})[id];
+  e.query=(...ts)=>{ if(!ts.length) return new Set(); const sets=ts.map(t=>new Set(Object.keys(e.comp[t]||{}))); return sets.reduce((a,b)=>new Set([...a].filter(x=>b.has(x)))); };
+  e.update=dt=>{ for(const fn of e.sys) fn(e,dt); };
+  e.addSystem=fn=>e.sys.push(fn);
+  return e;
+}
+function spawnFood(x,y){ const f=ecs.create(); ecs.add(f,"Position",{x,y}); ecs.add(f,"Food",{n:1}); return f; }
+function spawnCrystal(x,y){ const c=ecs.create(); ecs.add(c,"Position",{x,y}); ecs.add(c,"Crystal",{n:1}); return c; }
+function spawnStructure(kind,x,y,by){ const s=ecs.create(); ecs.add(s,"Position",{x,y}); ecs.add(s,"Structure",{kind,by,age:0}); return s; }
+function spawnAgent(role,x,y){ const a=ecs.create();
+  ecs.add(a,"Position",{x,y}); ecs.add(a,"Velocity",{x:0,y:0}); ecs.add(a,"Needs",{hunger:0.3});
+  ecs.add(a,"Goal",{name:"wander"}); ecs.add(a,"Role",{type:role});
+  ecs.add(a,"Coins",{n:0}); ecs.add(a,"Carry",{c:0}); ecs.add(a,"BuildCD",{t:0}); return a; }
+
+// ---- player avatar (YOU) ----
+let player={id:null, pos:null, vel:{x:0,y:0}, carry:{crystal:0,food:0}, coins:0, hunger:0.2};
+const KEYS={};
+function spawnPlayer(){
+  if(player.id!==null) return;
+  const id=ecs.create();
+  const p={x:0,y:-4};
+  ecs.add(id,"Position",p); ecs.add(id,"Velocity",{x:0,y:0});
+  ecs.add(id,"Role",{type:YOU});
+  player.id=id; player.pos=p; player.vel={x:0,y:0};
+  player.carry={crystal:0,food:0}; player.coins=0; player.hunger=0.2;
+}
+function playerSystem(e,dt){
+  if(player.id===null) return;
+  const pos=player.pos, v=player.vel;
+  let ax=0,ay=0;
+  if(KEYS["w"]||KEYS["arrowup"]) ay+=1;
+  if(KEYS["s"]||KEYS["arrowdown"]) ay-=1;
+  if(KEYS["a"]||KEYS["arrowleft"]) ax-=1;
+  if(KEYS["d"]||KEYS["arrowright"]) ax+=1;
+  const sp=4.5; // player is a bit faster than agents
+  if(ax||ay){ const d=Math.hypot(ax,ay); v.x=ax/d*sp; v.y=ay/d*sp; }
+  else { v.x*=0.8; v.y*=0.8; }
+  pos.x+=v.x*dt; pos.y+=v.y*dt;
+  pos.x=Math.max(-GROUND_HALF,Math.min(GROUND_HALF,pos.x));
+  pos.y=Math.max(-GROUND_HALF*0.7,Math.min(GROUND_HALF*0.7+0.5,pos.y));
+  // pick up adjacent crystals/food
+  for(const id of [...e.query("Position","Crystal")]){ const cp=e.get(id,"Position");
+    if((cp.x-pos.x)**2+(cp.y-pos.y)**2 < 0.4){ player.carry.crystal++; e.comp.Crystal && delete e.comp.Crystal[id]; } }
+  for(const id of [...e.query("Position","Food")]){ const fp=e.get(id,"Position");
+    if((fp.x-pos.x)**2+(fp.y-pos.y)**2 < 0.4){ player.carry.food++; e.comp.Food && delete e.comp.Food[id]; } }
+  // bank at market
+  if((pos.x-MARKET.x)**2+(pos.y-MARKET.y)**2 < 0.6){
+    const m=e.get(0,"Market"); const price=m?m.price:1;
+    player.coins += Math.floor(player.carry.crystal*price);
+    player.coins += Math.floor(player.carry.food*price*FOOD_SELL);
+    player.carry.crystal=0; player.carry.food=0;
+  }
+}
+
+// ---- systems ----
+function marketSystem(e,dt){ let m=e.get(0,"Market"); if(!m){ e.add(0,"Market",{price:1,t:0}); return; }
+  m.t+=dt; const base=1+0.5*(0.5+0.5*Math.sin(m.t*0.05)); m.price=Math.max(0.4,Math.min(2,base+ (Math.random()-0.5)*0.1)); }
+function needSystem(e,dt){ for(const id of e.query("Needs")){ const n=e.get(id,"Needs"); n.hunger=Math.min(1,n.hunger+HUNGER*dt); } }
+function moveToward(pos,vel,tx,ty,sp=SEEK){ const dx=tx-pos.x,dy=ty-pos.y,d=Math.hypot(dx,dy);
+  if(d<0.15){ vel.x*=0.8; vel.y*=0.8; return true; } vel.x=dx/d*sp; vel.y=dy/d*sp; return false; }
+function nearest(e,id,ct){ const pos=e.get(id,"Position"); let best=null,bd=1e9;
+  for(const o of e.query("Position",ct)){ if(o===id) continue; const p=e.get(o,"Position");
+    const d=(p.x-pos.x)**2+(p.y-pos.y)**2; if(d<bd){bd=d;best=o;} } return best; }
+function agentSystem(e,dt){
+  for(const id of e.query("Position","Velocity","Needs","Goal","Role")){
+    const pos=e.get(id,"Position"),vel=e.get(id,"Velocity"),n=e.get(id,"Needs"),g=e.get(id,"Goal");
+    const role=e.get(id,"Role").type,coins=e.get(id,"Coins"),carry=e.get(id,"Carry"),bcd=e.get(id,"BuildCD");
+    const survive=decide(n); g._survive=survive; g._scores=PLANNER_LAST;
+    if(survive==="seek_food"){ const food=e.query("Position","Food");
+      if(food){ const t=nearest(e,id,"Food"),p=e.get(t,"Position");
+        if(moveToward(pos,vel,p.x,p.y)){ n.hunger=0; e.comp.Food && delete e.comp.Food[t];
+          if(Math.random()<FOOD_REGROW_P) spawnFood(pos.x+(Math.random()*2-1),pos.y+(Math.random()*2-1)); }
+        g.name="seek_food"; continue; } }
+    if(role===FORAGER){ vel.x*=0.9; vel.y*=0.9; g.name="wander"; }
+    else if(role===TRADER){
+      if(carry.c>0){ if(moveToward(pos,vel,MARKET.x,MARKET.y)){ const m=e.get(0,"Market");
+        coins.n+=Math.floor(carry.c*(m?m.price:1)); carry.c=0; } g.name="trade"; }
+      else { const cr=e.query("Position","Crystal"); if(cr){ const t=nearest(e,id,"Crystal"),p=e.get(t,"Position");
+        if(moveToward(pos,vel,p.x,p.y)){ carry.c++; e.comp.Crystal && delete e.comp.Crystal[t]; } g.name="gather"; }
+        else { vel.x*=0.9; vel.y*=0.9; g.name="wander"; } }
+    } else if(role===BUILDER){ bcd.t=Math.max(0,bcd.t-dt);
+      if(coins.n>=BUILD_COST && bcd.t<=0){ const kind=Math.random()<0.5?"garden":"crystal_node";
+        spawnStructure(kind,pos.x,pos.y,id); coins.n-=BUILD_COST; bcd.t=BUILD_CD; g.name="build"; }
+      else { if(carry.c>0){ if(moveToward(pos,vel,MARKET.x,MARKET.y)){ const m=e.get(0,"Market");
+          coins.n+=Math.floor(carry.c*(m?m.price:1)); carry.c=0; } g.name="trade"; }
+        else { const fd=e.query("Position","Food"); if(fd){ const t=nearest(e,id,"Food"),p=e.get(t,"Position");
+          if(moveToward(pos,vel,p.x,p.y)){ carry.c++; e.comp.Food && delete e.comp.Food[t];
+            if(carry.c>=2){ if(moveToward(pos,vel,MARKET.x,MARKET.y)){ const m=e.get(0,"Market");
+              coins.n+=Math.floor(carry.c*(m?m.price:1)*FOOD_SELL); carry.c=0; } } } g.name="gather"; }
+          else { vel.x*=0.9; vel.y*=0.9; g.name="wander"; } } }
+    } else if(role===SCOUT){
+      if(Math.random()<0.01) spawnCrystal(pos.x+(Math.random()*3-1.5),pos.y+(Math.random()*3-1.5));
+      if(!("tx" in vel) || Math.random()<0.02){ vel.tx=Math.random()*11-5.5; vel.ty=Math.random()*7-3.5; }
+      moveToward(pos,vel,vel.tx||0,vel.ty||0,SEEK*0.8); g.name="scout";
+    } else if(role===CURATOR){
+      const ns=nearest(e,id,"Structure");
+      if(ns!==null){ const sp=e.get(ns,"Position");
+        if(moveToward(pos,vel,sp.x,sp.y)){ const st=e.get(ns,"Structure"); st.age=Math.max(0,st.age-dt*2); coins.n+=0.2; g.name="tend"; } else g.name="tend"; }
+      else { vel.x*=0.9; vel.y*=0.9; g.name="wander"; }
+    }
+  }
+}
+function structureSystem(e,dt){
+  for(const s of [...e.query("Position","Structure")]){ const st=e.get(s,"Structure"); st.age+=dt;
+    if(st.age>=STRUCT_T){ st.age=0; const p=e.get(s,"Position");
+      if(st.kind==="garden") spawnFood(p.x+(Math.random()*1.6-0.8),p.y+(Math.random()*1.6-0.8));
+      else spawnCrystal(p.x+(Math.random()*1.6-0.8),p.y+(Math.random()*1.6-0.8)); } }
+}
+function wildSystem(e,dt){ let w=e.get(0,"Wild"); if(!w){ e.add(0,"Wild",{t:0}); return; } w.t+=dt;
+  if(w.t>=4){ w.t=0; if(e.query("Crystal").size<5) spawnCrystal(Math.random()*11-5.5,Math.random()*7-3.5); } }
+function movementSystem(e,dt){ for(const id of e.query("Position","Velocity")){ if(id===player.id) continue; const p=e.get(id,"Position"),v=e.get(id,"Velocity");
+  p.x+=v.x*dt; p.y+=v.y*dt; } }
+
+function buildWorld(){
+  ecs=createECS();
+  ecs.addSystem(marketSystem); ecs.addSystem(needSystem); ecs.addSystem(agentSystem);
+  ecs.addSystem(structureSystem); ecs.addSystem(wildSystem); ecs.addSystem(movementSystem); ecs.addSystem(playerSystem);
+  for(let i=0;i<8;i++) spawnFood(Math.random()*11-5.5,Math.random()*7-3.5);
+  for(let i=0;i<6;i++) spawnCrystal(Math.random()*11-5.5,Math.random()*7-3.5);
+  spawnAgent(FORAGER,-3,0); spawnAgent(TRADER,3,0); spawnAgent(BUILDER,0,-2);
+  spawnAgent(SCOUT,-1,2); spawnAgent(CURATOR,2,-1);
+  return ecs;
+}
+
+// =====================  THREE.JS RENDER (3D environment)  =====================
+let scene,camera,renderer,controls,ground,meshMap=new Map();
+function tex(src){ const t=new THREE.Texture(src); t.needsUpdate=true; return t; }
+function makeSpriteMesh(img,scale){
+  const m=new THREE.Sprite(new THREE.SpriteMaterial({map:tex(img),transparent:true,depthWrite:false}));
+  m.scale.set(scale,scale,1); return m;
+}
+function init3D(){
+  const cv=document.getElementById("c");
+  const view=document.getElementById("view");
+  renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
+  renderer.setPixelRatio(Math.min(2,window.devicePixelRatio));
+  renderer.setSize(view.clientWidth,view.clientHeight);
+  scene=new THREE.Scene();
+  scene.background=new THREE.Color(0x06040c);
+  scene.fog=new THREE.Fog(0x06040c,14,30);
+  camera=new THREE.PerspectiveCamera(55,view.clientWidth/view.clientHeight,0.1,100);
+  camera.position.set(0,12,14); camera.lookAt(0,1,0);
+  // lights
+  scene.add(new THREE.AmbientLight(0x6a5acd,0.7));
+  const dir=new THREE.DirectionalLight(0xffffff,0.8); dir.position.set(5,10,7); scene.add(dir);
+  // ground (authored rune tile as tiled texture)
+  const tile=sprites.tile||makeFallbackTile();
+  const gt=new THREE.Texture(sprites.tileSrc); gt.wrapS=gt.wrapT=THREE.RepeatWrapping; gt.repeat.set(8,8); gt.needsUpdate=true;
+  const gm=new THREE.PlaneGeometry(GROUND*1.6,GROUND);
+  ground=new THREE.Mesh(gm,new THREE.MeshStandardMaterial({map:gt,roughness:1}));
+  ground.rotation.x=-Math.PI/2; scene.add(ground);
+  // market pillar
+  const mGeo=new THREE.CylinderGeometry(0.25,0.25,2.4,12);
+  const mMesh=new THREE.Mesh(mGeo,new THREE.MeshStandardMaterial({color:0xffcf5c,emissive:0x553a00}));
+  mMesh.position.set(MARKET.x,1.2,MARKET.y); scene.add(mMesh);
+  // market pad (shows the bank zone YOU walk into)
+  const pad=new THREE.Mesh(new THREE.RingGeometry(0.5,0.7,24),
+    new THREE.MeshBasicMaterial({color:0xffcf5c,side:THREE.DoubleSide,transparent:true,opacity:0.5}));
+  pad.rotation.x=-Math.PI/2; pad.position.set(MARKET.x,0.03,MARKET.y); scene.add(pad);
+  window.addEventListener("resize",onResize);
+  addOrbit();
+}
+function makeFallbackTile(){ const cvs=document.createElement("canvas"); cvs.width=cvs.height=48;
+  const x=cvs.getContext("2d"); x.fillStyle="#241640"; x.fillRect(0,0,48,48);
+  x.strokeStyle="#5c4a8a"; x.beginPath(); x.moveTo(24,12); x.lineTo(36,24); x.lineTo(24,36); x.lineTo(12,24); x.closePath(); x.stroke();
+  return cvs; }
+function addOrbit(){ // minimal drag-to-orbit (no OrbitControls dependency)
+  const cv=renderer.domElement; let drag=false,px=0,py=0,theta=0,phi=0.9,rad=14;
+  cv.addEventListener("mousedown",e=>{drag=true;px=e.clientX;py=e.clientY;});
+  window.addEventListener("mouseup",()=>drag=false);
+  window.addEventListener("mousemove",e=>{ if(!drag) return; theta-=(e.clientX-px)*0.01; phi=Math.max(0.2,Math.min(1.4,phi-(e.clientY-py)*0.01)); px=e.clientX;py=e.clientY; });
+  cv.addEventListener("wheel",e=>{ rad=Math.max(7,Math.min(26,rad+e.deltaY*0.01)); e.preventDefault(); },{passive:false});
+  controls={update(){ const x=rad*Math.sin(phi)*Math.sin(theta),y=rad*Math.cos(phi),z=rad*Math.sin(phi)*Math.cos(theta);
+    camera.position.set(x,y,z); camera.lookAt(0,0,0); }};
+}
+function onResize(){ const view=document.getElementById("view"); renderer.setSize(view.clientWidth,view.clientHeight);
+  camera.aspect=view.clientWidth/view.clientHeight; camera.updateProjectionMatrix(); }
+function sync3D(){
+  // ensure a mesh per entity; update positions; remove dead
+  const alive=new Set();
+  for(const id of ecs.query("Position")){ alive.add(id);
+    const p=ecs.get(id,"Position");
+    let m=meshMap.get(id);
+    if(!m){ m=buildMesh(id); if(m) meshMap.set(id,m); }
+    if(m){ m.position.set(p.x, m.userData.y, p.y); }
+  }
+  // remove meshes for dead entities
+  for(const [id,m] of meshMap){ if(!alive.has(id)){ scene.remove(m); meshMap.delete(id); } }
+}
+function makeLabel(text,color){
+  const cvs=document.createElement("canvas"); cvs.width=128; cvs.height=32;
+  const x=cvs.getContext("2d"); x.font="bold 20px Segoe UI, sans-serif";
+  x.textAlign="center"; x.textBaseline="middle";
+  x.fillStyle="#"+color.toString(16).padStart(6,"0"); x.fillText(text,64,16);
+  const t=new THREE.Texture(cvs); t.needsUpdate=true;
+  const m=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthWrite:false}));
+  m.scale.set(1.6,0.4,1); return m;
+}
+function buildMesh(id){
+  let img,y=0.4,group=null;
+  if(ecs.get(id,"Food")){ img=sprites.berry; }
+  else if(ecs.get(id,"Crystal")){ img=sprites.crystal; }
+  else if(ecs.get(id,"Structure")){ const k=ecs.get(id,"Structure").kind;
+    img = k==="garden"?sprites.berry:sprites.crystal; y=0.6; }
+  else if(ecs.get(id,"Role")){
+    // AGENT: a group = authored sprite + colored base ring + role label
+    const r=ecs.get(id,"Role").type;
+    const color=ROLE_COLOR[r]||0xffffff;
+    const sp=sprites[ROLE_SPRITE[r]]||sprites.fairy;
+    group=new THREE.Group();
+    const body=makeSpriteMesh(sp,1.6); body.position.y=0.9; group.add(body);
+    // colored base ring (role identity at a glance)
+    const ring=new THREE.Mesh(new THREE.RingGeometry(0.32,0.42,20),
+      new THREE.MeshBasicMaterial({color:color,side:THREE.DoubleSide,transparent:true,opacity:0.9}));
+    ring.rotation.x=-Math.PI/2; ring.position.y=0.02; group.add(ring);
+    // role label billboard
+    const lbl=makeLabel(r.toUpperCase(),color); lbl.position.y=1.9; group.add(lbl);
+    group.userData.y=0; scene.add(group); return group;
+  }
+  else return null;
+  const m=makeSpriteMesh(img, ecs.get(id,"Role")?1.6:1.0);
+  m.userData.y=y; scene.add(m); return m;
+}
+
+// =====================  PANEL / HUD  =====================
+let lastLog="";
+function updatePanel(){
+  document.getElementById("nStruct").textContent=ecs.query("Structure").size;
+  document.getElementById("nFood").textContent=ecs.query("Food").size;
+  document.getElementById("nCrys").textContent=ecs.query("Crystal").size;
+  const m=ecs.get(0,"Market"); document.getElementById("mPrice").textContent=(m?m.price:1).toFixed(2);
+  document.getElementById("badge").textContent="mode: "+(PLANNER_LAST?PLANNER_LAST.mode:"—");
+  // agents
+  const ag=document.getElementById("agents"); let html="";
+  for(const id of ecs.query("Role","Coins","Goal")){
+    const r=ecs.get(id,"Role").type, c=ecs.get(id,"Coins").n, g=ecs.get(id,"Goal").name;
+    html+=`<div class="row"><span style="color:#${ROLE_COLOR[r]?ROLE_COLOR[r].toString(16).padStart(6,'0'):'fff'}">${r}</span><b>${Math.floor(c)}¢ · ${g}</b></div>`;
+  }
+  ag.innerHTML=html;
+  // player (YOU)
+  const yc=document.getElementById("youCoins"), yk=document.getElementById("youCarry");
+  if(yc) yc.textContent = player.id!==null ? Math.floor(player.coins)+"¢" : "—";
+  if(yk) yk.textContent = player.id!==null ? `◆${player.carry.crystal} ○${player.carry.food}` : "—";
+  const tr=document.getElementById("trace");
+  for(const id of ecs.query("Role","Goal")){ const g=ecs.get(id,"Goal"); const idStr=id;
+    if(g.name!==lastLog){ const L=PLANNER_LAST||{}; const q=L.quantum?`q[s=${L.quantum.seek_food.toFixed(2)},w=${L.quantum.wander.toFixed(2)}]`:"q=off";
+      tr.innerHTML+=`<div><span class="dot"></span><b>${g.name}</b> ${q}</div>`; tr.scrollTop=tr.scrollHeight; lastLog=g.name; break; }
+  }
+}
+function tick(){
+  try { ecs.update(DT); } catch(e){ console.error("sim",e); }
+  try { sync3D(); if(controls) controls.update(); renderer.render(scene,camera); }
+  catch(e){ /* a render error must never kill the sim loop */ }
+  try { updatePanel(); } catch(e){}
+  requestAnimationFrame(tick);
+}
+function reset(){ for(const [id,m] of meshMap){ scene.remove(m); } meshMap.clear(); player={id:null,pos:null,vel:{x:0,y:0},carry:{crystal:0,food:0},coins:0,hunger:0.2}; buildWorld(); spawnPlayer(); }
+
+// ---- boot ----
+loadQuantum();
+sprites = window.QIG_SPRITES || {};
+init3D();
+buildWorld();
+spawnPlayer();
+window.addEventListener("keydown",e=>{ KEYS[e.key.toLowerCase()]=true; });
+window.addEventListener("keyup",e=>{ KEYS[e.key.toLowerCase()]=false; });
+document.getElementById("reset").onclick=reset;
+document.getElementById("spawn").onclick=()=>{ const roles=[FORAGER,TRADER,BUILDER,SCOUT,CURATOR];
+  const r=roles[Math.floor(Math.random()*roles.length)]; spawnAgent(r,(Math.random()*6-3),(Math.random()*4-2)); };
+document.getElementById("join").onclick=spawnPlayer;
+window.__QIG3D={get ecs(){return ecs;}, reset, spawnPlayer, get player(){return player;}};
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

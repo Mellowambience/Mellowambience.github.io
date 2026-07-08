@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Quantum Intelligent Games — Hybrid Agent Society</title>
+<style>
+  :root { --bg:#0b1020; --panel:#121a30; --ink:#e6ecff; --accent:#5cc8ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.4 system-ui,sans-serif; }
+  header { padding:10px 16px; border-bottom:1px solid #1e294a; display:flex; justify-content:space-between; align-items:center; }
+  h1 { margin:0; font-size:16px; }
+  .hybrid { color:#b388ff; font-size:12px; }
+  .mkt { color:#2ecc71; font-size:12px; }
+  .wrap { display:flex; gap:12px; padding:12px; }
+  canvas { background:#0a0e1a; border:1px solid #233; border-radius:8px; }
+  .panel { background:var(--panel); border:1px solid #233; border-radius:8px; padding:12px; width:340px; }
+  .panel h2 { margin:0 0 6px; font-size:13px; color:var(--accent); }
+  .agent { border:1px solid #233; border-radius:6px; padding:8px; margin-bottom:8px; }
+  .agent .nm { font-weight:700; }
+  .bar { height:10px; background:#223; border-radius:5px; overflow:hidden; margin:3px 0 6px; }
+  .bar > i { display:block; height:100%; background:#ff9f43; }
+  .goal { font-weight:700; }
+  .scores { font-family:ui-monospace,monospace; font-size:11px; }
+  .scores .row { display:flex; justify-content:space-between; padding:1px 0; }
+  .scores .win { color:#2ecc71; font-weight:700; }
+  .q { color:#b388ff; }
+  .log { height:190px; overflow:auto; font-family:ui-monospace,monospace; font-size:10px; background:#0a0e1a; border-radius:6px; padding:6px; }
+  .log .e { border-bottom:1px solid #16203c; padding:2px 0; }
+  .legend { font-size:11px; color:#8aa; margin-top:6px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Quantum Intelligent Games — watch your HYBRID agents think</h1>
+  <span class="hybrid">⚛ hybrid: classical utility ⊕ quantum VQC scores</span>
+  <span class="mkt" id="mkt">market price: —</span>
+</header>
+<div class="wrap">
+  <canvas id="cv" width="560" height="420"></canvas>
+  <div class="panel">
+    <h2>Agent society</h2>
+    <div id="agents"></div>
+    <h2>Thinking trace (all agents)</h2>
+    <div class="log" id="log"></div>
+    <div class="legend">Each agent blends classical utility with a quantum (VQC) score → picks higher. Forager eats, Trader sells at the drifting market for coins, Builder gathers. Quantum scores from PennyLane, computed offline, used live.</div>
+  </div>
+</div>
+
+<script>
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+let QSCORES = null, QONLINE = false;
+
+// 3-agent hybrid society; each has a primary drive + wander fallback
+const agents = [
+  { name:'Forager', color:'#ff9f43', x:70, y:100, vx:0, vy:0, needs:[1.0,0.0], drive:0,
+    actions:['seek_food','wander'], pad:{x:500,y:100}, goal:'wander', coins:0 },
+  { name:'Trader',  color:'#5cc8ff', x:70, y:300, vx:0, vy:0, needs:[0.0,1.0], drive:1,
+    actions:['trade','wander'],      pad:{x:500,y:300}, goal:'wander', coins:0 },
+  { name:'Builder', color:'#b388ff', x:70, y:210, vx:0, vy:0, needs:[0.0,1.0], drive:1,
+    actions:['gather','wander'],     pad:{x:500,y:210}, goal:'wander', coins:0 },
+];
+
+// drifting market: Trader earns coins at current price (autonomous economy)
+const market = { price:1.0, t:0 };
+
+function classical(a){ return [a.needs[a.drive], 0.25]; }
+function quantum(a){
+  if(!QONLINE) return null;
+  const i=Math.round(a.needs[0]*10), j=Math.round(a.needs[1]*10);
+  const idx=Math.max(0,Math.min(10,i))*11+Math.max(0,Math.min(10,j));
+  return QSCORES.scores[idx];
+}
+function decide(a){
+  const c=classical(a), q=quantum(a);
+  const fin = q ? [0.6*c[0]+0.4*q[0], 0.6*c[1]+0.4*q[1]] : c;
+  return { fin, c, q, pick: fin[0]>=fin[1]?0:1 };
+}
+
+const trace=[];
+function log(kind, who, detail){
+  const t=new Date().toLocaleTimeString();
+  trace.unshift({t,kind,who,detail});
+  if(trace.length>50) trace.pop();
+}
+
+function step(dt){
+  market.t += dt;
+  if(Math.floor(market.t)!==Math.floor(market.t-dt))
+    market.price = Math.max(0.5, Math.min(2.0, market.price + (Math.random()-0.5)*0.35));
+
+  for(const a of agents){
+    a.needs[0] = Math.min(1.0, a.needs[0] + (a.name==='Forager'?0.04:0.0)*dt);
+    a.needs[1] = Math.min(1.0, a.needs[1] + (a.name!=='Forager'?0.04:0.0)*dt);
+    const d=decide(a), act=a.actions[d.pick];
+    if(act!=='wander'){
+      const dx=a.pad.x-a.x, dy=a.pad.y-a.y, dist=Math.hypot(dx,dy)||1;
+      a.vx=dx/dist*90; a.vy=dy/dist*90;
+      if(dist<9){
+        if(a.name==='Forager'){ a.needs[0]=0.0; log('eat',a.name,'reached food pad'); }
+        else if(a.name==='Trader'){ const g=Math.max(1,Math.round(market.price)); a.coins+=g; log('trade',a.name,`sold @ ${market.price.toFixed(2)} → +${g} coins (tot ${a.coins})`); }
+        else { a.needs[1]=0.0; const g=1; a.coins+=g; log('gather',a.name,`material sold @ ${market.price.toFixed(2)} → +${g} (tot ${a.coins})`); }
+      }
+    } else { a.vx*=0.9; a.vy*=0.9; a.vx+=Math.sin(performance.now()/600+a.x)*6; }
+    a.x=Math.max(12,Math.min(W-12,a.x+a.vx*dt));
+    a.y=Math.max(12,Math.min(H-12,a.y+a.vy*dt));
+    if(act!==a.goal){ a.goal=act;
+      const qs=d.q?`q=[${d.q[0].toFixed(2)},${d.q[1].toFixed(2)}]`:'q=offline';
+      log(act,a.name,`c=[${d.c[0].toFixed(2)},${d.c[1].toFixed(2)}] ${qs}`);
+    }
+    a._last=d;
+  }
+}
+
+let acc=0, last=performance.now(), DT=1/60;
+function frame(now){ let f=Math.min((now-last)/1000,0.25); last=now; acc+=f;
+  while(acc>=DT){ step(DT); acc-=DT; } render(); requestAnimationFrame(frame); }
+
+function render(){
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='#13203a';
+  for(let x=0;x<=W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<=H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  for(const a of agents){
+    ctx.fillStyle='rgba(46,204,113,0.22)'; ctx.fillRect(a.pad.x-18,a.pad.y-18,36,36);
+    ctx.strokeStyle='#2ecc71'; ctx.strokeRect(a.pad.x-18,a.pad.y-18,36,36);
+    ctx.beginPath(); ctx.arc(a.x,a.y,11,0,Math.PI*2);
+    ctx.fillStyle=a.color; ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+  }
+  document.getElementById('mkt').textContent = `market price: ${market.price.toFixed(2)} · wealth: ${agents.reduce((s,a)=>s+a.coins,0)}`;
+  document.getElementById('agents').innerHTML = agents.map(a=>{
+    const d=a._last||decide(a); const act=a.actions[d.pick];
+    const qhtml=d.q?`<span class="q"> q[${d.q[0].toFixed(2)},${d.q[1].toFixed(2)}]</span>`:'';
+    const dv=a.needs[a.drive];
+    return `<div class="agent"><div class="nm" style="color:${a.color}">${a.name} · coins ${a.coins}</div>
+      <div>drive ${a.name==='Forager'?'hunger':'need'}</div>
+      <div class="bar"><i style="width:${(dv*100).toFixed(0)}%"></i></div>
+      <div class="goal" style="color:${a.color}">${act}</div>
+      <div class="scores">c[${d.c[0].toFixed(2)},${d.c[1].toFixed(2)}] ${qhtml}</div></div>`;
+  }).join('');
+  document.getElementById('log').innerHTML = trace.map(e=>
+    `<div class="e"><span style="color:${e.kind==='eat'||e.kind==='trade'||e.kind==='gather'?'#2ecc71':'#ff9f43'}">[${e.t}] ${e.who}:${e.kind}</span> — ${e.detail}</div>`
+  ).join('');
+}
+
+fetch('quantum/scores.json').then(r=>r.json()).then(j=>{QSCORES=j;QONLINE=true;console.log('quantum layer online');})
+  .catch(()=>console.warn('quantum scores offline — classical only'));
+
+requestAnimationFrame(frame);
+window.__QIG = { agents, trace, get quantum(){return QONLINE;}, market };
+</script>
+</body>
+</html>

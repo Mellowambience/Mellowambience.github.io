@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>QI-Games — Agent Vision (autonomous agent, live)</title>
+<style>
+  :root { --bg:#0a0612; --panel:#150b26; --ink:#ece6ff; --muted:#9b8fc7; --accent:#b98bff; --good:#5dffb0; --warn:#ffd36e; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:14px/1.5 system-ui,Segoe UI,Roboto,sans-serif; }
+  header { padding:14px 20px; border-bottom:1px solid #2a1c45; display:flex; align-items:center; gap:14px; }
+  header h1 { font-size:16px; margin:0; letter-spacing:.5px; }
+  header .tag { font-size:11px; color:var(--muted); }
+  .wrap { display:grid; grid-template-columns: 1fr 340px; gap:16px; padding:16px; }
+  @media (max-width:900px){ .wrap { grid-template-columns:1fr; } }
+  .stage { position:relative; background:#06040c; border:1px solid #2a1c45; border-radius:12px; overflow:hidden; }
+  canvas { display:block; width:100%; height:auto; }
+  .panel { background:var(--panel); border:1px solid #2a1c45; border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:12px; }
+  .panel h2 { font-size:12px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin:0 0 4px; }
+  .stat { display:flex; justify-content:space-between; font-variant-numeric:tabular-nums; }
+  .bar { height:8px; background:#271a40; border-radius:6px; overflow:hidden; }
+  .bar > i { display:block; height:100%; background:linear-gradient(90deg,var(--accent),var(--good)); }
+  .scores { font-size:12px; }
+  .scores div { display:flex; justify-content:space-between; }
+  .trace { flex:1; min-height:140px; overflow-y:auto; background:#0c0718; border:1px solid #221539; border-radius:8px; padding:8px; font:11px/1.45 ui-monospace,Menlo,Consolas,monospace; color:var(--muted); }
+  .trace b { color:var(--ink); }
+  .dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--good); margin-right:6px; }
+  button { background:var(--accent); color:#1a0d2e; border:0; border-radius:8px; padding:8px 12px; font-weight:600; cursor:pointer; }
+  button.ghost { background:transparent; color:var(--ink); border:1px solid #3a2a5c; }
+  .row { display:flex; gap:8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🜂 QI-GAMES · AGENT VISION</h1>
+  <span class="tag">autonomous agent · perceive → plan → act · live</span>
+</header>
+<div class="wrap">
+  <div class="stage">
+    <canvas id="cv" width="720" height="460"></canvas>
+  </div>
+  <div class="panel">
+    <div>
+      <h2>Agent state</h2>
+      <div class="stat"><span>goal</span><b id="goal">—</b></div>
+      <div class="stat"><span>hunger</span><span id="hval">—</span></div>
+      <div class="bar"><i id="hbar" style="width:0%"></i></div>
+      <div class="stat" style="margin-top:6px"><span>pos</span><span id="pos">—</span></div>
+      <div class="stat"><span>food left</span><span id="food">—</span></div>
+    </div>
+    <div class="scores">
+      <h2>Planner scores</h2>
+      <div><span>seek_food</span><b id="sFood">—</b></div>
+      <div><span>wander</span><b id="sWander">—</b></div>
+      <div style="margin-top:6px;color:var(--muted);font-size:11px">mode: <b id="qmode" style="color:var(--accent)">—</b></div>
+    </div>
+    <div>
+      <h2>Thinking trace</h2>
+      <div class="trace" id="trace"></div>
+    </div>
+    <div class="row">
+      <button id="reset" class="ghost">↻ Reset</button>
+      <button id="addfood" class="ghost">+ Food</button>
+    </div>
+  </div>
+</div>
+
+<script src="quantum/scores.js"></script>
+<script>
+// ---- ECS (browser port of engine/core.py) ----
+const DT = 1/60;
+let ecs, foodId, lastLog = 0;
+
+function createECS(){
+  const e = { next:0, comp:{}, sys:[] };
+  e.create = () => ++e.next;
+  e.add = (id,t,d) => (e.comp[t] = e.comp[t]||{}, e.comp[t][id]=d);
+  e.get = (id,t) => (e.comp[t]||{})[id];
+  e.query = (...ts) => { const sets = ts.map(t=>new Set(Object.keys(e.comp[t]||{}))); return sets.reduce((a,b)=>new Set([...a].filter(x=>b.has(x)))); };
+  e.addSys = fn => e.sys.push(fn);
+  e.update = dt => e.sys.forEach(fn => fn(e,dt));
+  return e;
+}
+
+// ---- authored HD-2D sprites (ChatGPT art, normalized via scripts/normalize.py) ----
+// Loaded from assets/; if a file is missing, SPRITES.ok stays false and the
+// procedural canvas-draw fallback (drawFairy/drawBerry/drawTile) is used.
+const SPRITES = { ok:false, fairy:null, berry:null, tile:null };
+function loadSprite(name){
+  return new Promise((res)=>{
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = () => res(null);
+    img.src = "assets/" + name;
+  });
+}
+async function loadSprites(){
+  const [f,b,t] = await Promise.all([loadSprite("fairy.png"), loadSprite("berry.png"), loadSprite("tile.png")]);
+  SPRITES.fairy = f; SPRITES.berry = b; SPRITES.tile = t;
+  SPRITES.ok = !!(f && b && t);
+}
+
+function classicalPlan(needs){ return { seek_food: needs.hunger, wander: 0.2 }; }
+
+function quantumLookup(needs){
+  const Q = window.QIG_QUANTUM;
+  if (!Q || !Q.states) return null;
+  // nearest grid point in 11x11 table
+  let bi=0, bd=1e9;
+  for (let i=0;i<Q.states.length;i++){
+    const s=Q.states[i];
+    const d=(s[0]-needs.hunger)**2 + (s[1]-0.0)**2;
+    if (d<bd){ bd=d; bi=i; }
+  }
+  const qs=Q.scores[bi];
+  return { seek_food: qs[0], wander: qs[1] };
+}
+
+let PLANNER_LAST = null;
+function UtilityPlanner(needs){
+  const c = classicalPlan(needs);
+  const q = quantumLookup(needs);
+  let blended, mode;
+  if (q===null){ blended=c; mode="classical (quantum offline)"; }
+  else { blended={ seek_food: 0.6*c.seek_food + 0.4*q.seek_food, wander: 0.6*c.wander + 0.4*q.wander }; mode="hybrid Q/C"; }
+  const best = blended.seek_food >= blended.wander ? "seek_food" : "wander";
+  PLANNER_LAST = { classical:c, quantum:q, blended, best, mode };
+  return blended;
+}
+
+function agentSystem(e, dt){
+  for (const id of e.query("Position","Velocity","Needs","Goal")){
+    const n = e.get(id,"Needs"), g = e.get(id,"Goal"), p = e.get(id,"Position"), v = e.get(id,"Velocity");
+    n.hunger = Math.min(1, n.hunger + 0.002*dt);
+    const scores = UtilityPlanner(n);
+    const best = scores.seek_food >= scores.wander ? "seek_food" : "wander";
+    g.name = best; g._scores = scores;
+    if (best === "seek_food"){
+      const food = e.query("Position","Food");
+      if (food.size){
+        let best2=null, bd=1e9;
+        for (const f of food){ const fp=e.get(f,"Position"); const d=(fp.x-p.x)**2+(fp.y-p.y)**2; if(d<bd){bd=d;best2=f;} }
+        const fp = e.get(best2,"Position"); const dx=fp.x-p.x, dy=fp.y-p.y; const dist=Math.hypot(dx,dy);
+        if (dist < 0.25){ n.hunger=0; delete e.comp.Food[best2]; }
+        else { v.x=dx*2; v.y=dy*2; }
+      } else { v.x*=0.9; v.y*=0.9; }
+    } else { v.x*=0.9; v.y*=0.9; }
+  }
+}
+function movementSystem(e, dt){
+  for (const id of e.query("Position","Velocity")){
+    const p=e.get(id,"Position"), v=e.get(id,"Velocity"); p.x+=v.x*dt; p.y+=v.y*dt;
+  }
+}
+
+function init(){
+  ecs = createECS();
+  ecs.addSys(agentSystem); ecs.addSys(movementSystem);
+  const a = ecs.create();
+  ecs.add(a,"Position",{x:0,y:0}); ecs.add(a,"Velocity",{x:0,y:0});
+  ecs.add(a,"Needs",{hunger:1.0}); ecs.add(a,"Goal",{name:"wander"});
+  spawnFood();
+  lastLog = 0; document.getElementById("trace").innerHTML="";
+}
+
+function spawnFood(){
+  const f = ecs.create();
+  const ang = Math.random()*Math.PI*2, r = 2.5+Math.random()*3;
+  ecs.add(f,"Position",{x:Math.cos(ang)*r, y:Math.sin(ang)*r*0.6});
+  ecs.add(f,"Food",{nutrition:1});
+}
+
+// ---- Render ----
+const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+const W=720,H=460, S=56; // world->screen scale
+function w2s(x,y){ return [W/2 + x*S, H/2 - y*S]; }
+
+// ---- HD-2D procedural sprites (no external assets; local-first) ----
+function drawTile(x0,y0){               // tileable grass tile with faint rune
+  const g = ctx.createLinearGradient(x0,y0,x0+TILE,x0+TILE);
+  g.addColorStop(0,"#241640"); g.addColorStop(1,"#160d2e");
+  ctx.fillStyle=g; ctx.fillRect(x0,y0,TILE,TILE);
+  ctx.strokeStyle="rgba(150,110,230,0.10)"; ctx.lineWidth=1;
+  ctx.strokeRect(x0+0.5,y0+0.5,TILE-1,TILE-1);
+  ctx.beginPath(); ctx.moveTo(x0+TILE*0.3,y0+TILE*0.2); ctx.lineTo(x0+TILE*0.7,y0+TILE*0.8); ctx.stroke();
+  ctx.beginPath(); ctx.arc(x0+TILE*0.5,y0+TILE*0.5,2,0,7); ctx.stroke();
+}
+const TILE=48;
+function drawFairy(sx,sy,mode){        // agent sprite
+  const t = performance.now()/300;
+  const glow = mode==="seek_food" ? "#ffd36e" : "#b98bff";
+  // aura
+  const aura = ctx.createRadialGradient(sx,sy,2,sx,sy,22);
+  aura.addColorStop(0, mode==="seek_food"?"rgba(255,211,110,0.55)":"rgba(185,139,255,0.55)");
+  aura.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=aura; ctx.beginPath(); ctx.arc(sx,sy,22,0,7); ctx.fill();
+  // wings (flap)
+  const flap = 6+Math.sin(t)*4;
+  ctx.fillStyle="rgba(220,210,255,0.7)";
+  ctx.beginPath(); ctx.ellipse(sx-9,sy-3,5,flap,0.5,0,7); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(sx+9,sy-3,5,flap,-0.5,0,7); ctx.fill();
+  // body
+  ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(sx,sy,9,0,7); ctx.fill();
+  ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(sx-2,sy-3,2.5,0,7); ctx.fill(); // eye glint
+  ctx.strokeStyle="rgba(255,255,255,0.8)"; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(sx,sy,9,0,7); ctx.stroke();
+}
+function drawBerry(sx,sy){              // food sprite
+  const pulse = 0.7+0.3*Math.sin(performance.now()/250);
+  const aura = ctx.createRadialGradient(sx,sy,1,sx,sy,16);
+  aura.addColorStop(0,"rgba(93,255,176,0.5)"); aura.addColorStop(1,"rgba(0,0,0,0)");
+  ctx.fillStyle=aura; ctx.beginPath(); ctx.arc(sx,sy,16,0,7); ctx.fill();
+  ctx.fillStyle="#5dffb0"; ctx.beginPath(); ctx.arc(sx,sy,6,0,7); ctx.fill();
+  ctx.fillStyle=`rgba(255,255,255,${pulse})`; ctx.beginPath(); ctx.arc(sx-2,sy-2,2,0,7); ctx.fill();
+}
+
+function render(){
+  ctx.fillStyle="#06040c"; ctx.fillRect(0,0,W,H);
+  // tiled world (authored tile sprite if loaded, else procedural)
+  if (SPRITES.ok && SPRITES.tile){
+    const ts = 48;
+    for (let x=0;x<W;x+=ts) for (let y=0;y<H;y+=ts) ctx.drawImage(SPRITES.tile, x, y, ts, ts);
+  } else {
+    for (let x=0;x<W;x+=TILE) for (let y=0;y<H;y+=TILE) drawTile(x,y);
+  }
+  // food
+  for (const f of ecs.query("Position","Food")){
+    const p=ecs.get(f,"Position"), [sx,sy]=w2s(p.x,p.y);
+    if (SPRITES.ok && SPRITES.berry) ctx.drawImage(SPRITES.berry, sx-14, sy-14, 28, 28);
+    else drawBerry(sx,sy);
+  }
+  // agent
+  const a = ecs.query("Position","Needs","Goal").values().next().value;
+  if (a!==undefined){
+    const p=ecs.get(a,"Position"), [sx,sy]=w2s(p.x,p.y);
+    const seeking = ecs.get(a,"Goal").name==="seek_food";
+    // glow halo (kept procedural for "alive" pulse)
+    const aura = ctx.createRadialGradient(sx,sy,2,sx,sy,24);
+    aura.addColorStop(0, seeking?"rgba(255,211,110,0.5)":"rgba(185,139,255,0.5)");
+    aura.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=aura; ctx.beginPath(); ctx.arc(sx,sy,24,0,7); ctx.fill();
+    if (SPRITES.ok && SPRITES.fairy) ctx.drawImage(SPRITES.fairy, sx-22, sy-26, 44, 52);
+    else drawFairy(sx,sy, ecs.get(a,"Goal").name);
+  }
+}
+
+function tick(t){
+  // fixed-step sim
+  ecs.update(DT);
+  render();
+  updatePanel();
+  requestAnimationFrame(tick);
+}
+
+function updatePanel(){
+  const a = ecs.query("Position","Needs","Goal").values().next().value;
+  if (a===undefined) return;
+  const n=ecs.get(a,"Needs"), g=ecs.get(a,"Goal"), p=ecs.get(a,"Position");
+  document.getElementById("goal").textContent = g.name;
+  document.getElementById("hval").textContent = n.hunger.toFixed(2);
+  document.getElementById("hbar").style.width = (n.hunger*100)+"%";
+  document.getElementById("pos").textContent = `(${p.x.toFixed(2)}, ${p.y.toFixed(2)})`;
+  document.getElementById("food").textContent = ecs.query("Food").size;
+  if (g._scores){
+    document.getElementById("sFood").textContent = g._scores.seek_food.toFixed(2);
+    document.getElementById("sWander").textContent = g._scores.wander.toFixed(2);
+  }
+  // quantum mode badge
+  const modeEl = document.getElementById("qmode");
+  if (modeEl && PLANNER_LAST) modeEl.textContent = PLANNER_LAST.mode;
+  // log goal changes (with quantum blend breakdown)
+  if (g.name !== lastLog){
+    const tr = document.getElementById("trace");
+    const time = new Date().toLocaleTimeString();
+    let detail = "";
+    if (PLANNER_LAST){
+      const L = PLANNER_LAST;
+      const qstr = L.quantum ? `q[s=${L.quantum.seek_food.toFixed(2)},w=${L.quantum.wander.toFixed(2)}]` : "q=offline";
+      detail = ` | c[s=${L.classical.seek_food.toFixed(2)},w=${L.classical.wander.toFixed(2)}] ${qstr} → b[s=${L.blended.seek_food.toFixed(2)},w=${L.blended.wander.toFixed(2)}]`;
+    }
+    tr.innerHTML += `<div><span class="dot"></span><b>${time}</b> goal→<b>${g.name}</b> hunger=${n.hunger.toFixed(2)}${detail}</div>`;
+    tr.scrollTop = tr.scrollHeight; lastLog = g.name;
+  }
+}
+
+document.getElementById("reset").onclick = init;
+document.getElementById("addfood").onclick = spawnFood;
+init();
+loadSprites().then(() => requestAnimationFrame(tick));
+
+// expose for Hermes verification
+window.__QIG = { get ecs(){return ecs;}, addFood: spawnFood, reset: init };
+</script>
+</body>
+</html>
