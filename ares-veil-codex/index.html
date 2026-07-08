@@ -1,3 +1,52 @@
-PLACEHOLDER
-
-PLACEHOLDER2
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0710" />
+  <title>Ares Veil Codex — Aetherhaven</title>
+  <meta name="description" content="Ares Veil Codex — ritual-world lore and companion surface in the Aetherhaven fleet." />
+  <link rel="stylesheet" href="../site-chrome.css" />
+  <style>
+    :root { --ink:#0a0710; --gold:#f0d08a; --rose:#ff7f9d; --muted:rgba(255,248,239,.62); }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      min-height:100vh; color:#fff8ef; font-family:system-ui,-apple-system,sans-serif;
+      background:
+        radial-gradient(800px 420px at 70% 0%, rgba(255,127,157,.12), transparent 55%),
+        radial-gradient(700px 400px at 10% 100%, rgba(240,208,138,.1), transparent 50%),
+        var(--ink);
+      padding:72px 24px 48px; display:flex; align-items:center; justify-content:center;
+    }
+    .card {
+      max-width:560px; width:100%; padding:36px 28px; border-radius:22px;
+      border:1px solid rgba(232,218,255,.14); background:rgba(30,22,42,.72);
+      backdrop-filter:blur(14px); box-shadow:0 24px 60px rgba(0,0,0,.35);
+    }
+    .tag { font:600 11px/1 ui-monospace,monospace; letter-spacing:.16em; text-transform:uppercase; color:var(--rose); margin-bottom:14px; }
+    h1 { font-size:clamp(1.6rem,4vw,2.2rem); color:var(--gold); letter-spacing:.04em; margin-bottom:12px; }
+    p { color:var(--muted); line-height:1.65; margin-bottom:18px; }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; }
+    a {
+      display:inline-flex; align-items:center; gap:6px; padding:11px 16px; border-radius:12px;
+      text-decoration:none; font-weight:600; font-size:.92rem; transition:.2s;
+    }
+    .primary { background:linear-gradient(135deg,#ff7f9d,#f0d08a); color:#1a0e12; }
+    .ghost { border:1px solid rgba(232,218,255,.18); color:#fff8ef; background:rgba(255,255,255,.04); }
+    a:hover { transform:translateY(-1px); filter:brightness(1.05); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="tag">Codex · In formation</div>
+    <h1>Ares Veil Codex</h1>
+    <p>This surface is reserved for the ritual-world bible and companion lore. The living experiment already exists — step into the companion while the codex pages assemble.</p>
+    <div class="actions">
+      <a class="primary" href="../ares-veil-companion/">Open Ares Veil Companion →</a>
+      <a class="ghost" href="https://mellowambience.github.io/">← Aetherhaven hub</a>
+    </div>
+  </main>
+  <a class="ah-hub" href="https://mellowambience.github.io/" aria-label="Back to Aetherhaven hub"><b>⟁</b><span>Aetherhaven</span></a>
+  <script src="../site-chrome.js" defer></script>
+</body>
+</html>

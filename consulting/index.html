@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aetherhaven Consulting</title>
+  <meta name="theme-color" content="#05030b" />
+  <title>Aetherhaven Consulting — Amara</title>
+  <meta name="description" content="Consulting with Amara — AI systems, living worlds, browser tooling, and creative tech. Remote-first collaboration." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --void: #0a0a0f;
@@ -17,9 +22,11 @@
     body {
       background: var(--void);
       color: var(--white);
-      font-family: 'Courier New', monospace;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
+    nav .logo, nav .links a, .signal, .tt-chip, code, pre { font-family: 'JetBrains Mono', ui-monospace, monospace; }
     canvas#mycelium {
       position: fixed;
       top: 0; left: 0;
@@ -351,6 +358,7 @@
       body { font-size: 16px !important; }
     }
   </style>
+  <link rel="stylesheet" href="../site-chrome.css" />
 </head>
 <body>
   <!-- TOP TICKER STRIP -->
@@ -531,5 +539,7 @@ function draw() {
 }
 draw();
 </script>
+  <a class="ah-hub" href="https://mellowambience.github.io/" aria-label="Back to Aetherhaven hub"><b>⟁</b><span>Aetherhaven</span></a>
+  <script src="../site-chrome.js" defer></script>
 </body>
 </html>

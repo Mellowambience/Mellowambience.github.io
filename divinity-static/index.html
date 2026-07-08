@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#05030b" />
   <title>Divinity: Static — Production Cockpit</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
@@ -17,6 +18,7 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     .fade-in { animation: fadeIn 0.4s ease forwards; }
   </style>
+  <link rel="stylesheet" href="../site-chrome.css" />
 </head>
 <body>
   <div id="root"></div>
@@ -248,5 +250,7 @@
 
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
+  <a class="ah-hub" href="https://mellowambience.github.io/" aria-label="Back to Aetherhaven hub"><b>⟁</b><span>Aetherhaven</span></a>
+  <script src="../site-chrome.js" defer></script>
 </body>
 </html>

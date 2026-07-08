@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aether Garden • Entangled</title>
+  <meta name="theme-color" content="#05030b" />
+<meta name="description" content="Aether Garden — a playable 3D living world. Bond with ghostly pet-spirits and watch AI builders raise shrines in real time." />
+<meta property="og:title" content="Aether Garden • Entangled" />
+<meta property="og:description" content="Bond with spirits. Entangle builders. Local-first 3D garden." />
+<meta property="og:image" content="https://mellowambience.github.io/og-image.jpg" />
+<title>Aether Garden • Entangled | Aetherhaven</title>
 <style>
   :root { --ink:#0a0710; --rose:#ff7f9d; --mint:#a7f0cf; --gold:#f0d08a; --lav:#c8b6ff; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -11,28 +16,38 @@
   #game { display:block; width:100vw; height:100vh; }
   #hud {
     position:fixed; top:18px; left:18px; z-index:20;
-    background:rgba(10,7,16,.82); border:1px solid rgba(232,218,255,.15);
-    border-radius:16px; padding:14px 18px; backdrop-filter:blur(12px);
-    font-size:13px; line-height:1.4; max-width:280px;
+    background:rgba(10,7,16,.86); border:1px solid rgba(232,218,255,.16);
+    border-radius:18px; padding:16px 18px; backdrop-filter:blur(14px) saturate(1.1);
+    font-size:13px; line-height:1.45; max-width:300px;
+    box-shadow:0 16px 40px rgba(0,0,0,.35);
   }
-  #hud h1 { font-size:15px; letter-spacing:3px; margin-bottom:4px; color:#f0d08a; }
+  #hud h1 { font-size:15px; letter-spacing:3px; margin-bottom:4px; color:#f0d08a; text-shadow:0 0 18px rgba(240,208,138,.25); }
   #hud .sub { font-size:11px; color:rgba(255,248,239,.6); }
-  .stat { margin-top:8px; font-size:12px; }
+  .stat { margin-top:8px; font-size:12px; display:flex; justify-content:space-between; gap:12px; }
   .stat b { color:#a7f0cf; }
+  .stat span { font-variant-numeric:tabular-nums; }
+  .hud-keys { margin-top:12px; font-size:10px; opacity:.65; letter-spacing:.02em; line-height:1.5; }
   #prompt {
     position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
-    z-index:20; background:rgba(10,7,16,.75); border:1px solid rgba(232,218,255,.12);
-    border-radius:999px; padding:8px 20px; font-size:12px; color:rgba(255,248,239,.75);
-    backdrop-filter:blur(10px); white-space:nowrap;
+    z-index:20; background:rgba(10,7,16,.8); border:1px solid rgba(232,218,255,.14);
+    border-radius:999px; padding:10px 22px; font-size:12px; color:rgba(255,248,239,.78);
+    backdrop-filter:blur(12px); white-space:nowrap; max-width:calc(100vw - 24px);
+    overflow:hidden; text-overflow:ellipsis;
+    box-shadow:0 12px 30px rgba(0,0,0,.3);
   }
   #prompt b { color:#f0d08a; }
   .toast {
     position:fixed; right:18px; top:80px; z-index:30;
-    background:rgba(30,22,42,.9); border:1px solid rgba(167,240,207,.3);
+    background:rgba(30,22,42,.92); border:1px solid rgba(167,240,207,.3);
     border-radius:12px; padding:10px 14px; font-size:12px;
     max-width:260px; box-shadow:0 10px 30px rgba(0,0,0,.4);
   }
+  @media (max-width:640px) {
+    #hud { top:64px; left:12px; right:12px; max-width:none; }
+    #prompt { font-size:11px; padding:9px 14px; white-space:normal; text-align:center; }
+  }
 </style>
+  <link rel="stylesheet" href="../site-chrome.css" />
 </head>
 <body>
 <canvas id="game"></canvas>
@@ -40,11 +55,11 @@
 <div id="hud">
   <h1>AETHER GARDEN</h1>
   <div class="sub">Telepathy Nodes × Quantum Entanglement</div>
-  <div class="stat"><b>Trust:</b> <span id="trust">42</span>%</div>
-  <div class="stat"><b>Resonance:</b> <span id="resonance">31</span>%</div>
-  <div class="stat"><b>Structures:</b> <span id="structs">3</span></div>
-  <div class="stat"><b>Entangled Links:</b> <span id="links">0</span></div>
-  <div style="margin-top:10px;font-size:10px;opacity:.6;">WASD • Mouse • E bond • Click builders</div>
+  <div class="stat"><b>Trust</b> <span id="trust">42</span>%</div>
+  <div class="stat"><b>Resonance</b> <span id="resonance">31</span>%</div>
+  <div class="stat"><b>Structures</b> <span id="structs">3</span></div>
+  <div class="stat"><b>Entangled Links</b> <span id="links">0</span></div>
+  <div class="hud-keys">WASD move · Mouse look · <b style="color:#f0d08a">E</b> bond · Click builders</div>
 </div>
 
 <div id="prompt"><b>E</b> bond — send telepathic pulse through the nodes  •  Click builders to entangle</div>
@@ -629,5 +644,7 @@ function init(){
 
 init();
 </script>
+  <a class="ah-hub" href="https://mellowambience.github.io/" aria-label="Back to Aetherhaven hub"><b>⟁</b><span>Aetherhaven</span></a>
+  <script src="../site-chrome.js" defer></script>
 </body>
 </html>

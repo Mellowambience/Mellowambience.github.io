@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05030b" />
 <title>Tide Merchant Founder Module — Live Demo</title>
 <style>
 :root{--bg:#0a0820;--card:#181228;--ink:#f3eeff;--dim:#9a8fc7;--acc:#7af0c8;--gold:#ffcf6b;--line:#2c2350}
@@ -25,7 +26,8 @@ button:hover{background:#241a3e}
 .muted{color:var(--dim);font-size:12px}
 .note{background:#120d22;border:1px dashed var(--line);border-radius:10px;padding:12px;margin-top:14px;font-size:12px;color:var(--dim)}
 a{color:var(--acc)}
-</style></head><body><div class="wrap">
+</style>  <link rel="stylesheet" href="../../../site-chrome.css" />
+</head><body><div class="wrap">
 <h1>Tide Merchant — <span class="em">Founder Module Demo</span></h1>
 <div class="sub">A real, pluggable founder species for QI-Games. They read the market's tide and raise bazaars where value pools. This demo simulates it live — no video, no fake motion.</div>
 
@@ -133,4 +135,6 @@ function loop(){ if(!running) return; tick(); raf=setTimeout(loop,120); }
 document.getElementById('run').onclick=()=>{ if(running)return; running=true; spawn(); draw(); loop(); };
 document.getElementById('stop').onclick=()=>{ running=false; if(raf)clearTimeout(raf); stat.textContent+=' · stopped'; };
 draw();
-</script></body></html>
+</script>  <a class="ah-hub" href="https://mellowambience.github.io/" aria-label="Back to Aetherhaven hub"><b>⟁</b><span>Aetherhaven</span></a>
+  <script src="../../../site-chrome.js" defer></script>
+</body></html>

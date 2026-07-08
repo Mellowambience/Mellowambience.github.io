@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#05030b" />
 <title>QI-Games — Agent Vision (autonomous agent, live)</title>
 <style>
   :root { --bg:#0a0612; --panel:#150b26; --ink:#ece6ff; --muted:#9b8fc7; --accent:#b98bff; --good:#5dffb0; --warn:#ffd36e; }
@@ -29,6 +30,7 @@
   button.ghost { background:transparent; color:var(--ink); border:1px solid #3a2a5c; }
   .row { display:flex; gap:8px; }
 </style>
+  <link rel="stylesheet" href="../site-chrome.css" />
 </head>
 <body>
 <header>
@@ -290,5 +292,7 @@ loadSprites().then(() => requestAnimationFrame(tick));
 // expose for Hermes verification
 window.__QIG = { get ecs(){return ecs;}, addFood: spawnFood, reset: init };
 </script>
+  <a class="ah-hub" href="https://mellowambience.github.io/" aria-label="Back to Aetherhaven hub"><b>⟁</b><span>Aetherhaven</span></a>
+  <script src="../site-chrome.js" defer></script>
 </body>
 </html>
