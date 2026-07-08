@@ -3,102 +3,104 @@
     {
       "kind": "bazaar",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "beacon",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "forge",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "granary",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "library",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "monument",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "orchard",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "sanctum",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "spire",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     },
     {
       "kind": "temple",
       "invented_by": [
-        "Stone Moonpale"
+        "Fennick Moonpale"
       ],
       "discovered": 1
     }
   ],
   "n_kinds": 10,
   "relations": {
-    "Larkspur Ironveil": {
-      "Sky Ashgrove": 1.0,
-      "Stone Moonpale": 0.0
+    "Fenn Wildroot": {
+      "Drift Cinderfall": 1.0,
+      "Fennick Moonpale": 0.0,
+      "Coin Thornwood": 0.0
     },
-    "Vesper Ironveil": {
-      "Lyric Wildroot": 0.0,
-      "Sky Ashgrove": 0.0,
-      "Stone Moonpale": 0.0
+    "Coin Thornwood": {
+      "Verse Thornwood": 0.0,
+      "Drift Cinderfall": 0.0,
+      "Fennick Moonpale": 0.0,
+      "Fenn Wildroot": 0.0
     },
-    "Stone Moonpale": {
-      "Sky Ashgrove": 0.0,
-      "Vesper Ironveil": 0.0,
-      "Lyric Wildroot": 1.0,
-      "Larkspur Ironveil": 0.0
+    "Fennick Moonpale": {
+      "Coin Thornwood": 0.0,
+      "Verse Thornwood": 1.0,
+      "Drift Cinderfall": 0.0,
+      "Fenn Wildroot": 0.0
     },
-    "Sky Ashgrove": {
-      "Stone Moonpale": 0.0,
-      "Vesper Ironveil": 0.0,
-      "Lyric Wildroot": 0.0,
-      "Larkspur Ironveil": 1.0
+    "Drift Cinderfall": {
+      "Coin Thornwood": 0.0,
+      "Verse Thornwood": 0.0,
+      "Fennick Moonpale": 0.0,
+      "Fenn Wildroot": 1.0
     },
-    "Lyric Wildroot": {
-      "Vesper Ironveil": 0.0,
-      "Sky Ashgrove": 0.0,
-      "Stone Moonpale": 1.0
+    "Verse Thornwood": {
+      "Coin Thornwood": 0.0,
+      "Drift Cinderfall": 0.0,
+      "Fennick Moonpale": 1.0
     }
   },
-  "updated": "2026-07-08T00:55:40"
+  "updated": "2026-07-08T01:43:57"
 }
