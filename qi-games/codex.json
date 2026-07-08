@@ -1,0 +1,104 @@
+{
+  "kinds": [
+    {
+      "kind": "bazaar",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "beacon",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "forge",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "granary",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "library",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "monument",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "orchard",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "sanctum",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "spire",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    },
+    {
+      "kind": "temple",
+      "invented_by": [
+        "Stone Moonpale"
+      ],
+      "discovered": 1
+    }
+  ],
+  "n_kinds": 10,
+  "relations": {
+    "Larkspur Ironveil": {
+      "Sky Ashgrove": 1.0,
+      "Stone Moonpale": 0.0
+    },
+    "Vesper Ironveil": {
+      "Lyric Wildroot": 0.0,
+      "Sky Ashgrove": 0.0,
+      "Stone Moonpale": 0.0
+    },
+    "Stone Moonpale": {
+      "Sky Ashgrove": 0.0,
+      "Vesper Ironveil": 0.0,
+      "Lyric Wildroot": 1.0,
+      "Larkspur Ironveil": 0.0
+    },
+    "Sky Ashgrove": {
+      "Stone Moonpale": 0.0,
+      "Vesper Ironveil": 0.0,
+      "Lyric Wildroot": 0.0,
+      "Larkspur Ironveil": 1.0
+    },
+    "Lyric Wildroot": {
+      "Vesper Ironveil": 0.0,
+      "Sky Ashgrove": 0.0,
+      "Stone Moonpale": 1.0
+    }
+  },
+  "updated": "2026-07-08T00:55:40"
+}

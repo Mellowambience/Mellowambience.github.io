@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QI-Games · Play Online — founders are building the world</title>
+<style>
+  :root{ --bg:#06040c; --panel:#120b22; --ink:#e9e2ff; --dim:#9b8fc7; --gold:#ffcf5c; --you:#00ffff; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI",system-ui,sans-serif; overflow:hidden; }
+  #wrap{ display:flex; height:100%; }
+  #view{ flex:1; position:relative; }
+  canvas{ display:block; }
+  #hud{ position:absolute; top:10px; left:10px; font-size:12px; opacity:.85;
+    text-shadow:0 1px 2px #000; pointer-events:none; line-height:1.5; }
+  #hud b{ color:var(--gold); }
+  #panel{ width:330px; background:var(--panel); padding:14px; overflow-y:auto;
+    border-left:1px solid #2a1d4d; }
+  h1{ font-size:15px; margin:0 0 4px; letter-spacing:.5px; }
+  .sub{ font-size:11px; color:var(--dim); margin-bottom:10px; }
+  .sec{ font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--dim);
+    margin:14px 0 6px; }
+  .row{ display:flex; justify-content:space-between; font-size:13px; padding:2px 0; }
+  .row b{ color:var(--gold); }
+  button{ background:#271a45; color:var(--ink); border:1px solid #3c2a63;
+    border-radius:6px; padding:8px 10px; cursor:pointer; font-size:12px; width:100%; }
+  button:hover{ background:#34235c; }
+  .pbtn{ width:auto; padding:4px 8px; font-size:11px; margin-top:3px; background:#1c2f5c; border-color:#2c4a8c; }
+  .pbtn:hover{ background:#26407a; }
+  #players .prow{ display:flex; align-items:center; gap:6px; font-size:12px; padding:2px 0; }
+  .pdot{ width:9px; height:9px; border-radius:50%; flex:none; }
+  #connect{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:rgba(6,4,12,.85); z-index:5; }
+  #connect .box{ background:var(--panel); border:1px solid #3c2a63; border-radius:10px;
+    padding:20px; width:280px; text-align:center; }
+  #connect input{ width:100%; padding:8px; margin:8px 0; border-radius:6px; border:1px solid #3c2a63;
+    background:#0c0718; color:var(--ink); }
+  #status{ font-size:11px; color:var(--dim); margin-top:6px; }
+  .keyhint{ font-size:11px; color:var(--dim); margin-top:8px; line-height:1.6; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="view">
+    <canvas id="c"></canvas>
+    <div id="hud">
+      QI-GAMES · LIVE WORLD<br>
+      the founders are building it <b>right now</b><br>
+      WASD / arrows = move · <b>E</b> = build · bank at the gold pad<br>
+      <span id="possessHud" style="color:#00ffff"></span>
+    </div>
+    <div id="connect">
+      <div class="box">
+        <h1 style="margin-bottom:6px">Enter the World</h1>
+        <div class="sub">founders are building — join &amp; play with them</div>
+        <input id="name" placeholder="your name" maxlength="20" value="Founder">
+        <button id="joinBtn">Join World</button>
+        <div id="status">connecting…</div>
+        <div class="keyhint">WASD move · E build (1¢) · walk into gold pad to bank crystals+food</div>
+      </div>
+    </div>
+  </div>
+  <div id="panel">
+    <h1>🜂 QI-Games · Online</h1>
+    <div class="sub">founders build · you play · same living world</div>
+    <div class="sec">World (founders' work)</div>
+    <div class="row"><span>structures built</span><b id="nStruct">0</b></div>
+    <div class="row"><span>food growing</span><b id="nFood">0</b></div>
+    <div class="row"><span>crystals</span><b id="nCrys">0</b></div>
+    <div class="row"><span>market price</span><b id="mPrice">1.00</b></div>
+    <div class="sec" style="color:#5cff9d">World Self-Improvement</div>
+    <div id="heal" style="font-size:11px;color:var(--dim);line-height:1.5">the founders are tuning the world as it lives…</div>
+    <div class="sec">Founders online</div>
+    <div id="founders"></div>
+    <div class="sec" style="color:#c792ff">Founder Identities</div>
+    <div id="founderCards" style="font-size:11px;color:var(--dim);line-height:1.5"></div>
+    <div class="sec" style="color:#ff6ec7">Invented by founders</div>
+    <div id="invented" style="font-size:11px;color:var(--dim);line-height:1.5">—</div>
+    <div class="sec" style="color:#ffcf5c">Codex (discovered lore)</div>
+    <div id="codex" style="font-size:11px;color:var(--dim);line-height:1.5">—</div>
+    <div class="sec">Players here (<span id="nPlayers">0</span>)</div>
+    <div id="players"></div>
+    <div class="sec" style="color:var(--you)">You</div>
+    <div id="youPossess" style="font-size:11px;color:#00ffff;margin-bottom:6px;display:none"></div>
+    <div class="row"><span>coins</span><b id="youCoins">0¢</b></div>
+    <div class="row"><span>carry</span><b id="youCarry">—</b></div>
+    <div class="row"><span>built</span><b id="youBuilt">0</b></div>
+  </div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script src="quantum/scores.js"></script>
+<script src="assets/sprites.js"></script>
+<script>
+// ---- constants (match server.py) ----
+const WORLD_HALF = 5.5;
+const ROLE_SPRITE = window.QIG_ROLE_SPRITE || {forager:"forager",trader:"trader",builder:"builder",scout:"scout",curator:"curator",you:"you"};
+const ROLE_COLOR = {forager:0x5cff9d, trader:0xffcf5c, builder:0xff6ec7, scout:0x6ab0ff, curator:0xc792ff, you:0x00ffff};
+
+// =====================  NETWORK  =====================
+let ws = null, you = null, world = {ent:[], players:[], founders:{}, market:1, mx:0, my:4};
+let youBuilt = 0;
+let myPossess = null;   // eid of founder we're piloting (or null)
+const statusEl = document.getElementById("status");
+
+function connect(name){
+  // allow ?ws=wss://host:port override so the client can reach a remote server
+  const params = new URLSearchParams(location.search);
+  let base = params.get("ws");
+  if (!base) {
+    const proto = location.protocol === "https:" ? "wss" : "ws";
+    base = `${proto}://${location.host}`;
+  }
+  ws = new WebSocket(`${base}/ws`);
+  ws.onopen = () => { ws.send(JSON.stringify({name})); statusEl.textContent = "connected"; };
+  ws.onmessage = (ev) => {
+    const d = JSON.parse(ev.data);
+    if (d.you) { you = d.you; document.getElementById("connect").style.display = "none"; return; }
+    world = d;
+    // derive who WE are possessing from the founder cards' pilot field
+    const card = (d.founder_cards || []).find(c => c.pilot && you && c.pilot === you.name);
+    myPossess = card ? card.eid : null;
+  };
+  ws.onclose = () => { statusEl.textContent = "disconnected — reload to rejoin"; };
+  ws.onerror = () => { statusEl.textContent = "connection error"; };
+}
+
+// input -> server
+const KEYS = {};
+let buildQueued = false;
+window.addEventListener("keydown", e => {
+  KEYS[e.key.toLowerCase()] = true;
+  if (e.key.toLowerCase() === "e") buildQueued = true;
+});
+window.addEventListener("keyup", e => { KEYS[e.key.toLowerCase()] = false; });
+setInterval(() => {
+  if (!ws || ws.readyState !== 1) return;
+  let x = 0, y = 0;
+  if (KEYS["w"] || KEYS["arrowup"]) y += 1;
+  if (KEYS["s"] || KEYS["arrowdown"]) y -= 1;
+  if (KEYS["a"] || KEYS["arrowleft"]) x -= 1;
+  if (KEYS["d"] || KEYS["arrowright"]) x += 1;
+  const msg = {x, y, build: buildQueued};
+  buildQueued = false;
+  ws.send(JSON.stringify(msg));
+}, 50);  // 20 Hz input
+
+// =====================  THREE RENDER  =====================
+let scene, camera, renderer, controls, meshMap = new Map();
+const sprites = window.QIG_SPRITES || {};
+function tex(src){ const t = new THREE.Texture(src); t.needsUpdate = true; return t; }
+function makeSpriteMesh(img, scale){
+  const m = new THREE.Sprite(new THREE.SpriteMaterial({map:tex(img), transparent:true, depthWrite:false}));
+  m.scale.set(scale, scale, 1); return m;
+}
+function makeLabel(text, color){
+  const cvs = document.createElement("canvas"); cvs.width = 128; cvs.height = 32;
+  const x = cvs.getContext("2d"); x.font = "bold 20px Segoe UI, sans-serif";
+  x.textAlign = "center"; x.textBaseline = "middle";
+  x.fillStyle = "#" + color.toString(16).padStart(6, "0"); x.fillText(text, 64, 16);
+  const t = new THREE.Texture(cvs); t.needsUpdate = true;
+  const m = new THREE.Sprite(new THREE.SpriteMaterial({map:t, transparent:true, depthWrite:false}));
+  m.scale.set(1.8, 0.45, 1); return m;
+}
+function init3D(){
+  const cv = document.getElementById("c"), view = document.getElementById("view");
+  renderer = new THREE.WebGLRenderer({canvas:cv, antialias:true});
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio));
+  renderer.setSize(view.clientWidth, view.clientHeight);
+  scene = new THREE.Scene(); scene.background = new THREE.Color(0x06040c);
+  scene.fog = new THREE.Fog(0x06040c, 14, 30);
+  camera = new THREE.PerspectiveCamera(55, view.clientWidth/view.clientHeight, 0.1, 100);
+  camera.position.set(0, 12, 14); camera.lookAt(0, 1, 0);
+  scene.add(new THREE.AmbientLight(0x6a5acd, 0.7));
+  const dir = new THREE.DirectionalLight(0xffffff, 0.8); dir.position.set(5,10,7); scene.add(dir);
+  // ground
+  const gt = new THREE.Texture(sprites.tile ? sprites.tile.src : null);
+  gt.wrapS = gt.wrapT = THREE.RepeatWrapping; gt.repeat.set(8,8); gt.needsUpdate = true;
+  const gm = new THREE.PlaneGeometry(WORLD_HALF*1.6, WORLD_HALF);
+  const ground = new THREE.Mesh(gm, new THREE.MeshStandardMaterial({map:gt, roughness:1}));
+  ground.rotation.x = -Math.PI/2; scene.add(ground);
+  // market pillar + pad (from server mx/my)
+  const mMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,2.4,12),
+    new THREE.MeshStandardMaterial({color:0xffcf5c, emissive:0x553a00}));
+  mMesh.position.set(world.mx || 0, 1.2, world.my || 4); scene.add(mMesh);
+  window.addEventListener("resize", onResize);
+  addOrbit();
+}
+function addOrbit(){
+  const cv = renderer.domElement; let drag=false, px=0, py=0, theta=0, phi=0.9, rad=14;
+  cv.addEventListener("mousedown", e => { drag=true; px=e.clientX; py=e.clientY; });
+  window.addEventListener("mouseup", () => drag=false);
+  window.addEventListener("mousemove", e => { if(!drag) return;
+    theta -= (e.clientX-px)*0.01; phi = Math.max(0.2, Math.min(1.4, phi-(e.clientY-py)*0.01));
+    px=e.clientX; py=e.clientY; });
+  cv.addEventListener("wheel", e => { rad = Math.max(7, Math.min(26, rad+e.deltaY*0.01)); e.preventDefault(); }, {passive:false});
+  controls = { update(){ const x=rad*Math.sin(phi)*Math.sin(theta), y=rad*Math.cos(phi), z=rad*Math.sin(phi)*Math.cos(theta);
+    camera.position.set(x,y,z); camera.lookAt(0,0,0); } };
+}
+function onResize(){ const view = document.getElementById("view");
+  renderer.setSize(view.clientWidth, view.clientHeight);
+  camera.aspect = view.clientWidth/view.clientHeight; camera.updateProjectionMatrix(); }
+
+// render network snapshot
+function sync3D(){
+  const alive = new Set();
+  // world entities (s, x, f, p are transient -> fresh each frame)
+  const seen = new Map();
+  for (const e of world.ent){
+    const [type, x, y, extra] = e;
+    let img;
+    if (type === "s") img = extra === "g" ? sprites.berry : sprites.crystal;
+    else if (type === "x") img = sprites.crystal;
+    else if (type === "f") img = sprites.berry;
+    const key = type + x + "_" + y;
+    let m = meshMap.get(key);
+    if (!m){ m = makeSpriteMesh(img, type === "s" ? 1.3 : 1.0); m.userData.y = type === "s" ? 0.6 : 0.4; meshMap.set(key, m); scene.add(m); }
+    m.position.set(x, m.userData.y, y);
+    seen.add(key); alive.add(key);
+  }
+  // players
+  for (const p of world.players){
+    const key = "pl_" + p.id; alive.add(key);
+    let m = meshMap.get(key);
+    if (!m){
+      const color = parseInt(p.c.replace("#",""), 16);
+      const sp = sprites[ROLE_SPRITE.you] || sprites.fairy;
+      const g = new THREE.Group();
+      const body = makeSpriteMesh(sp, 1.6); body.position.y = 0.9; g.add(body);
+      const ring = new THREE.Mesh(new THREE.RingGeometry(0.32,0.42,20),
+        new THREE.MeshBasicMaterial({color, side:THREE.DoubleSide, transparent:true, opacity:0.9}));
+      ring.rotation.x = -Math.PI/2; ring.position.y = 0.02; g.add(ring);
+      const lbl = makeLabel(p.n, color); lbl.position.y = 1.9; g.add(lbl);
+      g.userData.y = 0; meshMap.set(key, g); scene.add(g); m = g;
+    }
+    m.position.set(p.x, 0, p.y);
+  }
+  // founders (server sends first pos per role)
+  for (const r in world.founders){
+    const [x, y] = world.founders[r];
+    const key = "fd_" + r; alive.add(key);
+    let m = meshMap.get(key);
+    if (!m){
+      // color the founder's ring with the player's color if being possessed
+      const card = (world.founder_cards || []).find(c => c.role === r);
+      const ringColor = (card && card.pilot) ? 0x00ffff : (ROLE_COLOR[r] || 0xffffff);
+      const sp = sprites[ROLE_SPRITE[r]] || sprites.fairy;
+      const g = new THREE.Group();
+      const body = makeSpriteMesh(sp, 1.7); body.position.y = 0.95; g.add(body);
+      const ring = new THREE.Mesh(new THREE.RingGeometry(0.34,0.46,20),
+        new THREE.MeshBasicMaterial({color:ringColor, side:THREE.DoubleSide, transparent:true, opacity:0.95}));
+      ring.rotation.x = -Math.PI/2; ring.position.y = 0.02; g.add(ring);
+      const lbl = makeLabel(card && card.pilot ? (card.name + " ◄ " + card.pilot)
+                            : r.toUpperCase(), ringColor);
+      lbl.position.y = 2.0; g.add(lbl);
+      g.userData.y = 0; meshMap.set(key, g); scene.add(g); m = g;
+    }
+    m.position.set(x, 0, y);
+  }
+  // remove meshes no longer present
+  for (const [k, m] of meshMap){ if (!alive.has(k)){ scene.remove(m); meshMap.delete(k); } }
+}
+
+// =====================  PANEL  =====================
+function updatePanel(){
+  document.getElementById("nStruct").textContent = world.structures ?? 0;
+  document.getElementById("nFood").textContent = world.food ?? 0;
+  document.getElementById("nCrys").textContent = world.crystals ?? 0;
+  document.getElementById("mPrice").textContent = (world.market ?? 1).toFixed(2);
+  // self-improvement log (consent-safe: shown to players, never hidden)
+  const hEl = document.getElementById("heal");
+  const heal = world.heal || [];
+  hEl.innerHTML = heal.length
+    ? heal.map(h => `t=${h.t}s · ${h.why}`).join("<br>")
+    : "the founders are tuning the world as it lives…";
+  // founders
+  const fEl = document.getElementById("founders");
+  const fnames = {forager:"Forager", trader:"Trader", builder:"Builder", scout:"Scout", curator:"Curator"};
+  fEl.innerHTML = Object.keys(world.founders || {}).map(r =>
+    `<div class="prow"><span class="pdot" style="background:#${ROLE_COLOR[r].toString(16).padStart(6,'0')}"></span>${fnames[r]||r} <span style="color:var(--dim)">building…</span></div>`).join("")
+    || '<div class="sub">—</div>';
+  // players
+  const pEl = document.getElementById("players");
+  document.getElementById("nPlayers").textContent = world.players ? world.players.length : 0;
+  pEl.innerHTML = (world.players || []).map(p =>
+    `<div class="prow"><span class="pdot" style="background:${p.c}"></span>${p.n} <span style="color:var(--dim)">· ${p.coins}¢</span></div>`).join("")
+    || '<div class="sub">no players yet</div>';
+  // founder identity cards
+  const fc = document.getElementById("founderCards");
+  fc.innerHTML = (world.founder_cards || []).map(c => {
+    const piloted = c.pilot ? ` <span style="color:#00ffff">← ${c.pilot} is possessing</span>` : "";
+    const mine = (c.pilot === (you && you.name));
+    const btn = mine
+      ? `<button class="pbtn" data-rel="1" style="margin-top:3px">Release ${c.name}</button>`
+      : `<button class="pbtn" data-eid="${c.eid}" style="margin-top:3px">Possess ${c.name}</button>`;
+    return `<div style="margin-bottom:8px; padding:6px; border:1px solid #2a1d4d; border-radius:6px">
+      <b style="color:#c792ff">${c.name}</b> <span style="color:var(--dim)">— ${c.class}</span>${piloted}<br>` +
+      (c.title ? `<span style="color:var(--dim)">${c.title}</span><br>` : "") +
+      Object.entries(c.skills || {}).map(([k,v]) => `${k} L${v}`).join(" · ") +
+      (c.invented && c.invented.length ? `<br>✦ invented: ${c.invented.join(", ")}` : "") +
+      (c.relations && Object.keys(c.relations).length ? `<br>♥ ${Object.entries(c.relations).map(([n,s]) => `${n} ${s>0?"+":""}${s}`).join(", ")}` : "") +
+      `<br>${btn}</div>`;
+  }).join("") || "—";
+  // wire possess/release buttons
+  fc.querySelectorAll(".pbtn").forEach(b => {
+    b.onclick = () => {
+      if (b.dataset.rel) ws.send(JSON.stringify({possess: "release"}));
+      else ws.send(JSON.stringify({possess: parseInt(b.dataset.eid, 10)}));
+    };
+  });
+  // invented structures live in the world
+  const inv = document.getElementById("invented");
+  inv.textContent = (world.invented && world.invented.length) ? world.invented.join(", ") : "—";
+  // Codex: host-visible ledger of invented structure kinds (persisted)
+  const cx = document.getElementById("codex");
+  const codex = world.codex || {};
+  if (codex.kinds && codex.kinds.length) {
+    cx.innerHTML = `${codex.n_kinds} structure kind(s) discovered:<br>` +
+      codex.kinds.map(k => `• <b style="color:#ffcf5c">${k.kind}</b> <span style="color:var(--dim)">by ${k.invented_by.join(", ")}</span>`).join("<br>");
+  } else {
+    cx.textContent = "—";
+  }
+  // you / possession status
+  const yp = document.getElementById("youPossess");
+  if (myPossess != null) {
+    const card = (world.founder_cards || []).find(c => c.eid === myPossess);
+    yp.style.display = "block";
+    yp.textContent = `Possessing ${card ? card.name + " (" + card.class + ")" : "founder"} — your WASD drives them. Release from the card below.`;
+    document.getElementById("possessHud").textContent = "▼ POSSESSING — you are this founder now";
+  } else {
+    yp.style.display = "none";
+    document.getElementById("possessHud").textContent = "";
+  }
+    const me = (world.players || []).find(p => p.id === you.id);
+    if (me){ document.getElementById("youCoins").textContent = me.coins + "¢";
+      document.getElementById("youCarry").textContent = me.carry ? me.carry + " res" : "—"; }
+  }
+}
+
+// =====================  LOOP  =====================
+function frame(){ sync3D(); updatePanel(); controls && controls.update(); renderer.render(scene, camera);
+  requestAnimationFrame(frame); }
+
+// boot
+document.getElementById("joinBtn").addEventListener("click", () => {
+  const n = document.getElementById("name").value.trim() || "Founder";
+  connect(n);
+});
+document.getElementById("name").addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("joinBtn").click(); });
+init3D();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
