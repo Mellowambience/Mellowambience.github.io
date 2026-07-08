@@ -1,0 +1,831 @@
+{
+  "schema": "milo-glowgarden-character-pack-v1",
+  "generated": "2026-06-13",
+  "source_style": "Content/Art/Concept/Milo_GlowGarden_StyleSheet_v1.png",
+  "frame_size": [
+    320,
+    384
+  ],
+  "characters": [
+    {
+      "name": "Milo",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 1,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Guardian"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "lantern_pounce"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "hero"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "moonlit companion"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "campfire heart"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "soft-cel fur"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#ffd166",
+        "accent": "#bdf7ff"
+      },
+      "content_hash": "bfb776d159f6",
+      "id": "milo",
+      "folder": "Characters/milo"
+    },
+    {
+      "name": "Pip",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 2,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Petal Caller"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "petal_burst"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "garden"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "leaf mane"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "sapling ears"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "tender courage"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#ff8fa3",
+        "accent": "#7ee8b2"
+      },
+      "content_hash": "f2acd0f68592",
+      "id": "pip",
+      "folder": "Characters/pip"
+    },
+    {
+      "name": "Lume",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 3,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Light Bolt"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "light_bolt"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "garden"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "moon rabbit"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "glowing leaf ears"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "quick caster"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#bdf7ff",
+        "accent": "#fff0a8"
+      },
+      "content_hash": "bd9df782ac1a",
+      "id": "lume",
+      "folder": "Characters/lume"
+    },
+    {
+      "name": "Mossback",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 4,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Root Snare"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "root_snare"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "ancient"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "moss shell"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "stone paws"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "gentle tank"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#7ee8b2",
+        "accent": "#ffd166"
+      },
+      "content_hash": "884d0b3bc4f5",
+      "id": "mossback",
+      "folder": "Characters/mossback"
+    },
+    {
+      "name": "Ember",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 5,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Cinder Spit"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "cinder_spit"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "wildfire"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "foxfire tail"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "lava ears"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "brave spark"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#ff7a3a",
+        "accent": "#ffd166"
+      },
+      "content_hash": "98eb55627eff",
+      "id": "ember",
+      "folder": "Characters/ember"
+    },
+    {
+      "name": "Puddle",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 6,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Dream Bloom"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "dream_bloom"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "luminous"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "jelly body"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "inner stars"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "healer"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#8cf7df",
+        "accent": "#c9b8ff"
+      },
+      "content_hash": "4b9812489183",
+      "id": "puddle",
+      "folder": "Characters/puddle"
+    },
+    {
+      "name": "Capkin",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 7,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Spore Puff"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "spore_puff"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "garden"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "mushroom cap"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "violet freckles"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "sleepy spores"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#c77dff",
+        "accent": "#ffd166"
+      },
+      "content_hash": "d9a3a21573fd",
+      "id": "capkin",
+      "folder": "Characters/capkin"
+    },
+    {
+      "name": "Starling",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 8,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Star Wink"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "star_wink"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "celestial"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "living star"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "crystal shards"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "bright luck"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#fff0a8",
+        "accent": "#bdf7ff"
+      },
+      "content_hash": "1ce507c10a8d",
+      "id": "starling",
+      "folder": "Characters/starling"
+    },
+    {
+      "name": "Fluffox",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 9,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Tail Spark"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "tail_spark"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "wild"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "cream tail"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "ember thorns"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "fox guardian"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#ffd166",
+        "accent": "#ff8fa3"
+      },
+      "content_hash": "1b03f9141275",
+      "id": "fluffox",
+      "folder": "Characters/fluffox"
+    },
+    {
+      "name": "Mothlet",
+      "description": "Milo GlowGarden character asset pack entry.",
+      "edition": 10,
+      "compiler": "Milo GlowGarden character asset builder",
+      "hashlips_style": true,
+      "image": "sprites/base.png",
+      "source_cutout": "sprites/source_cutout.png",
+      "attributes": [
+        {
+          "trait_type": "Role",
+          "value": "Lantern Halo"
+        },
+        {
+          "trait_type": "Signature Spell",
+          "value": "lantern_halo"
+        },
+        {
+          "trait_type": "Rarity",
+          "value": "luminous"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "silk wings"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "lantern charm"
+        },
+        {
+          "trait_type": "Trait",
+          "value": "soft guardian"
+        }
+      ],
+      "layers": [
+        {
+          "name": "Base",
+          "path": "layers/00_base.png"
+        },
+        {
+          "name": "Glow",
+          "path": "layers/01_glow.png"
+        },
+        {
+          "name": "Shadow",
+          "path": "layers/02_shadow.png"
+        }
+      ],
+      "animations": {
+        "idle": {
+          "path": "animations/idle_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "cast": {
+          "path": "animations/cast_strip.png",
+          "frames": 8,
+          "frame_size": [
+            320,
+            384
+          ]
+        },
+        "hurt": {
+          "path": "animations/hurt_strip.png",
+          "frames": 4,
+          "frame_size": [
+            320,
+            384
+          ]
+        }
+      },
+      "palette": {
+        "primary": "#f8d98b",
+        "accent": "#c9b8ff"
+      },
+      "content_hash": "4d589b14b3d1",
+      "id": "mothlet",
+      "folder": "Characters/mothlet"
+    }
+  ]
+}

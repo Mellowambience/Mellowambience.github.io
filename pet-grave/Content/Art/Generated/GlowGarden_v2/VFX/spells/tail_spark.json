@@ -1,0 +1,15 @@
+{
+  "key": "tail_spark",
+  "owner": "fluffox",
+  "name": "Tail Spark",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "tail_spark_strip.png",
+  "palette": {
+    "primary": "#ffd166",
+    "accent": "#ff8fa3"
+  }
+}

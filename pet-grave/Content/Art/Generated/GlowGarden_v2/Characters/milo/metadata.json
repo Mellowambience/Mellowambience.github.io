@@ -1,0 +1,80 @@
+{
+  "name": "Milo",
+  "description": "Milo GlowGarden character asset pack entry.",
+  "edition": 1,
+  "compiler": "Milo GlowGarden character asset builder",
+  "hashlips_style": true,
+  "image": "sprites/base.png",
+  "source_cutout": "sprites/source_cutout.png",
+  "attributes": [
+    {
+      "trait_type": "Role",
+      "value": "Guardian"
+    },
+    {
+      "trait_type": "Signature Spell",
+      "value": "lantern_pounce"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "hero"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "moonlit companion"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "campfire heart"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "soft-cel fur"
+    }
+  ],
+  "layers": [
+    {
+      "name": "Base",
+      "path": "layers/00_base.png"
+    },
+    {
+      "name": "Glow",
+      "path": "layers/01_glow.png"
+    },
+    {
+      "name": "Shadow",
+      "path": "layers/02_shadow.png"
+    }
+  ],
+  "animations": {
+    "idle": {
+      "path": "animations/idle_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "cast": {
+      "path": "animations/cast_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "hurt": {
+      "path": "animations/hurt_strip.png",
+      "frames": 4,
+      "frame_size": [
+        320,
+        384
+      ]
+    }
+  },
+  "palette": {
+    "primary": "#ffd166",
+    "accent": "#bdf7ff"
+  },
+  "content_hash": "bfb776d159f6"
+}

@@ -1,0 +1,15 @@
+{
+  "key": "dream_bloom",
+  "owner": "puddle",
+  "name": "Dream Bloom",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "dream_bloom_strip.png",
+  "palette": {
+    "primary": "#8cf7df",
+    "accent": "#c9b8ff"
+  }
+}

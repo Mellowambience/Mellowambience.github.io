@@ -1,0 +1,18 @@
+{
+  "schema": "milo-glowgarden-layered-environment-v1",
+  "generated": "2026-06-13",
+  "source_style": "Content/Art/Concept/Milo_GlowGarden_StyleSheet_v1.png",
+  "layer_order": [
+    "sky_glowgarden.png",
+    "horizon_far.png",
+    "terrain_tile_soft.png",
+    "ground_paint_overlay.png",
+    "depth_props_atlas.png",
+    "foreground_foliage.png"
+  ],
+  "notes": [
+    "Original project-owned art generated for the canvas renderer.",
+    "Designed as a 2.5D bridge before a full Three.js or Unreal 3D scene.",
+    "Transparent layers are meant to be depth sorted with gameplay objects."
+  ]
+}

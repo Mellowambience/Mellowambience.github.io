@@ -1,0 +1,15 @@
+{
+  "key": "lantern_pounce",
+  "owner": "milo",
+  "name": "Guardian",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "lantern_pounce_strip.png",
+  "palette": {
+    "primary": "#ffd166",
+    "accent": "#bdf7ff"
+  }
+}

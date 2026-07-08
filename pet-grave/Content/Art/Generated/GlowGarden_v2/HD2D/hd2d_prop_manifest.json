@@ -1,0 +1,16 @@
+{
+  "schema": "milo-hd2d-prop-pack-v1",
+  "generated": "2026-07-01",
+  "license": "Project-generated original raster assets; free for Milo project use.",
+  "style": "Dreamglass Plush / HD-2D-inspired diorama billboards",
+  "sprites": [
+    "tree_round_a.png",
+    "tree_round_b.png",
+    "tree_mint.png",
+    "glow_mushroom_amber.png",
+    "glow_mushroom_moon.png",
+    "lantern_post.png",
+    "rock_cluster.png",
+    "wood_bridge.png"
+  ]
+}

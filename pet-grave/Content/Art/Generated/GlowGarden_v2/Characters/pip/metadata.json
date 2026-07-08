@@ -1,0 +1,80 @@
+{
+  "name": "Pip",
+  "description": "Milo GlowGarden character asset pack entry.",
+  "edition": 2,
+  "compiler": "Milo GlowGarden character asset builder",
+  "hashlips_style": true,
+  "image": "sprites/base.png",
+  "source_cutout": "sprites/source_cutout.png",
+  "attributes": [
+    {
+      "trait_type": "Role",
+      "value": "Petal Caller"
+    },
+    {
+      "trait_type": "Signature Spell",
+      "value": "petal_burst"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "garden"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "leaf mane"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "sapling ears"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "tender courage"
+    }
+  ],
+  "layers": [
+    {
+      "name": "Base",
+      "path": "layers/00_base.png"
+    },
+    {
+      "name": "Glow",
+      "path": "layers/01_glow.png"
+    },
+    {
+      "name": "Shadow",
+      "path": "layers/02_shadow.png"
+    }
+  ],
+  "animations": {
+    "idle": {
+      "path": "animations/idle_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "cast": {
+      "path": "animations/cast_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "hurt": {
+      "path": "animations/hurt_strip.png",
+      "frames": 4,
+      "frame_size": [
+        320,
+        384
+      ]
+    }
+  },
+  "palette": {
+    "primary": "#ff8fa3",
+    "accent": "#7ee8b2"
+  },
+  "content_hash": "f2acd0f68592"
+}

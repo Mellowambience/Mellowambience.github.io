@@ -1,0 +1,15 @@
+{
+  "key": "root_snare",
+  "owner": "mossback",
+  "name": "Root Snare",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "root_snare_strip.png",
+  "palette": {
+    "primary": "#7ee8b2",
+    "accent": "#ffd166"
+  }
+}

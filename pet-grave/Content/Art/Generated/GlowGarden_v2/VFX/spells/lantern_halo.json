@@ -1,0 +1,15 @@
+{
+  "key": "lantern_halo",
+  "owner": "mothlet",
+  "name": "Lantern Halo",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "lantern_halo_strip.png",
+  "palette": {
+    "primary": "#f8d98b",
+    "accent": "#c9b8ff"
+  }
+}
