@@ -1,0 +1,26 @@
+{
+  "module_id": "merchant",
+  "name": "Tide Merchant — Brokers of the Drifting Tide",
+  "version": "1.0.0",
+  "species": "Tide Merchant",
+  "tagline": "Founders who read the market's tide and raise trade posts where value pools.",
+  "role": "merchant",
+  "license_tier": 350,
+  "drop_in": "Copy this folder into your QI-Games instance as modules/merchant/ and call register(CLASSES) from engine/founders.py (or let build_world() auto-load it).",
+  "class": {
+    "class_name": "Tide Broker",
+    "title": "Broker of the Drifting Tide",
+    "creed": "Value flows where trust is kept.",
+    "quirk": "haggles with the wind",
+    "tree": {
+      "Haggling":     {"max": 5, "desc": "bonus coin per crystal sold",               "xp": "sell",   "effect_linear": 0.10, "base": 1.0},
+      "Logistics":    {"max": 5, "desc": "carry more crystal per trip",               "xp": "gather", "effect_linear": 1.0,  "base": 1.0},
+      "Market Sense": {"max": 3, "desc": "sell at the peak price window",             "xp": "sell",   "effect_linear": 0.05, "base": 0.0}
+    }
+  },
+  "new_structures": [
+    {"kind": "bazaar",  "desc": "a trade post; founders who sell nearby earn a premium."},
+    {"kind": "coffer",  "desc": "stores coin and pays passive interest over time."}
+  ],
+  "lore": "The Tide Merchants were once shipwrecked traders who learned to read the market like a sea. They raise bazaars where the tide of coin runs strongest and coffers that compound what their kin entrust to them."
+}

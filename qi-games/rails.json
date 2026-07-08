@@ -1,35 +1,6 @@
 {
-  "_comment": "Payment rails config. Agent holds NO keys/credentials. Crypto = watch-only public address (agent reads public chain, never signs). Fill addresses/links to activate. Order = display priority (crypto first = primary autonomous rail).",
-  "display_order": ["crypto", "cashapp", "stripe"],
-  "crypto": {
-    "enabled_auto": true,
-    "confirmations_required": 2,
-    "coins": {
-      "btc": {
-        "address": "",
-        "explorer_txs": "https://mempool.space/api/address/{addr}/txs",
-        "decimals": 8,
-        "symbol": "BTC"
-      },
-      "eth": {
-        "address": "",
-        "explorer_txs": "https://api.blockchair.com/ethereum/addresses/{addr}/transactions?limit=50",
-        "decimals": 18,
-        "symbol": "ETH"
-      },
-      "ltc": {
-        "address": "",
-        "explorer_txs": "https://api.blockchair.com/litecoin/addresses/{addr}/transactions?limit=50",
-        "decimals": 8,
-        "symbol": "LTC"
-      }
-    },
-    "price_feed": {
-      "btc_usd": "https://mempool.space/api/v1/prices",
-      "fallback_usd": { "btc": 65000, "eth": 3200, "ltc": 80 }
-    },
-    "amount_tolerance_pct": 1.5
-  },
+  "_comment": "Payment rails config. Agent holds NO keys/credentials. Cash App is the primary rail. Add a Stripe checkout_link to enable card payments (your account). No crypto.",
+  "display_order": ["cashapp", "stripe"],
   "cashapp": {
     "handle": "$MarsEatPlanet",
     "manual": true
