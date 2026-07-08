@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QI Team — Ops Board</title>
+<style>
+:root{--bg:#0e0b1a;--card:#1a1430;--ink:#ece6ff;--dim:#9a8fc7;--acc:#7af0c8;--warn:#ffcf6b}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.4 ui-sans-serif,system-ui;background:var(--bg);color:var(--ink);padding:24px}
+h1{margin:0 0 2px;font-size:22px} .sub{color:var(--dim);margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid #2c2350;border-radius:12px;padding:14px}
+.card h2{margin:0 0 6px;font-size:16px;color:var(--acc)}
+.role{color:var(--dim);font-size:13px;min-height:34px}
+.metric{font-size:28px;font-weight:700;margin:6px 0}
+.metric small{font-size:13px;color:var(--dim);font-weight:400}
+.split{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:8px 0 4px}
+.split i{display:block;height:100%}
+.b60{background:#7af0c8;width:60%} .b20a{background:#9a8fc7;width:20%} .b20b{background:#ffcf6b;width:20%}
+.foot{margin-top:18px;color:var(--dim);font-size:12px}
+.tag{display:inline-block;background:#2c2350;color:var(--acc);border-radius:6px;padding:1px 7px;font-size:12px;margin-right:6px}
+</style></head><body>
+<h1>QI Team — Autonomous Revenue Ops</h1>
+<div class="sub">Reality Anchor &middot; one glance, whole team &middot; generated 2026-07-08 06:08 UTC</div>
+<div class="grid">
+  <div class="card"><h2>🔭 Scout</h2><div class="role">Hunts Polymarket YES+NO &lt; $1.00 edges 24/7. Owns polymarket_scout.py. Cron ccc320d6bbad (every 30m).</div>
+    <div class="metric">200 <small>markets scanned</small></div>
+    <div class="role">cache 12s ago &middot; silent unless edge</div></div>
+  <div class="card"><h2>📜 Lore</h2><div class="role">Publishes living Codex as lore wiki. Owns sync_codex_obsidian.py + Obsidian vault. Cron a473970fb687 (06:00).</div>
+    <div class="metric">10 <small>kinds &middot; 5 bonds</small></div>
+    <div class="role">live at /qi-games/lore/</div></div>
+  <div class="card"><h2>🛠 Builder</h2><div class="role">Extends QI-Games world. Owns engine/, server.py, play.html. Event-driven via coordinator.</div>
+    <div class="metric">60/20/20 <small>split law</small></div>
+    <div class="role">fun-gate: playtest_bot.py</div></div>
+</div>
+<div class="card" style="margin-top:14px">
+  <h2>💰 Coinmoth Ledger</h2>
+  <div class="split"><i class="b60"></i><i class="b20a"></i><i class="b20b"></i></div>
+  <div class="role">no earnings recorded yet</div>
+</div>
+<div class="foot"><span class="tag">source: codex.json</span><span class="tag">poly cache</span><span class="tag">ledger.json</span><span class="tag">hermes profiles: scout/lore/builder</span></div>
+</body></html>
