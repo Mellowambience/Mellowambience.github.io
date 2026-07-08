@@ -2,28 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Pet Grave — tend a moonlit graveyard for lost pet spirits. Befriend them by day, defend them by night. A cozy-haunted browser game, no install needed.">
-<meta name="theme-color" content="#100b16">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕯️</text></svg>">
-<title>Pet Grave v0.2</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Pet Grave v0.5-tester</title>
 <style>
   :root {
     --mint: #a7f0cf; --rose: #ff7f9d; --lav: #c8b6ff; --gold: #f0d08a;
-    --ink: #100b16; --panel: rgba(25, 18, 35, .82); --line: rgba(221, 204, 255, .24);
-    --text: #fff7f1; --dim: rgba(255, 247, 241, .64);
+    --ink: #100b16; --panel: rgba(23, 16, 31, .86); --line: rgba(230, 215, 255, .22);
+    --text: #fff7f1; --dim: rgba(255, 247, 241, .66);
+    --grave-velvet: rgba(16, 10, 24, .92);
+    --grave-glass: linear-gradient(150deg, rgba(38,29,51,.72), rgba(13,9,20,.58));
+    --grave-soft: rgba(255, 248, 220, .055);
+    --grave-edge: rgba(255, 248, 220, .14);
+    --grave-shadow: 0 26px 80px rgba(5, 3, 12, .52), inset 0 1px 0 rgba(255,255,255,.075);
+    --grave-glow: 0 0 28px rgba(167, 240, 207, .13);
+    --danger-glow: 0 0 28px rgba(255, 127, 157, .12);
   }
   html, body { margin: 0; height: 100%; overflow: hidden; background: var(--ink);
     font-family: "Segoe UI", system-ui, sans-serif; color: var(--text); }
-  canvas { display: block; cursor: crosshair; background: #17101f; touch-action: none; }
+  canvas { display: block; cursor: crosshair; background: radial-gradient(circle at 50% 42%, #22182e, #100b16 72%); touch-action: none; }
   .noselect { user-select: none; pointer-events: none; }
+  button { color-scheme: dark; }
+  button:focus-visible, .menu-btn:focus-visible, .team-btn:focus-visible, .event-btn:focus-visible {
+    outline: 2px solid rgba(240,208,138,.86); outline-offset: 2px;
+  }
 
   /* ---------- HUD ---------- */
   #hud { position: fixed; left: 16px; top: 12px; padding: 10px 12px 11px;
     transform: scale(.92); transform-origin: top left;
-    background: linear-gradient(150deg, rgba(36,28,49,.38), rgba(14,10,22,.24));
-    border: 1px solid rgba(255,248,220,.12); border-radius: 10px;
-    box-shadow: 0 18px 42px rgba(6,3,12,.20), inset 0 1px 0 rgba(255,255,255,.06);
+    background: linear-gradient(150deg, rgba(36,28,49,.54), rgba(14,10,22,.36));
+    border: 1px solid var(--grave-edge); border-radius: 10px;
+    box-shadow: 0 18px 42px rgba(6,3,12,.28), inset 0 1px 0 rgba(255,255,255,.07);
     backdrop-filter: blur(10px); opacity: .88; }
   #hud h1 { margin: 0 0 8px; font-size: 18px; letter-spacing: 5px; font-weight: 750; }
   #hud h1 span { color: var(--rose); }
@@ -45,13 +53,14 @@
   #goal { max-width: 292px; margin-top: 6px; font-size: 11px; line-height: 1.35; color: rgba(126,232,178,.9); }
 
   /* camp + talents shared */
-  .shop-card { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
-    margin-bottom: 10px; background: rgba(255,255,255,.03); display: flex; gap: 12px; align-items: center; }
+  .shop-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px;
+    margin-bottom: 10px; background: linear-gradient(150deg, rgba(255,248,220,.040), rgba(167,240,207,.018));
+    display: flex; gap: 12px; align-items: center; }
   .shop-card .ico { font-size: 26px; width: 36px; text-align: center; }
   .shop-card .info { flex: 1; }
   .shop-card h4 { margin: 0 0 3px; font-size: 13.5px; }
   .shop-card p { margin: 0; font-size: 11.5px; color: var(--dim); line-height: 1.4; }
-  .shop-card.equipped { border-color: var(--mint); box-shadow: 0 0 18px rgba(126,232,178,.12); }
+  .shop-card.equipped { border-color: rgba(167,240,207,.48); box-shadow: var(--grave-glow); }
   .shop-card.locked { opacity: .55; }
   .shop-card button { background: none; border: 1px solid var(--line); color: var(--gold);
     font-family: inherit; font-size: 11px; letter-spacing: 1px; padding: 7px 12px;
@@ -61,8 +70,8 @@
   .shop-card button.equip { color: var(--mint); }
   .shop-card button.equip:hover { border-color: var(--mint); background: rgba(126,232,178,.08); }
   .tier-dots { font-size: 10px; letter-spacing: 2px; color: var(--mint); }
-  #camp-panel { width: min(620px, 92vw); max-height: 84vh; background: var(--panel);
-    border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 60px rgba(0,0,0,.6);
+  #camp-panel { width: min(620px, 92vw); max-height: 84vh; background: var(--grave-glass);
+    border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--grave-shadow);
     padding: 20px 24px; overflow-y: auto; }
   #camp-panel h2 { margin: 0 0 2px; letter-spacing: 4px; font-size: 19px; color: var(--gold); }
   #camp-panel .sub { color: var(--dim); font-size: 12px; margin-bottom: 14px; }
@@ -70,7 +79,7 @@
   .talent-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
   .talent-col h4 { text-align: center; margin: 0 0 8px; font-size: 13px; letter-spacing: 2px; }
   .talent-node { border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px;
-    margin-bottom: 8px; font-size: 11.5px; background: rgba(255,255,255,.03); }
+    margin-bottom: 8px; font-size: 11.5px; background: linear-gradient(150deg, rgba(255,248,220,.035), rgba(167,240,207,.014)); }
   .talent-node.owned { border-color: var(--mint); background: rgba(126,232,178,.07); }
   .talent-node.locked { opacity: .45; }
   .talent-node b { display: block; font-size: 12px; margin-bottom: 2px; }
@@ -126,12 +135,15 @@
 
   /* ---------- overlays ---------- */
   .overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
-    background: rgba(16, 9, 25, .62); backdrop-filter: blur(8px); z-index: 10; }
+    background:
+      radial-gradient(circle at 50% 46%, rgba(167,240,207,.055), transparent 42%),
+      rgba(16, 9, 25, .68);
+    backdrop-filter: blur(9px); z-index: 10; }
   .overlay.open { display: flex; }
 
   /* hub */
-  #hub-panel { width: min(720px, 92vw); height: min(480px, 84vh); background: var(--panel);
-    border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 12px 60px rgba(0,0,0,.6);
+  #hub-panel { width: min(720px, 92vw); height: min(480px, 84vh); background: var(--grave-glass);
+    border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--grave-shadow);
     display: flex; flex-direction: column; overflow: hidden; }
   #hub-tabs { display: flex; border-bottom: 1px solid var(--line); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
   #hub-tabs::-webkit-scrollbar { display: none; }
@@ -144,14 +156,15 @@
   #hub-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
 
   .team-card { display: flex; gap: 14px; align-items: center; border: 1px solid var(--line);
-    border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; background: rgba(255,255,255,.03); }
-  .team-card canvas { border-radius: 10px; background: rgba(0,0,0,.3); }
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 10px;
+    background: linear-gradient(150deg, rgba(255,248,220,.038), rgba(167,240,207,.016)); }
+  .team-card canvas { border-radius: 8px; background: radial-gradient(circle, rgba(167,240,207,.08), rgba(0,0,0,.34)); }
   .team-card h3 { margin: 0 0 3px; font-size: 14px; }
   .team-card small { color: var(--dim); }
   .traitchip { display: inline-block; font-size: 10px; border: 1px solid var(--line);
     border-radius: 20px; padding: 1px 8px; margin: 4px 4px 0 0; color: var(--mint); }
   .traitchip.deadly { color: var(--rose); border-color: rgba(255,93,115,.4); }
-  .team-btn { background: none; border: 1px solid var(--line); color: var(--mint);
+  .team-btn { background: rgba(12,8,18,.28); border: 1px solid var(--line); color: var(--mint);
     font-family: inherit; font-size: 11px; letter-spacing: 1px; padding: 7px 12px;
     border-radius: 8px; cursor: pointer; white-space: nowrap; }
   .team-btn:hover { border-color: var(--mint); background: rgba(126,232,178,.08); }
@@ -163,8 +176,8 @@
   .skillrow .bar > i { background: linear-gradient(90deg, var(--lav), var(--mint)); }
 
   .codex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
-  .codex-card { border: 1px solid var(--line); border-radius: 12px; padding: 10px;
-    background: rgba(255,255,255,.03); text-align: center; }
+  .codex-card { border: 1px solid var(--line); border-radius: 10px; padding: 10px;
+    background: linear-gradient(150deg, rgba(255,248,220,.038), rgba(167,240,207,.015)); text-align: center; }
   .codex-card.unknown { opacity: .4; filter: grayscale(1); }
   .codex-card canvas { background: rgba(0,0,0,.3); border-radius: 8px; }
   .codex-card h4 { margin: 6px 0 2px; font-size: 13px; }
@@ -189,7 +202,7 @@
     text-shadow: 0 0 24px rgba(255, 209, 102, .5); }
   #lvl-panel p { color: var(--dim); margin: 0 0 18px; font-size: 13px; }
   #cards { display: flex; gap: 14px; justify-content: center; }
-  .card { width: 168px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+  .card { width: 168px; background: var(--grave-glass); border: 1px solid var(--line); border-radius: 10px;
     padding: 18px 14px; cursor: pointer; transition: transform .12s, border-color .12s, box-shadow .12s; }
   .card:hover { transform: translateY(-6px) scale(1.03); border-color: var(--mint);
     box-shadow: 0 8px 40px rgba(126,232,178,.25); }
@@ -200,8 +213,8 @@
   .card p { font-size: 11.5px; color: var(--dim); margin: 0; line-height: 1.45; }
 
   /* story event modal */
-  #event-panel { width: min(540px, 92vw); background: var(--panel); border: 1px solid var(--line);
-    border-radius: 18px; padding: 26px 28px; box-shadow: 0 20px 80px rgba(0,0,0,.6); }
+  #event-panel { width: min(540px, 92vw); background: var(--grave-glass); border: 1px solid var(--line);
+    border-radius: 12px; padding: 26px 28px; box-shadow: var(--grave-shadow); }
   #event-panel h2 { color: var(--gold); letter-spacing: 1.5px; margin: 0 0 12px; font-size: 20px; text-align: center; }
   #event-text { color: var(--text); font-size: 14px; line-height: 1.65; margin: 0 0 20px; font-style: italic; opacity: .92; }
   #event-choices { display: flex; flex-direction: column; gap: 10px; }
@@ -211,9 +224,9 @@
 
   /* dialogue */
   #dlg-panel { position: fixed; left: 50%; bottom: 64px; transform: translateX(-50%);
-    width: min(560px, 90vw); background: var(--panel); border: 1px solid var(--line);
-    border-radius: 14px; padding: 14px 18px; display: none; z-index: 9;
-    box-shadow: 0 10px 50px rgba(0,0,0,.6); }
+    width: min(560px, 90vw); background: var(--grave-glass); border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px 18px; display: none; z-index: 9;
+    box-shadow: 0 18px 58px rgba(0,0,0,.50), inset 0 1px 0 rgba(255,255,255,.06); }
   #dlg-panel.open { display: block; }
   #dlg-name { color: var(--mint); font-size: 13px; letter-spacing: 2px; margin-bottom: 4px; }
   #dlg-text { font-size: 14px; line-height: 1.5; min-height: 40px; }
@@ -222,7 +235,7 @@
   /* battle */
   #battle-ui { position: fixed; inset: 0; display: none; z-index: 8; pointer-events: none; }
   #battle-ui.open { display: block; }
-  #b-foe { position: absolute; top: 64px; right: 18px; width: 240px; background: var(--panel);
+  #b-foe { position: absolute; top: 64px; right: 18px; width: 240px; background: var(--grave-glass);
     border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
   #b-foe h3 { margin: 0 0 7px; font-size: 14px; letter-spacing: 1px; }
   #b-foe h3 small { color: var(--dim); font-weight: normal; letter-spacing: 0; }
@@ -231,11 +244,11 @@
   #b-fear { background: linear-gradient(90deg, #ff5d73, #c77dff); width: 0%; }
   #b-moxie { font-size: 11px; color: var(--dim); margin-top: 2px; }
   #b-text { position: absolute; bottom: 118px; left: 50%; transform: translateX(-50%);
-    min-width: 340px; max-width: 80vw; text-align: center; background: var(--panel);
+    min-width: 340px; max-width: 80vw; text-align: center; background: var(--grave-glass);
     border: 1px solid var(--line); border-radius: 12px; padding: 12px 20px; font-size: 14px; }
   #b-actions { position: absolute; bottom: 42px; left: 50%; transform: translateX(-50%);
     display: flex; gap: 10px; pointer-events: auto; }
-  #b-actions button { background: var(--panel); border: 1px solid var(--line); color: var(--text);
+  #b-actions button { background: var(--grave-glass); border: 1px solid var(--line); color: var(--text);
     font-family: inherit; border-radius: 10px; padding: 9px 16px; font-size: 13px; cursor: pointer;
     transition: border-color .12s, transform .12s; }
   #b-actions button small { display: block; color: var(--dim); font-size: 10px; margin-top: 2px; }
@@ -319,25 +332,6 @@
     border-radius: 10px; font-size: 13px; cursor: pointer; }
   #credits-panel button:hover { background: rgba(126,232,178,.1); }
 
-  /* how to play */
-  #help-panel { width: min(560px, calc(100vw - 28px)); box-sizing: border-box; max-height: 86vh; overflow-y: auto;
-    background: linear-gradient(160deg, rgba(38,29,54,.9), rgba(22,15,32,.84));
-    border: 1px solid rgba(255,248,220,.16); border-radius: 20px; padding: 30px 34px;
-    box-shadow: 0 34px 100px rgba(5,3,12,.54), inset 0 1px 0 rgba(255,255,255,.08); }
-  #help-panel::-webkit-scrollbar { width: 8px; }
-  #help-panel::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
-  #help-panel h2 { color: var(--mint); letter-spacing: 4px; margin: 0 0 4px; font-size: 20px; text-align: center; }
-  #help-panel .sub { color: var(--dim); letter-spacing: 3px; font-size: 11px; text-transform: uppercase; margin-bottom: 18px; text-align: center; }
-  #help-panel h3 { font-size: 11px; letter-spacing: 3px; color: var(--lav); margin: 16px 0 8px; text-transform: uppercase; }
-  .help-step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 9px; font-size: 12.5px; line-height: 1.5; color: rgba(241,234,246,.88); }
-  .help-step .ico { font-size: 16px; width: 22px; text-align: center; flex: none; }
-  .help-keys { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 12px; }
-  .help-keys kbd { font-family: inherit; color: var(--gold); font-weight: 700; white-space: nowrap; text-align: right; }
-  .help-keys span { color: var(--dim); }
-  #help-panel > button { display: block; margin: 18px auto 0; background: none; border: 1px solid var(--mint);
-    color: var(--mint); font-family: inherit; letter-spacing: 2px; padding: 10px 28px; border-radius: 10px; font-size: 13px; cursor: pointer; }
-  #help-panel > button:hover { background: rgba(126,232,178,.1); }
-
   /* save export/import */
   #save-port-panel { width: min(520px, calc(100vw - 28px)); box-sizing: border-box;
     background: linear-gradient(160deg, rgba(38,29,54,.9), rgba(22,15,32,.84));
@@ -419,11 +413,11 @@
   }
   @media (hover: none), (pointer: coarse), (max-width: 820px) {
     #mobile-controls { display: flex; }
-    #hint { bottom: calc(198px + env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
+    #hint { bottom: calc(142px + env(safe-area-inset-bottom)); max-width: calc(100vw - 24px); }
     #hud { transform: scale(.78); }
     #toasts { top: 64px; }
-    #b-actions { bottom: calc(228px + env(safe-area-inset-bottom)); flex-wrap: wrap; justify-content: center; max-width: 92vw; }
-    #b-text { bottom: calc(306px + env(safe-area-inset-bottom)); min-width: min(330px, 88vw); }
+    #b-actions { bottom: calc(172px + env(safe-area-inset-bottom)); flex-wrap: wrap; justify-content: center; max-width: 92vw; }
+    #b-text { bottom: calc(250px + env(safe-area-inset-bottom)); min-width: min(330px, 88vw); }
   }
 </style>
 </head>
@@ -457,8 +451,6 @@
     <button class="mobile-btn" data-action="limit">LIMIT</button>
     <button class="mobile-btn" data-action="hub">HUB</button>
     <button class="mobile-btn" data-action="recall">HOME</button>
-    <button class="mobile-btn" data-action="tree">🌳<br>TREE</button>
-    <button class="mobile-btn" data-action="havens">🗺<br>PATH</button>
   </div>
 </div>
 
@@ -533,14 +525,13 @@
     <button class="menu-btn" id="m-sound">🔊 &nbsp;SOUND: ON</button>
     <button class="menu-btn" id="m-quality">✨ &nbsp;QUALITY: AUTO</button>
     <button class="menu-btn" id="m-filter">🎨 &nbsp;LOOK: STORYBOOK</button>
-    <button class="menu-btn" id="m-help">❔ &nbsp;HOW TO PLAY</button>
     <button class="menu-btn" id="m-credits">✦ &nbsp;CREDITS</button>
     <button class="menu-btn" id="m-export" style="display:none">📤 &nbsp;EXPORT SAVE</button>
     <button class="menu-btn" id="m-import" style="display:none">📥 &nbsp;IMPORT SAVE</button>
     <button class="menu-btn" id="m-hardcore" style="display:none" aria-hidden="true"></button>
     <button class="menu-btn danger" id="m-reset" style="display:none">⚠ &nbsp;RESET SAVE</button>
-    <div class="ctrl"><b>WASD</b>/tap move · <b>E</b> interact · <b>Tab</b> ledger · <b>Esc</b> menu — full controls under <b>HOW TO PLAY</b></div>
-    <div class="ver">Pet Grave v0.2 · saves locally in this browser</div>
+    <div class="ctrl"><b>WASD</b>/tap move · <b>E</b> comfort / tend / read epitaph · <b>Q</b> limit break · <b>T</b> plant memory tree · <b>G</b> lantern travel · <b>R</b> recall · <b>Tab</b> ledger · <b>M</b> mute · <b>Esc</b> menu · mobile buttons appear on touch screens</div>
+    <div class="ver">Pet Grave v0.5-tester · saves locally · experimental build</div>
   </div>
 </div>
 
@@ -594,45 +585,6 @@
   </div>
 </div>
 
-<div id="help" class="overlay">
-  <div id="help-panel">
-    <h2>❔ HOW TO PLAY</h2>
-    <div class="sub">a gentle guide for gravekeepers</div>
-    <h3>Your first day</h3>
-    <div class="help-step"><div class="ico">☀</div><div><b>By day</b>, wander out and stand near a lost pet — press <b>E</b> to begin a bonding duel. Snacks and soothing win their trust; they'll follow you home.</div></div>
-    <div class="help-step"><div class="ico">🕯</div><div><b>At home</b>, the memorial fire heals you. Press <b>E</b> by the fire for upgrades, talk to the villagers, and open your ledger with <b>Tab</b>.</div></div>
-    <div class="help-step"><div class="ico">🌑</div><div><b>At night</b>, corruption surges from the dark. Fight beside your bonded pets, keep the lanterns lit, and hold on until dawn.</div></div>
-    <h3>Wandering</h3>
-    <div class="help-keys">
-      <kbd>WASD / tap</kbd><span>move (tap or click the ground to walk there)</span>
-      <kbd>E</kbd><span>comfort · tend · talk · duel — whatever is nearest</span>
-      <kbd>Space / right-click</kbd><span>cast your spell</span>
-      <kbd>Shift</kbd><span>dash</span>
-      <kbd>Q</kbd><span>limit break (when the amber bar is full)</span>
-      <kbd>C (hold)</kbd><span>command wheel — direct your pets</span>
-      <kbd>T</kbd><span>plant a memory tree (a new safe haven)</span>
-      <kbd>G</kbd><span>lantern paths — fast travel between havens</span>
-      <kbd>R</kbd><span>recall home</span>
-      <kbd>Tab</kbd><span>ledger — team, village, skills, codex, talents, bag, journal</span>
-      <kbd>scroll</kbd><span>zoom</span>
-    </div>
-    <h3>In a bonding duel</h3>
-    <div class="help-keys">
-      <kbd>1–4 / click</kbd><span>choose an approach — build trust before fear wins</span>
-      <kbd>Space / tap</kbd><span>hit the timing mark</span>
-      <kbd>Esc</kbd><span>back away gently</span>
-    </div>
-    <h3>Comfort &amp; care</h3>
-    <div class="help-keys">
-      <kbd>M</kbd><span>mute</span>
-      <kbd>F</kbd><span>change the look (storybook · luminous · haunted · ink)</span>
-      <kbd>5</kbd><span>rolling-hills terrain, on/off</span>
-      <kbd>Esc</kbd><span>pause menu</span>
-    </div>
-    <button onclick="closeHelp()">↩ &nbsp;BACK</button>
-  </div>
-</div>
-
 <div id="havens" class="overlay">
   <div id="havens-panel">
     <h2>🗺 LANTERN PATHS</h2>
@@ -653,6 +605,33 @@
 
 <script>
 "use strict";
+
+function queryFlag(name) {
+  const search = (location && location.search) || "";
+  return new RegExp(`(?:^\\?|&)${name}(?:=1|=true|&|$)`, "i").test(search);
+}
+function storageFlag(name) {
+  try { return localStorage.getItem(name) === "1"; } catch (e) { return false; }
+}
+
+// Early definitions (must be before any top level calls that reference them)
+function petGraveDevEnabled() {
+  return queryFlag("dev") || storageFlag("petgrave_dev");
+}
+function petGraveDebugEnabled() {
+  return petGraveDevEnabled() || queryFlag("codex") || queryFlag("smoke") || storageFlag("petgrave_debug");
+}
+function petGraveFeatureEnabled(name, legacyKey) {
+  return petGraveDevEnabled() || queryFlag(name) || storageFlag(`petgrave_${name}`) || (legacyKey ? storageFlag(legacyKey) : false);
+}
+
+// Early shims so bottom-of-script debug/guard code never sees undefined in any load order
+const _pde = (typeof petGraveDebugEnabled === "function") ? petGraveDebugEnabled : function(){return false;};
+const _pfe = (typeof petGraveFeatureEnabled === "function") ? petGraveFeatureEnabled : function(){return false;};
+
+// Forward declare draw helpers used in agent visuals so they are always resolvable
+function drawAgentMood() { /* full implementation later */ }
+
 // ============================================================ utils
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, t) => a + (b - a) * t;
@@ -677,6 +656,335 @@ function tintHex(hex, toward, t) {
   const h = v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0");
   return `#${h(lerp(ar, br, t))}${h(lerp(ag, bg, t))}${h(lerp(ab, bb, t))}`;
 }
+const MEMORIAL_PALETTE = {
+  ink: "16,10,24",
+  velvet: "35,24,48",
+  bone: "255,247,225",
+  spirit: "167,240,207",
+  spiritCool: "189,247,255",
+  lantern: "240,208,138",
+  rose: "255,127,157",
+  lavender: "200,182,255",
+  moss: "154,220,169",
+};
+
+// ============================================================ KERNEL (with Local AI Agent System)
+// Deep "local AI agent" living at the heart of the simulation.
+// - 100% offline, deterministic, fast enough for browser.
+// - Entities (pets, wild critters, some enemies, NPCs) become autonomous agents.
+// - Perception via spatial Kernel.near, utility decisions, short + long term memory.
+// - Improves over time: preferences, moods, and "personality" evolve from play.
+// - When Codex/Grok available: can consume traces for richer content, new behaviors, or balance insight.
+const Kernel = {
+  timeScale: 1,
+  lastFrame: 0,
+  stats: { frames: 0, entities: 0, particles: 0, lastFps: 60 },
+  debug: false,
+  on(name, fn) { if (!this._events) this._events = {}; (this._events[name] = this._events[name] || new Set()).add(fn); },
+  emit(name, payload) { const s = this._events && this._events[name]; if (s) for (const f of s) { try { f(payload); } catch (_) {} } },
+  getPool(n) { return this.pools[n] || (this.pools[n] = {free:[],used:[]}); },
+  alloc(n, t={}) { const o = Object.assign({alive:true}, t); (this.getPool(n).used||[]).push(o); return o; },
+  free() {},
+  near(x, y, r, filter) {
+    const res = [];
+    const r2 = r*r;
+    const pools = [critters, allies, enemies, (typeof loot!=="undefined"?loot:[]), particles];
+    for (const arr of pools) for (const o of arr) {
+      if (!o || typeof o.x !== "number") continue;
+      const dx = o.x - x, dy = o.y - y;
+      if (dx*dx + dy*dy <= r2 && (!filter || filter(o))) res.push(o);
+    }
+    return res;
+  }
+};
+
+function kernelPrune() {
+  particles = particles.filter(p => !(p.t > (p.life||2.5)));
+  markers = markers.filter(m => !(m.t > (m.life||1.5) && !m.nova));
+  spellVfx = spellVfx.filter(f => f.t < (f.life||2));
+  pshots = pshots.filter(s => s.t < 4);
+  if (typeof loot !== "undefined") loot = loot.filter(l => (G.t - (l.born||0) < 220));
+}
+function spawnParticle(t={}) { particles.push(Object.assign({t:0,life:1.2,vx:0,vy:0}, t)); return particles[particles.length-1]; }
+function simDt(d) { return Math.min(0.1, d * (G && G.hitstop > 0 ? 0.1 : Kernel.timeScale)); }
+function hitstop(ms=80) { if (G) G.hitstop = (G.hitstop||0) + ms/1000; }
+
+// ---------- LOCAL AI AGENT KERNEL (FULL) ----------
+// Covers: pets, critters, reserve, ghosts, enemies (tactics), social interactions,
+// class reactions, pack formation, mood visuals, learning, reflection, and external Codex/Grok hooks.
+const AgentKernel = {
+  // Extended base personality
+  baseProfile(sp) {
+    const spec = SPECIES[sp] || {};
+    const temper = spec.temper || "balanced";
+    return {
+      temper,
+      curiosity:  (temper==="curious" ? 0.85 : temper==="skittish" ? 0.35 : 0.55),
+      bravery:    (temper==="proud" || temper==="stoic" ? 0.75 : temper==="skittish" ? 0.25 : 0.55),
+      affection:  (spec.peaceful ? 0.7 : 0.3),
+      protectiveness: (sp==="mossback" || sp==="mothlet" ? 0.8 : 0.45),
+      packTendency: (sp==="pip" || sp==="fluffox" || sp==="starling" ? 0.7 : 0.35),
+    };
+  },
+
+  ensure(entity, sp, isAlly = false) {
+    if (!entity._agent) {
+      const base = this.baseProfile(sp);
+      entity._agent = {
+        sp,
+        mood: "content",
+        prefs: { tend:0.5, fight:0.4, explore:0.5, comfort:0.6, pack:0.3 },
+        memory: [],
+        affinity: {},
+        lastDecision: null,
+        confidence: 0.5,
+        age: (entity.stage || 1) * 10 + (entity.friendship || 0),
+        packBonus: 0,
+      };
+      if (base.curiosity > 0.7) entity._agent.prefs.explore += 0.2;
+      if (base.bravery > 0.7) entity._agent.prefs.fight += 0.15;
+      if (base.affection > 0.7) entity._agent.prefs.comfort += 0.2;
+      if (base.packTendency > 0.6) entity._agent.prefs.pack += 0.25;
+      if (isAlly) entity._agent.affinity.player = 0.6;
+    }
+    return entity._agent;
+  },
+
+  perceive(entity, radius = 8) {
+    const a = entity._agent;
+    if (!a) return { friends: [], threats: [], alliesNear: [], playerDist: 999, interesting: [], weakestAlly: null };
+    const pos = { x: entity.x || player.x, y: entity.y || player.y };
+    const near = Kernel.near(pos.x, pos.y, radius);
+    const friends = [], threats = [], alliesNear = [], interesting = [];
+    let weakest = null, wHp = 999;
+
+    for (const n of near) {
+      if (n === entity) continue;
+      if (allies.includes(n) || n.sp === "milo" || n.state === "ghost") {
+        friends.push(n); alliesNear.push(n);
+        if (n.hp && n.hp < wHp) { wHp = n.hp; weakest = n; }
+      }
+      else if (enemies.includes(n)) threats.push(n);
+      else if (critters.includes(n)) interesting.push(n);
+    }
+    const pd = dist(pos.x, pos.y, player.x, player.y);
+    return { friends, threats, alliesNear, playerDist: pd, interesting, weakestAlly: weakest, pos };
+  },
+
+  // Enhanced decision making with enemy tactics + pack + class awareness
+  decide(entity, perception) {
+    const a = this.ensure(entity, entity.sp, allies.includes(entity) || entity === milo);
+    const { threats, playerDist, friends, alliesNear, weakestAlly } = perception;
+    const score = { ...a.prefs };
+
+    const isEnemy = enemies.includes(entity);
+    const cls = G.cls || "warlock";
+
+    // Local terraforming health affects creature feelings
+    const locHealth = getLocalHealth(entity.x || player.x, entity.y || player.y);
+    if (locHealth > 0.6) {
+      score.comfort += 0.25;
+      score.pack += 0.15;
+    } else if (locHealth < 0.35) {
+      score.fight += 0.2;
+      score.explore += 0.1;
+    }
+
+    // Dynamic world state
+    if (threats.length > 0) {
+      score.fight += 0.65 + ((a.bravery || 0.5) - 0.5) * 0.5;
+      if (isEnemy) score.fight += 0.3; // enemies lean aggressive
+    }
+    if (playerDist < 3.5) score.comfort += 0.45;
+    if (G.phase === "night" || G.surge) score.fight += 0.35;
+
+    // Pack formation logic (social aliveness)
+    if (alliesNear.length >= 2) {
+      score.pack = (score.pack || 0) + 0.35;
+      score.comfort += 0.2;
+    }
+
+    // Class reactions (reacts to player's chosen calling)
+    if (cls === "druid") score.comfort += 0.25;
+    if (cls === "warlock" || cls === "necromancer") score.fight += 0.2;
+    if (cls === "ranger") score.explore += 0.15;
+
+    // Learned affinities + memory influence
+    for (const t of threats) {
+      const aff = a.affinity[t.sp] || 0;
+      if (aff < -0.2) score.fight += Math.abs(aff) * 0.6;
+      if (aff > 0.2 && isEnemy) score.fight -= 0.3; // learned to avoid strong allies
+    }
+
+    // Enemy-specific tactics
+    if (isEnemy) {
+      // Focus weak targets
+      if (weakestAlly && weakestAlly !== entity) score.fight += 0.4;
+      // Flank / avoid clusters
+      if (alliesNear.length > 2) score.fight -= 0.25;
+      // Low health retreat
+      if ((entity.hp || 20) < (entity.maxhp || 30) * 0.35) {
+        score.fight -= 0.6;
+        score.explore += 0.5;
+      }
+    }
+
+    // Personality
+    const base = this.baseProfile(entity.sp);
+    score.explore += (base.curiosity - 0.5) * 0.45;
+    score.fight   += (base.bravery - 0.5) * 0.4;
+    score.pack    += (base.packTendency - 0.5) * 0.3;
+
+    // Pick best
+    let best = isEnemy ? "fight" : "follow", bestS = -999;
+    for (const k of Object.keys(score)) {
+      if (score[k] > bestS) { bestS = score[k]; best = k; }
+    }
+    a.lastDecision = best;
+
+    // Apply pack bonus when clustered
+    if (alliesNear.length >= 2 && best !== "fight") {
+      a.packBonus = Math.min(0.35, a.packBonus + 0.08);
+    } else {
+      a.packBonus *= 0.9;
+    }
+
+    return { action: best, score: bestS, mood: this._moodFor(a, best, threats.length, alliesNear.length) };
+  },
+
+  _moodFor(agent, action, threatCount, friendCount) {
+    if (threatCount > 0) return agent.bravery > 0.7 ? "eager" : "protective";
+    if (action === "comfort" || friendCount > 1) return "affectionate";
+    if (action === "explore" || action === "pack") return Math.random() < 0.6 ? "curious" : "playful";
+    if (agent.prefs.fight > 0.8) return "eager";
+    return "content";
+  },
+
+  act(entity, decision, dt, perception) {
+    const a = entity._agent; if (!a) return;
+    a.mood = decision.mood || a.mood;
+
+    if (Math.random() < 0.11) {
+      a.memory.push({ t: G.t, act: decision.action, mood: a.mood });
+      if (a.memory.length > 14) a.memory.shift();
+    }
+
+    const isAllyLike = allies.includes(entity) || entity === milo || entity.state === "ghost";
+
+    // Autonomous social pet-to-pet interactions
+    if (isAllyLike && perception.friends.length > 0 && Math.random() < dt * 0.9) {
+      const buddy = perception.friends[0];
+      if (buddy && dist(entity.x, entity.y, buddy.x, buddy.y) < 2.5) {
+        if (!G.lowFx) heart(entity.x, entity.y);
+        if (Math.random() < 0.3) say(entity, "together...", true);
+        // small mutual buff
+        if (buddy._agent) buddy._agent.packBonus = Math.min(0.25, (buddy._agent.packBonus || 0) + 0.05);
+      }
+    }
+
+    // Combat / movement nudges
+    if (decision.action === "comfort" && perception.playerDist < 4.5 && !G.lowFx) {
+      heart(entity.x, entity.y);
+    }
+    if (decision.action === "explore") {
+      entity.vx = (entity.vx || 0) + (Math.random()-0.5) * 1.6;
+      entity.vy = (entity.vy || 0) + (Math.random()-0.5) * 1.6;
+    }
+
+    // Pack formation bonus (applied in damage calculations elsewhere)
+    if (a.packBonus > 0.1 && perception.alliesNear.length >= 2) {
+      // very subtle shared mote — matches the soft glow language of the garden
+      if (!G.lowFx && Math.random() < 0.12) {
+        particles.push({
+          x: entity.x + rand(-0.25, 0.25),
+          y: entity.y - 0.45,
+          vx: rand(-0.08, 0.08),
+          vy: -0.35,
+          t: 0,
+          life: 0.55,
+          color: "#7ee8b2"
+        });
+      }
+    }
+  },
+
+  remember(entity, kind, strength = 0.1, target = null) {
+    const a = this.ensure(entity, entity.sp);
+    const delta = Math.max(-0.4, Math.min(0.4, strength));
+    if (kind === "bond" || kind === "heal") {
+      a.prefs.comfort = Math.min(1.4, (a.prefs.comfort||0.5) + delta*0.7);
+      a.affinity.player = Math.min(1.5, (a.affinity.player||0.5) + delta*0.9);
+    }
+    if (kind === "victory" || kind === "kill") {
+      a.prefs.fight = Math.min(1.4, (a.prefs.fight||0.4) + delta*0.55);
+    }
+    if (kind === "hurt" && target) {
+      a.affinity[target] = Math.max(-1.3, (a.affinity[target]||0) + delta * -0.8);
+    }
+    if (kind === "explore_success") a.prefs.explore = Math.min(1.3, (a.prefs.explore||0.5) + delta*0.45);
+    if (kind === "pack") a.prefs.pack = Math.min(1.2, (a.prefs.pack||0.3) + delta*0.3);
+  },
+
+  // Full reflection + pack evolution
+  reflect() {
+    const all = allies.concat(reserve, ghostPets, critters.filter(c => (c.bond||0) > 0.55));
+    for (const e of all) {
+      const a = e._agent; if (!a) continue;
+      const avg = (a.prefs.comfort + a.prefs.fight + a.prefs.explore + (a.prefs.pack||0)) / 4;
+      for (const k of Object.keys(a.prefs)) {
+        a.prefs[k] = a.prefs[k] * 0.982 + avg * 0.018;
+      }
+      a.age = (a.age || 10) + 1;
+      if (a.age > 70 && Math.random() < 0.12) a.confidence = Math.min(0.96, a.confidence + 0.025);
+      a.packBonus *= 0.85; // decay
+    }
+    G.forestMemory = Math.min(99, (G.forestMemory || 0) + 0.04);
+  },
+
+  // Much richer export for Codex/Grok
+  exportTrace(limit = 25) {
+    const trace = {
+      version: 2,
+      day: G.dayNum,
+      phase: G.phase,
+      bonds: G.bonds,
+      kills: G.kills,
+      playerStyle: {
+        aggressive: G.kills > (G.bonds * 0.85),
+        cozy: G.bonds > 10,
+        explorer: (G.distAcc || 0) > 400,
+      },
+      global: { forestMemory: G.forestMemory || 0, sanctuaryStage: (typeof sanctuaryStage === "function" ? sanctuaryStage() : 1) },
+      agents: []
+    };
+    const all = allies.concat(reserve, ghostPets);
+    for (const e of all.slice(0, limit)) {
+      const a = e._agent; if (!a) continue;
+      trace.agents.push({
+        name: e.name || e.sp,
+        sp: e.sp,
+        stage: e.stage || 1,
+        friendship: e.friendship || 0,
+        mood: a.mood,
+        prefs: { ...a.prefs },
+        affinity: { ...a.affinity },
+        memory: a.memory.slice(-6),
+        age: a.age,
+        packBonus: a.packBonus || 0,
+        confidence: a.confidence,
+      });
+    }
+    return trace;
+  }
+};
+
+// Hook existing events into agent learning
+Kernel.on("bond", (p) => { if (p && p.pet) AgentKernel.remember(p.pet, "bond", 0.25); });
+Kernel.on("kill", (p) => {
+  // nearby allies learn from the victory
+  const near = Kernel.near(p.enemy ? p.enemy.x : player.x, p.enemy ? p.enemy.y : player.y, 6);
+  for (const n of near) if (allies.includes(n) || n === milo) AgentKernel.remember(n, "victory", 0.12, p.sp);
+});
 
 // ============================================================ canvas & camera
 const cv = el("c"), cx = cv.getContext("2d");
@@ -710,6 +1018,7 @@ function s2w(sx, sy) {
 const ART_PACK_ROOT = "Content/Art/Generated/GlowGarden_v2";
 const ART_ROOT = `${ART_PACK_ROOT}/Sprites`;
 const MEMORIAL_ART_ROOT = "Content/Art/Generated/MemorialGarden_v1";
+const CREATURE_LAYER_ROOT = `${MEMORIAL_ART_ROOT}/LayerSystem/build`;
 const VFX_ROOT = `${ART_PACK_ROOT}/VFX/spells`;
 const HD2D_ROOT = `${ART_PACK_ROOT}/HD2D`;
 const USE_HD2D_PROCEDURAL_CREATURES = true;
@@ -741,7 +1050,21 @@ const CREATURE_ART_SCALE = {
   milo: 6.4, pip: 5.7, lume: 5.9, mossback: 6.1, ember: 6.1,
   puddle: 5.4, capkin: 5.8, starling: 5.9, fluffox: 5.9, mothlet: 5.9,
 };
-const IMPORTED_CREATURE_ART_IDS = new Set(["milo", "pip"]);
+const IMPORTED_CREATURE_ART_IDS = new Set(["milo", "pip", "lume"]);
+const CREATURE_LAYER_ALIAS = {
+  milo: "gravepup",
+  pip: "lanternkit",
+  lume: "lume",
+};
+const CREATURE_LAYER_ANIM_ART = {};
+for (const [runtimeId, layerId] of Object.entries(CREATURE_LAYER_ALIAS)) {
+  CREATURE_LAYER_ANIM_ART[runtimeId] = {
+    idle: loadGameArt(`${CREATURE_LAYER_ROOT}/${layerId}/idle_strip.png`),
+    walk: loadGameArt(`${CREATURE_LAYER_ROOT}/${layerId}/walk_strip.png`),
+    interact: loadGameArt(`${CREATURE_LAYER_ROOT}/${layerId}/interact_strip.png`),
+    hurt: loadGameArt(`${CREATURE_LAYER_ROOT}/${layerId}/hurt_strip.png`),
+  };
+}
 const PROP_ART = {
   moss_home: loadGameArt(`${ART_ROOT}/Props/moss_home.png`),
   mush_home: loadGameArt(`${ART_ROOT}/Props/mush_home.png`),
@@ -861,6 +1184,15 @@ function drawContainArt(g, asset, x, y, w, h, alpha = 1, mode = "source-over") {
   g.restore();
   return true;
 }
+function creatureLayerAnimMode(actor, bob) {
+  if (actor && actor.flash > 0) return "hurt";
+  if (actor && actor.castT > 0) return "interact";
+  if (actor && (actor.state === "dash" || actor.state === "attack" || actor.state === "pounce")) return "interact";
+  const movingState = actor && ["follow", "wander", "guide", "orbit"].includes(actor.state);
+  const movingVelocity = actor && (Math.hypot(actor.vx || 0, actor.vy || 0) > 0.015);
+  const animatedStride = Math.abs(Math.sin(bob || 0)) > 0.72;
+  return movingState || movingVelocity || animatedStride ? "walk" : "idle";
+}
 function spriteIdForSpec(spec) {
   return (spec.asset || spec.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
@@ -891,6 +1223,7 @@ const G = {
   kills: 0, bonds: 0, wave: 0,
   surge: null, calmT: 20,
   forestMemory: 0,
+  bloomsPlanted: 0,   // count of deliberately-planted memory blooms (M4 bloom grove gate)
   speedMul: 1, miloDmgMul: 1, miloCdMul: 1, magnetMul: 1,
   maxAllies: 6, allyDmgMul: 1, thorns: 0, nova: 0, novaT: 0, deaths: 0,
   dust: 0, talentPts: 0, cls: "warlock", classCd: 0,
@@ -1166,6 +1499,35 @@ function unlockVillageUpgrade(sp) {
   }
   return true;
 }
+// M4 Sanctuary Payoff — home upgrade beats (lantern path / memorial beds / bloom grove).
+// Same one-time-flag idiom as unlockVillageUpgrade above, just namespaced under "upgrade:<beatId>"
+// instead of "upgrade:<species>" — no key collisions since species ids never match these ids.
+const BLOOM_GROVE_MIN = 3;   // deliberate memory-bloom plantings needed before the home bloom grove takes root
+const HOME_UPGRADE_BEATS = {
+  lantern_path:  { ico: "🏮", name: "Lantern Path",  toast: "the sanctuary lantern path lights up — root more memory trees (T) to grow it further",
+                    log: "Lantern posts flicker to life along the path home. The lantern path has begun." },
+  memorial_beds: { ico: "🕯", name: "Memorial Beds", toast: "a memorial bed takes root by the fire, in memory of a friend",
+                    log: "A small memorial bed appeared by the fire, tending the memory of a fallen friend." },
+  bloom_grove:   { ico: "🌸", name: "Bloom Grove",   toast: "your planted memories have grown into a small bloom grove at home",
+                    log: "The memory blooms you planted took root together, forming a small grove by the sanctuary." },
+};
+function homeUpgradeBeatUnlocked(id) {
+  return !!(G.story && G.story.flags && G.story.flags["upgrade:" + id]);
+}
+function unlockHomeUpgradeBeat(id) {
+  if (!G.story) G.story = { flags: {}, seen: [] };
+  if (!G.story.flags) G.story.flags = {};
+  const key = "upgrade:" + id;
+  if (G.story.flags[key]) return false;
+  G.story.flags[key] = true;
+  const def = HOME_UPGRADE_BEATS[id];
+  if (def) {
+    toast(`${def.ico} <b>${def.name}</b> — ${def.toast}`, true);
+    log(def.log, true);
+    if (!G.lowFx) burst(0, -1, "#ffd980", 16, 2.4);
+  }
+  return true;
+}
 const BIOME_SPAWN = {
   "Pet Grave": { pip: 2.2, capkin: 1.6, lume: 1.4, mossback: 1.1, ember: 0.8, puddle: 0.9, starling: 1.2, fluffox: 1.0, mothlet: 1.3 },
   "Mistbog":     { puddle: 2.3, mossback: 1.7, capkin: 1.4, lume: 1.0, pip: 0.9, ember: 0.7, starling: 0.8, fluffox: 0.9, mothlet: 1.5 },
@@ -1353,7 +1715,10 @@ function useVillageStation(s) {
 // ============================================================ entities
 const player = { x: 0, y: -1, vx: 0, vy: 0, face: .6, aim: .6, target: null, baseSpeed: 5.0, bob: 0, still: 0, dashLock: 0 };
 const milo = { x: -1.3, y: 0, face: 0, state: "follow", prey: null, dashT: 0, bob: Math.PI, dmgBase: 14, cdBase: 1.5, cd: 0, flash: 0 };
+AgentKernel.ensure(milo, "milo", true); // seed AI kernel for Gravemoss from the start
 let critters = [], allies = [], reserve = [], ghostPets = [], npcs = [], enemies = [], shots = [], motes = [], particles = [], markers = [], bubbles = [], pshots = [], spellVfx = [], shades = [], loot = [];
+let worldTrees = [];  // hoisted early to avoid TDZ with AI/debug code and save/load paths
+let bloomPoints = [];   // player-driven terraforming spots for local healing visuals & AI
 const PETNAMES = ["Mochi", "Sprout", "Wisp", "Bumble", "Nori", "Pesto", "Clover", "Ember", "Tofu", "Maple", "Pickle", "Fennel", "Dusk", "Biscuit", "Juniper", "Soot"];
 let petNameIdx = Math.floor(Math.random() * PETNAMES.length);
 const petName = () => PETNAMES[(petNameIdx++) % PETNAMES.length];
@@ -1362,13 +1727,17 @@ function spawnCritter() {
   const sp = pickBiomeSpecies();
   const a = rand(0, Math.PI * 2), d = rand(8, 16);
   const shiny = Math.random() < 0.001; // 1 / 1000
-  critters.push({ sp, x: player.x + Math.cos(a) * d, y: player.y + Math.sin(a) * d,
-    vx: 0, vy: 0, wanderT: 0, bob: rand(0, 6), bond: 0, face: 0, shiny, variant: rollCreatureVariant(sp) });
+  const c = { sp, x: player.x + Math.cos(a) * d, y: player.y + Math.sin(a) * d,
+    vx: 0, vy: 0, wanderT: 0, bob: rand(0, 6), bond: 0, face: 0, shiny, variant: rollCreatureVariant(sp) };
+  AgentKernel.ensure(c, sp, false);
+  critters.push(c);
   if (G.started && villageFocus() === "scout" && critters.length < 16 && Math.random() < 0.18 + villageRoleCount("scout") * 0.025) {
     const sp2 = pickBiomeSpecies();
     const a2 = rand(0, Math.PI * 2), d2 = rand(10, 18);
-    critters.push({ sp: sp2, x: player.x + Math.cos(a2) * d2, y: player.y + Math.sin(a2) * d2,
-      vx: 0, vy: 0, wanderT: 0, bob: rand(0, 6), bond: 0, face: 0, shiny: false, variant: rollCreatureVariant(sp2) });
+    const c2 = { sp: sp2, x: player.x + Math.cos(a2) * d2, y: player.y + Math.sin(a2) * d2,
+      vx: 0, vy: 0, wanderT: 0, bob: rand(0, 6), bond: 0, face: 0, shiny: false, variant: rollCreatureVariant(sp2) };
+    AgentKernel.ensure(c2, sp2, false);
+    critters.push(c2);
   }
   if (shiny && G.started) {
     toast("✨✨ a <b>SHINY creature</b> shimmers into view — legendary aura!", true);
@@ -1388,8 +1757,11 @@ function seedFirstFriendMoment(force = false) {
   for (let i = 0; i < 3; i++) {
     const sp = picks[i];
     const a = -1.25 + i * 0.85;
-    critters.push({ sp, x: player.x + Math.cos(a) * (2.7 + i * 0.45), y: player.y + Math.sin(a) * (2.1 + i * 0.35),
-      vx: 0, vy: 0, wanderT: 0, bob: rand(0, 6), bond: 0.25, face: Math.PI, shiny: false, guide: true, variant: variants[i] });
+    const d = 5.0 + i * 0.65;
+    const c = { sp, x: player.x + Math.cos(a) * d, y: player.y + Math.sin(a) * d,
+      vx: 0, vy: 0, wanderT: 0, bob: rand(0, 6), bond: 0.25, face: Math.PI, shiny: false, guide: true, variant: variants[i] };
+    AgentKernel.ensure(c, sp, false);
+    critters.push(c);
     discover(sp);
   }
   G.story.flags.first_guided_friend = true;
@@ -1425,18 +1797,20 @@ function spawnEnemy(kind, boss) {
     const af = keys[Math.floor(Math.random() * keys.length)];
     AFFIXES[af].apply(e); e.affix = af;
   }
+  AgentKernel.ensure(e, kind, false); // light agent mind for adaptive enemy behavior
   enemies.push(e);
 }
 
 function burst(x, y, color, n, sp) {
   for (let i = 0; i < n; i++) {
     const a = rand(0, Math.PI * 2), s = rand(0.8, sp || 3);
-    particles.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, t: 0, life: rand(.4, .9), color });
+    // prefer pooled path
+    spawnParticle({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, t: 0, life: rand(.4, .9), color });
   }
 }
-function heart(x, y) { particles.push({ x, y, vx: rand(-.3,.3), vy: rand(-.3,.3), t: 0, life: 1, color: "#ff8fa3", heart: true, rise: true }); }
+function heart(x, y) { spawnParticle({ x, y, vx: rand(-.3,.3), vy: rand(-.3,.3), t: 0, life: 1, color: "#ff8fa3", heart: true, rise: true }); }
 function dmgNum(x, y, amt, color) {
-  particles.push({ x: x + rand(-.2, .2), y, vx: rand(-.2, .2), vy: -.6, t: 0, life: .8,
+  spawnParticle({ x: x + rand(-.2, .2), y, vx: rand(-.2, .2), vy: -.6, t: 0, life: .8,
     color, txt: String(Math.max(1, Math.round(amt))), rise: true });
 }
 function shake(n) { G.shake = Math.min(1.4, G.shake + n); }
@@ -1740,73 +2114,124 @@ const Au = {
 window.addEventListener("pointerdown", () => Au.start(), { once: true });
 window.addEventListener("keydown", () => Au.start(), { once: true });
 
-// ============================================================ SAVE / LOAD
-const SAVE_KEY = "milo_glowgarden_v1";
+// ============================================================ SAVE / LOAD (KERNEL HARDENED)
+const SAVE_KEY = "petgrave_memorial_v2"; // bumped; we still read legacy milo key for migration
+const SAVE_LEGACY_KEY = "milo_glowgarden_v1";
 let canSave = true;
 try { localStorage.setItem("__t", "1"); localStorage.removeItem("__t"); } catch (e) { canSave = false; }
+
+// Lightweight checksum (fast non-crypto)
+function saveChecksum(obj) {
+  try {
+    const str = JSON.stringify(obj);
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return (h >>> 0).toString(16);
+  } catch { return "0"; }
+}
+
+function migrateSave(s) {
+  if (!s) return null;
+  if (s.v === 2 && s.check) return s; // current
+  // v1 -> v2 migration
+  const out = { v: 2, ...s };
+  if (!out.check && out.G) out.check = saveChecksum(out.G);
+  // normalize legacy names if present
+  if (out.G && out.G.miloDmgMul != null && out.G.fangMilo == null) out.G.fangMilo = out.G.miloDmgMul;
+  return out;
+}
+
 function saveGame() {
   if (!canSave || !G.started) return;
   try {
+    // Local agents reflect a little on every save (slow continuous improvement)
+    try { AgentKernel.reflect(); } catch(_) {}
     const s = {
-      v: 1,
-      G: (({ level, xp, xpNeed, hp, hpMax, focus, limit, limitMax, kills, bonds, wave, dust, talentPts, cls, owned, camp, talents,
-             trustMul, xpMul, fangMilo, fangAlly, classDmgMul, heartRegen, speedMul, miloDmgMul, miloCdMul,
-             magnetMul, maxAllies, allyDmgMul, thorns, nova, deaths, won, t, quality, artFilter, muted, inv, gearOwned, equipped,
-             voidPower, canCaptureHostiles, shiniesFound, phase, tod, dayNum, nightSurges, surgesThisNight, hardcore, story, villageFocus, guardWard, forestMemory }) =>
-           ({ level, xp, xpNeed, hp, hpMax, focus, limit, limitMax, kills, bonds, wave, dust, talentPts, cls, owned, camp, talents,
-              trustMul, xpMul, fangMilo, fangAlly, classDmgMul, heartRegen, speedMul, miloDmgMul, miloCdMul,
-              magnetMul, maxAllies, allyDmgMul, thorns, nova, deaths, won, t, quality, artFilter, muted, inv, gearOwned, equipped,
-              voidPower, canCaptureHostiles, shiniesFound, phase, tod, dayNum, nightSurges, surgesThisNight, hardcore, story, villageFocus, guardWard, forestMemory }))(G),
+      v: 2,
+      G: (({level,xp,xpNeed,hp,hpMax,focus,limit,limitMax,kills,bonds,wave,dust,talentPts,cls,owned,camp,talents,trustMul,xpMul,fangMilo,fangAlly,classDmgMul,heartRegen,speedMul,magnetMul,maxAllies,allyDmgMul,thorns,nova,deaths,won,t,quality,artFilter,muted,inv,gearOwned,equipped,voidPower,canCaptureHostiles,shiniesFound,phase,tod,dayNum,nightSurges,surgesThisNight,hardcore,story,villageFocus,guardWard,forestMemory,bloomsPlanted}) => ({level,xp,xpNeed,hp,hpMax,focus,limit,limitMax,kills,bonds,wave,dust,talentPts,cls,owned,camp,talents,trustMul,xpMul,fangMilo,fangAlly,classDmgMul,heartRegen,speedMul,magnetMul,maxAllies,allyDmgMul,thorns,nova,deaths,won,t,quality,artFilter,muted,inv,gearOwned,equipped,voidPower,canCaptureHostiles,shiniesFound,phase,tod,dayNum,nightSurges,surgesThisNight,hardcore,story,villageFocus,guardWard,forestMemory,bloomsPlanted}))(G),
       skills: Object.fromEntries(Object.entries(skills).map(([k, v]) => [k, v.xp])),
       codex: Object.keys(codex).filter(k => codex[k]),
-      allies: allies.map(a => ({ sp: a.sp, name: a.name, variant: a.variant, dmg: a.dmg, shiny: a.shiny, legendary: a.legendary, lvl: a.lvl, xp: a.xp, stage: a.stage, friendship: a.friendship, corrupted: a.corrupted, origin: a.origin, originName: a.originName, cmd: a.cmd, holdX: a.holdX, holdY: a.holdY })),
-      reserve: reserve.map(a => ({ sp: a.sp, name: a.name, variant: a.variant, dmg: a.dmg, shiny: a.shiny, legendary: a.legendary, lvl: a.lvl, xp: a.xp, stage: a.stage, friendship: a.friendship, corrupted: a.corrupted, origin: a.origin, originName: a.originName, cmd: a.cmd, holdX: a.holdX, holdY: a.holdY })),
+      allies: allies.map(a => ({ sp: a.sp, name: a.name, variant: a.variant, dmg: a.dmg, shiny: a.shiny, legendary: a.legendary, lvl: a.lvl, xp: a.xp, stage: a.stage, friendship: a.friendship, corrupted: a.corrupted, origin: a.origin, originName: a.originName, cmd: a.cmd, holdX: a.holdX, holdY: a.holdY, hp: a.hp, maxhp: a.maxhp, _agent: a._agent ? {mood:a._agent.mood, prefs:a._agent.prefs, affinity:a._agent.affinity, memory:a._agent.memory, age:a._agent.age} : null })),
+      reserve: reserve.map(a => ({ sp: a.sp, name: a.name, variant: a.variant, dmg: a.dmg, shiny: a.shiny, legendary: a.legendary, lvl: a.lvl, xp: a.xp, stage: a.stage, friendship: a.friendship, corrupted: a.corrupted, origin: a.origin, originName: a.originName, cmd: a.cmd, holdX: a.holdX, holdY: a.holdY, hp: a.hp, maxhp: a.maxhp, _agent: a._agent ? {mood:a._agent.mood, prefs:a._agent.prefs, affinity:a._agent.affinity, memory:a._agent.memory, age:a._agent.age} : null })),
       ghostPets: ghostPets.map(a => ({ sp: a.sp, name: a.name, variant: a.variant, lvl: a.lvl, stage: a.stage, friendship: a.friendship, fallenDay: a.fallenDay, duty: a.duty })),
       petNameIdx,
       journal: journal.slice(0, 40),
       worldTrees: worldTrees.map(t => ({ x: t.x, y: t.y, level: t.level, xp: t.xp, planted: t.planted })),
+      bloomPoints: bloomPoints.map(p => ({ x: p.x, y: p.y, strength: p.strength || 0.8 })),
       rosterSeed: G.rosterSeed,
       roster: WILD_SPECIES.map(id => SPECIES[id]).filter(sp => sp && sp.procedural),
     };
+    s.check = saveChecksum(s.G);
     localStorage.setItem(SAVE_KEY, JSON.stringify(s));
   } catch (e) { /* full or blocked — keep playing */ }
 }
-function hasSave() { try { return canSave && !!localStorage.getItem(SAVE_KEY); } catch (e) { return false; } }
+function hasSave() {
+  try {
+    return canSave && (!!localStorage.getItem(SAVE_KEY) || !!localStorage.getItem(SAVE_LEGACY_KEY));
+  } catch (e) { return false; }
+}
+
 function loadGame() {
   try {
-    const s = JSON.parse(localStorage.getItem(SAVE_KEY));
-    if (!s || s.v !== 1) return false;
-    if (s.roster && s.roster.length >= PROCGEN.count) { G.rosterSeed = s.rosterSeed; applyRoster(s.roster); }   // restore this world's creatures
-    else if (!USE_AUTHORED_V01_ROSTER) generateRoster((s && s.rosterSeed && s.rosterSeed !== "authored-v01") ? s.rosterSeed : undefined);
-    Object.assign(G, s.G);
+    let s = null;
+    let raw = localStorage.getItem(SAVE_KEY);
+    if (raw) s = JSON.parse(raw);
+    if (!s) {
+      raw = localStorage.getItem(SAVE_LEGACY_KEY);
+      if (raw) {
+        s = JSON.parse(raw);
+        if (s) { try { localStorage.setItem(SAVE_KEY, raw); } catch(e){} }
+      }
+    }
+    s = migrateSave(s);
+    if (!s || (s.v !== 1 && s.v !== 2)) return false;
+    if (s.roster && s.roster.length >= 8) { G.rosterSeed = s.rosterSeed; if (typeof applyRoster === "function") applyRoster(s.roster); }
+    else if (!USE_AUTHORED_V01_ROSTER && typeof generateRoster === "function") generateRoster((s && s.rosterSeed) ? s.rosterSeed : undefined);
+    Object.assign(G, s.G || s);
     if (!G.inv || typeof G.inv !== "object") G.inv = {};
     if (!G.story || !Array.isArray(G.story.seen)) G.story = { flags: {}, seen: [] };
     if (!Array.isArray(G.gearOwned)) G.gearOwned = [];
     if (!G.equipped || typeof G.equipped !== "object") G.equipped = { charm: null, cloak: null, relic: null };
     G.hardcore = false;
-    if (!VILLAGE_FOCUS[G.villageFocus]) G.villageFocus = "tend";
+    if (!VILLAGE_FOCUS || !VILLAGE_FOCUS[G.villageFocus]) G.villageFocus = "tend";
     if (!["storybook", "luminous", "haunted", "ink"].includes(G.artFilter)) G.artFilter = "storybook";
     G.voidPower = 0;
     G.forestMemory = Math.max(0, G.forestMemory || 0);
+    G.bloomsPlanted = Math.max(0, G.bloomsPlanted || 0);
     G.canCaptureHostiles = false;
     G.captureCd = 0;
-    gearCd = {}; applyGear();
+    if (typeof gearCd !== "undefined") gearCd = {};
+    if (typeof applyGear === "function") applyGear();
     G.recallT = 0; G.recallCd = 0; G.dmgBuffT = 0; G.limitT = 0; G.guardWard = G.guardWard || 0;
     G.limitMax = G.limitMax || 100; G.limit = clamp(G.limit || 0, 0, G.limitMax);
-    for (const k in s.skills) if (skills[k]) skills[k].xp = s.skills[k];
-    for (const id of s.codex) codex[id] = true;
-    const wake = p => ({ sp: p.sp, name: p.name, variant: CREATURE_VARIANTS[p.variant] ? p.variant : "garden", dmg: p.dmg, shiny: p.shiny, legendary: p.legendary,
-      lvl: p.lvl || 1, xp: p.xp || 0, stage: p.stage || 1, friendship: p.friendship || 0, corrupted: p.corrupted, origin: p.origin, originName: p.originName,
-      cmd: p.cmd || "follow", holdX: p.holdX, holdY: p.holdY,
-      x: rand(-1, 1), y: rand(-1, 1), bob: rand(0, 6), face: 0, state: "orbit", cd: 1, prey: null, cmdCd: rand(4, 10) });
-    allies = s.allies.map(wake);
-    reserve = s.reserve.map(wake);
-    ghostPets = (s.ghostPets || []).map(p => ({ sp: p.sp, name: p.name, variant: CREATURE_VARIANTS[p.variant] ? p.variant : "garden",
+    const skillSrc = s.skills || {};
+    for (const k in skillSrc) if (skills[k]) skills[k].xp = skillSrc[k];
+    for (const id of (s.codex || [])) codex[id] = true;
+    const wake = p => {
+      const baseHp = 20 + (p.lvl || 1) * 3 + (p.shiny ? 10 : 0);
+      const e = { sp: p.sp, name: p.name, variant: (CREATURE_VARIANTS[p.variant] ? p.variant : "garden"), dmg: p.dmg, shiny: p.shiny, legendary: p.legendary,
+        lvl: p.lvl || 1, xp: p.xp || 0, stage: p.stage || 1, friendship: p.friendship || 0, corrupted: p.corrupted, origin: p.origin, originName: p.originName,
+        cmd: p.cmd || "follow", holdX: p.holdX, holdY: p.holdY,
+        x: rand(-1, 1), y: rand(-1, 1), bob: rand(0, 6), face: 0, state: "orbit", cd: 1, prey: null, cmdCd: rand(4, 10),
+        hp: p.hp || baseHp, maxhp: p.maxhp || baseHp };
+      if (p._agent) {
+        AgentKernel.ensure(e, p.sp, true);
+        Object.assign(e._agent, p._agent);
+      }
+      return e;
+    };
+    allies = (s.allies || []).map(wake);
+    reserve = (s.reserve || []).map(wake);
+    ghostPets = (s.ghostPets || []).map(p => ({ sp: p.sp, name: p.name, variant: (CREATURE_VARIANTS[p.variant] ? p.variant : "garden"),
       lvl: p.lvl || 1, stage: p.stage || 1, friendship: p.friendship || 0, fallenDay: p.fallenDay || G.dayNum, duty: p.duty || "grove",
       x: rand(-3, 3), y: rand(-3, 3), bob: rand(0, 6), face: 0, state: "ghost" }));
-    worldTrees = (s.worldTrees || []).map(t => makeTree({ x: t.x, y: t.y, level: t.level || t.stage || 1, xp: t.xp || 0, planted: t.planted || 0 }));
+    worldTrees = (s.worldTrees || []).map(t => (typeof makeTree === "function" ? makeTree({ x: t.x, y: t.y, level: t.level || t.stage || 1, xp: t.xp || 0, planted: t.planted || 0 }) : t));
+    bloomPoints = (s.bloomPoints || []).map(p => ({ x: p.x, y: p.y, strength: p.strength || 0.8 }));
     petNameIdx = s.petNameIdx || 0;
-    journal.length = 0; for (const j of s.journal) journal.push(j);
+    journal.length = 0; for (const j of (s.journal || [])) journal.push(j);
     player.x = 0; player.y = -1; cam.x = 0; cam.y = -1;
     G.surge = null; G.calmT = 20; enemies = []; shots = []; pshots = []; spellVfx = []; shades = []; loot = [];
     updateHUD();
@@ -1817,7 +2242,8 @@ function resetSave() { try { localStorage.removeItem(SAVE_KEY); } catch (e) {} l
 function exportSaveString() {
   saveGame();
   try {
-    const raw = localStorage.getItem(SAVE_KEY);
+    let raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) raw = localStorage.getItem(SAVE_LEGACY_KEY);
     if (!raw) return null;
     return btoa(unescape(encodeURIComponent(raw)));
   } catch (e) { return null; }
@@ -1825,9 +2251,10 @@ function exportSaveString() {
 function importSaveString(str) {
   try {
     const raw = decodeURIComponent(escape(atob(String(str || "").trim())));
-    const parsed = JSON.parse(raw);
-    if (!parsed || parsed.v !== 1) return false;
-    localStorage.setItem(SAVE_KEY, raw);
+    let parsed = JSON.parse(raw);
+    parsed = migrateSave(parsed);
+    if (!parsed || (parsed.v !== 1 && parsed.v !== 2)) return false;
+    localStorage.setItem(SAVE_KEY, JSON.stringify(parsed));
     return loadGame();
   } catch (e) { return false; }
 }
@@ -1876,6 +2303,8 @@ window.addEventListener("beforeunload", saveGame);
 
 // ============================================================ input
 const keys = new Set();
+
+// Lightweight input kernel stub (added for future use)
 window.addEventListener("keydown", e => {
   const k = e.key.toLowerCase();
   if (el("event").classList.contains("open")) {
@@ -1895,8 +2324,7 @@ window.addEventListener("keydown", e => {
   if (k === "c" && !e.repeat) { if (openCommandWheel()) e.preventDefault(); return; }
   if (k === "escape") {
     if (commandWheel.open) { closeCommandWheel(false); return; }
-    if (el("help").classList.contains("open")) closeHelp();
-    else if (el("credits").classList.contains("open")) closeCredits();
+    if (el("credits").classList.contains("open")) closeCredits();
     else if (el("havens").classList.contains("open")) closeHavens();
     else if (el("hub").classList.contains("open") || el("camp").classList.contains("open") || dlg.open) closeOverlays();
     else if (el("win").classList.contains("open")) closeWin();
@@ -1909,7 +2337,12 @@ window.addEventListener("keydown", e => {
   if (k === "r") { if (!uiOpen()) startRecall(); return; }
   if (k === "q") { if (!uiOpen()) startLimitBreak(); return; }
   if (k === "t") { if (!uiOpen()) plantWorldTree(); return; }
-  if (k === "g") { if (el("havens").classList.contains("open")) closeHavens(); else if (!uiOpen()) openHavens(); return; }
+  if (k === "g") { if (el("havens").classList.contains("open")) closeHavens(); else openHavens(); return; }
+  if ((k === "`" || k === "f3") && petGraveDebugEnabled()) {
+    Kernel.debug = !Kernel.debug;
+    toast(Kernel.debug ? "kernel debug overlay on" : "kernel debug overlay off");
+    return;
+  }
   keys.add(k);
 });
 window.addEventListener("keyup", e => {
@@ -1962,14 +2395,11 @@ function runMobileAction(action) {
   }
   if (action === "hub") { toggleHub(); return; }
   if (action === "interact") { tryTalk(); return; }
-  if (action === "havens") { if (el("havens").classList.contains("open")) { closeHavens(); return; } }
   if (uiOpen()) return;
   if (action === "cast") { activeCast(); return; }
   if (action === "dodge") { dodge(); return; }
   if (action === "limit") { startLimitBreak(); return; }
   if (action === "recall") { startRecall(); return; }
-  if (action === "tree") { plantWorldTree(); return; }
-  if (action === "havens") { openHavens(); return; }
 }
 
 document.querySelectorAll("#mobile-controls [data-key]").forEach(btn => {
@@ -1994,7 +2424,7 @@ document.querySelectorAll("#mobile-controls [data-action]").forEach(btn => {
 
 // ============================================================ UI: hub / levelup / dialogue
 let hubTab = "team";
-const uiOpen = () => el("hub").classList.contains("open") || el("lvl").classList.contains("open") || el("over").classList.contains("open") || el("camp").classList.contains("open") || el("menu").classList.contains("open") || el("win").classList.contains("open") || el("credits").classList.contains("open") || el("help").classList.contains("open") || el("save-port").classList.contains("open") || el("havens").classList.contains("open") || el("event").classList.contains("open") || dlg.open || !!battle;
+const uiOpen = () => el("hub").classList.contains("open") || el("lvl").classList.contains("open") || el("over").classList.contains("open") || el("camp").classList.contains("open") || el("menu").classList.contains("open") || el("win").classList.contains("open") || el("credits").classList.contains("open") || el("save-port").classList.contains("open") || el("havens").classList.contains("open") || el("event").classList.contains("open") || dlg.open || !!battle;
 const ART_FILTERS = ["storybook", "luminous", "haunted", "ink"];
 function cycleArtFilter() {
   const i = ART_FILTERS.indexOf(G.artFilter);
@@ -2065,9 +2495,6 @@ function closeWin() { el("win").classList.remove("open"); G.paused = uiOpen(); A
 function showCredits() { el("credits").classList.add("open"); el("credits-panel").scrollTop = 0; G.paused = true; Au.sfx("ui"); }
 function closeCredits() { el("credits").classList.remove("open"); G.paused = uiOpen(); Au.sfx("ui"); }
 el("m-credits").addEventListener("click", () => { Au.start(); showCredits(); });
-function showHelp() { el("help").classList.add("open"); el("help-panel").scrollTop = 0; G.paused = true; Au.sfx("ui"); }
-function closeHelp() { el("help").classList.remove("open"); G.paused = uiOpen(); Au.sfx("ui"); }
-el("m-help").addEventListener("click", () => { Au.start(); showHelp(); });
 el("m-export").addEventListener("click", () => { Au.start(); openSavePort("export"); });
 el("m-import").addEventListener("click", () => { Au.start(); openSavePort("import"); });
 refreshMenuButtons();
@@ -2077,7 +2504,11 @@ function toggleHub() {
   const h = el("hub");
   h.classList.toggle("open");
   G.paused = uiOpen();
-  if (h.classList.contains("open")) renderHub();
+  if (h.classList.contains("open")) {
+    markGuideStep("ledger", "The ledger holds your team, village work, skills, talents, bag, and memories.", false);
+    renderHub();
+    updateHUD();
+  }
 }
 function closeOverlays() {
   el("hub").classList.remove("open");
@@ -2370,10 +2801,16 @@ function tryTalk() {
   if (dlg.open) { advanceDlg(); return; }
   const act = nearestDayActivity();
   if (act) { doDayActivity(act); return; }
+  // playtest fix: a bond-ready lost pet outranks stations and served friends
+  { let bc = null, bcd = 1.9;
+    for (const c of critters) { if ((c.bond || 0) < 0.99) continue; const d = dist(c.x, c.y, player.x, player.y); if (d < bcd) { bcd = d; bc = c; } }
+    if (bc && !G.surge && !battle) { startBattle(bc); return; } }
   const station = nearestVillageStation();
   if (station) { useVillageStation(station); return; }
   const friend = nearestHomeFriend();
   if (friend) { interactHomeFriend(friend); return; }
+  // M4: pay respects at the memorial beds (checked before the fire menu since the beds sit close to it)
+  if (nearMemorialBeds()) { visitMemorialBeds(); return; }
   // memorial fire menu after specific village interactions
   if (dist(player.x, player.y, 0, 0) < 2.6) { openCamp(); return; }
   // nurture a nearby World Tree with glowdust
@@ -2534,11 +2971,94 @@ function maybeFirstHomecoming() {
   }
   burst(0, 0, "#ffd980", 26, 3.6);
   npcReact("home");
+  markGuideStep("home", "🕯 home is your safe center. Friends rest here, and the garden can grow outward.", false);
   updateHUD(); saveGame();
 }
 
+function guideFlags() {
+  if (!G.story) G.story = { flags: {}, seen: [] };
+  if (!G.story.flags) G.story.flags = {};
+  return G.story.flags;
+}
+function guideDone(key) {
+  const flags = G.story && G.story.flags;
+  return !!(flags && flags[`guide:${key}`]);
+}
+function markGuideStep(key, html, persist = true) {
+  const flags = guideFlags();
+  const k = `guide:${key}`;
+  if (flags[k]) return false;
+  flags[k] = true;
+  if (html) toast(html);
+  if (persist) saveGame();
+  return true;
+}
+function nearestPendingDayActivity(type, maxD = 99) {
+  if (G.phase !== "day" || G.surge) return null;
+  let best = null, bd = maxD;
+  for (const a of dayActivities()) {
+    if (type && a.type !== type) continue;
+    if (dayActivityDone(a)) continue;
+    if (a.type === "song" && bondedFriends().length < 2) continue;
+    const d = dist(player.x, player.y, a.x, a.y);
+    if (d < bd) { bd = d; best = a; }
+  }
+  return best;
+}
+function nearbyBondCandidate(maxD = 2.2) {
+  let best = null, bd = maxD;
+  for (const c of critters) {
+    const d = dist(c.x, c.y, player.x, player.y);
+    if (d < bd) { bd = d; best = c; }
+  }
+  return best;
+}
+function firstSessionGuideText() {
+  if (!G.started || G.over) return null;
+  const flags = guideFlags();
+  const friends = bondedFriends().length - 1;
+  if (friends <= 0) {
+    const near = nearbyBondCandidate();
+    if (near) return `Guide 2/5: press E near ${SPECIES[near.sp].name} to start a gentle bonding duel.`;
+    return "Guide 1/5: move toward one of the three lost pets near the firelight.";
+  }
+  if (!flags.first_homecoming) {
+    return `Guide 3/5: press R to bring ${friends === 1 ? "your new friend" : "your friends"} home to the memorial fire.`;
+  }
+  if (!guideDone("bloom")) {
+    const plant = nearestPendingDayActivity("plant");
+    if (plant) return "Guide 4/5: find the pink memory bloom task and press E; restored ground becomes safer.";
+    return "Guide 4/5: tend glowing garden tasks until a memory bloom roots the ground.";
+  }
+  if (!guideDone("ledger")) return "Guide 5/5: press Tab to open the ledger, assign friends, and track the sanctuary.";
+  return null;
+}
+function updateFirstSessionGuide() {
+  if (!G.started || G.over) return;
+  let changed = false;
+  if (!guideDone("moved") && dist(player.x, player.y, 0, -1) > 0.7) {
+    changed = markGuideStep("moved", "Good. The graveyard answers movement. Follow the small spirits by the stones.", false) || changed;
+  }
+  if (!guideDone("found_pet")) {
+    const near = nearbyBondCandidate(2.2);
+    if (near) changed = markGuideStep("found_pet", `Stand close to ${SPECIES[near.sp].name} and press <b>E</b> to comfort it.`, false) || changed;
+  }
+  const friends = bondedFriends().length - 1;
+  if (friends > 0 && !guideDone("bond")) {
+    changed = markGuideStep("bond", "A friend joined you. Bring them home so the sanctuary can remember them.", false) || changed;
+  }
+  if (G.story && G.story.flags && G.story.flags.first_homecoming && !guideDone("home")) {
+    changed = markGuideStep("home", "This is home: a safe fire, a ledger, and room for every rescued pet.", false) || changed;
+  }
+  if ((bloomPoints && bloomPoints.length > 0) && !guideDone("bloom")) {
+    changed = markGuideStep("bloom", "The ground bloomed. Restored places grow calmer, safer, and more alive.", false) || changed;
+  }
+  if (changed) updateHUD();
+}
 function nextGoalText() {
   if (!G.started) return "Goal: meet a lost pet, earn its trust, then guide it to rest.";
+  const guide = firstSessionGuideText();
+  if (guide) return guide;
   const friends = bondedFriends().length - 1;
   if (friends <= 0) return "Goal: three lost pets wait near the firelight. Stand close and press E to comfort one.";
   if (!G.story.flags.first_homecoming) return `Goal: press R to bring ${friends === 1 ? "your new friend" : "your friends"} home and watch the village wake up.`;
@@ -2725,32 +3245,51 @@ function corruptionAt(gx, gy) {
   const noise = hash2(gx * 5 - 17, gy * 5 + 29);
   const far = clamp((Math.hypot(gx, gy) - 3) / 15, 0, 1);
   const healed = sanctuaryBloom() * sanctuaryNear(gx, gy);
+  const localHealth = getLocalHealth(gx, gy);
   const danger = G.surge ? 1.08 : G.phase === "night" ? 0.86 : 0.34;
-  return clamp((0.10 + far * 0.68 + noise * 0.20) * danger * (1 - healed * 0.92), 0, 1);
+  // Strong terraforming greatly reduces visible corruption
+  return clamp((0.10 + far * 0.68 + noise * 0.20) * danger * (1 - healed * 0.92 - localHealth * 0.55), 0, 1);
 }
-function drawTileDiamond(s, z, fill, stroke) {
+function drawTileDiamond(s, z, fill, stroke, gx, gy) {
+  // organic ground: jittered, slightly overlapping quads kill the dev-grid seams
+  const jx = gx === undefined ? 0 : gx, jy = gy === undefined ? 0 : gy;
+  const j = (a, b) => (hash2(jx * 13 + a, jy * 17 + b) - 0.5) * 0.22;
+  const ov = 1.08; // overlap so neighbours blend
   cx.beginPath();
-  cx.moveTo(s.x, s.y - TH * z); cx.lineTo(s.x + TW * z, s.y);
-  cx.lineTo(s.x, s.y + TH * z); cx.lineTo(s.x - TW * z, s.y);
+  cx.moveTo(s.x + j(1, 2) * TW * z, s.y - TH * z * (ov + j(3, 4)));
+  cx.lineTo(s.x + TW * z * (ov + j(5, 6)), s.y + j(7, 8) * TH * z);
+  cx.lineTo(s.x + j(9, 1) * TW * z, s.y + TH * z * (ov + j(2, 5)));
+  cx.lineTo(s.x - TW * z * (ov + j(6, 3)), s.y + j(4, 9) * TH * z);
   cx.closePath();
   cx.fillStyle = fill; cx.fill();
+  if (!G.lowFx) {
+    const tileGlow = cx.createLinearGradient(s.x - TW * z, s.y - TH * z, s.x + TW * z, s.y + TH * z);
+    tileGlow.addColorStop(0, "rgba(255,247,225,.030)");
+    tileGlow.addColorStop(.48, "rgba(167,240,207,.014)");
+    tileGlow.addColorStop(1, "rgba(16,10,24,.050)");
+    cx.fillStyle = tileGlow;
+    cx.fill();
+  }
   if (stroke) {
     cx.strokeStyle = stroke;
-    cx.lineWidth = Math.max(0.35, 0.65 * z);
+    cx.lineWidth = Math.max(0.35, 0.58 * z);
     cx.stroke();
   }
 }
 function floraAt(gx, gy) {
+  const localHealth = getLocalHealth(gx, gy);
   const bloom = sanctuaryBloom() * sanctuaryNear(gx, gy);
   const r = (hash2(gx, gy) * 97.13) % 1;
-  const threshold = 0.935 - bloom * 0.18 - clamp((G.forestMemory || 0) / 18, 0, 0.12);
+  // Terraforming makes flora much more common in healed areas
+  const threshold = 0.935 - bloom * 0.18 - clamp((G.forestMemory || 0) / 18, 0, 0.12) - localHealth * 0.28;
   if (r <= threshold) return 0;
-  return r > 0.975 - bloom * 0.08 ? 2 : 1;
+  return r > 0.975 - bloom * 0.08 - localHealth * 0.12 ? 2 : 1;
 }
 const DAY_ACTIVITIES = {
   sprout: { name: "tend dream sprout", ico: "🌱", col: "#7ee8b2" },
   dew:    { name: "gather moon dew",   ico: "💧", col: "#bdf7ff" },
   root:   { name: "cleanse thorn root", ico: "🪵", col: "#ff8fa3" },
+  plant:  { name: "plant memory bloom", ico: "🌸", col: "#c9b8ff" },
   song:   { name: "pack garden song",  ico: "🎵", col: "#ffd166" },
 };
 function dayActivityKey(a) { return `dayact:${G.dayNum}:${a.id}`; }
@@ -2762,7 +3301,7 @@ function markDayActivity(a) {
 }
 function dayActivities() {
   const out = [];
-  const types = ["sprout", "dew", "root", "sprout", "dew", "root"];
+  const types = ["sprout", "dew", "root", "plant", "sprout", "dew", "root"];
   for (let i = 0; i < types.length; i++) {
     const a = i * 2.39996 + G.dayNum * 0.71 + hash2(G.dayNum, i) * 0.7;
     const r = 4.4 + (i % 3) * 2.1 + hash2(i, G.dayNum) * 1.5;
@@ -2813,6 +3352,28 @@ function doDayActivity(a) {
     burst(a.x, a.y, "#ff8fa3", 12, 2.6);
     toast(`${def.ico} cleansed a thorn root · +${dust} glowdust · ward lit`);
     log("A curled thorn root relaxed, and the forest breathed easier.", true);
+  } else if (a.type === "plant") {
+    // Explicit terraforming: plant a persistent bloom point (strong local effect)
+    const strength = 0.75 + Math.random() * 0.25;
+    bloomPoints.push({ x: a.x, y: a.y, strength });
+    if (bloomPoints.length > 18) bloomPoints.shift(); // keep recent
+    G.forestMemory = Math.min(99, (G.forestMemory || 0) + 0.55);
+    G.dust += 3; skills.taming.xp += 7;
+    burst(a.x, a.y, "#c9b8ff", 26, 2.6);
+    for (let k=0; k<3; k++) heart(a.x + rand(-1,1), a.y + rand(-0.8,0.8));
+    // immediate visual terraforming pop
+    const nearTiles = 5;
+    for (let dx=-nearTiles; dx<=nearTiles; dx+=2) for (let dy=-nearTiles; dy<=nearTiles; dy+=2) {
+      if (hash2(a.x + dx, a.y + dy) > 0.6) {
+        // force some flora next draw
+      }
+    }
+    toast(`${def.ico} planted a memory bloom · local sanctuary strengthened`);
+    log("A small patch of the garden answered your care. The ground feels softer here.");
+    if (typeof worldMagic !== "undefined") worldMagic.checkT = 0.6; // let ground-tier feedback land right after planting
+    markGuideStep("bloom", "The ground bloomed. Restored places grow calmer, safer, and more alive.", false);
+    G.bloomsPlanted = (G.bloomsPlanted || 0) + 1;   // M4: deliberate plantings feed the home bloom grove
+    if (G.bloomsPlanted >= BLOOM_GROVE_MIN) unlockHomeUpgradeBeat("bloom_grove");
   } else {
     const friends = allies.concat(reserve);
     for (const p of friends) allyGainXP(p, 1);
@@ -2833,6 +3394,36 @@ function doDayActivity(a) {
 function updateContextHint() {
   const h = el("hint");
   if (!h) return;
+  const guide = firstSessionGuideText();
+  if (guide) {
+    const near = nearbyBondCandidate();
+    const plant = nearestPendingDayActivity("plant", 1.7);
+    if (near && bondedFriends().length <= 1) {
+      h.innerHTML = `<b>E</b> comfort ${SPECIES[near.sp].name} · choose gentle actions to earn trust`;
+      return;
+    }
+    if (bondedFriends().length <= 1) {
+      h.innerHTML = `<b>Move</b> toward a lost pet · then press <b>E</b> when close`;
+      return;
+    }
+    const flags = guideFlags();
+    if (!flags.first_homecoming && bondedFriends().length > 1) {
+      h.innerHTML = `<b>R</b> return home · friends settle by the memorial fire`;
+      return;
+    }
+    if (plant && !guideDone("bloom")) {
+      h.innerHTML = `<b>E</b> plant memory bloom · healed ground calms the garden`;
+      return;
+    }
+    if (!guideDone("bloom")) {
+      h.innerHTML = `<b>Find</b> the pink memory bloom · restored ground becomes safer`;
+      return;
+    }
+    if (!guideDone("ledger")) {
+      h.innerHTML = `<b>Tab</b> open ledger · assign friends and read memories`;
+      return;
+    }
+  }
   const act = nearestDayActivity(1.7);
   if (act) {
     const def = DAY_ACTIVITIES[act.type];
@@ -2847,6 +3438,10 @@ function updateContextHint() {
     const friend = nearestHomeFriend(1.7);
     if (friend) {
       h.innerHTML = `<b>E</b> greet ${friend.name} · ${roleLabel(villageRole(friend.sp))} · <b>C</b> command`;
+      return;
+    }
+    if (nearMemorialBeds(2.1) && !memorialBedsDoneToday()) {
+      h.innerHTML = `<b>E</b> pay respects at the memorial beds · <b>C</b> command · <b>Tab</b> hub`;
       return;
     }
     let bc = null, bcd = 2.2;
@@ -3048,12 +3643,14 @@ let gearCd = {}, zaps = [];
 // ============================================================ day / night cycle
 const DAY_LEN = 180; // long first-read daytime: bonding and village growth before night seasoning
 function startNight() {
-  G.phase = "night"; G.nightSurges = 0; G.surgesThisNight = 2 + Math.floor(G.dayNum / 2);
+  G.phase = "night"; G.nightSurges = 0; G.surgesThisNight = Math.min(5, 1 + Math.floor(G.dayNum / 2));
   if (villageFocus() === "guard" && villageRoleCount("guard") >= 1) G.surgesThisNight = Math.max(1, G.surgesThisNight - 1);
   G.surge = null; G.calmT = 4;
   toast(`🌙 <b>Night ${G.dayNum} falls</b> — survive ${G.surgesThisNight} surge${G.surgesThisNight === 1 ? "" : "s"} until dawn`, true);
   log(`Night ${G.dayNum}: the corruption rises. Survival mode.`, true);
   Au.sfx("boss"); shake(0.5);
+  // The local agents reflect and improve overnight (persistent personality growth)
+  AgentKernel.reflect();
 }
 function startDay() {
   G.dayNum++; G.phase = "day"; G.tod = 0;
@@ -3070,6 +3667,7 @@ function startDay() {
   log(`Dawn breaks on day ${G.dayNum}. The sanctuary tree grows to forest memory ${G.forestMemory}, widening Pet Grave's restored woods.`, true);
   maybeBiomeFlavor();
   for (const p of allies.concat(reserve)) addFriendship(p, 2, "a new day together");
+  for (const p of reserve) { if (p.maxhp) p.hp = p.maxhp; }   // resting pets recover by dawn
   growWorldTrees();
   npcReact("dawn");
   Au.sfx("win"); updateHUD(); saveGame();
@@ -3248,6 +3846,7 @@ function losePetToDarkness(src) {
   spawnSpellVfx(ghost.sp, player.x, player.y, player.x, player.y, { mode: "ward", impact: true, scale: 1.35, life: 1.2 });
   toast(`👻 <b>${ghost.name}</b> became a ghost guardian · sanctuary roots deepen`, true);
   log(`${ghost.name} fell against the darkness and became a ghost guardian of Pet Grave.`, true);
+  unlockHomeUpgradeBeat("memorial_beds");   // first ghost guardian → a memorial bed appears at home
   Au.sfx("shade"); shake(0.8); updateHUD(); renderHub(); saveGame();
   return true;
 }
@@ -3277,6 +3876,12 @@ function hurtEnemy(e, dmg, fromMilo) {
   e.hp -= dmg; e.flash = 0.12;
   dmgNum(e.x, e.y, dmg, fromMilo ? "#7ee8b2" : "#ffd166");
   Au.sfx("hit");
+  // Monster slime guts on damage
+  if (!G.lowFx && Math.random() < 0.6) {
+    for (let i=0; i<3; i++) {
+      particles.push({ x: e.x + rand(-0.3,0.3), y: e.y, vx: rand(-0.8,0.8), vy: -0.5, t:0, life:0.7, color: "#5aa67a", guts:true });
+    }
+  }
   if (e.hp <= 0) {
     const spec = SPECIES[e.sp];
     gainLimit(e.sp === "brute" ? 8 : 3, "cleanse");
@@ -3301,7 +3906,10 @@ function hurtEnemy(e, dmg, fromMilo) {
     }
     enemies = enemies.filter(x => x !== e);
     G.kills++; skills.combat.xp += spec.xp; discover(e.sp);
-    creditNearestTree(e.x, e.y, WORLD_TREE.xpFromKill);   // a defended outpost grows stronger
+    creditNearestTree(e.x, e.y, WORLD_TREE.xpFromKill);
+    // Monster guts fertilize the ground on death
+    fertilizeGround(e.x, e.y, e.boss ? 3 : 1.5);
+    Kernel.emit("kill", { enemy: e, sp: e.sp, boss: !!e.boss, xp: spec.xp });
     Au.sfx("kill");
     if (e.boss) {
       G.dust += 40; shake(1); Au.sfx("win");
@@ -3314,7 +3922,75 @@ function hurtEnemy(e, dmg, fromMilo) {
     if (G.kills === 1) log("First corrupted creature destroyed. Gravemoss looked thrilled. Concerning.", true);
   }
 }
+
+function fertilizeGround(x, y, amount = 1) {
+  // Slime guts / essence promotes local bloom and visual growth
+  bloomPoints.push({ x, y, strength: Math.min(1.8, amount * 0.6) });
+  if (bloomPoints.length > 22) bloomPoints.shift();
+  G.forestMemory = Math.min(99, (G.forestMemory || 0) + amount * 0.12);
+  if (!G.lowFx) {
+    burst(x, y, "#5aa67a", 6 + amount * 4, 1.2 + amount * 0.3); // slime green splatter
+    for (let i=0; i < 3; i++) {
+      particles.push({ x: x + rand(-0.8,0.8), y: y - 0.2, vx: rand(-0.6,0.6), vy: -0.3 - rand(0,0.4), t:0, life: 1.1, color: "#7ee8b2", guts: true });
+    }
+  }
+}
+
+function hurtAlly(a, dmg) {
+  if (!a || typeof a.hp !== "number") return;
+  a.hp = Math.max(0, a.hp - dmg);
+  a.flash = 0.15;
+  dmgNum(a.x, a.y, dmg, "#ff8fa3");
+  Au.sfx("hurt");
+  // Slime guts splatter on ally damage - promotes growth
+  if (!G.lowFx) {
+    for (let i = 0; i < 6; i++) {
+      particles.push({
+        x: a.x + rand(-0.4, 0.4),
+        y: a.y - 0.3,
+        vx: rand(-1.2, 1.2) * 0.7,
+        vy: rand(-0.8, 0) - 0.8,
+        t: 0,
+        life: 0.9,
+        color: "#7ee8b2", // slime
+        guts: true
+      });
+    }
+  }
+  fertilizeGround(a.x, a.y, 0.6); // small boost even on damage
+  if (a.hp <= 0) {
+    // playtest fix: pets near the sanctuary retreat to rest instead of falling.
+    // True falls (ghost path) happen only deep in corruption or in hardcore.
+    if (!G.hardcore && dist(a.x, a.y, 0, 0) <= 13) {
+      allies = allies.filter(x => x !== a);
+      a.hp = 1; a.state = "orbit"; a.prey = null; a.retreats = (a.retreats || 0) + 1;
+      reserve.push(a);
+      burst(a.x, a.y, "#c8b6ff", 10, 1.6);
+      toast(`💫 ${a.name} slipped home to the sanctuary to rest`, true);
+      log(`${a.name} was overwhelmed and retreated to the memorial fire. They will remember that you kept them safe.`, true);
+    } else {
+      allyDeath(a);
+    }
+  }
+}
+
+function allyDeath(a) {
+  burst(a.x, a.y, "#7ee8b2", 18, 2.2);
+  fertilizeGround(a.x, a.y, 2.5); // strong growth from sacrifice
+  log(`💀 ${a.name} fell protecting the garden. Their light feeds the earth.`, true);
+  toast(`The ground blooms where ${a.name} fell`, true);
+  // Remove from active
+  allies = allies.filter(x => x !== a);
+  // Chance to become ghost pet
+  if (Math.random() < 0.6) {
+    ghostPets.push({ sp: a.sp, name: a.name, variant: a.variant, lvl: a.lvl, stage: a.stage, friendship: a.friendship, fallenDay: G.dayNum, duty: "tend", x: a.x, y: a.y, bob: 0, face: 0, state: "ghost" });
+    unlockHomeUpgradeBeat("memorial_beds");   // first ghost guardian → a memorial bed appears at home
+  }
+  G.forestMemory = Math.min(99, (G.forestMemory || 0) + 1);
+  Kernel.emit("allyDeath", { pet: a });
+}
 function gameOver() {
+  G.diedInSurge = G.phase === "night" && !!G.surge;   // playtest fix: remember the surge that felled you
   G.over = true; G.paused = true; G.deaths++;
   G.voidPower = 0;
   G.canCaptureHostiles = false;
@@ -3331,6 +4007,13 @@ function respawn() {
   G.xp = Math.floor(G.xp / 2);          // a little glow seeps away — the pack remains
   enemies = []; shots = []; pshots = []; spellVfx = []; shades = [];
   G.surge = null; G.calmT = 22;
+  G.invuln = Math.max(G.invuln || 0, 6);   // the fire shelters you while you find your feet
+  if (G.diedInSurge) {
+    G.diedInSurge = false;
+    G.nightSurges++;   // playtest fix: the surge you fell to still passes — no endless-night wall
+    toast("🕯 the memorial fire held the line while you slept — the surge has passed", true);
+    if (G.phase === "night" && G.nightSurges >= G.surgesThisNight) startDay();
+  }
   player.x = 0; player.y = -1; player.target = null;
   cam.x = 0; cam.y = -1;
   milo.x = -1.3; milo.y = 0; milo.state = "follow"; milo.prey = null;
@@ -3343,9 +4026,77 @@ function respawn() {
   saveGame();
 }
 
+// ---------- Living-magic pass: ambient spirit motes + bloom milestone feedback (M3) ----------
+const worldMagic = { moteT: 0, checkT: 0, lastTier: 0, tierCueT: 0 };
+const GROUND_TIERS = [
+  null,
+  { at: 0.25, toast: "🌿 the ground here breathes easier",
+    log: "Moss brightened underfoot. Lost pets seem calmer on restored ground." },
+  { at: 0.50, toast: "🌸 this place remembers kindness",
+    log: "Flowers followed your footsteps. The sanctuary's warmth reaches further now." },
+  { at: 0.75, toast: "✨ the garden is truly alive here",
+    log: "Spirit motes rose from the healed earth. Corruption cannot hold ground you have loved." },
+];
+function groundTierAt(h) { return h >= 0.75 ? 3 : h >= 0.5 ? 2 : h >= 0.25 ? 1 : 0; }
+function updateWorldMagic(dt) {
+  if (!G.started || G.over) return;
+  // rising spirit motes over healed ground and planted blooms (budgeted)
+  worldMagic.moteT -= dt;
+  if (worldMagic.moteT <= 0) {
+    worldMagic.moteT = 0.38;
+    if (!G.lowFx && particles.length < 240) {
+      for (let i = 0; i < 2; i++) {
+        const wx = cam.x + rand(-9, 9), wy = cam.y + rand(-7, 7);
+        const h = getLocalHealth(wx, wy);
+        if (h > 0.38 && Math.random() < h) {
+          particles.push({ x: wx, y: wy, vx: rand(-.06, .06), vy: -.18 - h * .22, t: 0,
+            life: rand(1.2, 2.2), color: Math.random() < .5 ? "#7ee8b2" : (Math.random() < .5 ? "#ffd980" : "#c8b6ff"), rise: true });
+        }
+      }
+      if (bloomPoints.length && Math.random() < 0.5) {
+        const bp = bloomPoints[(Math.random() * bloomPoints.length) | 0];
+        if (Math.abs(bp.x - cam.x) < 11 && Math.abs(bp.y - cam.y) < 9) {
+          particles.push({ x: bp.x + rand(-.4, .4), y: bp.y - .1, vx: 0, vy: -.3, t: 0,
+            life: rand(1.4, 2.4), color: "#c8b6ff", rise: true });
+        }
+      }
+    }
+  }
+  // milestone feedback: tell the player when the ground they stand on has healed
+  worldMagic.checkT -= dt;
+  if (worldMagic.tierCueT > 0) worldMagic.tierCueT -= dt;
+  if (worldMagic.checkT <= 0) {
+    worldMagic.checkT = 2.5;
+    // playtest fix: milestones mark WORLD healing — home ground is born healed and shouldn't trigger them
+    const awayFromHome = Math.hypot(player.x, player.y) > 8;
+    const tier = awayFromHome ? groundTierAt(getLocalHealth(player.x, player.y)) : 0;
+    const calmHere = !G.surge && enemies.length === 0;
+    if (tier > 0 && calmHere) {
+      if (!G.story) G.story = { flags: {}, seen: [] };
+      if (!G.story.flags) G.story.flags = {};
+      const key = `groundtier:${tier}`;
+      if (!G.story.flags[key]) {
+        G.story.flags[key] = true;
+        const T = GROUND_TIERS[tier];
+        toast(T.toast, false); log(T.log);
+        if (!G.lowFx) burst(player.x, player.y, "#7ee8b2", 10, 1.6);
+      } else if (tier > worldMagic.lastTier && worldMagic.tierCueT <= 0) {
+        worldMagic.tierCueT = 60;
+        log(GROUND_TIERS[tier].log);
+      }
+    }
+    worldMagic.lastTier = tier;
+  }
+}
 function update(dt) {
+  // kernel dt already scaled; raw time still advances for UI/ambient
   G.t += dt;
+  updateWorldMagic(dt);
   zoom += (targetZoom - zoom) * Math.min(1, dt * 8);
+
+  // occasional heavy prune from inside sim (in addition to frame)
+  if ((G.t * 10 | 0) % 25 === 0) kernelPrune();
+
   if (G.invuln > 0) G.invuln -= dt;
   if (G.castCd > 0) G.castCd -= dt;
   if (G.captureCd > 0) G.captureCd -= dt;
@@ -3412,6 +4163,7 @@ function update(dt) {
   player.bob += dt * (4 + pvel);
   G.distAcc += dist(px0, py0, player.x, player.y);
   if (G.distAcc > 30) { G.distAcc -= 30; skills.exploring.xp += 5; }
+  updateFirstSessionGuide();
 
   // foraging
   const gx = Math.round(player.x), gy = Math.round(player.y), key = gx + "," + gy;
@@ -3602,6 +4354,23 @@ function update(dt) {
     if (a.castT > 0) a.castT = Math.max(0, a.castT - dt);
     if (!a.cmd) a.cmd = "follow";
     if (a.cmdCd === undefined) a.cmdCd = rand(6, 14);
+
+    // === LOCAL AI AGENT TICK (kernel) ===
+    const mind = AgentKernel.ensure(a, a.sp, true);
+    const perc = AgentKernel.perceive(a, 8);
+    const dec = AgentKernel.decide(a, perc);
+    AgentKernel.act(a, dec, dt, perc);
+    // Occasionally let the agent influence cmd or add life
+    if (Math.random() < 0.035 && !atVillage && dec.action === "explore" && a.cmd === "follow") {
+      a.cmd = "wander"; a.cmdCd = 4;
+    }
+    if (mind.mood === "protective" && perc.threats.length) say(a, "stay close!", true);
+    if (mind.mood === "affectionate" && perc.playerDist < 3 && Math.random() < 0.02) say(a, "warm...");
+
+    // visible life from the agent mind
+    if (!G.lowFx && mind.mood === "playful" && Math.random() < dt * 1.8) {
+      particles.push({ x: a.x + rand(-0.4,0.4), y: a.y - 0.6, vx: rand(-0.4,0.4), vy: -0.6, t: 0, life: 0.6, color: "#c9b8ff" });
+    }
     if (atVillage) {
       // work, gather, and lounge near the memorial fire - home, safe, content
       const work = villageWorkTarget(a, i, false);
@@ -3609,7 +4378,11 @@ function update(dt) {
       a.homeT = (a.homeT || rand(2, 6)) - dt;
       a.giftCd = (a.giftCd === undefined ? rand(18, 34) : a.giftCd - dt);
       if (a.homeT <= 0) {
-        a.homeMood = ["nap", "play", "watch", "wander"][Math.floor(Math.random() * 4)];
+        const mind = a._agent;
+        const moods = ["nap", "play", "watch", "wander"];
+        if (mind && mind.prefs.comfort > 0.7) moods.push("play", "watch");
+        if (mind && mind.prefs.explore > 0.7) moods.push("wander");
+        a.homeMood = moods[Math.floor(Math.random() * moods.length)];
         a.homeT = rand(4, 9);
         if (Math.random() < 0.45) say(a, homeLine(a));
       }
@@ -3643,16 +4416,25 @@ function update(dt) {
       }
       maybeVillageGift(a);
       if (!G.lowFx && Math.random() < dt * 0.4) heart(a.x, a.y);
+      // extra kernel aliveness: occasional autonomous pet interaction at home
+      if (Math.random() < 0.02) { AgentKernel.remember(a, "pack", 0.01); }
       continue;
     }
-    // species ability (auto-cast, scales with level/stage)
+    // species ability (auto-cast, scales with level/stage) — more dynamic with health
     if (enemies.length && !G.over) {
       const abil = ALLY_ABIL[a.sp];
       if (abil) {
         a.spellCd = (a.spellCd === undefined ? abil.cd : a.spellCd) - dt;
         if (a.spellCd <= 0) {
           const p = nearestEnemy(a.x, a.y, 8);
-          if (a.sp === "puddle" || p) { abil.fn(a, p); a.spellCd = Math.max(G.limitT > 0 ? 0.9 : 1.5, (abil.cd - (a.stage || 1) * 0.3) * (G.limitT > 0 ? 0.7 : 1)); }
+          const lowHp = (a.hp || 99) < (a.maxhp || 100) * 0.5;
+          if (lowHp && abil.name && abil.name.includes("Bloom")) {
+            // defensive on low health
+            abil.fn(a, player);
+          } else if (a.sp === "puddle" || p) {
+            abil.fn(a, p);
+          }
+          a.spellCd = Math.max(G.limitT > 0 ? 0.9 : 1.5, (abil.cd - (a.stage || 1) * 0.3) * (G.limitT > 0 ? 0.7 : 1));
         }
       }
     }
@@ -3688,7 +4470,11 @@ function update(dt) {
         const d = dist(p.x, p.y, a.x, a.y) || .001;
         a.x += (p.x - a.x) / d * 8 * dt; a.y += (p.y - a.y) / d * 8 * dt;
         a.face = Math.atan2(p.y - a.y, p.x - a.x);
-        if (d < 0.45) { hurtEnemy(p, a.dmg * (1 + (a.stage || 1) * 0.12) * G.allyDmgMul * G.fangAlly * (1 + G.camp.den * 0.15) * limitMul); allyGainXP(a, 1); a.state = "orbit"; a.prey = null; a.cd = G.limitT > 0 ? 1.5 : 2.4; }
+        if (d < 0.45) {
+      const packMul = 1 + ((a._agent && a._agent.packBonus) || 0);
+      hurtEnemy(p, a.dmg * (1 + (a.stage || 1) * 0.12) * G.allyDmgMul * G.fangAlly * (1 + G.camp.den * 0.15) * limitMul * packMul);
+      allyGainXP(a, 1); a.state = "orbit"; a.prey = null; a.cd = G.limitT > 0 ? 1.5 : 2.4;
+    }
       }
     }
   }
@@ -3753,9 +4539,14 @@ function update(dt) {
     if (r.shiny && !G.lowFx && Math.random() < dt * 4) particles.push({ x: r.x + rand(-.4, .4), y: r.y - rand(0, .6), vx: 0, vy: -.3, t: 0, life: .6, color: "#ffd166" });
   }
 
-  // ---------- critters & bonding ----------
+  // ---------- critters & bonding (now with local agent minds) ----------
   for (const c of critters) {
     const spec = SPECIES[c.sp];
+    const mind = AgentKernel.ensure(c, c.sp, false);
+    const perc = AgentKernel.perceive(c, 5);
+    const dec = AgentKernel.decide(c, perc);
+    AgentKernel.act(c, dec, dt, perc);
+
     c.bob += dt * 5; c.wanderT -= dt;
     if (c.shiny && !G.lowFx && Math.random() < dt * 7) particles.push({ x: c.x + rand(-.5, .5), y: c.y - rand(0, .8), vx: 0, vy: -.4, t: 0, life: .7, color: ["#ffd166", "#bdf7ff", "#ff8fa3", "#c9b8ff"][Math.floor(Math.random() * 4)] });
     const dp = dist(c.x, c.y, player.x, player.y);
@@ -3765,6 +4556,7 @@ function update(dt) {
     if (nearestEnemy) {
       c.vx = (c.x - nearestEnemy.x) / ned * spec.speed * 1.8; c.vy = (c.y - nearestEnemy.y) / ned * spec.speed * 1.8;
       c.bond = Math.max(0, c.bond - dt);
+      if (mind.mood !== "wary") mind.mood = "wary";
     } else if (dp < 2.0 && player.still > 0.3) {
       // creature grows curious — close enough to challenge (E)
       c.vx *= 0.8; c.vy *= 0.8;
@@ -3789,8 +4581,8 @@ function update(dt) {
   for (const n of npcs) {
     n.bob += dt * 4; n.stateT -= dt; n.chatCd -= dt;
     const surging = !!G.surge;
-    if (surging && n.state !== "flee" && n.state !== "shelter") { n.state = "flee"; n.tx = n.def.home.x; n.ty = n.def.home.y; say(n, "surge! to camp!"); }
-    if (!surging && (n.state === "flee" || n.state === "shelter")) { n.state = "idle"; n.stateT = rand(1, 2); }
+    if (surging && n.state !== "flee") { n.state = "flee"; n.tx = n.def.home.x; n.ty = n.def.home.y; say(n, "surge! to camp!"); }
+    if (!surging && n.state === "flee") { n.state = "idle"; n.stateT = rand(1, 2); }
     if (n.state === "idle" && n.stateT <= 0) {
       const r = Math.random();
       const night = G.phase === "night";
@@ -3822,8 +4614,7 @@ function update(dt) {
         }
         if (n.greet) { const f = n.fam || 0; say(n, f >= 3 ? "good to see you, friend" : "oh— hello there"); n.greet = false; }
         n.chatWith = null;
-        if (n.state === "flee" && surging) { n.state = "shelter"; }   // hunker by the fire until the surge ends
-        else { n.state = "idle"; n.stateT = rand(1.5, 3.5); }
+        n.state = "idle"; n.stateT = rand(1.5, 3.5);
       } else {
         const sp = n.state === "flee" ? 3.4 : 1.5;
         n.x += (n.tx - n.x) / d * sp * dt; n.y += (n.ty - n.y) / d * sp * dt;
@@ -3831,6 +4622,19 @@ function update(dt) {
       }
     }
     if (n.state === "gather" && n.stateT <= 0) { n.state = "idle"; n.stateT = rand(1, 3); }
+  }
+
+  // ---------- Local AI Agent global maintenance (entire world feels alive) ----------
+  // Occasional autonomous life for non-allied entities + slow learning
+  if ((G.t * 4 | 0) % 7 === 0) {
+    for (const c of critters) {
+      const m = c._agent;
+      if (m && m.mood === "curious" && Math.random() < 0.3) {
+        // curious critters drift toward interesting things (player or other pets)
+        const target = Kernel.near(c.x, c.y, 9, o => allies.includes(o) || o === player).sort((x,y)=>Math.random()-0.5)[0];
+        if (target) { c.vx = (target.x - c.x) * 0.6; c.vy = (target.y - c.y) * 0.6; }
+      }
+    }
   }
 
   // ---------- day / night cycle + surge director ----------
@@ -3901,42 +4705,78 @@ function update(dt) {
     }
   }
 
-  // ---------- enemies ----------
+  // ---------- enemies (now with Local AI Agent tactics) ----------
   updateContextHint();
   for (const e of enemies) {
     const spec = SPECIES[e.sp];
+    const mind = AgentKernel.ensure(e, e.sp, false);
+    const perc = AgentKernel.perceive(e, 7);
+    const dec = AgentKernel.decide(e, perc);
+    AgentKernel.act(e, dec, dt, perc);
+
     e.bob += dt * 5;
     if (e.flash > 0) e.flash -= dt;
     if (e.slow > 0) e.slow -= dt;
-    // affix flavor + mending heal aura
     if (e.affix && !G.lowFx && Math.random() < dt * 4) particles.push({ x: e.x + rand(-.5, .5), y: e.y - rand(0, .6), vx: 0, vy: -.3, t: 0, life: .6, color: AFFIXES[e.affix].color });
     if (e.mending) {
       e.mendCd = (e.mendCd === undefined ? rand(0, 2) : e.mendCd) - dt;
       if (e.mendCd <= 0) { e.mendCd = 3; for (const o of enemies) if (o !== e && dist(o.x, o.y, e.x, e.y) < 4 && o.hp < o.maxhp) o.hp = Math.min(o.maxhp, o.hp + o.maxhp * 0.08); if (!G.lowFx) burst(e.x, e.y, "#7ee8b2", 6, 1.5); }
     }
-    const espd = spec.speed * (e.spdMul || 1) * (e.slow > 0 ? 0.35 : 1);
+    const espd = spec.speed * (e.spdMul || 1) * (e.slow > 0 ? 0.35 : 1) * (1 + (mind.packBonus || 0) * 0.3);
     const edmg = spec.dmg * (e.dmgMul || 1);
     const dp = dist(e.x, e.y, player.x, player.y) || .001;
+
+    // Agent-influenced movement
+    let tx = player.x, ty = player.y;
+    if (dec.action === "explore" || (e.hp || 20) < (e.maxhp || 25) * 0.4) {
+      // retreat or flank
+      const flank = perc.friends.length > 0 ? perc.friends[0] : null;
+      if (flank) { tx = flank.x + (player.x - flank.x) * 0.6; ty = flank.y + (player.y - flank.y) * 0.6; }
+      else { tx = player.x + (e.x - player.x) * 1.8; ty = player.y + (e.y - player.y) * 1.8; }
+    } else if (perc.weakestAlly && Math.random() < 0.6) {
+      tx = perc.weakestAlly.x; ty = perc.weakestAlly.y;
+    }
+
+    const tdist = dist(e.x, e.y, tx, ty) || .001;
     if (spec.ranged) {
-      const want = 4.5;
-      const dir = dp > want ? 1 : (dp < 3.5 ? -1 : 0);
-      e.x += (player.x - e.x) / dp * espd * dir * dt;
-      e.y += (player.y - e.y) / dp * espd * dir * dt;
+      const want = 4.8;
+      const dir = dp > want ? 1 : (dp < 3.8 ? -1 : 0);
+      e.x += (tx - e.x) / tdist * espd * dir * dt;
+      e.y += (ty - e.y) / tdist * espd * dir * dt;
       e.cd -= dt;
-      if (e.cd <= 0 && dp < 7) {
-        e.cd = 2.4;
-        shots.push({ x: e.x, y: e.y, vx: (player.x - e.x) / dp * 3.6, vy: (player.y - e.y) / dp * 3.6, t: 0, dmg: edmg });
+      if (e.cd <= 0 && dp < 7.5) {
+        e.cd = 2.1;
+        shots.push({ x: e.x, y: e.y, vx: (player.x - e.x) / dp * 3.8, vy: (player.y - e.y) / dp * 3.8, t: 0, dmg: edmg });
       }
     } else {
-      e.x += (player.x - e.x) / dp * espd * dt;
-      e.y += (player.y - e.y) / dp * espd * dt;
+      e.x += (tx - e.x) / tdist * espd * dt;
+      e.y += (ty - e.y) / tdist * espd * dt;
     }
     e.face = Math.atan2(player.y - e.y, player.x - e.x);
-    if (dp < 0.75) hurtPlayer(edmg, e);
+    if (dp < 0.8) hurtPlayer(edmg * (1 + (mind.packBonus || 0)), e);
+
+    // Enemies target allies too — combat is meaningful for the pack
+    let targetAlly = null, ad = 2.5;
+    for (const ally of allies) {
+      const d = dist(e.x, e.y, ally.x, ally.y);
+      if (d < ad) { ad = d; targetAlly = ally; }
+    }
+    if (targetAlly && ad < 1.0) {
+      hurtAlly(targetAlly, edmg * 0.65);
+    }
   }
   for (const s of shots) {
     s.t += dt; s.x += s.vx * dt; s.y += s.vy * dt;
-    if (dist(s.x, s.y, player.x, player.y) < 0.5) { hurtPlayer(s.dmg); s.t = 99; burst(s.x, s.y, "#c77dff", 5); }
+    if (dist(s.x, s.y, player.x, player.y) < 0.5) { hurtPlayer(s.dmg); s.t = 99; burst(s.x, s.y, "#c77dff", 5); continue; }
+    // Shots can hit allies
+    for (const ally of allies) {
+      if (dist(s.x, s.y, ally.x, ally.y) < 0.6) {
+        hurtAlly(ally, s.dmg * 0.8);
+        s.t = 99;
+        burst(s.x, s.y, "#7ee8b2", 4);
+        break;
+      }
+    }
   }
   shots = shots.filter(s => s.t < 3);
 
@@ -4195,6 +5035,7 @@ function enterEnd(outcome) {
   if (outcome === "bond") {
     setBText(`🫶 the <b>${b.spec.name}</b> presses its head into your palm. <b>BONDED!</b>`);
     bHearts(battleAnchors().B.x, battleAnchors().B.y, 14);
+    if (b.c) AgentKernel.remember(b.c, "bond", 0.35);
     bondCreature(b.c);
   } else if (outcome === "flee") {
     Au.sfx("flee");
@@ -4455,7 +5296,7 @@ function bondCreature(c) {
   G.bonds++; skills.taming.xp += 10; G.dust += 5;
   gainLimit(18, "bond");
   Au.sfx("bond"); saveGame();
-  const pet = { sp: c.sp, name: petName(), variant: rollCreatureVariant(c.sp, c.variant), x: player.x + 1, y: player.y + 1, bob: 0, face: 0, state: "orbit", cd: 1, dmg: 9 + G.level, prey: null, lvl: 1, xp: 0, stage: 1, friendship: 22 };
+  const pet = { sp: c.sp, name: petName(), variant: rollCreatureVariant(c.sp, c.variant), x: player.x + 1, y: player.y + 1, bob: 0, face: 0, state: "orbit", cd: 1, dmg: 9 + G.level, prey: null, lvl: 1, xp: 0, stage: 1, friendship: 22, hp: 20 + G.level * 3 + (c.shiny ? 10 : 0), maxhp: 20 + G.level * 3 + (c.shiny ? 10 : 0) };
   if (c.shiny) {
     pet.shiny = true; pet.dmg = Math.round(pet.dmg * 2.5);
     pet.legendary = ["Starfall Wisp", "Aurora Lance", "Eclipse Bloom"][Math.floor(Math.random() * 3)];
@@ -4467,15 +5308,21 @@ function bondCreature(c) {
   }
   if (allies.length < G.maxAllies) {
     allies.push(pet);
+    AgentKernel.ensure(pet, c.sp, true);
+    AgentKernel.remember(pet, "bond", 0.3);
     toast(`🫶 <b>${pet.name}</b> the ${creatureTitle(c.sp, pet.variant)} bonded — it fights beside you and has a home by the memorial fire`);
     log(`Bonded with ${pet.name} the ${creatureTitle(c.sp, pet.variant)}. It joined the active pack and moved into the village.`);
   } else {
     reserve.push(pet);
+    AgentKernel.ensure(pet, c.sp, true);
+    AgentKernel.remember(pet, "bond", 0.25);
     toast(`🏡 <b>${pet.name}</b> the ${creatureTitle(c.sp, pet.variant)} moved into your village — go home to visit (Tab → Team to deploy)`);
     log(`${pet.name} the ${creatureTitle(c.sp, pet.variant)} bonded and moved into the village by the memorial fire.`);
   }
   unlockVillageUpgrade(c.sp);
+  markGuideStep("bond", "A friend joined you. Bring them home so the sanctuary can remember them.", false);
   updateHUD();
+  Kernel.emit("bond", { pet, sp: c.sp, shiny: !!c.shiny });
   setTimeout(spawnCritter, 4000);
 }
 function restPet(i) {
@@ -4670,10 +5517,15 @@ function drawCreatureSprite(g, spec, sx, sy, R, face, bob, deadly, evolved, alph
   const cast = actor && actor.castT > 0 ? Math.min(1, actor.castT / 0.46) : 0;
   const hurt = actor && actor.flash > 0 ? 1 : 0;
   const profile = spellProfileForSpecies(id);
-  const animMode = cast > 0 ? "cast" : hurt ? "hurt" : "idle";
-  const anim = CHARACTER_ANIM_ART[id] && CHARACTER_ANIM_ART[id][animMode];
+  const layerMode = creatureLayerAnimMode(actor, bob);
+  const layerAnim = CREATURE_LAYER_ANIM_ART[id] && CREATURE_LAYER_ANIM_ART[id][layerMode];
+  const legacyMode = cast > 0 ? "cast" : hurt ? "hurt" : "idle";
+  const legacyAnim = CHARACTER_ANIM_ART[id] && CHARACTER_ANIM_ART[id][legacyMode];
+  const anim = artReady(layerAnim) ? layerAnim : legacyAnim;
+  const animMode = artReady(layerAnim) ? layerMode : legacyMode;
   const frames = animMode === "hurt" ? 4 : 8;
-  const frame = cast > 0 ? Math.floor((1 - cast) * frames) : Math.floor(((G.t || 0) * (animMode === "idle" ? 6 : 10) + bob) % frames);
+  const speed = animMode === "walk" ? 9 : animMode === "interact" ? 10 : animMode === "idle" ? 5.2 : 10;
+  const frame = cast > 0 || animMode === "interact" ? Math.floor(((1 - cast) || 0) * frames + (G.t || 0) * 7) : Math.floor(((G.t || 0) * speed + bob) % frames);
   const breathe = 1 + Math.sin((G.t || 0) * 2.2 + bob) * 0.018;
   const castPulse = cast > 0 ? Math.sin((1 - cast) * Math.PI) : 0;
   g.save();
@@ -4747,9 +5599,44 @@ function drawCreatureSprite(g, spec, sx, sy, R, face, bob, deadly, evolved, alph
   g.restore();
   return true;
 }
+// ---- HD-2D unified pixel-sprite pipeline: every procedural actor renders through a
+// ---- low-res buffer and upscales nearest-neighbor, so the whole cast shares one
+// ---- pixel-art language against the painterly diorama (Octopath treatment).
+const HD2D_PIXELATE = true;
+let PIXBUF = null;
+function drawPixelated(g, sx, sy, span, res, fn) {
+  if (!HD2D_PIXELATE || span <= 4 || (PIXBUF && g === PIXBUF.g2)) { fn(g); return; }
+  if (!PIXBUF) {
+    PIXBUF = document.createElement("canvas");
+    PIXBUF.width = PIXBUF.height = 160;
+    PIXBUF.g2 = PIXBUF.getContext("2d");
+  }
+  res = Math.max(16, Math.min(150, Math.round(res)));
+  const b = PIXBUF.g2;
+  b.setTransform(1, 0, 0, 1, 0, 0);
+  b.globalAlpha = 1;
+  b.globalCompositeOperation = "source-over";
+  b.clearRect(0, 0, PIXBUF.width, PIXBUF.height);
+  const f = res / span;
+  b.setTransform(f, 0, 0, f, (span / 2 - sx) * f, (span * 0.68 - sy) * f);
+  b.save();
+  fn(b);
+  b.restore();
+  b.setTransform(1, 0, 0, 1, 0, 0);
+  const prevSmooth = g.imageSmoothingEnabled;
+  const prevAlpha = g.globalAlpha;
+  g.imageSmoothingEnabled = false;
+  g.globalAlpha = 1;
+  g.drawImage(PIXBUF, 0, 0, res, res, sx - span / 2, sy - span * 0.68, span, span);
+  g.imageSmoothingEnabled = prevSmooth;
+  g.globalAlpha = prevAlpha;
+}
 function drawCreatureArt(g, spec, sx, sy, R, face, bob, deadly, evolved, alpha, actor) {
   spec = specWithVariant(spec, actor);
   if (drawCreatureSprite(g, spec, sx, sy, R, face, bob, deadly, evolved, alpha, actor)) return;
+  drawPixelated(g, sx, sy, R * 6.4, 54, (b) => drawCreatureArtRaw(b, spec, sx, sy, R, face, bob, deadly, evolved, alpha, actor));
+}
+function drawCreatureArtRaw(g, spec, sx, sy, R, face, bob, deadly, evolved, alpha, actor) {
   const bobY = Math.sin(bob) * R * 0.12;
   const core = deadly ? MILO_STYLE.ember : (spec.core || MILO_STYLE.seed);
   g.globalAlpha = alpha;
@@ -5196,6 +6083,9 @@ function drawSpellVfx(g, fx) {
 
 // jagged corrupted-enemy painter
 function drawEnemyArt(g, e, sx, sy, R) {
+  drawPixelated(g, sx, sy, R * 5.4, 46, (b) => drawEnemyArtRaw(b, e, sx, sy, R));
+}
+function drawEnemyArtRaw(g, e, sx, sy, R) {
   const spec = SPECIES[e.sp];
   const bobY = Math.sin(e.bob) * R * 0.1;
   g.save();
@@ -5283,6 +6173,9 @@ function drawGuidedFriendCue(c) {
 }
 
 function drawNPCArt(g, n, sx, sy, R) {
+  drawPixelated(g, sx, sy, R * 4.6, 40, (b) => drawNPCArtRaw(b, n, sx, sy, R));
+}
+function drawNPCArtRaw(g, n, sx, sy, R) {
   const bobY = Math.sin(n.bob) * 1.5;
   g.beginPath(); g.ellipse(sx, sy + R * 0.5, R * 0.85, R * 0.36, 0, 0, 7);
   g.fillStyle = "rgba(0,0,0,.35)"; g.fill();
@@ -5304,78 +6197,108 @@ function drawNPCArt(g, n, sx, sy, R) {
 }
 
 function drawPlayerArt(sx, sy, R) {
+  drawPixelated(cx, sx, sy, R * 6.0, 50, (b) => drawPlayerArtRaw(b, sx, sy, R));
+}
+function drawPlayerArtRaw(g, sx, sy, R) {
   const blink = G.invuln > 0 && Math.floor(G.t * 12) % 2 === 0;
-  if (blink) cx.globalAlpha = 0.45;
+  if (blink) g.globalAlpha = 0.45;
   const bobY = Math.sin(player.bob) * 2 * zoom;
-  cx.beginPath(); cx.ellipse(sx, sy + R * 0.5, R * 0.9, R * 0.38, 0, 0, 7);
-  cx.fillStyle = "rgba(0,0,0,.4)"; cx.fill();
+  g.beginPath(); g.ellipse(sx, sy + R * 0.5, R * 0.9, R * 0.38, 0, 0, 7);
+  g.fillStyle = "rgba(0,0,0,.4)"; g.fill();
   const by = sy - R * 0.55 + bobY;
   // hooded cloak
-  cx.beginPath();
-  cx.moveTo(sx, by - R * 1.15);
-  cx.quadraticCurveTo(sx + R, by - R * .3, sx + R * .75, by + R * .55);
-  cx.quadraticCurveTo(sx, by + R * .8, sx - R * .75, by + R * .55);
-  cx.quadraticCurveTo(sx - R, by - R * .3, sx, by - R * 1.15);
+  g.beginPath();
+  g.moveTo(sx, by - R * 1.15);
+  g.quadraticCurveTo(sx + R, by - R * .3, sx + R * .75, by + R * .55);
+  g.quadraticCurveTo(sx, by + R * .8, sx - R * .75, by + R * .55);
+  g.quadraticCurveTo(sx - R, by - R * .3, sx, by - R * 1.15);
   const C = CLASSES[G.cls];
-  const grad = cx.createLinearGradient(sx, by - R, sx, by + R * .8);
+  const grad = g.createLinearGradient(sx, by - R, sx, by + R * .8);
   grad.addColorStop(0, C.color); grad.addColorStop(1, C.shade);
-  cx.fillStyle = grad; cx.fill();
+  g.fillStyle = grad; g.fill();
   // face
-  cx.beginPath(); cx.ellipse(sx, by - R * 0.3, R * 0.45, R * 0.36, 0, 0, 7);
-  cx.fillStyle = "#241d33"; cx.fill();
+  g.beginPath(); g.ellipse(sx, by - R * 0.3, R * 0.45, R * 0.36, 0, 0, 7);
+  g.fillStyle = "#241d33"; g.fill();
   const ex = Math.cos(player.face) * R * 0.12;
-  cx.fillStyle = "#ffe9d6";
-  for (const k of [-1, 1]) { cx.beginPath(); cx.arc(sx + ex + k * R * 0.17, by - R * 0.32, R * 0.065, 0, 7); cx.fill(); }
+  g.fillStyle = "#ffe9d6";
+  for (const k of [-1, 1]) { g.beginPath(); g.arc(sx + ex + k * R * 0.17, by - R * 0.32, R * 0.065, 0, 7); g.fill(); }
   // cloak outline + scarf
-  cx.lineWidth = Math.max(1, R * 0.07); cx.strokeStyle = "rgba(12,7,22,.65)";
-  cx.beginPath();
-  cx.moveTo(sx, by - R * 1.15);
-  cx.quadraticCurveTo(sx + R, by - R * .3, sx + R * .75, by + R * .55);
-  cx.quadraticCurveTo(sx, by + R * .8, sx - R * .75, by + R * .55);
-  cx.quadraticCurveTo(sx - R, by - R * .3, sx, by - R * 1.15);
-  cx.stroke();
-  cx.fillStyle = "#7ee8b2";
-  cx.beginPath();
-  cx.ellipse(sx, by + R * .05, R * .5, R * .16, 0, 0, 7);
-  cx.fill();
-  cx.beginPath(); // scarf tail flutters with movement
+  g.lineWidth = Math.max(1, R * 0.07); g.strokeStyle = "rgba(12,7,22,.65)";
+  g.beginPath();
+  g.moveTo(sx, by - R * 1.15);
+  g.quadraticCurveTo(sx + R, by - R * .3, sx + R * .75, by + R * .55);
+  g.quadraticCurveTo(sx, by + R * .8, sx - R * .75, by + R * .55);
+  g.quadraticCurveTo(sx - R, by - R * .3, sx, by - R * 1.15);
+  g.stroke();
+  g.fillStyle = "#7ee8b2";
+  g.beginPath();
+  g.ellipse(sx, by + R * .05, R * .5, R * .16, 0, 0, 7);
+  g.fill();
+  g.beginPath(); // scarf tail flutters with movement
   const flut = Math.sin(player.bob * 1.4) * R * .12;
-  cx.moveTo(sx - R * .35, by + R * .1);
-  cx.quadraticCurveTo(sx - R * .75, by + R * .45 + flut, sx - R * .55, by + R * .75 + flut);
-  cx.quadraticCurveTo(sx - R * .35, by + R * .5, sx - R * .2, by + R * .2);
-  cx.fill();
+  g.moveTo(sx - R * .35, by + R * .1);
+  g.quadraticCurveTo(sx - R * .75, by + R * .45 + flut, sx - R * .55, by + R * .75 + flut);
+  g.quadraticCurveTo(sx - R * .35, by + R * .5, sx - R * .2, by + R * .2);
+  g.fill();
   // lantern on a stick (faces movement) — caged, flickering
   const lx = sx + Math.cos(player.face) * R * 1.15, ly = by + Math.sin(player.face) * R * .4;
-  cx.strokeStyle = "#6b5a3e"; cx.lineWidth = Math.max(1, R * 0.08);
-  cx.beginPath(); cx.moveTo(sx, by); cx.lineTo(lx, ly - R * .35); cx.stroke();
+  g.strokeStyle = "#6b5a3e"; g.lineWidth = Math.max(1, R * 0.08);
+  g.beginPath(); g.moveTo(sx, by); g.lineTo(lx, ly - R * .35); g.stroke();
   const flick = 1 + Math.sin(G.t * 11) * .12 + Math.sin(G.t * 27) * .06;
-  cx.fillStyle = "rgba(255,209,102,.25)";
-  cx.beginPath(); cx.arc(lx, ly - R * .08, R * 0.3 * flick, 0, 7); cx.fill();
-  cx.fillStyle = "#ffd166";
-  cx.beginPath(); cx.arc(lx, ly - R * .08, R * 0.13 * flick, 0, 7); cx.fill();
-  cx.strokeStyle = "#3d3328"; cx.lineWidth = Math.max(1, R * 0.05);
-  cx.beginPath(); cx.arc(lx, ly - R * .08, R * 0.2, 0, 7); cx.stroke();
-  cx.beginPath(); cx.moveTo(lx, ly - R * .28); cx.lineTo(lx, ly + R * .12); cx.stroke();
-  cx.globalAlpha = 1;
+  g.fillStyle = "rgba(255,209,102,.25)";
+  g.beginPath(); g.arc(lx, ly - R * .08, R * 0.3 * flick, 0, 7); g.fill();
+  g.fillStyle = "#ffd166";
+  g.beginPath(); g.arc(lx, ly - R * .08, R * 0.13 * flick, 0, 7); g.fill();
+  g.strokeStyle = "#3d3328"; g.lineWidth = Math.max(1, R * 0.05);
+  g.beginPath(); g.arc(lx, ly - R * .08, R * 0.2, 0, 7); g.stroke();
+  g.beginPath(); g.moveTo(lx, ly - R * .28); g.lineTo(lx, ly + R * .12); g.stroke();
+  g.globalAlpha = 1;
 }
 
 // ============================================================ scene drawing
 const BIOMES = [
-  { name: "Pet Grave", bg: "#201832", sky: ["#46325f", "#211934", "#120d1f"], accent: "140,240,191", warm: "255,217,128",
-    ground: ["#4f4160", "#473a57", "#40344f", "#392e47"], moss: "rgba(140,240,191,.13)", grass: "rgba(154,220,169,.78)", petal: "255,166,190" },
-  { name: "Mistbog",     bg: "#173033", sky: ["#315867", "#183c43", "#0d1d24"], accent: "125,236,212", warm: "189,247,255",
-    ground: ["#355861", "#2f4f58", "#294851", "#233f48"], moss: "rgba(120,216,180,.15)",  grass: "rgba(132,199,164,.76)", petal: "183,247,255" },
-  { name: "Emberwood",   bg: "#30201b", sky: ["#704134", "#3d241f", "#160d12"], accent: "255,159,112", warm: "255,204,126",
-    ground: ["#654536", "#5b3d32", "#51362e", "#472f29"], moss: "rgba(229,139,93,.14)",  grass: "rgba(226,163,119,.76)", petal: "255,183,127" },
-  { name: "Frostvale",   bg: "#182b3e", sky: ["#405b78", "#213b56", "#0d1828"], accent: "189,247,255", warm: "236,231,255",
-    ground: ["#3e526b", "#36495f", "#304257", "#2a3a4d"], moss: "rgba(174,218,241,.14)", grass: "rgba(169,205,224,.76)", petal: "223,229,255" },
-  { name: "Voidreach",   bg: "#241330", sky: ["#5a2d72", "#2e1742", "#10091a"], accent: "211,153,255", warm: "255,143,163",
-    ground: ["#57355f", "#4d2d57", "#43264e", "#381f45"], moss: "rgba(203,136,226,.15)",  grass: "rgba(188,145,215,.76)", petal: "255,143,163" },
+  { name: "Pet Grave", bg: "#201832", sky: ["#4a3661", "#241a34", "#100b16"], accent: MEMORIAL_PALETTE.spirit, warm: MEMORIAL_PALETTE.lantern,
+    ground: ["#56485f", "#493c54", "#3f344a", "#352a40"], moss: "rgba(167,240,207,.15)", grass: "rgba(154,220,169,.78)", petal: MEMORIAL_PALETTE.rose },
+  { name: "Mistbog",     bg: "#173033", sky: ["#345766", "#1a3b42", "#0d1d24"], accent: "125,236,212", warm: MEMORIAL_PALETTE.spiritCool,
+    ground: ["#365b61", "#2f4f58", "#294851", "#233f48"], moss: "rgba(167,240,207,.13)",  grass: "rgba(132,199,164,.76)", petal: MEMORIAL_PALETTE.spiritCool },
+  { name: "Emberwood",   bg: "#30201b", sky: ["#724438", "#3d241f", "#160d12"], accent: "255,159,112", warm: "255,204,126",
+    ground: ["#654536", "#5b3d32", "#51362e", "#472f29"], moss: "rgba(240,208,138,.13)",  grass: "rgba(226,163,119,.76)", petal: "255,183,127" },
+  { name: "Frostvale",   bg: "#182b3e", sky: ["#435d78", "#213b56", "#0d1828"], accent: MEMORIAL_PALETTE.spiritCool, warm: "236,231,255",
+    ground: ["#3e526b", "#36495f", "#304257", "#2a3a4d"], moss: "rgba(189,247,255,.13)", grass: "rgba(169,205,224,.76)", petal: "223,229,255" },
+  { name: "Voidreach",   bg: "#241330", sky: ["#5a2d72", "#2e1742", "#10091a"], accent: "211,153,255", warm: MEMORIAL_PALETTE.rose,
+    ground: ["#57355f", "#4d2d57", "#43264e", "#381f45"], moss: "rgba(200,182,255,.13)",  grass: "rgba(188,145,215,.76)", petal: MEMORIAL_PALETTE.rose },
 ];
 function curBiome() { return BIOMES[((G.dayNum || 1) - 1) % BIOMES.length]; }
+
+function getLocalHealth(wx, wy) {
+  // Combines global progress with local sanctuary influence for "terraform level"
+  const global = clamp(((G.forestMemory || 0) / 25) + (sanctuaryStage() - 1) * 0.12, 0, 1);
+  const local = sanctuaryBloom() * sanctuaryNear(wx, wy) * 0.7;
+  const treeBonus = worldTrees ? worldTrees.reduce((sum, t) => {
+    const d = Math.hypot(wx - t.x, wy - t.y);
+    return sum + (d < 6 ? (1 - d / 6) * 0.25 : 0);
+  }, 0) : 0;
+  const bloomBonus = bloomPoints ? bloomPoints.reduce((sum, p) => {
+    const d = Math.hypot(wx - p.x, wy - p.y);
+    const str = p.strength || 0.8;
+    return sum + (d < 4.5 ? (1 - d / 4.5) * str * 0.45 : 0);
+  }, 0) : 0;
+  return clamp(global + local + treeBonus + bloomBonus, 0, 1);
+}
+
+function getLocalBiome(wx, wy) {
+  const health = getLocalHealth(wx, wy);
+  const base = curBiome();
+  // Attach health; color shifts applied in draw for safety
+  return { ...base, health };
+}
 for (let i = 0; i < 8; i++) spawnCritter();
 function drawDioramaBackdrop() {
-  const B = curBiome();
+  const dof = !G.lowFx && typeof cx.filter === "string";
+  if (dof) cx.filter = "blur(2.4px) saturate(1.05)";
+  // Use local biome at player for more "terraforming" feel in the visible area
+  const localHealth = getLocalHealth(player.x, player.y);
+  const B = getLocalBiome(player.x, player.y);
   const drewSky = !G.lowFx && (drawCoverArt(cx, ENV_ART.atmosphere, 0, 0, W, H, 0.82) || drawCoverArt(cx, ENV_ART.sky, 0, 0, W, H, 1));
   if (!drewSky) {
     const sky = cx.createLinearGradient(0, 0, 0, H);
@@ -5389,8 +6312,9 @@ function drawDioramaBackdrop() {
   cx.globalCompositeOperation = "screen";
   const sunX = W * (0.18 + 0.08 * Math.sin(G.dayNum * 1.7)), sunY = H * 0.16;
   const sun = cx.createRadialGradient(sunX, sunY, 0, sunX, sunY, Math.min(W, H) * 0.42);
-  sun.addColorStop(0, `rgba(${B.warm},.13)`);
-  sun.addColorStop(0.35, `rgba(${B.accent},.06)`);
+  const skyBoost = 0.08 + localHealth * 0.07;
+  sun.addColorStop(0, `rgba(${B.warm},${0.13 + skyBoost})`);
+  sun.addColorStop(0.35, `rgba(${B.accent},${0.06 + localHealth * 0.05})`);
   sun.addColorStop(1, "rgba(0,0,0,0)");
   cx.fillStyle = sun; cx.fillRect(0, 0, W, H);
   for (let i = 0; i < 34; i++) {
@@ -5418,6 +6342,7 @@ function drawDioramaBackdrop() {
     cx.fill();
   }
   drawDistantDreamLandmarks(B);
+  if (dof) cx.filter = "none";
 }
 function drawDistantDreamLandmarks(B) {
   if (G.lowFx) return;
@@ -5483,8 +6408,9 @@ function hd2dDiamondPath(x, y, rx, ry) {
 function drawHD2DPrism(wx, wy, opts = {}) {
   const B = curBiome();
   const p = w2s(wx, wy);
-  const rx = (opts.rx || TW * 0.96) * zoom;
-  const ry = (opts.ry || TH * 0.96) * zoom;
+  const jt = 1 + (hash2(wx * 23 + 1, wy * 29 - 4) - 0.5) * 0.07;
+  const rx = (opts.rx || TW * 1.03) * zoom * jt;
+  const ry = (opts.ry || TH * 1.03) * zoom * (2 - jt);
   const h = (opts.h || 9) * zoom;
   if (p.x < -rx * 2 || p.x > W + rx * 2 || p.y < -ry * 4 || p.y > H + ry * 4) return;
   const n = hash2(wx * 17 + 3, wy * 13 - 5);
@@ -5492,8 +6418,10 @@ function drawHD2DPrism(wx, wy, opts = {}) {
   const edgeL = shade2(tintHex(top, "#d9ffd0", 0.06));
   const edgeR = shade2(tintHex(top, "#24172f", 0.26));
   cx.save();
-  cx.fillStyle = "rgba(7,4,12,.26)";
-  cx.beginPath(); cx.ellipse(p.x, p.y + ry + h * 0.65, rx * 0.95, ry * 0.42, 0, 0, 7); cx.fill();
+  if (!opts.color) { // raised props keep contact shadows; flat ground tiles must not draw 700 grid shadows
+    cx.fillStyle = "rgba(7,4,12,.26)";
+    cx.beginPath(); cx.ellipse(p.x, p.y + ry + h * 0.65, rx * 0.95, ry * 0.42, 0, 0, 7); cx.fill();
+  }
   cx.beginPath();
   cx.moveTo(p.x - rx, p.y);
   cx.lineTo(p.x, p.y + ry);
@@ -5514,9 +6442,11 @@ function drawHD2DPrism(wx, wy, opts = {}) {
   g.addColorStop(1, tintHex(top, "#17101f", 0.18));
   hd2dDiamondPath(p.x, p.y, rx, ry);
   cx.fillStyle = g; cx.fill();
-  cx.strokeStyle = "rgba(255,248,220,.018)";
-  cx.lineWidth = Math.max(1, 0.8 * zoom);
-  cx.stroke();
+  if (hash2(wx * 3 + 8, wy * 3 - 2) > 0.86) { // sparse organic cracks instead of a full grid
+    cx.strokeStyle = "rgba(16,10,26,.14)";
+    cx.lineWidth = Math.max(1, 0.8 * zoom);
+    cx.stroke();
+  }
   if (!G.lowFx && n > .70) {
     cx.globalCompositeOperation = "screen";
     cx.fillStyle = `rgba(${B.warm},.055)`;
@@ -5690,6 +6620,16 @@ function drawHD2DLightShafts() {
   }
   cx.restore();
 }
+const TILE_ENV_CACHE = new Map();
+let tileEnvStamp = -1;
+function tileEnv(gx, gy) {
+  const stamp = Math.floor((G.t || 0) * 2);
+  if (stamp !== tileEnvStamp) { TILE_ENV_CACHE.clear(); tileEnvStamp = stamp; }
+  const key = gx * 8192 + gy;
+  let v = TILE_ENV_CACHE.get(key);
+  if (!v) { v = { h: getLocalHealth(gx, gy), c: corruptionAt(gx, gy) }; TILE_ENV_CACHE.set(key, v); }
+  return v;
+}
 function drawHD2DStage() {
   const B = curBiome();
   cx.save();
@@ -5708,8 +6648,18 @@ function drawHD2DStage() {
       if (d > 15) continue;
       const n = hash2(gx * 5, gy * 7);
       const warm = sanctuaryNear(gx, gy) * sanctuaryBloom();
-      const col = tintHex(B.ground[1], warm > .2 ? "#789b74" : n > .55 ? "#575568" : "#464052", 0.09);
-      tiles.push({ d: gx + gy, gx, gy, col, h: 5 + n * 5 + warm * 4 });
+      const env = tileEnv(gx, gy);
+      const wild = clamp(1 - env.h, 0, 1);
+      // Octopath two-tone calibration: day reads warm and saturated; deep shadow is a
+      // night/corruption language only. Wilds sink dark mostly after nightfall.
+      const dayness = G.phase === "day" ? Math.sin(Math.min(1, G.tod / DAY_LEN) * Math.PI) : 0;
+      const ramp = B.ground[n > .78 ? 0 : n > .5 ? 1 : n > .22 ? 2 : 3];
+      let col = tintHex(ramp, "#171022", wild * (0.08 + 0.24 * NIGHT_AMT) + env.c * 0.34);
+      col = tintHex(col, "#7ee8b2", env.h * 0.28);
+      col = tintHex(col, "#e9c98f", dayness * (0.10 + wild * 0.05));
+      if (warm > 0.05) col = tintHex(col, "#c8a06a", Math.min(0.5, warm * 0.55));
+      if (env.c > 0.45) col = tintHex(col, "#2a0f33", (env.c - 0.45) * 0.8);
+      tiles.push({ d: gx + gy, gx, gy, col, h: 5 + n * 5 + warm * 4 + env.h * 2.5, corr: env.c });
     }
   }
   tiles.sort((a, b) => a.d - b.d);
@@ -5756,6 +6706,87 @@ function drawSketchPaperPass() {
   cx.globalAlpha = 1;
   cx.globalCompositeOperation = "source-over";
 }
+// ---- HD-2D night lighting: real darkness with punched-out warm light pools.
+let NIGHT_AMT = 0, LIGHTBUF = null;
+function nightLightSources() {
+  const L = [], z = zoom;
+  const fire = w2s(0, 0);
+  const fl = 1 + Math.sin(G.t * 9) * 0.05 + Math.sin(G.t * 23) * 0.03;
+  L.push({ x: fire.x, y: fire.y, r: (175 + G.camp.fire * 32 + sanctuaryBloom() * 60) * z * fl, c: "255,179,92", i: 1 });
+  const friends = allies.concat(reserve);
+  const count = Math.min(6, Math.ceil(friends.length / 2) + (G.story.flags.first_homecoming ? 1 : 0));
+  for (let i = 0; i < count; i++) {
+    const a = i * 2.39996 + 0.9;
+    const r = 2.2 + (i % 6) * 0.52 + Math.floor(i / 6) * 0.5;
+    const s = w2s(Math.cos(a) * r, Math.sin(a) * r - 0.15);
+    const tw = 0.72 + 0.28 * Math.sin(G.t * 1.7 + i * 1.3);
+    L.push({ x: s.x, y: s.y - 13 * z, r: 66 * z * tw, c: "255,209,102", i: 0.85 });
+  }
+  if (sanctuaryStage() || G.story.flags.first_homecoming) {
+    const homes = [[-4.5, -1.7], [4.4, -1.4], [-3.6, 3.3], [3.9, 3.1], [0.1, 4.8]];
+    const hc = Math.min(3, 1 + Math.floor(Math.max(allies.length + reserve.length, sanctuaryStage()) / 3));
+    for (let i = 0; i < hc; i++) {
+      const s = w2s(homes[i][0], homes[i][1]);
+      L.push({ x: s.x, y: s.y - 10 * z, r: 84 * z, c: "255,199,120", i: 0.7 });
+    }
+  }
+  const p = w2s(player.x, player.y);
+  L.push({ x: p.x, y: p.y - 8 * z, r: 115 * z, c: "189,247,255", i: 0.55 });
+  return L;
+}
+function drawNightLighting() {
+  const amt = NIGHT_AMT;
+  const bw = Math.max(2, Math.ceil(W)), bh = Math.max(2, Math.ceil(H));
+  if (!LIGHTBUF || LIGHTBUF.width !== bw || LIGHTBUF.height !== bh) {
+    LIGHTBUF = document.createElement("canvas");
+    LIGHTBUF.width = bw; LIGHTBUF.height = bh;
+    LIGHTBUF.g2 = LIGHTBUF.getContext("2d");
+  }
+  const b = LIGHTBUF.g2;
+  b.globalCompositeOperation = "source-over";
+  b.clearRect(0, 0, bw, bh);
+  b.fillStyle = `rgba(8,6,28,${0.66 * amt})`;
+  b.fillRect(0, 0, bw, bh);
+  const edge = b.createRadialGradient(bw / 2, bh / 2, Math.min(bw, bh) * 0.30, bw / 2, bh / 2, Math.max(bw, bh) * 0.72);
+  edge.addColorStop(0, "rgba(6,4,18,0)");
+  edge.addColorStop(1, `rgba(6,4,18,${0.30 * amt})`);
+  b.fillStyle = edge; b.fillRect(0, 0, bw, bh);
+  const lights = nightLightSources();
+  b.globalCompositeOperation = "destination-out";
+  for (const l of lights) {
+    const g2 = b.createRadialGradient(l.x, l.y, l.r * 0.06, l.x, l.y, l.r);
+    g2.addColorStop(0, `rgba(255,255,255,${0.95 * l.i})`);
+    g2.addColorStop(0.45, `rgba(255,255,255,${0.48 * l.i})`);
+    g2.addColorStop(1, "rgba(255,255,255,0)");
+    b.fillStyle = g2;
+    b.beginPath(); b.ellipse(l.x, l.y, l.r, l.r * 0.72, 0, 0, 7); b.fill();
+  }
+  b.globalCompositeOperation = "source-over";
+  cx.drawImage(LIGHTBUF, 0, 0, bw, bh, 0, 0, W, H);
+  cx.save();
+  cx.globalCompositeOperation = "screen";
+  for (const l of lights) {
+    const g2 = cx.createRadialGradient(l.x, l.y, 0, l.x, l.y, l.r * 0.85);
+    g2.addColorStop(0, `rgba(255,236,190,${0.30 * l.i * amt})`); // hot core
+    g2.addColorStop(0.22, `rgba(${l.c},${0.24 * l.i * amt})`);
+    g2.addColorStop(0.6, `rgba(${l.c},${0.06 * l.i * amt})`);
+    g2.addColorStop(1, "rgba(0,0,0,0)");
+    cx.fillStyle = g2;
+    cx.beginPath(); cx.ellipse(l.x, l.y, l.r * 0.72, l.r * 0.52, 0, 0, 7); cx.fill();
+  }
+  for (const e of enemies) {
+    const s = w2s(e.x, e.y);
+    if (s.x < -60 || s.x > W + 60 || s.y < -60 || s.y > H + 60) continue;
+    const pulse = 0.65 + 0.35 * Math.sin(G.t * 5 + (e.bob || 0));
+    const g2 = cx.createRadialGradient(s.x, s.y - 8 * zoom, 0, s.x, s.y - 8 * zoom, 34 * zoom);
+    g2.addColorStop(0, `rgba(255,72,120,${0.30 * pulse * amt})`);
+    g2.addColorStop(0.5, `rgba(199,60,190,${0.14 * pulse * amt})`);
+    g2.addColorStop(1, "rgba(0,0,0,0)");
+    cx.fillStyle = g2;
+    cx.beginPath(); cx.arc(s.x, s.y - 8 * zoom, 34 * zoom, 0, 7); cx.fill();
+  }
+  cx.restore();
+}
 function drawTiltShiftFrame() {
   const top = cx.createLinearGradient(0, 0, 0, H * 0.35);
   top.addColorStop(0, "rgba(8,5,14,.42)");
@@ -5769,22 +6800,30 @@ function drawTiltShiftFrame() {
 function drawGlowGardenColorGrade() {
   if (G.lowFx) return;
   const B = curBiome();
+  const localHealth = getLocalHealth(player.x, player.y);
+  const gardenWarmth = clamp(sanctuaryBloom() * 0.4 + localHealth * 0.6, 0, 1);
   cx.save();
   cx.globalCompositeOperation = "soft-light";
-  cx.fillStyle = "rgba(255,226,174,.075)";
+  cx.fillStyle = `rgba(${MEMORIAL_PALETTE.bone},${0.052 + gardenWarmth * 0.035})`;
   cx.fillRect(0, 0, W, H);
   cx.globalCompositeOperation = "screen";
   const hearth = cx.createRadialGradient(W * .47, H * .53, 0, W * .47, H * .53, Math.max(W, H) * .58);
-  hearth.addColorStop(0, `rgba(${B.warm},.115)`);
-  hearth.addColorStop(.38, "rgba(140,240,191,.050)");
+  hearth.addColorStop(0, `rgba(${B.warm},${0.085 + gardenWarmth * 0.07})`);
+  hearth.addColorStop(.38, `rgba(${MEMORIAL_PALETTE.spirit},${0.040 + gardenWarmth * 0.060})`);
   hearth.addColorStop(1, "rgba(0,0,0,0)");
   cx.fillStyle = hearth;
   cx.fillRect(0, 0, W, H);
+  const moon = cx.createRadialGradient(W * .76, H * .18, 0, W * .76, H * .18, Math.max(W, H) * .42);
+  moon.addColorStop(0, `rgba(${MEMORIAL_PALETTE.lavender},.060)`);
+  moon.addColorStop(.5, `rgba(${MEMORIAL_PALETTE.spiritCool},.022)`);
+  moon.addColorStop(1, "rgba(0,0,0,0)");
+  cx.fillStyle = moon;
+  cx.fillRect(0, 0, W, H);
   cx.globalCompositeOperation = "multiply";
   const cool = cx.createLinearGradient(0, 0, W, H);
-  cool.addColorStop(0, "rgba(29,18,53,.05)");
+  cool.addColorStop(0, `rgba(${MEMORIAL_PALETTE.velvet},.050)`);
   cool.addColorStop(.55, "rgba(20,11,30,0)");
-  cool.addColorStop(1, "rgba(8,5,16,.16)");
+  cool.addColorStop(1, `rgba(${MEMORIAL_PALETTE.ink},${0.14 - gardenWarmth * 0.035})`);
   cx.fillStyle = cool;
   cx.fillRect(0, 0, W, H);
   cx.restore();
@@ -5916,6 +6955,50 @@ function drawSanctuaryMistClearing() {
   cx.fillRect(p.x - 300*zoom, p.y - 220*zoom, 600*zoom, 440*zoom);
   cx.restore();
 }
+function drawMemorialBloomPatch(s, gx, gy, localH, corr) {
+  if (G.lowFx || localH <= 0.22) return;
+  const pulse = 0.72 + 0.28 * Math.sin(G.t * 1.9 + gx * 0.7 + gy * 1.1);
+  const calm = clamp(localH - corr * 0.42, 0, 1);
+  cx.save();
+  cx.globalCompositeOperation = "screen";
+  const halo = cx.createRadialGradient(s.x, s.y - 3 * zoom, 0, s.x, s.y - 3 * zoom, (24 + calm * 44) * zoom);
+  halo.addColorStop(0, `rgba(${MEMORIAL_PALETTE.spirit},${0.045 + calm * 0.095})`);
+  halo.addColorStop(.55, `rgba(${MEMORIAL_PALETTE.lavender},${0.025 + calm * 0.040})`);
+  halo.addColorStop(1, "rgba(0,0,0,0)");
+  cx.fillStyle = halo;
+  cx.beginPath();
+  cx.ellipse(s.x, s.y - 2 * zoom, (28 + calm * 32) * zoom, (12 + calm * 18) * zoom, 0, 0, 7);
+  cx.fill();
+  cx.globalCompositeOperation = "source-over";
+
+  const petals = calm > 0.5 ? 5 : 3;
+  for (let i = 0; i < petals; i++) {
+    const seed = i * 19 + gx * 7 - gy * 11;
+    const px = s.x + (hash2(seed, gy) - 0.5) * TW * 0.72 * zoom;
+    const py = s.y + (hash2(gx, seed) - 0.5) * TH * 0.58 * zoom;
+    const petal = i % 3 === 0 ? MEMORIAL_PALETTE.lantern : i % 3 === 1 ? MEMORIAL_PALETTE.spirit : MEMORIAL_PALETTE.rose;
+    cx.fillStyle = `rgba(${petal},${0.18 + calm * 0.24})`;
+    cx.beginPath();
+    cx.ellipse(px, py - (2 + pulse * 2) * zoom, (1.5 + calm * 1.8) * zoom, (0.9 + calm) * zoom, seed * .13, 0, 7);
+    cx.fill();
+  }
+  if (calm > 0.62 && hash2(gx * 5 + 17, gy * 7 - 3) > 0.78) {
+    const h = (9 + calm * 10) * zoom;
+    cx.fillStyle = `rgba(${MEMORIAL_PALETTE.bone},${0.18 + calm * 0.24})`;
+    cx.beginPath();
+    cx.roundRect(s.x - 3.8 * zoom, s.y - h, 7.6 * zoom, h, 3 * zoom);
+    cx.fill();
+    cx.strokeStyle = `rgba(${MEMORIAL_PALETTE.lantern},${0.10 + calm * 0.13})`;
+    cx.lineWidth = Math.max(.7, .8 * zoom);
+    cx.beginPath();
+    cx.moveTo(s.x - 1.8 * zoom, s.y - h * .56);
+    cx.lineTo(s.x + 1.8 * zoom, s.y - h * .56);
+    cx.moveTo(s.x, s.y - h * .72);
+    cx.lineTo(s.x, s.y - h * .34);
+    cx.stroke();
+  }
+  cx.restore();
+}
 function drawTiles() {
   const B = curBiome();
   const range = Math.ceil(15 / zoom);
@@ -5946,9 +7029,9 @@ function drawTiles() {
     cx.globalCompositeOperation = "source-over";
   }
   const groundGlow = cx.createRadialGradient(plane.x, plane.y, 0, plane.x, plane.y, Math.max(W, H) * 0.72);
-  groundGlow.addColorStop(0, "rgba(255,226,174,.060)");
-  groundGlow.addColorStop(0.46, "rgba(112,92,122,.095)");
-  groundGlow.addColorStop(1, "rgba(13,8,20,.08)");
+  groundGlow.addColorStop(0, `rgba(${B.warm},.085)`);
+  groundGlow.addColorStop(0.46, `rgba(${B.accent},.058)`);
+  groundGlow.addColorStop(1, `rgba(${MEMORIAL_PALETTE.ink},.10)`);
   cx.fillStyle = groundGlow;
   cx.fillRect(0, 0, W, H);
   if (!G.surge && enemies.length === 0) {
@@ -5974,10 +7057,19 @@ function drawTiles() {
       const baseGround = tintHex(B.ground[1], r0 > .62 ? B.ground[0] : B.ground[2], 0.10 + hash2(gx - 11, gy + 19) * 0.08);
       const corr = corruptionAt(gx, gy);
       const heal = sanctuaryBloom() * sanctuaryNear(gx, gy);
-      const warmTint = G.phase === "night" ? 0.04 : 0.08;
-      const litGround = tintHex(baseGround, "#fff1c8", warmTint + hash2(gx - 3, gy + 8) * 0.018);
-      cx.globalAlpha = G.surge || enemies.length ? 0.24 : 0.13;
-      drawTileDiamond(s, zoom, litGround, `rgba(200,182,255,${0.020 + heal * 0.035})`);
+      const localH = getLocalHealth(gx, gy);
+      // Living-magic pass: healed ground visibly transmutes — mint-bright moss vs dim wilds
+      // Value hierarchy: wilds sink toward dark plum, corruption darker still,
+      // healed ground transmutes mint, home ground glows warm. Tiles draw near-opaque
+      // so the biome palette actually reads instead of washing to grey.
+      const wild = clamp(1 - localH, 0, 1);
+      const duskGround = tintHex(baseGround, "#171022", wild * 0.34 + corr * 0.30);
+      const healedGround = tintHex(duskGround, "#a7f0cf", 0.02 + localH * 0.30);
+      const warmTint = G.phase === "night" ? 0.03 : 0.09;
+      const litGround = tintHex(healedGround, "#fff1c8", (warmTint + hash2(gx - 3, gy + 8) * 0.02 + localH * 0.06) * (0.4 + heal * 0.9));
+      cx.globalAlpha = (G.surge || enemies.length ? 0.70 : 0.80) + localH * 0.10;
+      const crack = hash2(gx * 7 - 1, gy * 5 + 2) > 0.87;
+      drawTileDiamond(s, zoom, litGround, crack ? `rgba(16,10,26,${0.16 + wild * 0.12})` : null, gx, gy);
       cx.globalAlpha = 1;
       if (!G.lowFx) {
         const faceGlow = cx.createLinearGradient(s.x, s.y - TH * zoom, s.x, s.y + TH * zoom);
@@ -6027,13 +7119,13 @@ function drawTiles() {
           cx.globalCompositeOperation = "source-over";
         }
       }
-      if (corr > 0.72) {
-        cx.fillStyle = `rgba(20,7,24,${0.03 + corr * 0.10})`;
+      if (corr > 0.5) {
+        cx.fillStyle = `rgba(20,7,24,${0.22 + corr * 0.30})`;
         cx.beginPath();
         cx.moveTo(s.x, s.y - TH * zoom); cx.lineTo(s.x + TW * zoom, s.y);
         cx.lineTo(s.x, s.y + TH * zoom); cx.lineTo(s.x - TW * zoom, s.y);
         cx.closePath(); cx.fill();
-        cx.strokeStyle = `rgba(255,82,118,${0.03 + corr * 0.08})`;
+        cx.strokeStyle = `rgba(255,82,118,${0.12 + corr * 0.18})`;
         cx.lineWidth = Math.max(1, 1.1 * zoom);
         const vein = hash2(gx + 211, gy - 89) > 0.45;
         cx.beginPath();
@@ -6046,26 +7138,27 @@ function drawTiles() {
         }
         cx.stroke();
       }
-      if (heal > 0.08) {
+      if (localH > 0.08) {
         cx.globalCompositeOperation = "screen";
-        cx.fillStyle = `rgba(126,232,178,${0.03 + heal * 0.11})`;
+        cx.fillStyle = `rgba(${MEMORIAL_PALETTE.spirit},${0.025 + localH * 0.105})`;
         cx.beginPath();
         cx.ellipse(s.x, s.y, TW * .78 * zoom, TH * .78 * zoom, 0, 0, 7);
         cx.fill();
-        if (!G.lowFx && hash2(gx - 17, gy + 133) > 0.74 - heal * 0.18) {
-          cx.strokeStyle = `rgba(255,240,168,${0.16 + heal * 0.22})`;
+        if (!G.lowFx && hash2(gx - 17, gy + 133) > 0.74 - localH * 0.18) {
+          cx.strokeStyle = `rgba(${MEMORIAL_PALETTE.lantern},${0.14 + localH * 0.22})`;
           cx.lineWidth = Math.max(1, 1.2 * zoom);
-          cx.beginPath(); cx.arc(s.x, s.y - 5 * zoom, (2.2 + heal * 3) * zoom, 0, 7); cx.stroke();
+          cx.beginPath(); cx.arc(s.x, s.y - 5 * zoom, (2.2 + localH * 3) * zoom, 0, 7); cx.stroke();
         }
         cx.globalCompositeOperation = "source-over";
       }
-      if (!G.lowFx && heal > 0.22 && hash2(gx + 303, gy - 12) > 0.92) {
+      drawMemorialBloomPatch(s, gx, gy, localH, corr);
+      if (!G.lowFx && localH > 0.22 && hash2(gx + 303, gy - 12) > 0.92) {
         const lanternT = 0.65 + 0.35 * Math.sin(G.t * 2.1 + gx);
         cx.strokeStyle = "rgba(92,59,32,.62)";
         cx.lineWidth = Math.max(1, 1.1 * zoom);
         cx.beginPath(); cx.moveTo(s.x, s.y + 3 * zoom); cx.lineTo(s.x, s.y - 12 * zoom); cx.stroke();
         cx.globalCompositeOperation = "screen";
-        cx.fillStyle = `rgba(255,217,128,${0.14 + lanternT * 0.13})`;
+        cx.fillStyle = `rgba(${MEMORIAL_PALETTE.lantern},${0.13 + lanternT * 0.14})`;
         cx.beginPath(); cx.arc(s.x, s.y - 14 * zoom, 8 * zoom, 0, 7); cx.fill();
         cx.globalCompositeOperation = "source-over";
         cx.fillStyle = "#ffd980";
@@ -6108,10 +7201,10 @@ function drawTiles() {
           cx.stroke();
         }
       }
-      // flora — mint blossoms & pink glow-mushrooms
+      // flora — mint blossoms & pink glow-mushrooms (denser & prettier in well-terraformed areas)
       const f = floraAt(gx, gy);
       if (f) {
-        if (!G.lowFx && hash2(gx + 19, gy - 23) < 0.58 && sanctuaryNear(gx, gy) < 0.72) continue;
+        if (!G.lowFx && hash2(gx + 19, gy - 23) < 0.58 && sanctuaryNear(gx, gy) < 0.72 && localH < 0.35) continue;
         const key = gx + "," + gy;
         const isPicked = picked.has(key) && picked.get(key) > G.t;
         const pulse = 0.7 + 0.3 * Math.sin(G.t * 2 + gx * 1.7 + gy);
@@ -6141,6 +7234,12 @@ function drawTiles() {
             cx.fillStyle = "#eafff3";
             cx.beginPath(); cx.arc(s.x, s.y - 11 * zoom, 1.3 * zoom * pulse, 0, 7); cx.fill();
           }
+          if (localH > 0.4) {
+            // extra healthy flowers from terraforming
+            cx.fillStyle = "#c9b8ff";
+            cx.beginPath(); cx.arc(s.x - 2 * zoom, s.y - 4 * zoom, 2.2 * zoom * pulse, 0, 7); cx.fill();
+            cx.beginPath(); cx.arc(s.x + 2.5 * zoom, s.y - 3.5 * zoom, 1.8 * zoom * pulse, 0, 7); cx.fill();
+          }
         } else {
           cx.fillStyle = "rgba(126,232,178,.25)";
           cx.beginPath(); cx.arc(s.x, s.y, 1.6 * zoom, 0, 7); cx.fill();
@@ -6153,6 +7252,22 @@ function drawTiles() {
         cx.fillStyle = "rgba(157,141,241,.35)";
         cx.beginPath(); cx.ellipse(s.x + 5 * zoom, s.y + 1.2 * zoom, 1.6 * zoom, 0.9 * zoom, .3, 0, 7); cx.fill();
       }
+
+      // Terraformed visuals: more flowers & fewer brambles in healthy areas
+      const localH2 = getLocalHealth(gx, gy);
+      if (localH2 > 0.45 && hash2(gx * 7 + 3, gy * 11) > 0.82 - localH2 * 0.25) {
+        // small flowers from Memorial assets style
+        cx.fillStyle = "#c9b8ff";
+        cx.beginPath(); cx.arc(s.x - 1.5 * zoom, s.y - 1.8 * zoom, 1.8 * zoom, 0, 7); cx.fill();
+        cx.fillStyle = "#ff8fa3";
+        cx.beginPath(); cx.arc(s.x + 1.8 * zoom, s.y - 2.2 * zoom, 1.4 * zoom, 0, 7); cx.fill();
+      }
+      if (localH2 < 0.3 && hash2(gx * 13 - 4, gy * 9) > 0.88) {
+        // bramble/corruption hint
+        cx.strokeStyle = "rgba(80,50,70,.6)";
+        cx.lineWidth = 1.2 * zoom;
+        cx.beginPath(); cx.moveTo(s.x - 3 * zoom, s.y + 1 * zoom); cx.lineTo(s.x + 3 * zoom, s.y - 2 * zoom); cx.stroke();
+      }
     }
   }
   cx.restore();
@@ -6160,7 +7275,8 @@ function drawTiles() {
 
 function drawPainterlyGroundWash() {
   if (G.lowFx) return;
-  const B = curBiome();
+  const localHealth = getLocalHealth(player.x, player.y);
+  const B = getLocalBiome(player.x, player.y);
   const bloom = sanctuaryBloom();
   const center = w2s(0, 0);
   cx.save();
@@ -6169,7 +7285,8 @@ function drawPainterlyGroundWash() {
   if (false) drawCoverArt(cx, ENV_ART.groundOverlay, -Math.abs(ox) * 0.08, -Math.abs(oy) * 0.05, W * 1.10, H * 1.10, 0.54, "soft-light");
   cx.globalCompositeOperation = "source-over";
   const settle = cx.createRadialGradient(center.x, center.y, 0, center.x, center.y, Math.max(W, H) * .78);
-  settle.addColorStop(0, `rgba(${B.warm},${0.035 + bloom * 0.032})`);
+  const healBoost = localHealth * 0.045;
+  settle.addColorStop(0, `rgba(${B.warm},${0.035 + bloom * 0.032 + healBoost})`);
   settle.addColorStop(.32, "rgba(64,48,70,.14)");
   settle.addColorStop(.72, "rgba(25,16,34,.20)");
   settle.addColorStop(1, "rgba(10,6,16,.34)");
@@ -6177,13 +7294,18 @@ function drawPainterlyGroundWash() {
   cx.fillRect(0, 0, W, H);
 
   cx.globalCompositeOperation = "soft-light";
+  const healFactor = getLocalHealth(player.x, player.y);
   for (let i = 0; i < 16; i++) {
     const a = i * 2.39996 + G.dayNum * .37;
     const r = 1.4 + hash2(i, 71) * 8.8;
     const s = w2s(Math.cos(a) * r + Math.sin(i) * 1.7, Math.sin(a * .72) * r * .68 + Math.cos(i * .7) * 1.2);
     const w = (72 + hash2(i, 13) * 130) * zoom;
     const h = (18 + hash2(i, 17) * 42) * zoom;
-    cx.fillStyle = i % 4 === 0 ? `rgba(${B.warm},.065)` : i % 3 === 0 ? "rgba(140,240,191,.060)" : "rgba(255,248,220,.042)";
+    // More lush positive ellipses when area is terraformed/healed
+    const goldA = (0.065 + healFactor * 0.04).toFixed(3);
+    const mintA = (0.060 + healFactor * 0.05).toFixed(3);
+    const base = i % 4 === 0 ? `rgba(${B.warm},${goldA})` : i % 3 === 0 ? `rgba(${MEMORIAL_PALETTE.spirit},${mintA})` : `rgba(${MEMORIAL_PALETTE.bone},.042)`;
+    cx.fillStyle = base;
     cx.beginPath();
     cx.ellipse(s.x, s.y, w, h, a * .23, 0, 7);
     cx.fill();
@@ -6436,6 +7558,41 @@ function drawHomePaths() {
   }
   cx.restore();
 }
+// ---------- M4 Sanctuary Payoff: lantern path — lit lantern posts along the same 4 spokes drawn
+// by drawHomePaths(), gated on worldTrees.length (the real fast-travel/haven network, see
+// plantWorldTree() / safeNodes()). Posts are placed along a straight world-space interpolation
+// between drawHomePaths()'s own p0/p1 endpoints, so they always sit on the visible path.
+function drawLanternPathPosts() {
+  if (G.lowFx || !worldTrees.length) return;   // no trees rooted yet — path hasn't lit up (see plantWorldTree)
+  const bloom = sanctuaryBloom();
+  const z = zoom;
+  const lit = Math.min(8, 2 * Math.min(4, worldTrees.length));   // more trees rooted → more lanterns along the path
+  const perSpoke = Math.max(1, Math.round(lit / 4));
+  cx.save();
+  for (let i = 0; i < 4; i++) {
+    const a = i / 4 * Math.PI * 2 + 0.24;
+    const x0 = Math.cos(a) * 0.9, y0 = Math.sin(a) * 0.5;
+    const x1 = Math.cos(a) * (3.1 + bloom * 2.0), y1 = Math.sin(a) * (2.2 + bloom * 1.2);
+    for (let k = 1; k <= perSpoke; k++) {
+      const t = k / (perSpoke + 1);
+      const s = w2s(lerp(x0, x1, t), lerp(y0, y1, t));
+      if (s.x < -50 || s.x > W + 50 || s.y < -50 || s.y > H + 50) continue;
+      const tw = 0.6 + 0.4 * Math.sin(G.t * 1.8 + i * 3 + k * 1.4);
+      cx.strokeStyle = "rgba(92,59,32,.32)";
+      cx.lineWidth = Math.max(1, 1.1 * z);
+      cx.beginPath(); cx.moveTo(s.x, s.y + 2 * z); cx.lineTo(s.x, s.y - 13 * z); cx.stroke();
+      cx.fillStyle = "rgba(10,6,18,.32)";
+      cx.beginPath(); cx.roundRect(s.x - 4.6 * z, s.y - 19 * z, 9.2 * z, 9.2 * z, 3 * z); cx.fill();
+      cx.globalCompositeOperation = "screen";
+      cx.fillStyle = `rgba(${MEMORIAL_PALETTE.lantern},${0.10 + tw * 0.12})`;
+      cx.beginPath(); cx.arc(s.x, s.y - 14 * z, 12 * z, 0, 7); cx.fill();
+      cx.globalCompositeOperation = "source-over";
+      cx.fillStyle = "#ffd980";
+      cx.beginPath(); cx.arc(s.x, s.y - 14 * z, 2 * z, 0, 7); cx.fill();
+    }
+  }
+  cx.restore();
+}
 function drawVillageUpgrades() {
   if (G.lowFx || dist(player.x, player.y, 0, 0) > 14) return;
   const z = zoom;
@@ -6487,6 +7644,102 @@ function drawFriendTask(p, s, R) {
   cx.font = `${Math.max(10, 12 * zoom)}px Segoe UI, sans-serif`;
   cx.textAlign = "center";
   cx.fillText(active.ico || "•", s.x, y);
+  cx.restore();
+}
+
+// Agent mood visuals — very subtle, atmospheric, fits the dreamy memorial aesthetic.
+// Positioned like existing home moods (above head). Uses screen for soft glow interaction.
+// Only shows when the pet has emotional weight or pack cohesion.
+function drawAgentMood(entity, s, sizeZ) {
+  const m = entity && entity._agent;
+  if (!m || G.lowFx) return;
+
+  const mood = m.mood || "content";
+  const pack = m.packBonus || 0;
+  const emotional = Math.max(m.prefs ? (m.prefs.comfort + m.prefs.fight + (m.prefs.pack||0)) / 3 : 0.5, 0.5);
+
+  // Only show if there's something to express (avoids clutter on distant or neutral pets)
+  const playerNear = dist(player.x, player.y, entity.x || 0, entity.y || 0) < 9;
+  if (!playerNear && pack < 0.1 && emotional < 0.65) return;
+
+  cx.save();
+
+  // Mood orb — small, high, soft glow above the head (like existing ♥ / z indicators)
+  const orbY = s.y - sizeZ * 2.35;
+  const orbX = s.x + sizeZ * 0.35 + Math.sin(G.t * 1.7 + (entity.bob || 0)) * sizeZ * 0.12; // gentle drift, properly scaled
+  let col = "#c9b8ff"; // default lav / dreamy
+  let baseR = 2.2;
+
+  if (mood === "protective" || mood === "eager") {
+    col = "#ff8fa3"; // rose
+    baseR = 2.8;
+  } else if (mood === "playful" || mood === "curious") {
+    col = "#bdf7ff"; // cool mint-lav
+    baseR = 2.6;
+  } else if (mood === "affectionate") {
+    col = "#ffd980"; // warm gold
+    baseR = 2.4;
+  }
+
+  const pulse = 0.75 + 0.25 * Math.sin(G.t * 2.4 + (entity.bob || 0) * 0.5);
+  const r = baseR * zoom * pulse * (0.7 + emotional * 0.4);
+
+  cx.globalCompositeOperation = "screen";
+  cx.globalAlpha = 0.15 + (emotional - 0.5) * 0.12; // very soft, ~0.1-0.25 range for tasteful subtlety
+
+  // soft radial glow instead of hard circle
+  const gr = cx.createRadialGradient(orbX, orbY, r * 0.2, orbX, orbY, r * 1.6);
+  gr.addColorStop(0, col);
+  gr.addColorStop(1, "rgba(0,0,0,0)");
+  cx.fillStyle = gr;
+  cx.beginPath();
+  cx.arc(orbX, orbY, r * 1.5, 0, 7);
+  cx.fill();
+
+  // tiny core dot - even softer
+  cx.globalAlpha = 0.32;
+  cx.fillStyle = col;
+  cx.beginPath();
+  cx.arc(orbX, orbY, r * 0.45, 0, 7);
+  cx.fill();
+
+  cx.globalCompositeOperation = "source-over";
+  cx.globalAlpha = 1;
+
+  // Pack cohesion glow — very faint shared soft glow, matches existing sanctuary/forest light language
+  if (pack > 0.08 && playerNear) {
+    const glowR = sizeZ * (0.9 + pack * 1.8);
+    cx.globalCompositeOperation = "screen";
+    cx.globalAlpha = 0.06 + pack * 0.08;  // extremely subtle
+    const packGr = cx.createRadialGradient(
+      s.x, s.y - sizeZ * 0.35, glowR * 0.3,
+      s.x, s.y - sizeZ * 0.35, glowR * 1.1
+    );
+    packGr.addColorStop(0, "rgba(126, 232, 178, 0.6)");
+    packGr.addColorStop(1, "rgba(126, 232, 178, 0)");
+    cx.fillStyle = packGr;
+    cx.beginPath();
+    cx.ellipse(s.x, s.y - sizeZ * 0.35, glowR * 1.0, glowR * 0.6, 0, 0, 7);
+    cx.fill();
+
+    // second larger softer layer for depth
+    if (pack > 0.18) {
+      cx.globalAlpha = 0.04;
+      const packGr2 = cx.createRadialGradient(
+        s.x, s.y - sizeZ * 0.35, glowR * 0.5,
+        s.x, s.y - sizeZ * 0.35, glowR * 1.6
+      );
+      packGr2.addColorStop(0, "rgba(126, 232, 178, 0.4)");
+      packGr2.addColorStop(1, "rgba(126, 232, 178, 0)");
+      cx.fillStyle = packGr2;
+      cx.beginPath();
+      cx.ellipse(s.x, s.y - sizeZ * 0.35, glowR * 1.4, glowR * 0.85, 0, 0, 7);
+      cx.fill();
+    }
+    cx.globalCompositeOperation = "source-over";
+    cx.globalAlpha = 1;
+  }
+
   cx.restore();
 }
 
@@ -6708,6 +7961,19 @@ function drawDayActivities() {
       cx.stroke();
       cx.fillStyle = "rgba(20,7,24,.8)";
       for (const k of [-1, 1]) { cx.beginPath(); cx.moveTo(s.x + k*4*zoom, s.y - 5*zoom); cx.lineTo(s.x + k*9*zoom, s.y - 13*zoom); cx.lineTo(s.x + k*6*zoom, s.y - 3*zoom); cx.closePath(); cx.fill(); }
+    } else if (a.type === "plant") {
+      cx.strokeStyle = "#7ee8b2"; cx.lineWidth = 1.6*zoom; cx.lineCap = "round";
+      cx.beginPath(); cx.moveTo(s.x, s.y + 5*zoom); cx.quadraticCurveTo(s.x + 2*zoom, s.y - 7*zoom, s.x, s.y - 14*zoom); cx.stroke();
+      for (let p = 0; p < 6; p++) {
+        const pa = p / 6 * Math.PI * 2 + G.t * 0.25;
+        cx.fillStyle = p % 2 ? "#c9b8ff" : "#ff8fa3";
+        cx.beginPath();
+        cx.ellipse(s.x + Math.cos(pa) * 5.4*zoom, s.y - 15*zoom + Math.sin(pa) * 3.4*zoom,
+          3.2*zoom * pulse, 1.8*zoom * pulse, pa, 0, 7);
+        cx.fill();
+      }
+      cx.fillStyle = "#fff0a8";
+      cx.beginPath(); cx.arc(s.x, s.y - 15*zoom, 2*zoom * pulse, 0, 7); cx.fill();
     } else {
       cx.fillStyle = "#ffd166";
       cx.font = `${18*zoom}px Segoe UI, sans-serif`; cx.textAlign = "center";
@@ -6734,9 +8000,12 @@ function drawCamp() {
   const fire = w2s(0, 0);
   const bloom = sanctuaryBloom(), stage = sanctuaryStage();
   drawHomePaths();
+  drawLanternPathPosts();   // M4: lit lantern posts along the path once a Memory Tree is rooted
   drawVillageUpgrades();
   drawVillageHomes();
   drawSanctuaryGenesis(stage, bloom);
+  drawMemorialBeds();       // M4: ground plots for ghost-guardian pets
+  drawBloomGrove();         // M4: cluster of memory blooms once enough are planted
   drawGhostGuardians();
   if (battle || G.surge || enemies.length) drawVillageStations();
   drawMemoryLanterns();
@@ -6881,6 +8150,7 @@ function draw() {
   drawHD2DStage();
   drawCamp();
   drawWorldTrees();
+  drawMemoryBlooms();
   drawDayActivities();
 
   // markers
@@ -7006,6 +8276,7 @@ function draw() {
       const s = w2s(c.x, c.y);
       drawCreatureArt(cx, sp, s.x, s.y, sp.size * zoom, c.face, c.bob, false, false, 1, c);
       drawGuidedFriendCue(c);
+      if (typeof drawAgentMood === 'function') drawAgentMood(c, s, sp.size * zoom);
       if (c.bond > 0.15) {
         cx.fillStyle = "rgba(255,143,163,.95)";
         cx.font = `${11 * zoom}px "Segoe UI", sans-serif`; cx.textAlign = "center";
@@ -7018,8 +8289,17 @@ function draw() {
     ents.push({ d: a.x + a.y, f: () => {
       const s = w2s(a.x, a.y);
       drawCreatureArt(cx, sp, s.x, s.y, sp.size * zoom, a.face, a.bob, a.state === "dash", false, 1, a);
+      if (typeof drawAgentMood === 'function') drawAgentMood(a, s, sp.size * zoom); // kernel mood visuals first (under overlays)
       drawHomeMood(a, s, sp.size * zoom);
       drawFriendTask(a, s, sp.size * zoom);
+      // Visual rarity for high level creatures (meaningful progression)
+      if ((a.lvl || 1) >= 5) {
+        const auraCol = a.shiny ? "#ffd166" : "#c9b8ff";
+        cx.globalAlpha = 0.15 + Math.sin(G.t * 2.5) * 0.08;
+        cx.fillStyle = auraCol;
+        cx.beginPath(); cx.arc(s.x, s.y - 3 * zoom, (sp.size * 0.7 + 3) * zoom, 0, 7); cx.fill();
+        cx.globalAlpha = 1;
+      }
     }});
   }
   for (const r of reserve) {
@@ -7028,6 +8308,7 @@ function draw() {
     ents.push({ d: r.x + r.y, f: () => {
       const s = w2s(r.x, r.y);
       drawCreatureArt(cx, sp, s.x, s.y, sp.size * zoom, r.face || 0.6, r.bob || 0, false, false, 0.95, r);
+      if (typeof drawAgentMood === 'function') drawAgentMood(r, s, sp.size * zoom); // kernel mood visuals first (under overlays)
       drawHomeMood(r, s, sp.size * zoom);
       drawFriendTask(r, s, sp.size * zoom);
     }});
@@ -7235,10 +8516,9 @@ function draw() {
     cx.fillStyle = `rgba(120,96,40,${0.16 * dayness})`;
     cx.fillRect(0, 0, W, H);
     cx.globalCompositeOperation = "source-over";
-  } else {
-    cx.fillStyle = "rgba(14,12,40,0.30)";
-    cx.fillRect(0, 0, W, H);
   }
+  NIGHT_AMT += ((G.phase === "night" ? 1 : 0) - NIGHT_AMT) * 0.045;
+  if (NIGHT_AMT > 0.02) drawNightLighting();
   const v = cx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .35, W / 2, H / 2, Math.max(W, H) * .75);
   v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(6,3,12,.6)");
   cx.fillStyle = v; cx.fillRect(0, 0, W, H);
@@ -7252,9 +8532,22 @@ function draw() {
 updateHUD();
 let last = performance.now();
 let perfAcc = 0, perfN = 0; // adaptive quality
+let fpsAcc = 0, fpsFrames = 0;
+
 function frame(now) {
-  const rawDt = (now - last) / 1000;
-  const dt = Math.min(0.05, rawDt); last = now;
+  const rawDt = Math.max(0.001, (now - last) / 1000);
+  last = now;
+  Kernel.lastFrame = now;
+  Kernel.stats.frames++;
+
+  // fps sample (for debug overlay)
+  fpsAcc += rawDt; fpsFrames++;
+  if (fpsFrames >= 30) {
+    Kernel.stats.lastFps = Math.round(1 / (fpsAcc / fpsFrames));
+    fpsAcc = 0; fpsFrames = 0;
+  }
+
+  // adaptive quality (unchanged behavior)
   if (G.quality === "auto") {
     perfAcc += rawDt; perfN++;
     if (perfN >= 90) {
@@ -7264,20 +8557,75 @@ function frame(now) {
       perfAcc = 0; perfN = 0;
     }
   } else G.lowFx = G.quality === "low";
+
+  const dt = simDt(rawDt);   // respects timeScale + hitstop
+
   if (battle) {
-    G.t += dt;            // keep ambient animation time flowing
+    G.t += dt;
     battleUpdate(dt);
     if (battle) drawBattleScene(); else draw();
   } else {
     if (!G.paused && !G.over) {
-      if (G.hitstop > 0) { G.hitstop -= rawDt; update(dt * 0.06); }
-      else update(dt);
+      if (G.hitstop > 0) {
+        G.hitstop = Math.max(0, G.hitstop - rawDt);
+        update(dt);
+      } else {
+        update(dt);
+      }
     }
     draw();
   }
+
+  // restore timeScale after brief hitstop/slow
+  if (Kernel.timeScale < 1 && (G.hitstop || 0) <= 0.01) {
+    Kernel.timeScale = 1;
+  }
+
+  // periodic kernel maintenance
+  if ((Kernel.stats.frames % 12) === 0) kernelPrune();
+
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
+
+// Kernel-level focus / visibility / blur handling (core robustness)
+function installKernelVisibility() {
+  const onBlur = () => {
+    if (G.started && !G.over && !G.paused) {
+      G.paused = true;
+      try { saveGame(); } catch (_) {}
+    }
+  };
+  const onFocus = () => {
+    if (G.started && G.paused && !uiOpen() && !el("menu").classList.contains("open")) {
+      // only auto-resume if player was in pure gameplay (not explicit pause)
+      const hubOpen = el("hub").classList.contains("open") || el("camp").classList.contains("open");
+      if (!hubOpen) G.paused = false;
+    }
+  };
+  const onVisibility = () => {
+    if (document.hidden) onBlur();
+    else onFocus();
+  };
+  window.addEventListener("blur", onBlur);
+  window.addEventListener("focus", onFocus);
+  document.addEventListener("visibilitychange", onVisibility);
+  // also pause on long inactivity hint (very light)
+  let idleT = 0;
+  setInterval(() => {
+    if (!G.started || G.paused || G.over || document.hidden) return;
+    idleT += 1;
+    if (idleT > 45 && !mouse.down && keys.size === 0) {
+      // gentle nudge only; do not force pause for cozy play
+      if (G.focus < 30) G.focus = Math.min(G.focusMax, G.focus + 8);
+    }
+  }, 1000);
+  // reset idle on input
+  ["keydown","mousedown","pointerdown","touchstart"].forEach(ev =>
+    window.addEventListener(ev, () => { idleT = 0; }, { passive: true })
+  );
+}
+installKernelVisibility();
 
 function controllerState() {
   return {
@@ -7299,10 +8647,14 @@ function controllerState() {
     sanctuaryBloom: Math.round(sanctuaryBloom() * 100) / 100,
     forestMemory: G.forestMemory || 0,
     sanctuaryForestTier: sanctuaryForestTier(),
+    bloomPoints: bloomPoints.length,
+    localHealth: Math.round(getLocalHealth(player.x, player.y) * 100) / 100,
     friendCommands: allies.map(a => a.cmd || "follow"),
     villageWorkers: allies.concat(reserve).filter(a => a.workRole).length,
     variants: allies.concat(reserve).map(a => a.variant || "garden"),
     variantCounts: allies.concat(reserve).reduce((m, a) => { const v = a.variant || "garden"; m[v] = (m[v] || 0) + 1; return m; }, {}),
+    agentMoods: allies.concat(reserve).map(a => (a._agent && a._agent.mood) || "content").slice(0,5),
+    agentPrefs: (allies[0] && allies[0]._agent) ? allies[0]._agent.prefs : null,
     critters: critters.length, enemies: enemies.length,
     guidedCritters: critters.filter(c => c.guide).length,
     firstHomecoming: !!(G.story && G.story.flags && G.story.flags.first_homecoming),
@@ -7426,7 +8778,7 @@ function resetRuntimeForQA() {
   goHomeForQA();
   return controllerState();
 }
-const MiloController = {
+const PetGraveController = {
   state: controllerState,
   start: startGameForQA,
   home: goHomeForQA,
@@ -7454,14 +8806,11 @@ const MiloController = {
   openHub: () => { if (!el("hub").classList.contains("open")) toggleHub(); return controllerState(); },
   closeMenus: () => { closeOverlays(); el("menu").classList.remove("open"); el("win").classList.remove("open"); el("over").classList.remove("open"); G.paused = uiOpen(); return controllerState(); },
 };
-window.__miloController = MiloController;
+const PetGraveControllerAlias = PetGraveController; // legacy QA alias, not exported in public play by default
 
 function mountCodexController() {
-  const search = (location && location.search) || "";
-  const hasCodexParam = /(?:^\?|&)codex(?:=1|=true|&|$)/.test(search);
-  let flag = false;
-  try { flag = localStorage.getItem("milo_codex_controller") === "1"; } catch (e) {}
-  if (!hasCodexParam && !flag) return;
+  const flag = petGraveDebugEnabled() || petGraveFeatureEnabled("codex_controller", "milo_codex_controller");
+  if (!flag) return;
   if (document.getElementById("codex-controller")) return;
   const box = document.createElement("div");
   box.id = "codex-controller";
@@ -7491,27 +8840,31 @@ function mountCodexController() {
       const sp = box.querySelector("[data-sp]").value;
       const act = b.dataset.act;
       if (act === "hide") { box.remove(); return; }
-      if (act === "start") MiloController.start();
-      if (act === "home") MiloController.home();
-      if (act === "spawn") MiloController.spawnFriend(sp);
-      if (act === "bond") MiloController.bondFriend(sp);
-      if (act === "all") MiloController.bondAllFriends();
-      if (act === "hub") MiloController.openHub();
-      if (act === "day") MiloController.day();
-      if (act === "night") MiloController.night();
-      if (act === "heal") MiloController.heal();
-      if (act === "tasks") MiloController.activities();
-      if (act === "dust") MiloController.dust(100);
-      if (act === "clear") MiloController.clearDanger();
-      if (act === "filter") MiloController.filter();
-      if (act === "save") MiloController.save();
-      box.querySelector("[data-state]").textContent = JSON.stringify(MiloController.state(), null, 2);
+      if (act === "start") PetGraveController.start();
+      if (act === "home") PetGraveController.home();
+      if (act === "spawn") PetGraveController.spawnFriend(sp);
+      if (act === "bond") PetGraveController.bondFriend(sp);
+      if (act === "all") PetGraveController.bondAllFriends();
+      if (act === "hub") PetGraveController.openHub();
+      if (act === "day") PetGraveController.day();
+      if (act === "night") PetGraveController.night();
+      if (act === "heal") PetGraveController.heal();
+      if (act === "tasks") PetGraveController.activities();
+      if (act === "dust") PetGraveController.dust(100);
+      if (act === "clear") PetGraveController.clearDanger();
+      if (act === "filter") PetGraveController.filter();
+      if (act === "save") PetGraveController.save();
+      box.querySelector("[data-state]").textContent = JSON.stringify(PetGraveController.state(), null, 2);
     });
   });
   document.body.appendChild(box);
-  box.querySelector("[data-state]").textContent = JSON.stringify(MiloController.state(), null, 2);
+  box.querySelector("[data-state]").textContent = JSON.stringify(PetGraveController.state(), null, 2);
 }
-mountCodexController();
+if (_pde()) {
+  window.__petGraveController = PetGraveController;
+  window.__petGraveControllerAlias = PetGraveController;
+}
+if (typeof mountCodexController === "function") mountCodexController();
 
 // debug/testing handle (harmless in normal play)
 // ============================================================ WORLD TREES — expansion safe-havens
@@ -7537,7 +8890,6 @@ const WORLD_TREE = {
   tendXP:     40,
   name:       lvl => ["Memory Sapling", "Grave Sprout", "Lantern Tree", "Elder Grove", "Sanctuary Tree"][Math.min(lvl, 5) - 1] || `Tree Lv ${lvl}`,
 };
-let worldTrees = [];
 function treeRadius(t) { return WORLD_TREE.radius(t.level); }
 function makeTree(o) { const t = { x: o.x, y: o.y, level: o.level || 1, xp: o.xp || 0, planted: o.planted || 0 }; t.radius = treeRadius(t); return t; }
 // the memorial fire at origin is always a (max-level, immovable) safe node
@@ -7586,6 +8938,7 @@ function plantWorldTree() {
   toast("🌳 <b>Memory Tree planted</b> — a new safe haven takes root.<br>defend it, nurture it (E), and it will grow.", true);
   log("You planted a Memory Tree in the wild. Around it, the dark begins to retreat.", true);
   npcReact("plant");
+  unlockHomeUpgradeBeat("lantern_path");   // first tree rooted → the home lantern path becomes visible
   updateHUD(); saveGame();
   return true;
 }
@@ -7631,6 +8984,152 @@ function drawWorldTrees() {
         t: 0, life: rand(.8, 1.6), color: Math.random() < .5 ? "#7ee8b2" : "#bdf7ff" });
     }
   }
+}
+
+// ---------- Living-magic pass: planted memory blooms are visible, breathing flowers ----------
+// Single-flower renderer, factored out of the original drawMemoryBlooms loop body so M4's
+// drawBloomGrove() (a fixed cluster at home) can reuse the exact same art instead of duplicating it.
+function drawBloomFlower(wx, wy, seed, strength) {
+  const s = w2s(wx, wy);
+  if (s.x < -70 || s.x > W + 70 || s.y < -70 || s.y > H + 70) return;
+  const str = clamp(strength || 0.8, 0.3, 1.8);
+  const breathe = 0.72 + 0.28 * Math.sin(G.t * 1.6 + seed * 1.9);
+  if (!G.lowFx) {
+    cx.globalCompositeOperation = "screen";
+    const halo = cx.createRadialGradient(s.x, s.y - 4 * zoom, 0, s.x, s.y - 4 * zoom, (20 + str * 16) * breathe * zoom);
+    halo.addColorStop(0, `rgba(${MEMORIAL_PALETTE.lavender},${0.10 + str * 0.07})`);
+    halo.addColorStop(0.6, `rgba(${MEMORIAL_PALETTE.spirit},${0.05 + str * 0.04})`);
+    halo.addColorStop(1, "rgba(0,0,0,0)");
+    cx.fillStyle = halo;
+    cx.beginPath();
+    cx.ellipse(s.x, s.y - 2 * zoom, (24 + str * 18) * zoom, (11 + str * 9) * zoom, 0, 0, 7);
+    cx.fill();
+    cx.globalCompositeOperation = "source-over";
+  }
+  // stem + petals around a lantern-gold core
+  const h = (7 + str * 5) * zoom;
+  cx.strokeStyle = "rgba(126,232,178,.66)";
+  cx.lineWidth = Math.max(0.8, 1 * zoom);
+  cx.beginPath(); cx.moveTo(s.x, s.y); cx.quadraticCurveTo(s.x + Math.sin(G.t * 1.1 + seed) * 1.6 * zoom, s.y - h * 0.55, s.x, s.y - h); cx.stroke();
+  const petals = 5;
+  for (let k = 0; k < petals; k++) {
+    const pa = (k / petals) * Math.PI * 2 + G.t * 0.22 + seed;
+    cx.fillStyle = `rgba(${k % 2 ? MEMORIAL_PALETTE.lavender : MEMORIAL_PALETTE.rose},${0.5 + breathe * 0.3})`;
+    cx.beginPath();
+    cx.ellipse(s.x + Math.cos(pa) * 2.7 * zoom, s.y - h + Math.sin(pa) * 1.9 * zoom, 2.1 * zoom, 1.2 * zoom, pa, 0, 7);
+    cx.fill();
+  }
+  cx.fillStyle = `rgba(${MEMORIAL_PALETTE.lantern},${0.62 + breathe * 0.34})`;
+  cx.beginPath(); cx.arc(s.x, s.y - h, 1.6 * zoom, 0, 7); cx.fill();
+}
+function drawMemoryBlooms() {
+  if (!bloomPoints || !bloomPoints.length) return;
+  cx.save();
+  for (let i = 0; i < bloomPoints.length; i++) {
+    const bp = bloomPoints[i];
+    drawBloomFlower(bp.x, bp.y, i, bp.strength);
+  }
+  cx.restore();
+}
+// ---------- M4 Sanctuary Payoff: bloom grove — a cluster of memory blooms at home once you've
+// deliberately planted BLOOM_GROVE_MIN of them (see doDayActivity "plant" branch / G.bloomsPlanted).
+function bloomGroveSlotCount() {
+  if ((G.bloomsPlanted || 0) < BLOOM_GROVE_MIN) return 0;
+  return Math.min(9, 3 + Math.floor(((G.bloomsPlanted || 0) - BLOOM_GROVE_MIN) / 2));
+}
+function bloomGroveSlot(i) {
+  const col = i % 3, row = Math.floor(i / 3);
+  return {
+    x: 1.9 + col * 0.6 + (hash2(i, 3) - 0.5) * 0.3,
+    y: -1.35 + row * 0.62 + (hash2(i, 11) - 0.5) * 0.24,
+  };
+}
+function drawBloomGrove() {
+  const n = bloomGroveSlotCount();
+  if (!n) return;
+  cx.save();
+  for (let i = 0; i < n; i++) {
+    const p = bloomGroveSlot(i);
+    drawBloomFlower(p.x, p.y, i + 50, 0.65 + hash2(i, 23) * 0.5);
+  }
+  cx.restore();
+}
+
+// ---------- M4 Sanctuary Payoff: memorial beds — small ground plots honoring ghost guardians
+// (pets lost via losePetToDarkness / allyDeath, see ghostPets). One bed per fallen friend, laid
+// out as a short row southwest of the fire so it reads as a distinct planted "bed" and not more
+// scattered decoration. Doubles as the "reason to revisit home besides safety" — see visitMemorialBeds().
+const MEMORIAL_BED_ORIGIN = { x: -2.35, y: -0.35 };
+const MEMORIAL_BED_COLS = 2, MEMORIAL_BED_DX = 0.95, MEMORIAL_BED_DY = 0.72;
+function memorialBedSlot(i) {
+  const col = i % MEMORIAL_BED_COLS, row = Math.floor(i / MEMORIAL_BED_COLS);
+  return { x: MEMORIAL_BED_ORIGIN.x - col * MEMORIAL_BED_DX, y: MEMORIAL_BED_ORIGIN.y + row * MEMORIAL_BED_DY };
+}
+function drawMemorialBeds() {
+  if (!ghostPets.length) return;
+  const n = Math.min(6, ghostPets.length);
+  const z = zoom;
+  cx.save();
+  for (let i = 0; i < n; i++) {
+    const gp = ghostPets[i];
+    const p = memorialBedSlot(i);
+    const s = w2s(p.x, p.y);
+    if (s.x < -60 || s.x > W + 60 || s.y < -60 || s.y > H + 60) continue;
+    const spec = SPECIES[gp.sp] || SPECIES.milo;
+    const glow = 0.55 + 0.45 * Math.sin(G.t * 1.3 + i * 1.7);
+    // tilled soil plot
+    cx.fillStyle = "rgba(43,25,38,.5)";
+    cx.beginPath(); cx.ellipse(s.x, s.y + 3 * z, 11 * z, 5 * z, 0, 0, 7); cx.fill();
+    cx.strokeStyle = "rgba(120,90,80,.4)"; cx.lineWidth = Math.max(0.6, 0.9 * z);
+    cx.beginPath(); cx.ellipse(s.x, s.y + 3 * z, 11 * z, 5 * z, 0, 0, 7); cx.stroke();
+    // small headstone marker — same bone/lantern tombstone language as drawMemorialBloomPatch
+    const h = 8 * z;
+    cx.fillStyle = `rgba(${MEMORIAL_PALETTE.bone},${0.30 + glow * 0.22})`;
+    cx.beginPath(); cx.roundRect(s.x - 3.4 * z, s.y - h, 6.8 * z, h, 2.6 * z); cx.fill();
+    cx.strokeStyle = `rgba(${MEMORIAL_PALETTE.lantern},${0.24 + glow * 0.2})`;
+    cx.lineWidth = Math.max(0.6, 0.8 * z);
+    cx.beginPath();
+    cx.moveTo(s.x - 1.6 * z, s.y - h * 0.55); cx.lineTo(s.x + 1.6 * z, s.y - h * 0.55);
+    cx.moveTo(s.x, s.y - h * 0.72); cx.lineTo(s.x, s.y - h * 0.3);
+    cx.stroke();
+    // a small bloom beside the marker, tinted by the fallen pet's own species color
+    cx.globalCompositeOperation = "screen";
+    cx.fillStyle = `rgba(${hexRgb(spec.core || "#c9b8ff")},${0.16 + glow * 0.2})`;
+    cx.beginPath(); cx.arc(s.x + 4.6 * z, s.y - 2 * z, 3.2 * z, 0, 7); cx.fill();
+    cx.globalCompositeOperation = "source-over";
+    // name reads only up close, so it lands as a memorial rather than ambient clutter
+    if (dist(player.x, player.y, p.x, p.y) < 2.6) {
+      cx.fillStyle = "rgba(10,6,18,.6)"; cx.font = `${Math.max(9, 10 * z)}px Segoe UI, sans-serif`; cx.textAlign = "center";
+      cx.fillText(gp.name, s.x, s.y - h - 4 * z);
+    }
+  }
+  cx.restore();
+}
+// "One reason to revisit home besides safety": once a day, pay respects at the memorial beds
+// for a small glowdust/forest-memory reward — a checkpoint tied directly to the beds above.
+function memorialBedsKey() { return `memorialbeds:${G.dayNum}`; }
+function memorialBedsDoneToday() { return !!(G.story && G.story.flags && G.story.flags[memorialBedsKey()]); }
+function nearMemorialBeds(maxD = 2.1) {
+  return ghostPets.length > 0 && dist(player.x, player.y, MEMORIAL_BED_ORIGIN.x, MEMORIAL_BED_ORIGIN.y) < maxD;
+}
+function visitMemorialBeds() {
+  if (!ghostPets.length) return false;
+  if (!G.story) G.story = { flags: {}, seen: [] };
+  if (!G.story.flags) G.story.flags = {};
+  const key = memorialBedsKey();
+  if (G.story.flags[key]) { toast("🕯 you already paid your respects today"); return true; }
+  G.story.flags[key] = true;
+  const gp = ghostPets[Math.floor(Math.random() * ghostPets.length)];
+  const dust = Math.min(16, 3 + ghostPets.length * 2);
+  G.dust += dust;
+  G.forestMemory = Math.min(99, (G.forestMemory || 0) + 0.2);
+  skills.taming.xp += 4;
+  burst(MEMORIAL_BED_ORIGIN.x, MEMORIAL_BED_ORIGIN.y, "#c9b8ff", 14, 1.8);
+  heart(MEMORIAL_BED_ORIGIN.x + rand(-0.4, 0.4), MEMORIAL_BED_ORIGIN.y - rand(0, 0.4));
+  toast(`🕯 you linger at <b>${gp.name}</b>'s memorial bed · +${dust} glowdust`, true);
+  log(`You knelt by ${gp.name}'s memorial bed and remembered them. The garden feels a little warmer.`, true);
+  updateHUD(); saveGame();
+  return true;
 }
 
 // ---------- Safe Havens fast-travel (the waypoint network = the trees you plant) ----------
@@ -7693,12 +9192,22 @@ function traitsHTML(id, spec) {
     ${variants}
   </div>`;
 }
+function creatureLayerAnimReadyReport() {
+  const report = {};
+  for (const id of Object.keys(CREATURE_LAYER_ANIM_ART)) {
+    report[id] = {};
+    for (const state of ["idle", "walk", "interact", "hurt"]) {
+      report[id][state] = artReady(CREATURE_LAYER_ANIM_ART[id][state]);
+    }
+  }
+  return report;
+}
 
-window.__milo = {
+const PetGraveDebug = {
   G, skills, journal, codex, SPECIES, FRIENDLY_SPECIES, WILD_SPECIES, MILO_ART_STYLE_NAME, CREATURE_VARIANTS, VARIANT_IDS, variantLabel, creatureTitle, traitsHTML, discover, log,
   WORLD_TREE, get worldTrees() { return worldTrees; }, plantWorldTree, nurtureTree, growWorldTrees, sanctuaryForestTier,
   treeGainXP, creditNearestTree, nearestTree, nearestSafe, nearestSafeDist, exposure, safeNodes,
-  openHavens, closeHavens, renderHavens, travelTo, drawCreatureArt, drawCreatureSprite, drawGameArt, drawGameArtFrame, drawCoverArt, drawContainArt, drawSpellVfx, artReady, CREATURE_ART, PROP_ART, ENV_ART, ENV_DEPTH_PROPS, HD2D_ART, drawEnvironmentDepthProp, CHARACTER_ANIM_ART, SPELL_ART, SPELL_PROFILES, spellProfileForSpecies, spawnSpellVfx,
+  openHavens, closeHavens, renderHavens, travelTo, drawCreatureArt, drawCreatureSprite, drawGameArt, drawGameArtFrame, drawCoverArt, drawContainArt, drawSpellVfx, artReady, CREATURE_ART, PROP_ART, ENV_ART, ENV_DEPTH_PROPS, HD2D_ART, drawEnvironmentDepthProp, CHARACTER_ANIM_ART, CREATURE_LAYER_ANIM_ART, creatureLayerAnimReadyReport, SPELL_ART, SPELL_PROFILES, spellProfileForSpecies, spawnSpellVfx,
   PROCGEN, generateRoster, applyRoster, restoreAuthoredRoster, AUTHORED_WILD_SPECIES, USE_AUTHORED_V01_ROSTER, genCreature, ALLY_ABIL,
   MERCHANT, merchantStock, itemSellPrice, buyMerchantItem, sellItem, sellGear,
   NPC_REACT, npcReact, get npcs() { return npcs; }, npcService,
@@ -7719,77 +9228,19 @@ window.__milo = {
   FRIENDSHIP_STAGES, friendshipStage, addFriendship, VILLAGE_UPGRADES, villageUpgradeUnlocked, unlockVillageUpgrade, BIOME_SPAWN, BIOME_FLAVOR, pickBiomeSpecies, COMBAT_SEASONING, inCombatSpice,
   VILLAGE_FOCUS, VILLAGE_STATIONS, FRIEND_COMMANDS, commandInfo, setFriendCommand, villageFocus, villageRole, villageRoleCount, setVillageFocus, useVillageStation, interactHomeFriend,
   dayActivities, nearestDayActivity, doDayActivity, forageDreamCalm,
+  guideFlags, guideDone, firstSessionGuideText, updateFirstSessionGuide,
+  getLocalHealth, getLocalBiome, bloomPoints, plantBloom: (x,y,s=0.8) => bloomPoints.push({x,y,strength:s}),
   STORY, openEvent, pickEventChoice, maybeStoryEvent,
-  controller: MiloController,
+  controller: PetGraveController,
 };
+if (_pde()) {
+  window.__petGrave = PetGraveDebug;
+  window.__petGraveDebug = PetGraveDebug;
+}
 
-// ============================================================ QA DEBUG OVERLAY
-// Self-contained debug HUD. Toggle with backtick (`) or F3. Hidden by default;
-// renders FPS + live entity counts so future QA can watch for runaway arrays
-// without changing the normal player experience. No other systems depend on it.
-(function mountQADebugOverlay() {
-  if (typeof document === "undefined") return;
-  const box = document.createElement("div");
-  box.id = "qa-debug-overlay";
-  box.setAttribute("aria-hidden", "true");
-  box.style.cssText = [
-    "position:fixed", "right:10px", "top:10px", "z-index:9999",
-    "font:11px/1.45 ui-monospace,Menlo,Consolas,monospace",
-    "color:#a7f0cf", "background:rgba(10,7,16,.78)", "border:1px solid rgba(168,240,207,.28)",
-    "border-radius:8px", "padding:8px 10px", "pointer-events:none", "white-space:pre",
-    "letter-spacing:.3px", "box-shadow:0 8px 24px rgba(0,0,0,.4)", "display:none",
-  ].join(";");
-  document.body.appendChild(box);
-
-  let on = false;
-  try { on = localStorage.getItem("petgrave_qa_debug") === "1"; } catch (e) {}
-  const render = () => { box.style.display = on ? "block" : "none"; };
-  render();
-
-  const toggle = () => {
-    on = !on;
-    try { localStorage.setItem("petgrave_qa_debug", on ? "1" : "0"); } catch (e) {}
-    render();
-    if (typeof toast === "function") toast(on ? "🔍 QA overlay on" : "🔍 QA overlay off");
-  };
-  window.addEventListener("keydown", e => {
-    if (e.key === "`" || e.key === "F3") { e.preventDefault(); toggle(); }
-  });
-
-  // FPS sampler
-  let frames = 0, fps = 0, acc = 0, lastT = performance.now();
-  function sample(now) {
-    const dt = now - lastT; lastT = now;
-    frames++; acc += dt;
-    if (acc >= 500) { fps = Math.round((frames * 1000) / acc); frames = 0; acc = 0; }
-    if (!on) { requestAnimationFrame(sample); return; }
-    const cnt = (a) => (Array.isArray(a) ? a.length : 0);
-    const lines = [
-      `FPS      ${fps}`,
-      `biome    ${typeof curBiome === "function" ? curBiome().name : "?"}`,
-      `phase    ${G.phase}${G.surge ? " · SURGE" : ""}`,
-      `save     ${typeof SAVE_KEY !== "undefined" ? "ok" : "?"}`,
-      ``,
-      `particles ${cnt(particles)}`,
-      `critters  ${cnt(critters)}`,
-      `enemies   ${cnt(enemies)}`,
-      `loot      ${cnt(loot)}`,
-      `spellVfx  ${cnt(spellVfx)}`,
-      `pshots    ${cnt(pshots)}`,
-      `shots     ${cnt(shots)}`,
-      `zaps      ${cnt(zaps)}`,
-      `shades    ${cnt(shades)}`,
-      `markers   ${cnt(markers)}`,
-      `bubbles   ${cnt(bubbles)}`,
-      ``,
-      `ally ${cnt(allies)}  res ${cnt(reserve)}  ghost ${cnt(ghostPets)}`,
-    ];
-    box.textContent = lines.join("\n");
-    requestAnimationFrame(sample);
-  }
-  requestAnimationFrame(sample);
-})();
-
+// Expose rich local AI agent trace for Codex / Grok (after PetGraveDebug is defined)
+PetGraveDebug.exportAgentTrace = () => AgentKernel.exportTrace(30);
+PetGraveDebug.reflectAgents = () => AgentKernel.reflect();
 </script>
 <script>
 /* ================================================================
@@ -7802,6 +9253,7 @@ window.__milo = {
    own key ("milo_rift_v1") so the original v1 save stays intact.
    ================================================================ */
 (function () {
+  if (!( (typeof petGraveFeatureEnabled==="function"?petGraveFeatureEnabled("rift","milo_rift"):false) ) && !queryFlag("rifttest")) return;
   // ---------- state ----------
   const RIFT_KEY = "milo_rift_v1";
   function defRift() {
@@ -8181,6 +9633,7 @@ window.__milo = {
    Toggle any time with [5]. Purely additive module.
    ================================================================ */
 (function () {
+  if (!( (typeof petGraveFeatureEnabled==="function"?petGraveFeatureEnabled("h45","milo_45d"):false) )) return;
   // ---------- terrain height field ----------
   const AMP = 26;          // max lift in px (gentle storybook hills)
   const SCALE = 0.16;      // spatial frequency in world units
@@ -8195,7 +9648,7 @@ window.__milo = {
     return h * (1 - flat * 0.85);
   }
   window.__h45 = false;
-  try { if (localStorage.getItem("milo_45d") === "1") window.__h45 = true; } catch (e) {}
+  window.__h45 = (typeof petGraveFeatureEnabled==="function"?petGraveFeatureEnabled("h45","milo_45d"):false);
 
   // ---------- THE projector patch: everything rides the hills ----------
   const _w2s = w2s;
@@ -8274,8 +9727,9 @@ window.__milo = {
   // ---------- toggle ----------
   window.addEventListener("keydown", e => {
     if (e.key === "5" && !battle && !(typeof RIFT !== "undefined" && RIFT.ui && RIFT.ui.open)) {
+      if (!window.__h45 && !_pfe("h45","milo_45d")) return; // public load cannot enable untested 4.5D
       window.__h45 = !window.__h45;
-      try { localStorage.setItem("milo_45d", window.__h45 ? "1" : "0"); } catch (er) {}
+      try { localStorage.setItem("petgrave_h45", window.__h45 ? "1" : "0"); } catch (er) {}
       try { toast(window.__h45 ? "🏔 <b>4.5D on</b> — the dream gains depth" : "▱ 4.5D off — flat storybook"); } catch (er) {}
     }
   });

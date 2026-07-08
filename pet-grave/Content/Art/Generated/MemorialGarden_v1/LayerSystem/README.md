@@ -40,6 +40,7 @@ From the repo root:
 ```powershell
 python .\tools\pet_grave_creature_layers.py --species gravepup --seed memorial-garden
 python .\tools\pet_grave_creature_layers.py --species lanternkit --seed first-rescue
+python .\tools\pet_grave_creature_layers.py --species lume --seed moon-pool
 ```
 
 Outputs are written under:
@@ -57,4 +58,6 @@ Each creature gets:
 
 ## Runtime Boundary
 
-Do not wire generated layer-system strips directly into the game until the specific creature passes desktop and mobile QA. Generated strips are source candidates until scale, anchor, and motion read correctly in the game camera.
+Generated layer-system strips are source candidates until scale, anchor, and motion read correctly in the game camera.
+
+For the v0.5 opening-trio pass, `gravepup` / Gravemoss, `lanternkit` / Pip, and `lume` are now wired into `index.html` through the runtime compatibility ids `milo`, `pip`, and `lume`. The runtime chooses `idle`, `walk`, `interact`, or `hurt` strips from actor state, then falls back to the older static/procedural renderer if a strip is missing or still loading.
