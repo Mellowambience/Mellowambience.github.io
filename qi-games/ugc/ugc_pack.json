@@ -1,0 +1,30 @@
+{
+  "pack_id": "ugc-creator-pack",
+  "name": "QI-Games UGC Creator Pack",
+  "version": "1.0.0",
+  "license": "Founder License (royalty-free for buyer's UGC projects; no resale of pack as-is)",
+  "purpose": "Drop-in HD-2D art + a live founder-module sample for creators building on Roblox / Fortnite UGC / any engine.",
+  "includes": {
+    "spritesheet": "assets/spritesheet.png",
+    "individual_sprites": [
+      "forager", "trader", "builder", "scout", "curator", "you",
+      "berry", "crystal", "spellbook", "tile", "flower"
+    ],
+    "sample_module": "modules/driftkin/",
+    "live_demo": "modules/driftkin/demo.html"
+  },
+  "specs": {
+    "sprite_size": "64x64",
+    "atlas_grid": "4 cols",
+    "palette": "white + indigo (sovereign spec)",
+    "format": "PNG, RGBA, transparent bg",
+    "style": "HD-2D fairy/indigo — matches QI-Games world"
+  },
+  "usage": [
+    "Import spritesheet.png into Roblox (decal/ImageLabel) or UEFN (texture).",
+    "Slice the 4-col atlas at 64x64 per cell, left-to-right, top-to-bottom.",
+    "Use Driftkin demo.html as a reference for agentic founder behavior you can mimic in your own logic.",
+    "You may reskin/recolor freely. You may NOT resell this pack unmodified."
+  ],
+  "note": "Sovereign by design: zero external services, no CDN, no account needed. Buy once, own the art."
+}
