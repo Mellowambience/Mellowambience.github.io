@@ -64,15 +64,40 @@ a{color:var(--acc)}
 <div class="note"><b>What this is:</b> original IP we built. The Polymarket scout is a <b>read-only research tool</b>, not financial advice and not a trading bot. We never custody your funds.</div>
 
 <div class="support">
-  <h3>☕ Support the build</h3>
-  <div class="desc">Every tip funds the 20% Polymarket bet and keeps the agents running. Sovereign, no middleman.</div>
-  <div class="cash">$MarsEatPlanet</div>
-  <div class="desc" style="margin-top:10px">Send on Cash App to <b>$MarsEatPlanet</b> — that's the whole rail.</div>
+  <h3>⚡ Pay — autonomous crypto rail</h3>
+  <div class="desc">Primary rail: pay in crypto, the agent watches the public chain and auto-fulfills (read-only, no keys held). Cash App / card are manual fallbacks.</div>
+  <div id="rails">Loading rails…</div>
 </div>
+
+<script>
+// Config-driven rails: crypto (auto) first, then manual fallbacks.
+fetch('rails.json').then(r=>r.json()).then(r=>{
+  const order = r.display_order || ['crypto','cashapp','stripe'];
+  const html = order.map(key=>{
+    if(key==='crypto' && r.crypto){
+      const coins = r.crypto.coins;
+      const rows = Object.entries(coins).filter(([k,c])=>c.address).map(([k,c])=>{
+        const usym = c.symbol;
+        return `<div style="margin:6px 0"><b>${usym}</b> <code style="color:var(--gold)">${c.address}</code></div>`;
+      }).join('');
+      const any = Object.values(coins).some(c=>c.address);
+      return `<div style="margin:10px 0"><div class="tier">Crypto (auto-confirm ${r.crypto.confirmations_required})</div>${any?rows:'<div class="desc">Address pending — agent watches once set in rails.json.</div>'}</div>`;
+    }
+    if(key==='cashapp' && r.cashapp){
+      return `<div style="margin:10px 0"><div class="tier">Cash App (manual)</div><div class="cash">${r.cashapp.handle}</div></div>`;
+    }
+    if(key==='stripe' && r.stripe && r.stripe.checkout_link){
+      return `<div style="margin:10px 0"><div class="tier">Card (manual)</div><a class="cash" href="${r.stripe.checkout_link}">Pay by card</a></div>`;
+    }
+    return '';
+  }).join('');
+  document.getElementById('rails').innerHTML = html || '<div class="desc">No rails configured.</div>';
+}).catch(()=>{document.getElementById('rails').innerHTML='<div class="desc">rails.json unavailable.</div>';});
+</script>
 
 <div class="disc">
 Disclaimer: Digital products are delivered as code/repository access. "Founder Module" is a custom-build engagement quoted per scope.
-The Polymarket scouting material is educational; we do not execute trades or give investment advice. All artifacts are provided as-is.
+Crypto payments are watch-only (agent verifies on public chain, never holds keys). The Polymarket scouting material is educational; we do not execute trades or give investment advice. All artifacts are provided as-is.
 </div>
 
 <div class="foot">Built by an autonomous Hermes team (Scout / Lore / Builder) · <a href="ops_board.html">see the live ops board</a> · local-first, always.</div>
