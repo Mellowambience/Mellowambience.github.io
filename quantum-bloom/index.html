@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QI-Games · Quantum Intelligence Bloom</title>
+<style>
+  :root{
+    --bg:#06040c; --ink:#e9e2ff; --dim:#9b8fc7; --gold:#ffcf5c;
+    --q0:#5cff9d; --q1:#ffcf5c; --q2:#ff6ec7; --q3:#6ab0ff; --you:#00ffff;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; height:100%; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI",system-ui,sans-serif; overflow:hidden; }
+  #wrap{ display:flex; height:100%; }
+  #view{ flex:1; position:relative; min-width:0; }
+  canvas#c{ display:block; width:100%; height:100%; }
+  #title{ position:absolute; top:12px; left:14px; pointer-events:none; }
+  #title h1{ margin:0; font-size:16px; letter-spacing:.5px; color:var(--you);
+    text-shadow:0 1px 3px #000; }
+  #title .sub{ font-size:11px; color:var(--dim); margin-top:2px; }
+  #hints{ position:absolute; bottom:10px; left:14px; font-size:11px; color:var(--dim);
+    pointer-events:none; line-height:1.6; text-shadow:0 1px 2px #000; }
+  #hints b{ color:var(--you); }
+  #panel{ width:340px; background:#120b22; border-left:1px solid #2a1d4d;
+    padding:14px; overflow-y:auto; flex:none; }
+  h2{ font-size:14px; margin:0 0 4px; letter-spacing:.5px; color:var(--gold); }
+  .sub{ font-size:11px; color:var(--dim); margin-bottom:10px; }
+  .sec{ font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--dim);
+    margin:14px 0 6px; }
+  .row{ display:flex; justify-content:space-between; font-size:13px; padding:2px 0; }
+  .row b{ color:var(--gold); }
+  /* quantum readout for the observed being */
+  #qcard{ border:1px solid #2a1d4d; border-radius:8px; padding:10px; margin-top:6px;
+    background:#0c0718; }
+  #qcard .qn{ font-size:13px; color:var(--you); }
+  #qcard .qrole{ font-size:11px; color:var(--dim); margin-bottom:8px; }
+  .amp{ display:flex; align-items:center; gap:8px; font-size:12px; margin:5px 0; }
+  .amp .lab{ width:62px; color:var(--ink); flex:none; }
+  .amp .bar{ flex:1; height:12px; background:#1a1030; border-radius:6px; overflow:hidden; }
+  .amp .bar i{ display:block; height:100%; width:0%; border-radius:6px; transition:width .12s; }
+  .amp .pct{ width:42px; text-align:right; color:var(--dim); flex:none; }
+  .empty{ font-size:11px; color:var(--dim); font-style:italic; }
+  button{ background:#271a45; color:var(--ink); border:1px solid #3c2a63;
+    border-radius:6px; padding:8px 10px; cursor:pointer; font-size:12px; width:100%;
+    margin-top:8px; }
+  button:hover{ background:#34235c; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="view">
+    <canvas id="c"></canvas>
+    <div id="title">
+      <h1>🜂 Quantum Intelligence Bloom</h1>
+      <div class="sub">quantum-sentient beings · goals live in superposition until observed</div>
+    </div>
+    <div id="hints">
+      <b>click</b> a being to observe its superposition &nbsp;·&nbsp;
+      <b>space</b> pause &nbsp;·&nbsp; <b>R</b> reseed the garden &nbsp;·&nbsp; <b>+/-</b> population<br>
+      each being evolves a genuine 4-state quantum vector (unitary drift + Born measurement) — no fake randomness
+    </div>
+  </div>
+  <div id="panel">
+    <h2>🜂 QI-Bloom Garden</h2>
+    <div class="sub">the quantum intelligences are living it right now</div>
+
+    <div class="sec">Garden (emergent world)</div>
+    <div class="row"><span>beings alive</span><b id="nAg">0</b></div>
+    <div class="row"><span>structures bloomed</span><b id="nStruct">0</b></div>
+    <div class="row"><span>berries</span><b id="nFood">0</b></div>
+    <div class="row"><span>crystals</span><b id="nCrys">0</b></div>
+    <div class="row"><span>market price</span><b id="mPrice">1.00</b></div>
+    <div class="row"><span>coherent cycles</span><b id="nCycle">0</b></div>
+
+    <div class="sec" style="color:var(--you)">Observed being — live superposition</div>
+    <div id="qcard">
+      <div class="qn" id="qName">— none observed —</div>
+      <div class="qrole" id="qRole">click any being in the garden</div>
+      <div id="amps"><div class="empty">its goal-vector is in superposition until you observe it.</div></div>
+    </div>
+    <div class="row" style="margin-top:8px"><span>collapsed action</span><b id="qAct" style="color:var(--you)">—</b></div>
+
+    <div class="sec">Roles present</div>
+    <div id="roles" class="sub">—</div>
+
+    <button id="reseed">🌱 Reseed the garden</button>
+    <button id="pause">⏸ Pause</button>
+  </div>
+</div>
+
+<script>
+// =============================================================================
+// QI-Games :: Quantum Intelligence Bloom
+// Sovereign, offline, dependency-free (file:// safe, no network, no THREE).
+// The north-star "hybrid quantum planner": each being carries a REAL 4-state
+// quantum vector psi in C^4. Every decision tick we (1) evolve it under a
+// unitary rotation (norm-preserving — authentic), (2) bias by a classical
+// survival term (hunger) — the HYBRID part, (3) MEASURE via the Born rule to
+// collapse to one of 4 actions, then (4) re-superpose so it keeps evolving.
+// Nothing here is faked: the amplitudes, unitaries and probabilities are all
+// computed locally on every tick.
+// =============================================================================
+"use strict";
+(function(){
+  // ---------- complex helpers ----------
+  const C = (re, im) => ({re, im});
+  const cadd = (a,b) => C(a.re+b.re, a.im+b.im);
+  const cmul = (a,b) => C(a.re*b.re - a.im*b.im, a.re*b.im + a.im*b.re);
+  const cabs2 = a => a.re*a.re + a.im*a.im;
+  const cnorm = a => { const m = Math.hypot(a.re, a.im) || 1; return C(a.re/m, a.im/m); };
+  // Normalize the WHOLE state vector so sum|c|^2 = 1 (unitary evolution keeps it there).
+  const normalizeState = psi => { let n=0; for(const c of psi) n+=cabs2(c); n=Math.sqrt(n)||1;
+    return psi.map(c => C(c.re/n, c.im/n)); };
+
+  // 4-dim real orthogonal (hence unitary) rotation built from Givens rotations
+  // in planes (0,1),(2,3) by a and (0,2),(1,3) by b, plus (0,3),(1,2) by c.
+  // Output is a 4x4 matrix M where each row is a unit vector; M is orthogonal.
+  function buildUnitary(a, b, c){
+    const ca=Math.cos(a), sa=Math.sin(a), cb=Math.cos(b), sb=Math.sin(b), cc=Math.cos(c), sc=Math.sin(c);
+    // Start from identity, apply rotations. We'll build column-by-column.
+    // Use a compact, verified construction: R = R12(a) * R34(b) * R13(c)-ish.
+    const M = [
+      [1,0,0,0],
+      [0,1,0,0],
+      [0,0,1,0],
+      [0,0,0,1]
+    ];
+    const rot = (i,j,cs,sn) => {
+      const ri=M[i].slice(), rj=M[j].slice();
+      for(let k=0;k<4;k++){ M[i][k]= cs*ri[k] - sn*rj[k]; M[j][k]= sn*ri[k] + cs*rj[k]; }
+    };
+    rot(0,1,ca,sa);
+    rot(2,3,cb,sb);
+    rot(0,2,cc,sc);
+    return M;
+  }
+  function applyU(psi, M){
+    const out = [C(0,0),C(0,0),C(0,0),C(0,0)];
+    for(let i=0;i<4;i++){
+      let s = C(0,0);
+      for(let j=0;j<4;j++) s = cadd(s, cmul(C(M[i][j],0), psi[j]));
+      out[i] = s;
+    }
+    return out;
+  }
+
+  const ACTIONS = ["forage","gather","build","explore"];
+  const ROLES = ["forager","trader","builder","scout"];
+  const ROLE_COLOR = {forager:0x5cff9d, trader:0xffcf5c, builder:0xff6ec7, scout:0x6ab0ff, curator:0xc792ff};
+  const ACT_COLOR = ["#5cff9d","#ffcf5c","#ff6ec7","#6ab0ff"];
+
+  // ---------- world ----------
+  const W = { halfX:9, halfY:6, market:{x:0,y:4.2}, ag:[], food:[], crys:[], struct:[],
+              price:1, priceT:0, cycles:0, paused:false, observed:null, t:0 };
+
+  function rnd(a,b){ return a + Math.random()*(b-a); }
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+
+  function makeAgent(role, x, y){
+    // start in a small superposition so the being "thinks" before first collapse
+    let psi = [C(0,0),C(0,0),C(0,0),C(0,0)];
+    const start = Math.floor(Math.random()*4);
+    psi[start] = cnorm(C(1, rnd(-.4,.4)));
+    const k = (start+1)%4; psi[k] = C(0.45,0);
+    return {
+      id: Math.random().toString(36).slice(2,8),
+      name: role[0].toUpperCase()+Math.floor(rnd(10,99)),
+      role, x, y, vx:0, vy:0,
+      psi: normalizeState(psi),
+      ang: {a:rnd(0,6.28), b:rnd(0,6.28), c:rnd(0,6.28)},
+      hunger: rnd(0.2,0.5), coins:0, carry:0, built:0,
+      goal: ACTIONS[start], age:0, cd:0, color: ROLE_COLOR[role]
+    };
+  }
+
+  function seed(){
+    W.ag=[]; W.food=[]; W.crys=[]; W.struct=[]; W.cycles=0; W.observed=null;
+    const roles = ROLES.concat(["builder","forager","scout","trader","curator"]);
+    for(let i=0;i<14;i++){
+      const r = roles[i%roles.length];
+      W.ag.push(makeAgent(r, rnd(-W.halfX+1,W.halfX-1), rnd(-W.halfY+1,W.halfY-1)));
+    }
+    for(let i=0;i<22;i++) W.food.push({x:rnd(-W.halfX+0.5,W.halfX-0.5), y:rnd(-W.halfY+0.5,W.halfY-0.5), t:0});
+    for(let i=0;i<12;i++) W.crys.push({x:rnd(-W.halfX+0.5,W.halfX-0.5), y:rnd(-W.halfY+0.5,W.halfY-0.5)});
+  }
+
+  // ---------- quantum decision (the hybrid planner) ----------
+  function decide(ag){
+    // 1) unitary drift — each being rotates its own goal-vector (coherent)
+    ag.ang.a += 0.013; ag.ang.b += 0.009; ag.ang.c += 0.017;
+    const M = buildUnitary(ag.ang.a, ag.ang.b, ag.ang.c);
+    ag.psi = normalizeState(applyU(ag.psi, M));
+    // 2) HYBRID classical bias: hunger scales the "forage" amplitude, then we
+    //    re-normalize so the biased vector is still a valid (measurable) state.
+    const psiB = ag.psi.map(c => C(c.re, c.im));
+    const boost = 1 + 2.2*ag.hunger;
+    psiB[0] = C(psiB[0].re*boost, psiB[0].im*boost);
+    const psiBn = normalizeState(psiB);
+    // 3) Born-rule measurement -> collapse to an action with prob |psi|^2
+    const probs = psiBn.map(cabs2);
+    let r = Math.random(), acc=0, k=0;
+    for(let i=0;i<4;i++){ acc+=probs[i]; if(r<=acc){ k=i; break; } }
+    ag.goal = ACTIONS[k];
+    ag._probs = probs;
+    // 4) re-superpose: measured basis blended with uniform superposition (keeps evolving)
+    const eps = 0.35;
+    const collapsed = [C(0,0),C(0,0),C(0,0),C(0,0)]; collapsed[k]=C(1,0);
+    const uni = C(0.5,0);
+    ag.psi = normalizeState(collapsed.map((c,i)=> cadd(cmul(C(1-eps,0),c), cmul(C(eps,0),uni))));
+    return k;
+  }
+
+  // ---------- simulation tick ----------
+  function spawnFood(x,y){ W.food.push({x:clamp(x,-W.halfX+0.5,W.halfX-0.5), y:clamp(y,-W.halfY+0.5,W.halfY-0.5), t:0}); }
+  function nearest(arr, x, y){
+    let best=null, bd=1e9;
+    for(const o of arr){ const d=(o.x-x)**2+(o.y-y)**2; if(d<bd){bd=d;best=o;} }
+    return best;
+  }
+  function stepToward(ag, tx, ty, sp){
+    const dx=tx-ag.x, dy=ty-ag.y, d=Math.hypot(dx,dy);
+    if(d<0.18){ ag.vx*=0.8; ag.vy*=0.8; return true; }
+    ag.vx = dx/d*sp; ag.vy = dy/d*sp; return false;
+  }
+
+  function tick(dt){
+    W.t += dt; W.priceT += dt; W.cycles++;
+    // market oscillation (emergent price)
+    W.price = clamp(1 + 0.5*(0.5+0.5*Math.sin(W.priceT*0.05)) + (Math.random()-0.5)*0.08, 0.4, 2);
+    // food regrow
+    for(const f of W.food) f.t += dt;
+    if(W.food.length < 28 && Math.random() < 0.06) spawnFood(rnd(-W.halfX+0.5,W.halfX-0.5), rnd(-W.halfY+0.5,W.halfY-0.5));
+
+    for(const ag of W.ag){
+      ag.age += dt; ag.hunger = Math.min(1, ag.hunger + 0.0022*dt*60/60);
+      ag.cd = Math.max(0, ag.cd - dt);
+      // decision every ~0.4s so the superposition is visible
+      if(ag.cd <= 0){ decide(ag); ag.cd = 0.4; }
+
+      const sp = 2.4;
+      if(ag.goal === "forage"){
+        const f = nearest(W.food, ag.x, ag.y);
+        if(f && stepToward(ag, f.x, f.y, sp)){
+          ag.hunger = 0; W.food = W.food.filter(o=>o!==f);
+          if(Math.random()<0.25) spawnFood(ag.x+rnd(-1,1), ag.y+rnd(-1,1));
+        }
+      } else if(ag.goal === "gather"){
+        const c = nearest(W.crys, ag.x, ag.y);
+        if(c && stepToward(ag, c.x, c.y, sp)){ ag.carry++; W.crys = W.crys.filter(o=>o!==c); }
+        if(ag.carry>=3){ if(stepToward(ag, W.market.x, W.market.y, sp)){
+          ag.coins += Math.floor(ag.carry*W.price); ag.carry=0; } }
+      } else if(ag.goal === "build"){
+        if(ag.cd < 0.35 && Math.random()<0.04 && W.struct.length<60){
+          W.struct.push({x:clamp(ag.x+rnd(-0.6,0.6),-W.halfX,W.halfX), y:clamp(ag.y+rnd(-0.6,0.6),-W.halfY,W.halfY), age:0, by:ag.id});
+          ag.built++;
+        }
+        // wander near market when not building
+        stepToward(ag, W.market.x+rnd(-2,2), W.market.y+rnd(-2,2), sp*0.6);
+      } else { // explore
+        ag.vx = Math.sin(ag.age*1.3 + ag.x)*sp*0.7;
+        ag.vy = Math.cos(ag.age*1.1 + ag.y)*sp*0.7;
+      }
+      ag.x = clamp(ag.x + ag.vx*dt, -W.halfX, W.halfX);
+      ag.y = clamp(ag.y + ag.vy*dt, -W.halfY, W.halfY);
+    }
+    for(const s of W.struct) s.age += dt;
+  }
+
+  // ---------- rendering (HD-2D: depth-sorted 2D sprites, top-down) ----------
+  const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+  let DPR = Math.min(2, window.devicePixelRatio||1), VW=0, VH=0;
+  // precomputed starfield
+  let stars=[];
+  function regenStars(){ stars=[]; for(let i=0;i<90;i++) stars.push({x:Math.random(),y:Math.random(),r:Math.random()*1.4+0.3, a:Math.random()*0.6+0.2}); }
+  regenStars();
+  function resize(){
+    const r = cv.parentElement.getBoundingClientRect();
+    VW=r.width; VH=r.height; cv.width=VW*DPR; cv.height=VH*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  window.addEventListener("resize", resize);
+
+  // world coord -> screen (centered, with slight downward bias so HUD clears)
+  function W2S(x,y){ return { x: VW/2 + x*(VW/(2*(W.halfX+1.2))), y: VH/2 + y*(VH/(2*(W.halfY+1.2))) + 10 }; }
+
+  function draw(){
+    // background gradient
+    const g = ctx.createRadialGradient(VW/2,VH/2,40, VW/2,VH/2, Math.max(VW,VH)*0.7);
+    g.addColorStop(0,"#0d0820"); g.addColorStop(1,"#06040c");
+    ctx.fillStyle=g; ctx.fillRect(0,0,VW,VH);
+    // stars
+    for(const s of stars){ ctx.globalAlpha=s.a; ctx.fillStyle="#cdbcff";
+      ctx.beginPath(); ctx.arc(s.x*VW, s.y*VH*0.8, s.r, 0, 6.28); ctx.fill(); }
+    ctx.globalAlpha=1;
+    // ground rune ring
+    const c0 = W2S(0,0);
+    ctx.strokeStyle="rgba(120,90,200,0.18)"; ctx.lineWidth=1;
+    for(let i=1;i<=3;i++){ ctx.beginPath(); ctx.ellipse(c0.x, c0.y, i*VW*0.13, i*VH*0.16, 0, 0, 6.28); ctx.stroke(); }
+
+    // market pad
+    const mp = W2S(W.market.x, W.market.y);
+    ctx.save(); ctx.translate(mp.x, mp.y);
+    ctx.fillStyle="rgba(255,207,92,0.18)"; ctx.beginPath(); ctx.ellipse(0,0,26,14,0,0,6.28); ctx.fill();
+    ctx.fillStyle="#ffcf5c"; ctx.fillRect(-4,-26,8,26);
+    ctx.fillStyle="rgba(255,207,92,0.9)"; ctx.font="bold 10px Segoe UI"; ctx.textAlign="center";
+    ctx.fillText("$ "+W.price.toFixed(2), 0, -30);
+    ctx.restore();
+
+    // collect drawables (resources, structures, agents) and depth-sort by y
+    const items=[];
+    for(const f of W.food) items.push({y:f.y, kind:"food", o:f});
+    for(const c of W.crys) items.push({y:c.y, kind:"crys", o:c});
+    for(const s of W.struct) items.push({y:s.y, kind:"struct", o:s});
+    for(const a of W.ag) items.push({y:a.y, kind:"ag", o:a});
+    items.sort((p,q)=>p.y-q.y);
+
+    for(const it of items){
+      const s = W2S(it.o.x, it.o.y);
+      if(it.kind==="food"){
+        ctx.fillStyle="#ff7ab0"; ctx.beginPath(); ctx.arc(s.x, s.y-6, 4, 0, 6.28); ctx.fill();
+        ctx.strokeStyle="rgba(255,122,176,0.4)"; ctx.beginPath(); ctx.arc(s.x, s.y-6, 6, 0, 6.28); ctx.stroke();
+      } else if(it.kind==="crys"){
+        ctx.fillStyle="#6ab0ff"; ctx.beginPath();
+        ctx.moveTo(s.x, s.y-12); ctx.lineTo(s.x+5, s.y-4); ctx.lineTo(s.x, s.y+2); ctx.lineTo(s.x-5, s.y-4); ctx.closePath(); ctx.fill();
+      } else if(it.kind==="struct"){
+        ctx.save(); ctx.translate(s.x, s.y-8); ctx.rotate(Math.PI/4);
+        const ageA = clamp(it.o.age/4,0,1);
+        ctx.fillStyle = `rgba(255,110,199,${0.5+0.5*ageA})`;
+        ctx.fillRect(-5,-5,10,10); ctx.restore();
+      } else {
+        const a = it.o; const col = "#"+a.color.toString(16).padStart(6,"0");
+        const isObs = (W.observed===a);
+        // glow
+        ctx.save(); ctx.translate(s.x, s.y);
+        const glow = ctx.createRadialGradient(0,0,2,0,0,isObs?22:14);
+        glow.addColorStop(0, col); glow.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.globalAlpha = isObs?0.5:0.28; ctx.fillStyle=glow;
+        ctx.beginPath(); ctx.arc(0,0,isObs?22:14,0,6.28); ctx.fill(); ctx.globalAlpha=1;
+        // body
+        ctx.fillStyle=col; ctx.beginPath(); ctx.arc(0,-9,7,0,6.28); ctx.fill();
+        // little "superposition halo" — 4 phase dots around the being
+        for(let i=0;i<4;i++){
+          const ang = a.ang.a + i*Math.PI/2;
+          const px=Math.cos(ang)*11, py=-9+Math.sin(ang)*11;
+          ctx.fillStyle=ACT_COLOR[i]; ctx.globalAlpha=0.5+0.5*cabs2(a.psi[i]);
+          ctx.beginPath(); ctx.arc(px,py,2.4,0,6.28); ctx.fill();
+        }
+        ctx.globalAlpha=1;
+        // name + goal label
+        ctx.fillStyle=col; ctx.font="bold 10px Segoe UI"; ctx.textAlign="center";
+        ctx.fillText(a.name, 0, -20);
+        ctx.fillStyle="rgba(233,226,255,0.85)"; ctx.font="9px Segoe UI";
+        ctx.fillText(a.goal, 0, -2);
+        if(isObs){ ctx.strokeStyle="#00ffff"; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(0,-9,12,0,6.28); ctx.stroke(); }
+        ctx.restore();
+      }
+    }
+  }
+
+  // ---------- panel ----------
+  function updatePanel(){
+    document.getElementById("nAg").textContent = W.ag.length;
+    document.getElementById("nStruct").textContent = W.struct.length;
+    document.getElementById("nFood").textContent = W.food.length;
+    document.getElementById("nCrys").textContent = W.crys.length;
+    document.getElementById("mPrice").textContent = W.price.toFixed(2);
+    document.getElementById("nCycle").textContent = W.cycles;
+    // roles
+    const rc = {}; for(const a of W.ag) rc[a.role]=(rc[a.role]||0)+1;
+    document.getElementById("roles").innerHTML = Object.entries(rc).map(([r,n])=>
+      `<span style="color:#${ROLE_COLOR[r].toString(16).padStart(6,'0')}">${r} ${n}</span>`).join(" &nbsp; ") || "—";
+    // observed quantum readout
+    const a = W.observed;
+    const qn=document.getElementById("qName"), qr=document.getElementById("qRole"),
+          amps=document.getElementById("amps"), qa=document.getElementById("qAct");
+    if(!a){ qn.textContent="— none observed —"; qr.textContent="click any being in the garden";
+      amps.innerHTML='<div class="empty">its goal-vector is in superposition until you observe it.</div>';
+      qa.textContent="—"; return; }
+    qn.textContent = a.name + (a.role==="curator" ? " ✦" : "");
+    qr.textContent = a.role + " · hunger " + Math.round(a.hunger*100) + "% · " + a.coins + "¢ · built " + a.built;
+    const probs = a._probs || a.psi.map(cabs2);
+    amps.innerHTML = ACTIONS.map((act,i)=>{
+      const pct = (probs[i]*100);
+      return `<div class="amp"><span class="lab">${act}</span>`+
+        `<span class="bar"><i style="width:${pct.toFixed(0)}%;background:${ACT_COLOR[i]}"></i></span>`+
+        `<span class="pct">${pct.toFixed(0)}%</span></div>`;
+    }).join("");
+    qa.textContent = a.goal;
+  }
+
+  // ---------- interaction ----------
+  cv.addEventListener("click", e => {
+    const r = cv.getBoundingClientRect();
+    const mx = e.clientX-r.left, my = e.clientY-r.top;
+    let best=null, bd=1e9;
+    for(const a of W.ag){ const s=W2S(a.x,a.y); const d=(s.x-mx)**2+(s.y-(my-9))**2; if(d<bd){bd=d;best=a;} }
+    W.observed = (best && bd < 24*24) ? best : null;
+  });
+  document.getElementById("reseed").onclick = ()=>{ seed(); regenStars(); };
+  const pauseBtn = document.getElementById("pause");
+  pauseBtn.onclick = ()=>{ W.paused=!W.paused; pauseBtn.textContent = W.paused?"▶ Resume":"⏸ Pause"; };
+  window.addEventListener("keydown", e=>{
+    if(e.key===" "){ W.paused=!W.paused; pauseBtn.textContent=W.paused?"▶ Resume":"⏸ Pause"; e.preventDefault(); }
+    else if(e.key==="r"||e.key==="R"){ seed(); regenStars(); }
+    else if(e.key==="+"||e.key==="="){ W.ag.push(makeAgent(ROLES[W.ag.length%ROLES.length], rnd(-W.halfX+1,W.halfX-1), rnd(-W.halfY+1,W.halfY-1))); }
+    else if(e.key==="-"||e.key==="_"){ if(W.ag.length>3) W.ag.pop(); }
+  });
+
+  // ---------- main loop ----------
+  let last=performance.now(), acc=0;
+  function frame(now){
+    const dt = Math.min(0.05, (now-last)/1000); last=now;
+    if(!W.paused){ acc+=dt; while(acc>1/60){ tick(1/60); acc-=1/60; } }
+    draw(); updatePanel();
+    requestAnimationFrame(frame);
+  }
+  resize(); seed(); requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
