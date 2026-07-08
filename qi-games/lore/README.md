@@ -1,6 +1,6 @@
 # QI-Games · World Lore
 
-_Mirrored live from the autonomous society sim. Last sync: 2026-07-08T06:01:21_
+_Mirrored live from the autonomous society sim. Last sync: 2026-07-08T11:30:41_
 
 The founders build while you sleep. Every structure below was **invented** by an AI founder, not hand-placed. This is the world's running Codex — a bestiary of its own making.
 
