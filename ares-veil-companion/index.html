@@ -530,7 +530,13 @@
                             <input type="text" id="apikey-input"
                                 placeholder="AIza..."
                                 autocomplete="off" spellcheck="false">
-                            <div class="key-actions">
+                            <div class="settings-row">
+                            <label>GEMINI MODEL <span class="hint">free Flash models work</span></label>
+                            <input type="text" id="model-input"
+                                placeholder="gemini-2.5-flash"
+                                autocomplete="off" spellcheck="false">
+                        </div>
+                        <div class="key-actions">
                                 <button id="save-key-btn" style="font-size:0.72rem;border-color:var(--purple-glow);">SAVE</button>
                                 <button id="clear-key-btn" style="font-size:0.72rem;background:rgba(0,0,0,0.4);">CLEAR</button>
                             </div>
@@ -631,7 +637,9 @@ note("d3 f3 a3 c4 d3 f3 eb3 bb2")
 
     <script>
         const STORAGE_KEY = 'aresVeilGeminiKey';
+        const MODEL_STORAGE_KEY = 'aresVeilGeminiModel';
         const apiKey = localStorage.getItem(STORAGE_KEY) || "";
+        const modelName = localStorage.getItem(MODEL_STORAGE_KEY) || "gemini-2.5-flash";
 
         let hydraInstance = null;
         let audioCtx      = null;
@@ -785,20 +793,24 @@ note("${prog}")
             const toggle = document.getElementById('settings-toggle');
             const panel  = document.getElementById('settings-panel');
             const input  = document.getElementById('apikey-input');
+            const modelInput = document.getElementById('model-input');
             const save   = document.getElementById('save-key-btn');
             const clear  = document.getElementById('clear-key-btn');
 
             input.value = apiKey;
+            modelInput.value = modelName;
             syncApiKeyToStatus();
 
             toggle.addEventListener('click', () => panel.classList.toggle('open'));
 
             save.addEventListener('click', () => {
                 const v = input.value.trim();
+                const m = (modelInput.value.trim() || 'gemini-2.5-flash');
                 if (v) { localStorage.setItem(STORAGE_KEY, v); }
-                // note: running modules captured apiKey at load; reload applies it.
-                if ((v && v !== apiKey) || (!v && apiKey)) {
-                    alert('Key saved. Reloading to apply…');
+                localStorage.setItem(MODEL_STORAGE_KEY, m);
+                // note: running modules captured apiKey/modelName at load; reload applies them.
+                if ((v && v !== apiKey) || (m !== modelName) || (!v && apiKey)) {
+                    alert('Settings saved. Reloading to apply…');
                     location.reload();
                 } else {
                     syncApiKeyToStatus();
@@ -1103,7 +1115,7 @@ note("${prog}")
 
             const attempt = async () => {
                 const res = await fetch(
-                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+                    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelName)}:generateContent?key=${apiKey}`,
                     { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }
                 );
                 if (!res.ok) throw new Error('HTTP ' + res.status);
