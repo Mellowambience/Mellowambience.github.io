@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aether Garden • Entangled</title>
+<style>
+  :root { --ink:#0a0710; --rose:#ff7f9d; --mint:#a7f0cf; --gold:#f0d08a; --lav:#c8b6ff; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0a0710; color:#fff8ef; font-family: system-ui, -apple-system, sans-serif; overflow:hidden; }
+  #game { display:block; width:100vw; height:100vh; }
+  #hud {
+    position:fixed; top:18px; left:18px; z-index:20;
+    background:rgba(10,7,16,.82); border:1px solid rgba(232,218,255,.15);
+    border-radius:16px; padding:14px 18px; backdrop-filter:blur(12px);
+    font-size:13px; line-height:1.4; max-width:280px;
+  }
+  #hud h1 { font-size:15px; letter-spacing:3px; margin-bottom:4px; color:#f0d08a; }
+  #hud .sub { font-size:11px; color:rgba(255,248,239,.6); }
+  .stat { margin-top:8px; font-size:12px; }
+  .stat b { color:#a7f0cf; }
+  #prompt {
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%);
+    z-index:20; background:rgba(10,7,16,.75); border:1px solid rgba(232,218,255,.12);
+    border-radius:999px; padding:8px 20px; font-size:12px; color:rgba(255,248,239,.75);
+    backdrop-filter:blur(10px); white-space:nowrap;
+  }
+  #prompt b { color:#f0d08a; }
+  .toast {
+    position:fixed; right:18px; top:80px; z-index:30;
+    background:rgba(30,22,42,.9); border:1px solid rgba(167,240,207,.3);
+    border-radius:12px; padding:10px 14px; font-size:12px;
+    max-width:260px; box-shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div id="hud">
+  <h1>AETHER GARDEN</h1>
+  <div class="sub">Telepathy Nodes × Quantum Entanglement</div>
+  <div class="stat"><b>Trust:</b> <span id="trust">42</span>%</div>
+  <div class="stat"><b>Resonance:</b> <span id="resonance">31</span>%</div>
+  <div class="stat"><b>Structures:</b> <span id="structs">3</span></div>
+  <div class="stat"><b>Entangled Links:</b> <span id="links">0</span></div>
+  <div style="margin-top:10px;font-size:10px;opacity:.6;">WASD • Mouse • E bond • Click builders</div>
+</div>
+
+<div id="prompt"><b>E</b> bond — send telepathic pulse through the nodes  •  Click builders to entangle</div>
+
+<!-- Local-first: three.js r128 vendored next to this file (no CDN, no network) -->
+<script src="three.min.js"></script>
+<script>
+// Aether Garden — Entangled
+// Real models shaped by Telepathy Nodes + Quantum Entanglement
+// Pet Grave heart + QI-Games sovereign builders
+// AetherTwin Helm Fable-5 • July 2026
+//
+// Patched build (local-first / stable):
+//  - Vendored three.min.js (no CDN dependency)
+//  - Removed per-shrine PointLight: 12 lantern lights are now constant,
+//    so the shader never recompiles and can never overflow on long sessions.
+//  - Bond-burst particles now animate (velocity + gravity + fade) in the loop.
+//  - Structures counter starts at 0 and init places 3 real starter shrines,
+//    so the HUD readout matches the world.
+
+const canvas = document.getElementById('game');
+const renderer = new THREE.WebGLRenderer({ 
+  canvas, antialias:true, alpha:false, powerPreference:"high-performance" 
+});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0a0710, 0.017);
+
+const camera = new THREE.PerspectiveCamera(66, window.innerWidth/window.innerHeight, 0.5, 220);
+camera.position.set(7, 12, 15);
+
+let keys = {};
+let mouseDown = false;
+let prevMouseX = 0, prevMouseY = 0;
+let yaw = -0.7, pitch = -0.55;
+let camDist = 19;
+
+const clock = new THREE.Clock();
+let trust = 42;
+let resonance = 31;
+let structures = 0;
+let telepathyLinks = [];
+
+const spirits = [];
+const builders = [];
+const activeBursts = [];
+
+// === Telepathy Node System ===
+class TelepathyNode {
+  constructor(from, to) {
+    this.from = from;
+    this.to = to;
+    this.pulse = 0;
+    this.strength = 0.6 + Math.random() * 0.4;
+
+    const points = [];
+    points.push(new THREE.Vector3(from.group.position.x, from.group.position.y + 1.2, from.group.position.z));
+    points.push(new THREE.Vector3(to.group.position.x, to.group.position.y + 1.8, to.group.position.z));
+
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ 
+      color: 0xa7f0cf, 
+      transparent: true, 
+      opacity: 0.35,
+      blending: THREE.AdditiveBlending
+    });
+    this.line = new THREE.Line(geometry, material);
+    scene.add(this.line);
+  }
+
+  update() {
+    if (!this.from.group || !this.to.group) return;
+
+    const p1 = this.from.group.position;
+    const p2 = this.to.group.position;
+
+    const positions = this.line.geometry.attributes.position;
+    positions.array[0] = p1.x;
+    positions.array[1] = p1.y + 1.3;
+    positions.array[2] = p1.z;
+    positions.array[3] = p2.x;
+    positions.array[4] = p2.y + 1.9;
+    positions.array[5] = p2.z;
+    positions.needsUpdate = true;
+
+    // Pulse effect on bond
+    if (this.pulse > 0) {
+      this.pulse -= 0.035;
+      this.line.material.opacity = 0.35 + this.pulse * 0.8;
+      this.line.material.color.setHex(this.pulse > 0.6 ? 0xf0d08a : 0xa7f0cf);
+    } else {
+      this.line.material.opacity = 0.22 + Math.sin(Date.now() * 0.002) * 0.08;
+      this.line.material.color.setHex(0xa7f0cf);
+    }
+  }
+
+  triggerPulse(strength = 1) {
+    this.pulse = Math.min(1.6, this.pulse + strength);
+  }
+}
+
+// === Pet Spirit with Telepathy awareness ===
+class PetSpirit {
+  constructor(x, z, color, name) {
+    this.name = name;
+    this.trust = 38 + Math.random() * 22;
+    this.group = new THREE.Group();
+
+    const body = new THREE.Mesh(
+      new THREE.SphereGeometry(0.95, 7, 6),
+      new THREE.MeshLambertMaterial({ color, emissive: color, emissiveIntensity: 0.4 })
+    );
+    body.castShadow = true;
+    this.group.add(body);
+
+    const aura = new THREE.Mesh(
+      new THREE.SphereGeometry(1.4, 8, 6),
+      new THREE.MeshLambertMaterial({ 
+        color: 0xa7f0cf, transparent:true, opacity:0.12, blending:THREE.AdditiveBlending 
+      })
+    );
+    this.group.add(aura);
+
+    this.group.position.set(x, 2.4, z);
+    scene.add(this.group);
+
+    this.targetX = x;
+    this.targetZ = z;
+    this.bob = Math.random() * Math.PI * 2;
+    this.color = color;
+    this.lastBondTime = 0;
+  }
+
+  update(dt, playerPos) {
+    this.bob += dt * 1.7;
+    this.group.position.y = 2.4 + Math.sin(this.bob) * 0.38;
+
+    if (Math.random() < 0.014) {
+      this.targetX = this.group.position.x + (Math.random()-0.5)*8;
+      this.targetZ = this.group.position.z + (Math.random()-0.5)*8;
+    }
+
+    const dx = this.targetX - this.group.position.x;
+    const dz = this.targetZ - this.group.position.z;
+    const dist = Math.hypot(dx, dz);
+    if (dist > 0.35) {
+      this.group.position.x += dx/dist * dt * 1.55;
+      this.group.position.z += dz/dist * dt * 1.55;
+    }
+
+    const pdx = playerPos.x - this.group.position.x;
+    const pdz = playerPos.z - this.group.position.z;
+    if (Math.hypot(pdx, pdz) < 5.5) {
+      this.group.rotation.y = Math.atan2(pdx, pdz);
+    }
+  }
+
+  getDistanceTo(x, z) {
+    return Math.hypot(this.group.position.x - x, this.group.position.z - z);
+  }
+}
+
+// === Builder Agent that can be entangled ===
+class BuilderAgent {
+  constructor(x, z) {
+    this.group = new THREE.Group();
+    
+    const body = new THREE.Mesh(
+      new THREE.ConeGeometry(0.6, 1.7, 5),
+      new THREE.MeshLambertMaterial({ color: 0xc8b6ff, emissive: 0x2a1a44 })
+    );
+    body.position.y = 1.15;
+    this.group.add(body);
+
+    const core = new THREE.Mesh(
+      new THREE.SphereGeometry(0.38, 6, 5),
+      new THREE.MeshLambertMaterial({ color: 0xf0d08a, emissive: 0x442200 })
+    );
+    core.position.y = 1.7;
+    this.group.add(core);
+
+    this.group.position.set(x, 0, z);
+    scene.add(this.group);
+
+    this.state = 'wander';
+    this.cooldown = 1.5;
+    this.buildTarget = null;
+    this.entangled = false;
+    this.entangleBoost = 0;
+  }
+
+  update(dt, resonanceLevel) {
+    this.cooldown -= dt;
+    if (this.entangleBoost > 0) this.entangleBoost -= dt * 0.6;
+
+    const effectiveSpeed = this.entangled ? 3.1 : 2.1;
+
+    if (this.state === 'wander') {
+      if (Math.random() < 0.02) {
+        this.group.position.x += (Math.random()-0.5)*4.5;
+        this.group.position.z += (Math.random()-0.5)*4.5;
+      }
+      if (this.cooldown <= 0 && Math.random() < 0.045) {
+        this.state = 'build';
+        this.buildTarget = {
+          x: this.group.position.x + (Math.random()-0.5)*6,
+          z: this.group.position.z + (Math.random()-0.5)*6
+        };
+        this.cooldown = 3.5 + Math.random()*2.5;
+      }
+    }
+
+    if (this.state === 'build' && this.buildTarget) {
+      const dx = this.buildTarget.x - this.group.position.x;
+      const dz = this.buildTarget.z - this.group.position.z;
+      const d = Math.hypot(dx, dz);
+      if (d > 0.45) {
+        this.group.position.x += dx/d * dt * effectiveSpeed;
+        this.group.position.z += dz/d * dt * effectiveSpeed;
+      } else {
+        this.buildEntangledShrine(this.buildTarget.x, this.buildTarget.z, resonanceLevel);
+        this.state = 'wander';
+        this.buildTarget = null;
+      }
+    }
+
+    this.group.position.y = 0.65 + Math.sin(Date.now()*0.003 + this.group.position.x*0.7)*0.18;
+  }
+
+  buildEntangledShrine(x, z, resonanceLevel) {
+    const isEntangled = resonanceLevel > 55 || this.entangled;
+
+    const shrine = new THREE.Group();
+    
+    const base = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.95, 1.15, 0.45, 6),
+      new THREE.MeshLambertMaterial({ color: isEntangled ? 0x5a4f6b : 0x4a3f55 })
+    );
+    base.position.y = 0.22;
+    shrine.add(base);
+
+    const glowColor = isEntangled ? 0xf0d08a : 0xa7f0cf;
+    const glow = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.6, 0.6, 2.1, 5),
+      new THREE.MeshLambertMaterial({ 
+        color: glowColor, 
+        emissive: isEntangled ? 0x553300 : 0x113322,
+        transparent: true,
+        opacity: isEntangled ? 0.85 : 0.65
+      })
+    );
+    glow.position.y = 1.4;
+    shrine.add(glow);
+
+    if (isEntangled) {
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(1.1, 0.08, 6, 12),
+        new THREE.MeshLambertMaterial({ color: 0xffe0a0, emissive: 0x664400 })
+      );
+      ring.position.y = 2.8;
+      ring.rotation.x = Math.PI * 0.5;
+      shrine.add(ring);
+    }
+
+    shrine.position.set(x, 0, z);
+    scene.add(shrine);
+
+    // NOTE: no per-shrine PointLight. The 12 constant lantern lights carry the
+    // scene; emissive glow + additive ring sell the shrine without recompiling
+    // the shader or risking a light uniform overflow on long sessions.
+
+    structures++;
+    document.getElementById('structs').textContent = structures;
+
+    if (isEntangled) {
+      showToast("Entangled shrine manifested through resonance");
+    }
+  }
+
+  entangle() {
+    this.entangled = true;
+    this.entangleBoost = 6;
+    this.cooldown = Math.max(0.8, this.cooldown - 1.8);
+    
+    // Visual flash
+    const flash = new THREE.Mesh(
+      new THREE.SphereGeometry(2.2, 8, 6),
+      new THREE.MeshBasicMaterial({ color: 0xf0d08a, transparent:true, opacity:0.4, blending:THREE.AdditiveBlending })
+    );
+    flash.position.copy(this.group.position);
+    flash.position.y += 1.5;
+    scene.add(flash);
+    setTimeout(() => scene.remove(flash), 420);
+  }
+}
+
+// === Environment (same beautiful base) ===
+function createGravestone(x, z, rot=0) {
+  const g = new THREE.Group();
+  const base = new THREE.Mesh(new THREE.BoxGeometry(1.35,0.28,0.75), new THREE.MeshLambertMaterial({color:0x4a4558}));
+  base.position.y=0.14; base.castShadow=true; g.add(base);
+  const stone = new THREE.Mesh(new THREE.BoxGeometry(1.05,2.1,0.48), new THREE.MeshLambertMaterial({color:0x5a5568}));
+  stone.position.y=1.25; stone.castShadow=true; g.add(stone);
+  g.position.set(x,0,z); g.rotation.y=rot; scene.add(g);
+}
+
+function createWillow(x, z) {
+  const g = new THREE.Group();
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.32,0.5,6.2,5), new THREE.MeshLambertMaterial({color:0x3d2f24}));
+  trunk.position.y=3.1; g.add(trunk);
+  const foliage = new THREE.Mesh(new THREE.SphereGeometry(4,6,5), new THREE.MeshLambertMaterial({color:0x2e4a3a, transparent:true, opacity:0.82}));
+  foliage.position.y=6.6; g.add(foliage);
+  g.position.set(x,0,z); scene.add(g);
+}
+
+function createLantern(x,y,z,scale=1) {
+  const g = new THREE.Group();
+  const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.055,0.075,3.1,5), new THREE.MeshLambertMaterial({color:0x3a2f24}));
+  pole.position.y=1.55; g.add(pole);
+  const lantern = new THREE.Mesh(new THREE.OctahedronGeometry(0.6*scale), new THREE.MeshLambertMaterial({color:0xf0d08a, emissive:0x553300, emissiveIntensity:0.65}));
+  lantern.position.y=3.35; g.add(lantern);
+  g.position.set(x,y,z); scene.add(g);
+  const light = new THREE.PointLight(0xf0d08a, 1.15, 17);
+  light.position.set(x,3.7,z); scene.add(light);
+}
+
+// Place world
+createGravestone(-6,-3.5,0.4);
+createGravestone(5.5,-6.5,-0.5);
+createGravestone(-8.5,5.5,1);
+createGravestone(7.5,3.5,-0.35);
+
+createWillow(-10.5,-1.5);
+createWillow(9.5,-8);
+createWillow(-3.5,10);
+
+for(let i=0;i<12;i++){
+  const ang=(i/12)*Math.PI*2;
+  const r=6.5+Math.random()*5.5;
+  createLantern(Math.cos(ang)*r, 0, Math.sin(ang)*r*0.65+(i%3-1)*1.8, 0.75+Math.random()*0.5);
+}
+
+// === Initialize Spirits & Builders ===
+spirits.push(new PetSpirit(-2.5, -0.5, 0x9dd8ff, "Lume"));
+spirits.push(new PetSpirit(3.8, 2.8, 0xffb88f, "Capkin"));
+
+builders.push(new BuilderAgent(-6.5, 4.5));
+builders.push(new BuilderAgent(5.5, -4));
+
+// Create initial telepathy links
+function createInitialLinks() {
+  telepathyLinks = [];
+  spirits.forEach(spirit => {
+    builders.forEach(builder => {
+      if (Math.random() < 0.75) {
+        telepathyLinks.push(new TelepathyNode(spirit, builder));
+      }
+    });
+  });
+  document.getElementById('links').textContent = telepathyLinks.length;
+}
+createInitialLinks();
+
+// === Player ===
+const player = { x:0, z:0, vx:0, vz:0 };
+
+function updatePlayer(dt) {
+  const speed = 7.8;
+  let ax=0, az=0;
+  if (keys['w']||keys['ArrowUp']) az-=1;
+  if (keys['s']||keys['ArrowDown']) az+=1;
+  if (keys['a']||keys['ArrowLeft']) ax-=1;
+  if (keys['d']||keys['ArrowRight']) ax+=1;
+
+  if (ax||az) {
+    const len=Math.hypot(ax,az)||1;
+    player.vx = (ax/len)*speed;
+    player.vz = (az/len)*speed;
+  } else {
+    player.vx *= 0.81;
+    player.vz *= 0.81;
+  }
+  player.x += player.vx*dt;
+  player.z += player.vz*dt;
+  player.x = Math.max(-17,Math.min(17,player.x));
+  player.z = Math.max(-17,Math.min(17,player.z));
+}
+
+// === Bonding + Telepathy Pulse ===
+function tryBond() {
+  let bondedAny = false;
+  spirits.forEach(spirit => {
+    if (spirit.getDistanceTo(player.x, player.z) < 4.2) {
+      const gain = 7 + Math.random()*8;
+      spirit.trust = Math.min(100, spirit.trust + gain);
+      trust = Math.min(100, trust + gain*0.55);
+      resonance = Math.min(100, resonance + gain*0.4);
+      spirit.lastBondTime = Date.now();
+
+      // Trigger telepathy pulses along all connected nodes
+      telepathyLinks.forEach(link => {
+        if (link.from === spirit || link.to === spirit) {
+          link.triggerPulse(1.1);
+        }
+      });
+
+      // Entangle nearby builders through resonance
+      builders.forEach(b => {
+        if (Math.hypot(b.group.position.x - spirit.group.position.x, b.group.position.z - spirit.group.position.z) < 9) {
+          if (resonance > 48 && Math.random() < 0.65) {
+            b.entangle();
+          }
+        }
+      });
+
+      createBondBurst(spirit.group.position.x, spirit.group.position.y+1.2, spirit.group.position.z, spirit.color);
+      showToast(`Telepathic bond with ${spirit.name} — resonance rising`);
+      bondedAny = true;
+    }
+  });
+  if (!bondedAny) showToast("No spirit close enough for telepathic link");
+}
+
+function createBondBurst(x,y,z,color) {
+  const burst = new THREE.Group();
+  const parts = [];
+  for(let i=0;i<16;i++){
+    const p = new THREE.Mesh(
+      new THREE.SphereGeometry(0.11,4,3),
+      new THREE.MeshBasicMaterial({ color, transparent:true, opacity:1 })
+    );
+    p.position.set(x,y,z);
+    const life = 0.85 + Math.random()*0.7;
+    p.userData = {
+      vx:(Math.random()-0.5)*3.8,
+      vy:Math.random()*2.8+1.2,
+      vz:(Math.random()-0.5)*3.8,
+      life: life,
+      maxLife: life
+    };
+    burst.add(p);
+    parts.push(p);
+  }
+  scene.add(burst);
+  activeBursts.push({ group: burst, parts });
+}
+
+function updateBursts(dt) {
+  for (let i = activeBursts.length - 1; i >= 0; i--) {
+    const b = activeBursts[i];
+    let alive = 0;
+    for (const p of b.parts) {
+      if (p.userData.life <= 0) continue;
+      p.userData.life -= dt;
+      p.userData.vy -= 2.5 * dt; // gravity
+      p.position.x += p.userData.vx * dt;
+      p.position.y += p.userData.vy * dt;
+      p.position.z += p.userData.vz * dt;
+      p.material.opacity = Math.max(0, p.userData.life / p.userData.maxLife);
+      if (p.userData.life > 0) alive++;
+    }
+    if (alive === 0) {
+      scene.remove(b.group);
+      activeBursts.splice(i, 1);
+    }
+  }
+}
+
+// Click to entangle builders directly
+canvas.addEventListener('click', e => {
+  const rect = canvas.getBoundingClientRect();
+  const mouse = new THREE.Vector2( ((e.clientX-rect.left)/rect.width)*2-1, -((e.clientY-rect.top)/rect.height)*2+1 );
+  const ray = new THREE.Raycaster();
+  ray.setFromCamera(mouse, camera);
+
+  builders.forEach(b => {
+    const d = ray.ray.distanceToPoint(b.group.position);
+    if (d < 3.2) {
+      b.entangle();
+      resonance = Math.min(100, resonance + 8);
+      showToast("Builder entangled through direct resonance");
+    }
+  });
+});
+
+// === HUD ===
+function updateHUD() {
+  document.getElementById('trust').textContent = Math.floor(trust);
+  document.getElementById('resonance').textContent = Math.floor(resonance);
+  document.getElementById('structs').textContent = structures;
+  document.getElementById('links').textContent = telepathyLinks.length;
+}
+
+// === Input ===
+window.addEventListener('keydown', e => { keys[e.key]=true; if(e.key.toLowerCase()==='e') tryBond(); });
+window.addEventListener('keyup', e => keys[e.key]=false);
+
+canvas.addEventListener('mousedown', e=>{mouseDown=true; prevMouseX=e.clientX; prevMouseY=e.clientY;});
+window.addEventListener('mouseup', ()=>mouseDown=false);
+window.addEventListener('mousemove', e=>{
+  if(!mouseDown) return;
+  yaw += (e.clientX-prevMouseX)*0.0034;
+  pitch = Math.max(-1.3, Math.min(0.35, pitch - (e.clientY-prevMouseY)*0.0034));
+  prevMouseX=e.clientX; prevMouseY=e.clientY;
+});
+window.addEventListener('wheel', e => { camDist = Math.max(5.5, Math.min(34, camDist + e.deltaY*0.028)); });
+
+window.addEventListener('resize', ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+function showToast(msg){
+  const t=document.createElement('div');
+  t.className='toast';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.transition='all .28s'; t.style.opacity='0'; setTimeout(()=>t.remove(),280); }, 2100);
+}
+
+// === Main Loop ===
+function animate(){
+  requestAnimationFrame(animate);
+  const dt = Math.min(clock.getDelta(), 0.09);
+
+  updatePlayer(dt);
+
+  // Update spirits
+  spirits.forEach(s => s.update(dt, player));
+
+  // Update builders with current resonance
+  builders.forEach(b => b.update(dt, resonance));
+
+  // Update telepathy links
+  telepathyLinks.forEach(link => link.update());
+
+  // Animate bond bursts
+  updateBursts(dt);
+
+  // Camera
+  const tx = player.x + Math.cos(yaw)*camDist*Math.cos(pitch);
+  const tz = player.z + Math.sin(yaw)*camDist*Math.cos(pitch);
+  const ty = 6.5 + Math.sin(pitch)*camDist*0.55 + 5;
+
+  camera.position.x = camera.position.x*0.87 + tx*0.13;
+  camera.position.z = camera.position.z*0.87 + tz*0.13;
+  camera.position.y = camera.position.y*0.87 + ty*0.13;
+
+  camera.lookAt(player.x*0.35 + 0.8, 4.2, player.z*0.35 + 0.3);
+
+  // World breathing + resonance influence on fog
+  const t = Date.now()*0.0007;
+  scene.fog.density = 0.015 + Math.sin(t)*0.002 + (resonance/100)*0.004;
+
+  renderer.render(scene, camera);
+  updateHUD();
+}
+
+// Boot
+function init(){
+  document.getElementById('trust').textContent = Math.floor(trust);
+  document.getElementById('resonance').textContent = Math.floor(resonance);
+
+  // Place 3 real starter shrines so the "Structures: 3" readout matches the world.
+  // buildEntangledShrine is a BuilderAgent method; call it on a builder instance.
+  builders[0].buildEntangledShrine(-5, 7, resonance);
+  builders[1].buildEntangledShrine(7, -3, resonance);
+  builders[0].buildEntangledShrine(-2, -8, resonance);
+
+  document.getElementById('structs').textContent = structures;
+  document.getElementById('links').textContent = telepathyLinks.length;
+
+  showToast("The garden is entangled. Bond to send pulses through the nodes.");
+  setTimeout(()=> createBondBurst(-1.5, 3.5, 1, 0xa7f0cf), 650);
+
+  animate();
+}
+
+init();
+</script>
+</body>
+</html>
