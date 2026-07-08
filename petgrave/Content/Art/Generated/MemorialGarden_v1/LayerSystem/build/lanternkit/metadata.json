@@ -1,0 +1,67 @@
+{
+  "name": "Pip",
+  "speciesId": "lanternkit",
+  "seed": "first-rescue",
+  "dna": "fe708bc8ea7e268ef2359b1ec40c2f05af6426f5",
+  "anatomy": {
+    "quadruped": {
+      "requiredLandmarks": [
+        "pelvis",
+        "spine",
+        "neck",
+        "skull",
+        "left_ear_root",
+        "right_ear_root",
+        "tail_root",
+        "left_fore_shoulder",
+        "right_fore_shoulder",
+        "left_hind_hip",
+        "right_hind_hip",
+        "ground_contact"
+      ],
+      "rules": [
+        "ears attach to skull landmarks and never float independently",
+        "tail pivots from pelvis/tail_root only",
+        "forelegs move opposite hind legs during walk cycles",
+        "feet return to the same ground_contact plane at neutral frames",
+        "head motion follows neck/spine motion before secondary ear motion",
+        "hurt recoil compresses body and ears together instead of separating parts",
+        "interact/pounce extends forelegs while hind legs remain grounded"
+      ]
+    }
+  },
+  "traits": [
+    {
+      "trait_type": "palette",
+      "value": "memorial moss"
+    },
+    {
+      "trait_type": "body",
+      "value": "moon socks"
+    },
+    {
+      "trait_type": "ears",
+      "value": "leaf ears"
+    },
+    {
+      "trait_type": "tail",
+      "value": "wisp tail"
+    },
+    {
+      "trait_type": "charm",
+      "value": "memorial bell"
+    },
+    {
+      "trait_type": "aura",
+      "value": "soft motes"
+    }
+  ],
+  "animationStates": [
+    "idle",
+    "walk",
+    "interact",
+    "hurt"
+  ],
+  "compiler": "Pet Grave Layer System",
+  "sourceInfluence": "HashLips-style ordered weighted layers, adapted for anatomy-aware game sprites."
+}

@@ -1,0 +1,226 @@
+{
+  "schema": "pet-grave-creature-layers/v1",
+  "sourceStudy": {
+    "hashLipsConceptsUsed": [
+      "ordered layer configurations",
+      "weighted trait selection",
+      "DNA hash for reproducible outputs",
+      "metadata attributes per generated creature",
+      "animation strip export"
+    ],
+    "petGraveChanges": [
+      "species and traits are game creatures, not collection editions",
+      "layers attach to anatomy landmarks before rendering",
+      "animation states enforce conservative joint motion",
+      "internal legacy ids may remain for save compatibility, but display naming moves to Pet Grave taxonomy"
+    ]
+  },
+  "species": [
+    {
+      "id": "gravepup",
+      "displayName": "Gravemoss",
+      "role": "first companion",
+      "legacyRuntimeAlias": "milo"
+    },
+    {
+      "id": "lanternkit",
+      "displayName": "Pip",
+      "role": "early rescued companion",
+      "legacyRuntimeAlias": "pip"
+    },
+    {
+      "id": "lume",
+      "displayName": "Lume",
+      "role": "early spirit companion",
+      "legacyRuntimeAlias": "lume"
+    }
+  ],
+  "anatomy": {
+    "quadruped": {
+      "requiredLandmarks": [
+        "pelvis",
+        "spine",
+        "neck",
+        "skull",
+        "left_ear_root",
+        "right_ear_root",
+        "tail_root",
+        "left_fore_shoulder",
+        "right_fore_shoulder",
+        "left_hind_hip",
+        "right_hind_hip",
+        "ground_contact"
+      ],
+      "rules": [
+        "ears attach to skull landmarks and never float independently",
+        "tail pivots from pelvis/tail_root only",
+        "forelegs move opposite hind legs during walk cycles",
+        "feet return to the same ground_contact plane at neutral frames",
+        "head motion follows neck/spine motion before secondary ear motion",
+        "hurt recoil compresses body and ears together instead of separating parts",
+        "interact/pounce extends forelegs while hind legs remain grounded"
+      ]
+    }
+  },
+  "layerOrder": [
+    "aura",
+    "tail",
+    "hind_legs",
+    "body",
+    "body_marking",
+    "fore_legs",
+    "head",
+    "ears",
+    "face",
+    "charm",
+    "foreground_sparks"
+  ],
+  "layers": [
+    {
+      "id": "palette",
+      "traits": [
+        {
+          "name": "memorial moss",
+          "weight": 50,
+          "base": "#d9b276",
+          "shade": "#6e5844",
+          "accent": "#8fb85f",
+          "core": "#ffd980"
+        },
+        {
+          "name": "moon cream",
+          "weight": 30,
+          "base": "#f4dfc3",
+          "shade": "#756d83",
+          "accent": "#b9e9d0",
+          "core": "#fff0a8"
+        },
+        {
+          "name": "spirit dusk",
+          "weight": 20,
+          "base": "#b9c9d6",
+          "shade": "#4b5b73",
+          "accent": "#7ee8b2",
+          "core": "#bdf7ff"
+        }
+      ]
+    },
+    {
+      "id": "body",
+      "traits": [
+        {
+          "name": "moss mantle",
+          "weight": 45,
+          "marking": "moss-mantle"
+        },
+        {
+          "name": "moon socks",
+          "weight": 35,
+          "marking": "moon-socks"
+        },
+        {
+          "name": "plain soft coat",
+          "weight": 20,
+          "marking": "plain"
+        }
+      ]
+    },
+    {
+      "id": "ears",
+      "traits": [
+        {
+          "name": "leaf ears",
+          "weight": 50,
+          "shape": "leaf"
+        },
+        {
+          "name": "soft ears",
+          "weight": 50,
+          "shape": "soft"
+        }
+      ]
+    },
+    {
+      "id": "tail",
+      "traits": [
+        {
+          "name": "plume tail",
+          "weight": 55,
+          "shape": "plume"
+        },
+        {
+          "name": "wisp tail",
+          "weight": 25,
+          "shape": "wisp"
+        },
+        {
+          "name": "puff tail",
+          "weight": 20,
+          "shape": "puff"
+        }
+      ]
+    },
+    {
+      "id": "charm",
+      "traits": [
+        {
+          "name": "memorial bell",
+          "weight": 45,
+          "shape": "bell"
+        },
+        {
+          "name": "grave flower",
+          "weight": 35,
+          "shape": "flower"
+        },
+        {
+          "name": "bare collar",
+          "weight": 20,
+          "shape": "none"
+        }
+      ]
+    },
+    {
+      "id": "aura",
+      "traits": [
+        {
+          "name": "lantern breath",
+          "weight": 40,
+          "shape": "halo"
+        },
+        {
+          "name": "soft motes",
+          "weight": 35,
+          "shape": "motes"
+        },
+        {
+          "name": "quiet",
+          "weight": 25,
+          "shape": "none"
+        }
+      ]
+    }
+  ],
+  "animationStates": [
+    {
+      "id": "idle",
+      "frames": 8,
+      "description": "breathing loop with skull, ears, and tail following the spine"
+    },
+    {
+      "id": "walk",
+      "frames": 8,
+      "description": "small quadruped trot with opposing fore/hind limb phase"
+    },
+    {
+      "id": "interact",
+      "frames": 8,
+      "description": "comfort/pounce reach; forelegs extend while hind legs stay grounded"
+    },
+    {
+      "id": "hurt",
+      "frames": 4,
+      "description": "single compact recoil with ears and tail reacting from attachment points"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "key": "cinder_spit",
+  "owner": "ember",
+  "name": "Cinder Spit",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "cinder_spit_strip.png",
+  "palette": {
+    "primary": "#ff7a3a",
+    "accent": "#ffd166"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "key": "light_bolt",
+  "owner": "lume",
+  "name": "Light Bolt",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "light_bolt_strip.png",
+  "palette": {
+    "primary": "#bdf7ff",
+    "accent": "#fff0a8"
+  }
+}

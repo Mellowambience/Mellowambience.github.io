@@ -1,0 +1,15 @@
+{
+  "key": "petal_burst",
+  "owner": "pip",
+  "name": "Petal Caller",
+  "frames": 8,
+  "frame_size": [
+    192,
+    192
+  ],
+  "image": "petal_burst_strip.png",
+  "palette": {
+    "primary": "#ff8fa3",
+    "accent": "#7ee8b2"
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "schema": "milo-glowgarden-vfx-v1",
+  "generated": "2026-06-13",
+  "spells": [
+    {
+      "key": "lantern_pounce",
+      "owner": "milo",
+      "name": "Guardian",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "lantern_pounce_strip.png",
+      "palette": {
+        "primary": "#ffd166",
+        "accent": "#bdf7ff"
+      }
+    },
+    {
+      "key": "petal_burst",
+      "owner": "pip",
+      "name": "Petal Caller",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "petal_burst_strip.png",
+      "palette": {
+        "primary": "#ff8fa3",
+        "accent": "#7ee8b2"
+      }
+    },
+    {
+      "key": "light_bolt",
+      "owner": "lume",
+      "name": "Light Bolt",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "light_bolt_strip.png",
+      "palette": {
+        "primary": "#bdf7ff",
+        "accent": "#fff0a8"
+      }
+    },
+    {
+      "key": "root_snare",
+      "owner": "mossback",
+      "name": "Root Snare",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "root_snare_strip.png",
+      "palette": {
+        "primary": "#7ee8b2",
+        "accent": "#ffd166"
+      }
+    },
+    {
+      "key": "cinder_spit",
+      "owner": "ember",
+      "name": "Cinder Spit",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "cinder_spit_strip.png",
+      "palette": {
+        "primary": "#ff7a3a",
+        "accent": "#ffd166"
+      }
+    },
+    {
+      "key": "dream_bloom",
+      "owner": "puddle",
+      "name": "Dream Bloom",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "dream_bloom_strip.png",
+      "palette": {
+        "primary": "#8cf7df",
+        "accent": "#c9b8ff"
+      }
+    },
+    {
+      "key": "spore_puff",
+      "owner": "capkin",
+      "name": "Spore Puff",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "spore_puff_strip.png",
+      "palette": {
+        "primary": "#c77dff",
+        "accent": "#ffd166"
+      }
+    },
+    {
+      "key": "star_wink",
+      "owner": "starling",
+      "name": "Star Wink",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "star_wink_strip.png",
+      "palette": {
+        "primary": "#fff0a8",
+        "accent": "#bdf7ff"
+      }
+    },
+    {
+      "key": "tail_spark",
+      "owner": "fluffox",
+      "name": "Tail Spark",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "tail_spark_strip.png",
+      "palette": {
+        "primary": "#ffd166",
+        "accent": "#ff8fa3"
+      }
+    },
+    {
+      "key": "lantern_halo",
+      "owner": "mothlet",
+      "name": "Lantern Halo",
+      "frames": 8,
+      "frame_size": [
+        192,
+        192
+      ],
+      "image": "lantern_halo_strip.png",
+      "palette": {
+        "primary": "#f8d98b",
+        "accent": "#c9b8ff"
+      }
+    }
+  ]
+}

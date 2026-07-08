@@ -1,0 +1,80 @@
+{
+  "name": "Ember",
+  "description": "Milo GlowGarden character asset pack entry.",
+  "edition": 5,
+  "compiler": "Milo GlowGarden character asset builder",
+  "hashlips_style": true,
+  "image": "sprites/base.png",
+  "source_cutout": "sprites/source_cutout.png",
+  "attributes": [
+    {
+      "trait_type": "Role",
+      "value": "Cinder Spit"
+    },
+    {
+      "trait_type": "Signature Spell",
+      "value": "cinder_spit"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "wildfire"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "foxfire tail"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "lava ears"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "brave spark"
+    }
+  ],
+  "layers": [
+    {
+      "name": "Base",
+      "path": "layers/00_base.png"
+    },
+    {
+      "name": "Glow",
+      "path": "layers/01_glow.png"
+    },
+    {
+      "name": "Shadow",
+      "path": "layers/02_shadow.png"
+    }
+  ],
+  "animations": {
+    "idle": {
+      "path": "animations/idle_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "cast": {
+      "path": "animations/cast_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "hurt": {
+      "path": "animations/hurt_strip.png",
+      "frames": 4,
+      "frame_size": [
+        320,
+        384
+      ]
+    }
+  },
+  "palette": {
+    "primary": "#ff7a3a",
+    "accent": "#ffd166"
+  },
+  "content_hash": "98eb55627eff"
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "hashlips-inspired-layer-config",
+  "note": "Original Milo art pipeline using HashLips-style folders, layers, and metadata.",
+  "layers_order": [
+    "Shadow",
+    "Glow",
+    "Base"
+  ],
+  "edition_size": 10,
+  "characters": [
+    "milo",
+    "pip",
+    "lume",
+    "mossback",
+    "ember",
+    "puddle",
+    "capkin",
+    "starling",
+    "fluffox",
+    "mothlet"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "name": "Mothlet",
+  "description": "Milo GlowGarden character asset pack entry.",
+  "edition": 10,
+  "compiler": "Milo GlowGarden character asset builder",
+  "hashlips_style": true,
+  "image": "sprites/base.png",
+  "source_cutout": "sprites/source_cutout.png",
+  "attributes": [
+    {
+      "trait_type": "Role",
+      "value": "Lantern Halo"
+    },
+    {
+      "trait_type": "Signature Spell",
+      "value": "lantern_halo"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "luminous"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "silk wings"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "lantern charm"
+    },
+    {
+      "trait_type": "Trait",
+      "value": "soft guardian"
+    }
+  ],
+  "layers": [
+    {
+      "name": "Base",
+      "path": "layers/00_base.png"
+    },
+    {
+      "name": "Glow",
+      "path": "layers/01_glow.png"
+    },
+    {
+      "name": "Shadow",
+      "path": "layers/02_shadow.png"
+    }
+  ],
+  "animations": {
+    "idle": {
+      "path": "animations/idle_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "cast": {
+      "path": "animations/cast_strip.png",
+      "frames": 8,
+      "frame_size": [
+        320,
+        384
+      ]
+    },
+    "hurt": {
+      "path": "animations/hurt_strip.png",
+      "frames": 4,
+      "frame_size": [
+        320,
+        384
+      ]
+    }
+  },
+  "palette": {
+    "primary": "#f8d98b",
+    "accent": "#c9b8ff"
+  },
+  "content_hash": "4d589b14b3d1"
+}
