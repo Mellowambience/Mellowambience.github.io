@@ -1,0 +1,27 @@
+{
+  "module_id": "driftkin",
+  "name": "Driftkin — Cartographers of the Unwritten",
+  "version": "1.0.0",
+  "species": "Driftkin",
+  "tagline": "Spectral founders who map lands no one has walked, and raise waygates where paths end.",
+  "role": "driftkin",
+  "license_tier": 350,
+  "drop_in": "Copy this folder into your QI-Games instance as modules/driftkin/ and call register(CLASSES) from engine/founders.py.",
+  "class": {
+    "class_name": "Drift Cartographer",
+    "title": "Mapper of Unwritten Lands",
+    "creed": "Beyond the known, more world awaits.",
+    "quirk": "leaves footprints that fade by morning",
+    "tree": {
+      "Pathfinding":  {"max": 5, "desc": "move faster while exploring",            "xp": "scout",  "effect_linear": 0.15, "base": 1.0},
+      "Wayfinding":   {"max": 5, "desc": "chance to raise a waygate at path's end", "xp": "scout",  "effect_linear": 0.10, "base": 0.0},
+      "Invention":    {"max": 3, "desc": "chance to invent a NEW structure kind",   "xp": "build",  "effect_linear": 0.04, "base": 0.0}
+    }
+  },
+  "new_structures": [
+    {"kind": "waygate",    "desc": "teleports founders across the map; anchors exploration."},
+    {"kind": "echospire",  "desc": "echoes a founder's last discovery to nearby allies."},
+    {"kind": "starforge",  "desc": "forges a crystal from mapped starlight; trade good."}
+  ],
+  "lore": "The Driftkin are not born — they are remembered into being by founders who wandered too far. Each carries a map of places that do not yet exist, and builds the structures that make them real."
+}
