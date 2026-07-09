@@ -1,9 +1,17 @@
 {
-  "kinds": [],
-  "n_kinds": 0,
+  "kinds": [
+    {
+      "kind": "monument",
+      "invented_by": [
+        "Mason Cinderfall"
+      ],
+      "discovered": 1
+    }
+  ],
+  "n_kinds": 1,
   "relations": {
     "Moss Ironveil": {
-      "Drift Wildroot": 0.25,
+      "Drift Wildroot": 0.8,
       "Bay Ironveil": 0.0,
       "Mason Cinderfall": 0.0
     },
@@ -14,7 +22,7 @@
       "Drift Wildroot": 0.0
     },
     "Mason Cinderfall": {
-      "Sage Thornwood": 0.48,
+      "Sage Thornwood": 1.0,
       "Lux Goldmere": 0.0,
       "Bay Ironveil": 0.0,
       "Moss Ironveil": 0.0,
@@ -22,13 +30,13 @@
     },
     "Drift Wildroot": {
       "Bay Ironveil": 0.0,
-      "Moss Ironveil": 0.25,
+      "Moss Ironveil": 0.8,
       "Lux Goldmere": 0.0,
       "Mason Cinderfall": 0.0
     },
     "Sage Thornwood": {
       "Lux Goldmere": 0.0,
-      "Mason Cinderfall": 0.48,
+      "Mason Cinderfall": 1.0,
       "Bay Ironveil": 0.0
     },
     "Bay Ironveil": {
@@ -39,5 +47,5 @@
       "Moss Ironveil": 0.0
     }
   },
-  "updated": "2026-07-09T13:18:11"
+  "updated": "2026-07-09T13:18:51"
 }
