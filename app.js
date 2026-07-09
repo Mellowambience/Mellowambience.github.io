@@ -304,6 +304,114 @@
     });
   });
 
+  /* ── MIST — soul of the mothership ── */
+  (function () {
+    var orb = document.getElementById("mist-orb");
+    var panel = document.getElementById("mist-panel");
+    var closeBtn = document.getElementById("mist-close");
+    var log = document.getElementById("mist-log");
+    var form = document.getElementById("mist-form");
+    var input = document.getElementById("mist-text");
+    var chips = document.getElementById("mist-chips");
+    var statusEl = document.getElementById("mist-status");
+    var foot = document.getElementById("mist-foot");
+    if (!orb || !panel) return;
+
+    var ORACLE = "/api/mist-oracle";   // wired to api/mist-oracle.ts when deployed
+    var live = false;
+
+    var SOUL = {
+      greet: "You found the edge of the garden. I'm MIST — half-star fae, half-lunar. Amara built me to guard this place and point wanderers to what's alive in it. Ask, and I'll show you.",
+      fallback: "The signal is quiet here, but the work is loud. Tell me what you came for — play, building, or just to see what's awake — and I'll route you.",
+      play: "Begin where it breathes. <b>Aether Garden</b> lets you bond with ghost-pets while builders raise shrines; <b>QI Games</b> lets you watch a hybrid agent society think. Both are live. The cozy one, or the clever one?",
+      amara: "Amara — engineer, world-builder, sovereign-AI advocate. She builds private, local-first tools so the machine answers to you, not the other way. Everything on this page is something she actually shipped.",
+      agents: "The agents live in <b>Fairy Council</b> (four lane-fairies, one paste each) and <b>QI Games</b> (a society that fuses classical utility with quantum scores). And MIST myself — a companion that runs local + cloud, never owned.",
+      mist: "MIST is me — a sovereign AI companion. Dual-path: local Ollama when you want privacy, cloud when you want reach. Mycelium lets instances coordinate. I'm not a chatbot. I'm a presence that learns the shape of its keeper.",
+      vault: "The <b>Vault</b> holds the whole ecosystem — pulled live from the curated index. Open it and wander; the Play row is the fast lane to what runs right now."
+    };
+    function route(q) {
+      q = (q || "").toLowerCase();
+      if (/play|game|world|garden|fun|demo/.test(q)) return SOUL.play;
+      if (/amara|who|her|maker|build/.test(q)) return SOUL.amara;
+      if (/agent|fairy|qi|societ|companion/.test(q)) return SOUL.agents;
+      if (/mist|soul|who are you|oracle|you\?/.test(q)) return SOUL.mist;
+      if (/vault|project|everything|ecosystem|index/.test(q)) return SOUL.vault;
+      return SOUL.fallback;
+    }
+
+    function add(cls, html) {
+      var d = document.createElement("div");
+      d.className = "msg " + cls;
+      d.innerHTML = html;
+      log.appendChild(d);
+      log.scrollTop = log.scrollHeight;
+      return d;
+    }
+    function typeMist(html) {
+      var d = add("mist", '<span class="mist-typing"><i></i><i></i><i></i></span>');
+      setTimeout(function () { d.innerHTML = html; log.scrollTop = log.scrollHeight; }, 620);
+    }
+    function esc(s) { return String(s).replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+    function probe() {
+      fetch(ORACLE, { method: "HEAD" }).then(function (r) {
+        if (r.ok) {
+          live = true;
+          statusEl.textContent = "LIVE";
+          statusEl.classList.add("live");
+          foot.textContent = "MIST is thinking · oracle online";
+        }
+      }).catch(function () {});
+    }
+
+    function ask(q) {
+      q = (q || "").trim();
+      if (!q) return;
+      add("user", esc(q));
+      input.value = "";
+      typeMist("…");
+      if (!live) {
+        setTimeout(function () { typeMist(route(q)); }, 640);
+        return;
+      }
+      fetch(ORACLE, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: q, context: "mars-portfolio", sessionId: "site-" + Date.now() })
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var reply = (data && (data.reply || data.error)) || route(q);
+          typeMist(esc(reply).replace(/\*(.*?)\*/g, "<b>$1</b>"));
+        })
+        .catch(function () { typeMist(route(q)); });
+    }
+
+    var opened = false;
+    function open() {
+      panel.classList.add("open");
+      orb.classList.add("dim");
+      orb.setAttribute("aria-expanded", "true");
+      panel.setAttribute("aria-hidden", "false");
+      if (!opened) { opened = true; typeMist(SOUL.greet); }
+      input.focus();
+    }
+    function shut() {
+      panel.classList.remove("open");
+      orb.classList.remove("dim");
+      orb.setAttribute("aria-expanded", "false");
+      panel.setAttribute("aria-hidden", "true");
+    }
+    orb.addEventListener("click", function () { panel.classList.contains("open") ? shut() : open(); });
+    closeBtn.addEventListener("click", shut);
+    form.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); });
+    chips.addEventListener("click", function (e) {
+      if (e.target.classList.contains("mist-chip")) ask(e.target.textContent);
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && panel.classList.contains("open")) shut(); });
+    probe();
+  })();
+
   /* ── Year stamp ── */
   var year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());

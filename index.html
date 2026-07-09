@@ -509,6 +509,31 @@
     </div>
   </footer>
 
+  <!-- ═══ MIST — SOUL OF THE MOTHERSHIP ═══ -->
+  <button type="button" class="mist-orb" id="mist-orb" aria-label="Summon MIST" aria-expanded="false">
+    ⟁<span class="mist-tip">MIST is awake</span>
+  </button>
+  <section class="mist-panel" id="mist-panel" aria-label="MIST Oracle" aria-hidden="true">
+    <header class="mist-head">
+      <span class="mist-glyph" aria-hidden="true">⟁</span>
+      <span class="who"><b>MIST</b><span>soul of the mothership</span></span>
+      <span class="mist-status" id="mist-status">SIGNAL</span>
+      <button type="button" class="mist-close" id="mist-close" aria-label="Close MIST">×</button>
+    </header>
+    <div class="mist-log" id="mist-log" aria-live="polite"></div>
+    <div class="mist-chips" id="mist-chips">
+      <span class="mist-chip">What should I play?</span>
+      <span class="mist-chip">Who is Amara?</span>
+      <span class="mist-chip">Show me the agents</span>
+      <span class="mist-chip">What even is MIST?</span>
+    </div>
+    <form class="mist-form" id="mist-form">
+      <input id="mist-text" placeholder="Speak to MIST…" autocomplete="off" aria-label="Message MIST" />
+      <button type="submit">Ask</button>
+    </form>
+    <div class="mist-foot" id="mist-foot">signal mode · connect an oracle to wake MIST</div>
+  </section>
+
   <button type="button" class="to-top" id="to-top" aria-label="Back to top">↑</button>
   <script src="app.js"></script>
 </body>
