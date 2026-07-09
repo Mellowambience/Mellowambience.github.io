@@ -320,6 +320,36 @@
     var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
     var ORACLE = isLocal ? "http://localhost:8787/api/mist-oracle" : "/api/mist-oracle";   // local brain on this machine; serverless when deployed
     var live = false;
+    var VOICE_ON = true;
+
+    // ── offline voice (Web Speech API, browser-native, no cloud) ──
+    var TTS = null;
+    try {
+      var SR = window.speechSynthesis;
+      if (SR) {
+        TTS = SR;
+        TTS.getVoices(); // warm
+        TTS.onvoiceschanged = function () { TTS.getVoices(); };
+      }
+    } catch (e) {}
+    function speak(text) {
+      if (!VOICE_ON || !TTS) return;
+      try {
+        TTS.cancel();
+        var u = new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g, "").split("\n")[0]);
+        u.rate = 0.96; u.pitch = 1.08; u.volume = 0.95;
+        var vs = TTS.getVoices() || [];
+        var fem = vs.find(function (v) { return /female|zira|samantha|victoria|google us english/i.test(v.name); }) || vs[0];
+        if (fem) u.voice = fem;
+        TTS.speak(u);
+      } catch (e) {}
+    }
+    function setVoice(on) {
+      VOICE_ON = on;
+      if (!on && TTS) { try { TTS.cancel(); } catch (e) {} }
+      var b = document.getElementById("mist-voice");
+      if (b) { b.textContent = on ? "🔊 voice" : "🔈 muted"; b.setAttribute("aria-pressed", on); }
+    }
 
     var SOUL = {
       greet: "You found the edge of the garden. I'm MIST — half-star fae, half-lunar. Amara built me to guard this place and point wanderers to what's alive in it. Ask, and I'll show you.",
@@ -372,7 +402,7 @@
       input.value = "";
       typeMist("…");
       if (!live) {
-        setTimeout(function () { typeMist(route(q)); }, 640);
+        setTimeout(function () { var r = route(q); typeMist(esc(r).replace(/\*(.*?)\*/g, "<b>$1</b>")); speak(r); }, 640);
         return;
       }
       fetch(ORACLE, {
@@ -384,8 +414,9 @@
         .then(function (data) {
           var reply = (data && (data.reply || data.error)) || route(q);
           typeMist(esc(reply).replace(/\*(.*?)\*/g, "<b>$1</b>"));
+          speak(reply);
         })
-        .catch(function () { typeMist(route(q)); });
+        .catch(function () { var r = route(q); typeMist(esc(r).replace(/\*(.*?)\*/g, "<b>$1</b>")); speak(r); });
     }
 
     var opened = false;
@@ -409,7 +440,12 @@
     chips.addEventListener("click", function (e) {
       if (e.target.classList.contains("mist-chip")) ask(e.target.textContent);
     });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && panel.classList.contains("open")) shut(); });
+    var voiceBtn = document.getElementById("mist-voice");
+    if (voiceBtn) voiceBtn.addEventListener("click", function () { setVoice(!VOICE_ON); });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && panel.classList.contains("open")) shut();
+      if (e.key === "m" && e.target.tagName !== "INPUT" && panel.classList.contains("open")) setVoice(!VOICE_ON);
+    });
     probe();
   })();
 
