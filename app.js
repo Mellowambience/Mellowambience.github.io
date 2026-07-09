@@ -317,7 +317,8 @@
     var foot = document.getElementById("mist-foot");
     if (!orb || !panel) return;
 
-    var ORACLE = "/api/mist-oracle";   // wired to api/mist-oracle.ts when deployed
+    var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    var ORACLE = isLocal ? "http://localhost:8787/api/mist-oracle" : "/api/mist-oracle";   // local brain on this machine; serverless when deployed
     var live = false;
 
     var SOUL = {
