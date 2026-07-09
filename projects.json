@@ -208,7 +208,7 @@
     "title": "boop-beatboard",
     "slug": "boop-beatboard",
     "repo": "https://github.com/Mellowambience/boop-beatboard",
-    "liveDemo": "",
+    "liveDemo": "https://mellowambience.github.io/boop-beatboard/",
     "type": "ai-agent",
     "status": "near-shippable",
     "featured": false,
