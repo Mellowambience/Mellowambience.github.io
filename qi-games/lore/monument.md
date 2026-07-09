@@ -4,5 +4,5 @@ _culture_
 
 > Raised to mark a bond or a grief; the world remembers who stood where.
 
-**Invented by:** Fennick Moonpale  
+**Invented by:** Mason Goldmere  
 **Times discovered:** 1
