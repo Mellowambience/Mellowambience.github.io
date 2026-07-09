@@ -4,5 +4,5 @@ _knowledge_
 
 > A quiet hall of memory; founders who linger here learn skills faster.
 
-**Invented by:** Fennick Moonpale  
+**Invented by:** Stone Hollowmead  
 **Times discovered:** 1

@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#05030b" />
 <title>QI-Games · Play Online — founders are building the world</title>
 <style>
   :root{ --bg:#06040c; --panel:#120b22; --ink:#e9e2ff; --dim:#9b8fc7; --gold:#ffcf5c; --you:#00ffff; }
@@ -40,7 +39,6 @@
   #status{ font-size:11px; color:var(--dim); margin-top:6px; }
   .keyhint{ font-size:11px; color:var(--dim); margin-top:8px; line-height:1.6; }
 </style>
-  <link rel="stylesheet" href="../site-chrome.css" />
 </head>
 <body>
 <div id="wrap">
@@ -57,9 +55,11 @@
         <h1 style="margin-bottom:6px">Enter the World</h1>
         <div class="sub">founders are building — join &amp; play with them</div>
         <input id="name" placeholder="your name" maxlength="20" value="Founder">
-        <button id="joinBtn">Join World</button>
+        <button id="joinBtn">Join World (needs server)</button>
+        <button id="soloBtn" style="margin-top:8px;background:#1c3a2b;border-color:#2c6a4c">▶ Play Solo (offline)</button>
         <div id="status">connecting…</div>
-        <div class="keyhint">WASD move · E build (1¢) · walk into gold pad to bank crystals+food</div>
+        <div class="keyhint">WASD move · E build (1¢) · walk into gold pad to bank crystals+food<br>
+        Solo runs the living world in your browser — no server, no network.</div>
       </div>
     </div>
   </div>
@@ -95,6 +95,8 @@
 <script src="vendor/three.min.js"></script>
 <script src="quantum/scores.js"></script>
 <script src="assets/sprites.js"></script>
+<!-- Sovereign offline single-player sim (so play.html is playable from file:// with no server) -->
+<script src="engine/society_browser.js"></script>
 <script>
 // ---- constants (match server.py) ----
 const WORLD_HALF = 5.5;
@@ -105,6 +107,7 @@ const ROLE_COLOR = {forager:0x5cff9d, trader:0xffcf5c, builder:0xff6ec7, scout:0
 let ws = null, you = null, world = {ent:[], players:[], founders:{}, market:1, mx:0, my:4};
 let youBuilt = 0;
 let myPossess = null;   // eid of founder we're piloting (or null)
+let solo = false, sim = null;  // sovereign single-player mode (no server)
 const statusEl = document.getElementById("status");
 
 function connect(name){
@@ -138,21 +141,35 @@ window.addEventListener("keydown", e => {
 });
 window.addEventListener("keyup", e => { KEYS[e.key.toLowerCase()] = false; });
 setInterval(() => {
-  if (!ws || ws.readyState !== 1) return;
   let x = 0, y = 0;
   if (KEYS["w"] || KEYS["arrowup"]) y += 1;
   if (KEYS["s"] || KEYS["arrowdown"]) y -= 1;
   if (KEYS["a"] || KEYS["arrowleft"]) x -= 1;
   if (KEYS["d"] || KEYS["arrowright"]) x += 1;
-  const msg = {x, y, build: buildQueued};
-  buildQueued = false;
-  ws.send(JSON.stringify(msg));
+  const build = buildQueued; buildQueued = false;
+  if (solo && sim) { sim.setInput({ x, y, build }); return; } // sovereign offline path
+  if (!ws || ws.readyState !== 1) return;
+  ws.send(JSON.stringify({ x, y, build }));
 }, 50);  // 20 Hz input
 
 // =====================  THREE RENDER  =====================
 let scene, camera, renderer, controls, meshMap = new Map();
 const sprites = window.QIG_SPRITES || {};
-function tex(src){ const t = new THREE.Texture(src); t.needsUpdate = true; return t; }
+// Guaranteed-ready 1x1 canvas so a THREE.Texture always has a valid image to
+// upload (never null) — prevents texImage2D overload errors before PNGs decode.
+function placeholderCanvas(){
+  const c = document.createElement("canvas"); c.width = c.height = 1;
+  const x = c.getContext("2d"); x.fillStyle = "#241a3a"; x.fillRect(0,0,1,1); return c;
+}
+function tex(img){
+  const t = new THREE.Texture(placeholderCanvas());
+  t.colorSpace = THREE.SRGBColorSpace || t.colorSpace;
+  t.generateMipmaps = false; t.minFilter = THREE.LinearFilter; t.magFilter = THREE.LinearFilter;
+  function upload(){ if (img && (img.complete || img.width)) { t.image = img; t.needsUpdate = true; } }
+  upload();
+  if (img && img.addEventListener) img.addEventListener("load", upload);
+  return t;
+}
 function makeSpriteMesh(img, scale){
   const m = new THREE.Sprite(new THREE.SpriteMaterial({map:tex(img), transparent:true, depthWrite:false}));
   m.scale.set(scale, scale, 1); return m;
@@ -177,9 +194,13 @@ function init3D(){
   camera.position.set(0, 12, 14); camera.lookAt(0, 1, 0);
   scene.add(new THREE.AmbientLight(0x6a5acd, 0.7));
   const dir = new THREE.DirectionalLight(0xffffff, 0.8); dir.position.set(5,10,7); scene.add(dir);
-  // ground
-  const gt = new THREE.Texture(sprites.tile ? sprites.tile.src : null);
-  gt.wrapS = gt.wrapT = THREE.RepeatWrapping; gt.repeat.set(8,8); gt.needsUpdate = true;
+  // ground (sovereign: use authored rune tile; start from placeholder, swap on load)
+  const tileImg = sprites.tile;
+  const gt = new THREE.Texture(placeholderCanvas());
+  gt.wrapS = gt.wrapT = THREE.RepeatWrapping; gt.repeat.set(8,8);
+  function gtUpload(){ if (tileImg && (tileImg.complete || tileImg.width)) { gt.image = tileImg; gt.needsUpdate = true; } }
+  gtUpload();
+  if (tileImg && tileImg.addEventListener) tileImg.addEventListener("load", gtUpload);
   const gm = new THREE.PlaneGeometry(WORLD_HALF*1.6, WORLD_HALF);
   const ground = new THREE.Mesh(gm, new THREE.MeshStandardMaterial({map:gt, roughness:1}));
   ground.rotation.x = -Math.PI/2; scene.add(ground);
@@ -212,7 +233,7 @@ function sync3D(){
   const pcol = {};
   for (const p of (world.players || [])) pcol[p.id] = p.c;
   // world entities (s, x, f, p are transient -> fresh each frame)
-  const seen = new Map();
+  const seen = new Set();
   for (const e of world.ent){
     const [type, x, y, extra, owner] = e;
     let img;
@@ -289,9 +310,9 @@ function updatePanel(){
     : "the founders are tuning the world as it lives…";
   // founders
   const fEl = document.getElementById("founders");
-  const fnames = {forager:"Forager", trader:"Trader", builder:"Builder", scout:"Scout", curator:"Curator"};
+  const fnames = {forager:"Forager", trader:"Trader", builder:"Builder", scout:"Scout", curator:"Curator", merchant:"Merchant"};
   fEl.innerHTML = Object.keys(world.founders || {}).map(r =>
-    `<div class="prow"><span class="pdot" style="background:#${ROLE_COLOR[r].toString(16).padStart(6,'0')}"></span>${fnames[r]||r} <span style="color:var(--dim)">building…</span></div>`).join("")
+    `<div class="prow"><span class="pdot" style="background:#${(ROLE_COLOR[r] || 0xffffff).toString(16).padStart(6,'0')}"></span>${fnames[r]||r} <span style="color:var(--dim)">building…</span></div>`).join("")
     || '<div class="sub">—</div>';
   // players
   const pEl = document.getElementById("players");
@@ -310,7 +331,7 @@ function updatePanel(){
     return `<div style="margin-bottom:8px; padding:6px; border:1px solid #2a1d4d; border-radius:6px">
       <b style="color:#c792ff">${c.name}</b> <span style="color:var(--dim)">— ${c.class}</span>${piloted}<br>` +
       (c.title ? `<span style="color:var(--dim)">${c.title}</span><br>` : "") +
-      Object.entries(c.skills || {}).map(([k,v]) => `${k} L${v}`).join(" · ") +
+      Object.entries(c.skills || {}).map(([k,v]) => `${k} L${typeof v === 'object' ? (v.level ?? '?') : v}`).join(" · ") +
       (c.invented && c.invented.length ? `<br>✦ invented: ${c.invented.join(", ")}` : "") +
       (c.relations && Object.keys(c.relations).length ? `<br>♥ ${Object.entries(c.relations).map(([n,s]) => `${n} ${s>0?"+":""}${s}`).join(", ")}` : "") +
       `<br>${btn}</div>`;
@@ -345,29 +366,40 @@ function updatePanel(){
     yp.style.display = "none";
     document.getElementById("possessHud").textContent = "";
   }
-    const me = (world.players || []).find(p => p.id === you.id);
-    if (me){ document.getElementById("youCoins").textContent = me.coins + "¢";
-      document.getElementById("youCarry").textContent = me.carry ? me.carry + " res" : "—";
-      const b = me.built || 0;
-      document.getElementById("youBuilt").textContent = b;
-      document.getElementById("youMark").textContent = b > 0 ? `${b} structure${b>1?"s":""} 🌱` : "build with E"; }
-  }
+  // you (local player) — safe before connect: only reads if you is set
+  const me = (you && world.players) ? world.players.find(p => p.id === you.id) : null;
+  if (me){ document.getElementById("youCoins").textContent = me.coins + "¢";
+    document.getElementById("youCarry").textContent = me.carry ? me.carry + " res" : "—";
+    const b = me.built || 0;
+    document.getElementById("youBuilt").textContent = b;
+    document.getElementById("youMark").textContent = b > 0 ? `${b} structure${b>1?"s":"🌱"}` : "build with E"; }
 }
 
 // =====================  LOOP  =====================
-function frame(){ sync3D(); updatePanel(); controls && controls.update(); renderer.render(scene, camera);
-  requestAnimationFrame(frame); }
+function frame(){
+  if (solo && sim){ sim.tick(1/60); world = sim.snapshot(); }
+  sync3D(); updatePanel(); controls && controls.update(); renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
 
+function startSolo(name){
+  solo = true; sim = window.QIG_SP.create({ name });
+  you = { id: sim.youId, name };
+  document.getElementById("connect").style.display = "none";
+  document.getElementById("status").textContent = "sovereign single-player · no server needed";
+}
 // boot
 document.getElementById("joinBtn").addEventListener("click", () => {
   const n = document.getElementById("name").value.trim() || "Founder";
   connect(n);
 });
+document.getElementById("soloBtn").addEventListener("click", () => {
+  const n = document.getElementById("name").value.trim() || "Founder";
+  startSolo(n);
+});
 document.getElementById("name").addEventListener("keydown", e => { if (e.key === "Enter") document.getElementById("joinBtn").click(); });
 init3D();
 requestAnimationFrame(frame);
 </script>
-  <a class="ah-hub" href="https://mellowambience.github.io/" aria-label="Back to Aetherhaven hub"><b>⟁</b><span>Aetherhaven</span></a>
-  <script src="../site-chrome.js" defer></script>
 </body>
 </html>
