@@ -2,40 +2,42 @@
   "kinds": [],
   "n_kinds": 0,
   "relations": {
-    "Larkspur Thornwood": {
-      "Mason Hollowmead": 0.0
+    "Moss Ironveil": {
+      "Drift Wildroot": 0.25,
+      "Bay Ironveil": 0.0,
+      "Mason Cinderfall": 0.0
     },
-    "Coin Ashgrove": {
-      "Fletch Moonpale": 0.0,
-      "Reef Thornwood": 0.0,
-      "Cord Thornwood": 0.0,
-      "Mason Hollowmead": 0.0
+    "Lux Goldmere": {
+      "Sage Thornwood": 0.0,
+      "Mason Cinderfall": 0.0,
+      "Bay Ironveil": 0.0,
+      "Drift Wildroot": 0.0
     },
-    "Mason Hollowmead": {
-      "Cord Thornwood": 0.7,
-      "Fletch Moonpale": 0.0,
-      "Reef Thornwood": 0.0,
-      "Coin Ashgrove": 0.0,
-      "Larkspur Thornwood": 0.0
+    "Mason Cinderfall": {
+      "Sage Thornwood": 0.48,
+      "Lux Goldmere": 0.0,
+      "Bay Ironveil": 0.0,
+      "Moss Ironveil": 0.0,
+      "Drift Wildroot": 0.0
     },
-    "Fletch Moonpale": {
-      "Reef Thornwood": 0.0,
-      "Mason Hollowmead": 0.0,
-      "Coin Ashgrove": 0.0,
-      "Cord Thornwood": 0.0
+    "Drift Wildroot": {
+      "Bay Ironveil": 0.0,
+      "Moss Ironveil": 0.25,
+      "Lux Goldmere": 0.0,
+      "Mason Cinderfall": 0.0
     },
-    "Cord Thornwood": {
-      "Mason Hollowmead": 0.7,
-      "Fletch Moonpale": 0.0,
-      "Reef Thornwood": 0.0,
-      "Coin Ashgrove": 0.0
+    "Sage Thornwood": {
+      "Lux Goldmere": 0.0,
+      "Mason Cinderfall": 0.48,
+      "Bay Ironveil": 0.0
     },
-    "Reef Thornwood": {
-      "Fletch Moonpale": 0.0,
-      "Mason Hollowmead": 0.0,
-      "Coin Ashgrove": 0.0,
-      "Cord Thornwood": 0.0
+    "Bay Ironveil": {
+      "Drift Wildroot": 0.0,
+      "Lux Goldmere": 0.0,
+      "Mason Cinderfall": 0.0,
+      "Sage Thornwood": 0.0,
+      "Moss Ironveil": 0.0
     }
   },
-  "updated": "2026-07-08T21:56:55"
+  "updated": "2026-07-09T13:18:11"
 }
