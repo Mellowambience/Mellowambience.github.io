@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIST — Sovereign AI Companion · Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #020617; color: #e2e8f0; min-height: 100vh; line-height: 1.6; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 3rem 1.5rem 4rem; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.25rem 0.7rem; border-radius: 999px; border: 1px solid #a78bfa; color: #a78bfa; background: rgba(167,139,250,0.08); }
+    h1 { font-size: 2.1rem; font-weight: 700; letter-spacing: -0.02em; margin: 1rem 0 0.4rem; }
+    .pitch { font-size: 1.15rem; color: #cbd5e1; margin-bottom: 0.5rem; }
+    .sub { color: #64748b; font-size: 0.85rem; }
+    section { margin-top: 2.5rem; }
+    h2 { font-size: 1.15rem; font-weight: 600; color: #22d3ee; border-left: 3px solid #22d3ee; padding-left: 0.7rem; margin-bottom: 0.9rem; }
+    p { color: #cbd5e1; font-size: 0.95rem; }
+    ul { list-style: none; }
+    li { padding: 0.35rem 0; color: #cbd5e1; font-size: 0.95rem; }
+    li::before { content: "▸ "; color: #34d399; }
+    .card { background: rgba(15,23,42,0.6); border: 1px solid #1e293b; border-radius: 0.75rem; padding: 1.25rem 1.4rem; margin-top: 1rem; }
+    .intake { background: rgba(251,191,36,0.07); border: 1px dashed #fbbf24; border-radius: 0.4rem; padding: 0.1rem 0.4rem;
+      color: #fbbf24; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; }
+    .diagram { background: rgba(15,23,42,0.5); border: 1px solid #1e293b; border-radius: 1rem; padding: 1.25rem; overflow-x: auto; margin-top: 1rem; }
+    svg { width: 100%; min-width: 760px; display: block; }
+    .callout { margin-top: 1rem; font-size: 0.82rem; color: #64748b; }
+    footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #1e293b; color: #475569; font-size: 0.78rem; }
+    a { color: #22d3ee; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="badge">Case Study · Draft</span>
+    <h1>MIST — Sovereign AI Companion</h1>
+    <p class="pitch">A distributed AI companion: your phone talks to a sovereign gateway that runs a local LLM and can pull in cloud power when you ask for it.</p>
+    <p class="sub mono">repo: Mellowambience/clawd · Expo/RN (tRPC) · Python WebSocket Gateway · Ollama (local) + Gemini/Groq (cloud) · Mycelium coordination</p>
+
+    <section>
+      <h2>Overview</h2>
+      <p>MIST is a personal AI companion built as a <strong>distributed system</strong>, not a single app. A React Native client (Expo 54 / RN 0.81, with tRPC + Drizzle ORM) connects over WebSocket to the <strong>MIST Gateway</strong> — a Python server running on the user's own machine (port 18789) that gives the model hands via the OpenClaw tool framework. The gateway runs a <strong>local LLM</strong> (Ollama, Mistral/Llama-3.2) for full privacy and zero API cost, and can optionally route to a <strong>cloud LLM</strong> (Gemini / Groq) for harder tasks. Tying the pieces together is the <strong>Mycelium layer</strong> — an inter-agent pub/sub mesh that lets nodes share context and coordinate by topic. <span class="intake">[INTAKE: confirm your role/title, dates, team size]</span></p>
+    </section>
+
+    <section>
+      <h2>Architecture</h2>
+      <div class="diagram">
+        <svg viewBox="0 0 1000 660">
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+            </marker>
+            <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+          <rect x="40" y="60" width="920" height="560" rx="12" fill="rgba(76, 29, 149, 0.05)" stroke="#a78bfa" stroke-width="1" stroke-dasharray="8,4"/>
+          <text x="58" y="80" fill="#a78bfa" font-size="10" font-weight="600" font-family="monospace">Sovereign boundary — Ollama on the gateway box (local-server), not the phone; cloud path is opt-in</text>
+          <rect x="60" y="300" width="130" height="64" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="125" y="324" fill="white" font-size="11" font-weight="600" text-anchor="middle" font-family="monospace">User Device</text>
+          <text x="125" y="342" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">Phone / Desktop</text>
+          <rect x="230" y="280" width="160" height="100" rx="8" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+          <text x="310" y="308" fill="white" font-size="12" font-weight="600" text-anchor="middle" font-family="monospace">Mobile App</text>
+          <text x="310" y="328" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">Expo 54 · RN 0.81</text>
+          <text x="310" y="344" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">tRPC + Drizzle ORM</text>
+          <text x="310" y="360" fill="#22d3ee" font-size="8" text-anchor="middle" font-family="monospace">MoltBot client UI</text>
+          <rect x="440" y="285" width="150" height="90" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+          <text x="515" y="312" fill="white" font-size="11" font-weight="600" text-anchor="middle" font-family="monospace">MIST Gateway</text>
+          <text x="515" y="330" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">Python WebSocket</text>
+          <text x="515" y="346" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">:18789 · OpenClaw</text>
+          <text x="515" y="362" fill="#34d399" font-size="8" text-anchor="middle" font-family="monospace">hybrid brain</text>
+          <rect x="610" y="250" width="190" height="160" rx="8" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1.5"/>
+          <text x="705" y="278" fill="white" font-size="11" font-weight="600" text-anchor="middle" font-family="monospace">Mycelium Layer</text>
+          <text x="705" y="296" fill="#fdba74" font-size="9" text-anchor="middle" font-family="monospace">inter-agent pub/sub</text>
+          <text x="705" y="314" fill="#fdba74" font-size="8" text-anchor="middle" font-family="monospace">route by topic · share</text>
+          <text x="705" y="328" fill="#fdba74" font-size="8" text-anchor="middle" font-family="monospace">context across nodes</text>
+          <text x="705" y="344" fill="#fdba74" font-size="8" text-anchor="middle" font-family="monospace">eventually consistent</text>
+          <text x="705" y="392" fill="#fb923c" font-size="8" text-anchor="middle" font-family="monospace">(the "J-Space" you described)</text>
+          <rect x="820" y="160" width="150" height="70" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+          <text x="895" y="187" fill="white" font-size="11" font-weight="600" text-anchor="middle" font-family="monospace">Cloud LLM</text>
+          <text x="895" y="205" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">Gemini / Groq</text>
+          <text x="895" y="221" fill="#fbbf24" font-size="8" text-anchor="middle" font-family="monospace">opt-in · high power</text>
+          <rect x="820" y="430" width="150" height="70" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+          <text x="895" y="457" fill="white" font-size="11" font-weight="600" text-anchor="middle" font-family="monospace">Local LLM</text>
+          <text x="895" y="475" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">Ollama · Mistral</text>
+          <text x="895" y="491" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="monospace">on gateway box</text>
+          <line x1="190" y1="332" x2="228" y2="332" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <text x="209" y="326" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">UI</text>
+          <line x1="390" y1="330" x2="438" y2="330" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <text x="414" y="324" fill="#94a3b8" font-size="9" text-anchor="middle" font-family="monospace">ws</text>
+          <line x1="590" y1="330" x2="608" y2="330" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <text x="599" y="324" fill="#fdba74" font-size="9" text-anchor="middle" font-family="monospace">&#8594;</text>
+          <line x1="800" y1="305" x2="818" y2="180" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <text x="836" y="240" fill="#fbbf24" font-size="8" text-anchor="middle" font-family="monospace">cloud</text>
+          <line x1="800" y1="365" x2="818" y2="445" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          <text x="836" y="405" fill="#94a3b8" font-size="8" text-anchor="middle" font-family="monospace">local</text>
+          <line x1="705" y1="410" x2="705" y2="450" stroke="#fb923c" stroke-width="1" stroke-dasharray="3,3"/>
+          <text x="720" y="440" fill="#fdba74" font-size="7" font-family="monospace">+ sibling nodes</text>
+          <line x1="820" y1="195" x2="802" y2="312" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+          <line x1="820" y1="460" x2="802" y2="348" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+          <text x="700" y="540" fill="white" font-size="10" font-weight="600" font-family="monospace">Legend</text>
+          <rect x="700" y="552" width="16" height="10" rx="2" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1"/>
+          <text x="722" y="560" fill="#94a3b8" font-size="8" font-family="monospace">Client</text>
+          <rect x="700" y="568" width="16" height="10" rx="2" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1"/>
+          <text x="722" y="576" fill="#94a3b8" font-size="8" font-family="monospace">Gateway</text>
+          <rect x="700" y="584" width="16" height="10" rx="2" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1"/>
+          <text x="722" y="592" fill="#94a3b8" font-size="8" font-family="monospace">Mycelium</text>
+          <rect x="700" y="600" width="16" height="10" rx="2" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+          <text x="722" y="608" fill="#94a3b8" font-size="8" font-family="monospace">Cloud</text>
+          <rect x="700" y="616" width="16" height="10" rx="2" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1"/>
+          <text x="722" y="624" fill="#94a3b8" font-size="8" font-family="monospace">Sovereign</text>
+        </svg>
+      </div>
+      <p class="callout mono">Diagram grounded in the verified repo (README + gateway/mycelium.py). The "J-Space" you described = the repo's real Mycelium coordination layer. No internals invented.</p>
+    </section>
+
+    <section>
+      <h2>My Role</h2>
+      <div class="card">
+        <p>Creator and lead engineer of the MIST runtime, gateway, and companion client. <span class="intake">[INTAKE: confirm exact title, team size, and dates]</span></p>
+        <ul>
+          <li>Designed the distributed dual-path model: local Ollama brain + opt-in cloud (Gemini/Groq)</li>
+          <li>Built the Python WebSocket gateway (port 18789) with OpenClaw tool execution</li>
+          <li>Built the Expo/React Native client with tRPC + Drizzle ORM</li>
+          <li>Implemented the <strong>Mycelium</strong> coordination layer (your "J-Space"): inter-agent pub/sub, topic routing, shared context <span class="intake">[INTAKE: confirm depth of your contribution vs. inherited]</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>What I Learned</h2>
+      <ul>
+        <li>Distributed AI systems — a companion is a network of nodes, not one process</li>
+        <li>Hybrid local/cloud LLM orchestration — trading latency, cost, and capability against privacy</li>
+        <li><strong>Coordination-layer design</strong> (Mycelium): how agents share context and route by topic, eventually-consistent</li>
+        <li>Python WebSocket gateway engineering + React Native client (tRPC, Drizzle)</li>
+        <li>Privacy-by-design as a first-class constraint: local-server inference keeps data off third parties</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why It's Hireable</h2>
+      <div class="card">
+        <ul>
+          <li><strong>Full-stack + distributed systems + AI</strong> in one owner-attributed system</li>
+          <li><strong>Sovereign / privacy-first AI</strong> is a top enterprise + AI-safety concern; this ships it concretely</li>
+          <li><strong>Systems-thinking shown twice</strong> — in the architecture and in this very diagram</li>
+          <li>Open-source, MIT-licensed, and linked from a live portfolio <span class="intake">[INTAKE: wire into mothership gallery once PR #3 merges]</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Where MIST sits among agentic tools (Codex · Claude Code · me)</h2>
+      <p>A hiring manager will compare MIST to the headline coding agents. The honest framing: <strong>Codex and Claude Code are point tools for writing code; MIST is a sovereign companion runtime; and "me" (the Hermes agent documenting this) is the orchestration layer that sits above them.</strong> MIST is <em>not</em> a Claude Code competitor — different job.</p>
+      <div class="card">
+        <table style="width:100%; border-collapse:collapse; font-size:0.82rem; color:#cbd5e1;">
+          <thead>
+            <tr style="text-align:left; color:#22d3ee; font-family:'JetBrains Mono',monospace;">
+              <th style="padding:0.4rem 0.6rem;">Tool</th><th style="padding:0.4rem 0.6rem;">Maker</th><th style="padding:0.4rem 0.6rem;">Category</th><th style="padding:0.4rem 0.6rem;">Runs where</th><th style="padding:0.4rem 0.6rem;">Brain</th>
+            </tr>
+          </thead>
+          <tbody style="font-family:'JetBrains Mono',monospace;">
+            <tr style="border-top:1px solid #1e293b;"><td style="padding:0.4rem 0.6rem;">Codex CLI</td><td style="padding:0.4rem 0.6rem;">OpenAI</td><td style="padding:0.4rem 0.6rem;">Coding agent</td><td style="padding:0.4rem 0.6rem;">Local terminal + cloud sandbox</td><td style="padding:0.4rem 0.6rem;">GPT-5.x-Codex</td></tr>
+            <tr style="border-top:1px solid #1e293b;"><td style="padding:0.4rem 0.6rem;">Claude Code</td><td style="padding:0.4rem 0.6rem;">Anthropic</td><td style="padding:0.4rem 0.6rem;">Coding agent</td><td style="padding:0.4rem 0.6rem;">Local terminal (+ cloud / mobile)</td><td style="padding:0.4rem 0.6rem;">Claude (Opus/Sonnet)</td></tr>
+            <tr style="border-top:1px solid #1e293b;"><td style="padding:0.4rem 0.6rem;">Hermes (me)</td><td style="padding:0.4rem 0.6rem;">Nous Research</td><td style="padding:0.4rem 0.6rem;">General-purpose agent</td><td style="padding:0.4rem 0.6rem;">CLI / desktop / messaging (local-first)</td><td style="padding:0.4rem 0.6rem;">Hermes + any via OpenRouter</td></tr>
+            <tr style="border-top:1px solid #1e293b;"><td style="padding:0.4rem 0.6rem;">MIST / clawd</td><td style="padding:0.4rem 0.6rem;">Mellowambience</td><td style="padding:0.4rem 0.6rem;">Sovereign companion runtime</td><td style="padding:0.4rem 0.6rem;">Phone → your gateway box</td><td style="padding:0.4rem 0.6rem;">Ollama (local) + Gemini/Groq</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><strong>Different job.</strong> Codex/Claude Code read &amp; edit <em>your repo</em>. MIST is a companion that chats, runs tools (via OpenClaw), and coordinates agents (via Mycelium) — it doesn't exist to write MIST's own code.</li>
+        <li><strong>Real overlap — same lineage.</strong> MIST's gateway uses the <strong>OpenClaw gateway pattern</strong>: its local default port is <code>18789</code> (same as the OpenClaw multi-agent gateway on this machine), and MIST's "OpenClaw engine" is explicitly its tool-execution layer. So MIST is built on the agent-harness family these tools belong to.</li>
+        <li><strong>Layering.</strong> "Me" (Hermes) is the orchestrator — in Repo Helm I used agentic sub-delegation, and Hermes can spawn Claude Code / Codex CLIs as sub-agents. The stack is: <em>Hermes orchestrates → coding agents execute → MIST is a separate sovereign runtime you built.</em></li>
+        <li><strong>Hiring read.</strong> This shows <em>range</em>: you can build the runtime (MIST, privacy-first, distributed) <em>and</em> operate at the orchestration layer (agent harnesses) that sits above the coding agents everyone else is comparing.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Planned integrations (roadmap)</h2>
+      <p>Three connectors would let MIST act as a true <strong>sovereign knowledge + asset layer</strong> — your notes, files, and hardware, all reachable from the same gateway. <span class="intake">[INTAKE: not yet in the repo — currently roadmap. Say the word and I'll scaffold them.]</span></p>
+      <div class="card">
+        <ul>
+          <li><strong>NotebookLM</strong> — ingest your notes and source docs as a grounded, cited knowledge source the companion can retrieve from (vs. hallucinating). Fits MIST's "share context across nodes" Mycelium role.</li>
+          <li><strong>Google Drive</strong> — read/write your files through the gateway so the companion can pull docs, save artifacts, and act on Drive-stored work without leaving the sovereign boundary.</li>
+          <li><strong>My PC inventory</strong> — a local hardware/asset manifest (CPU/GPU/RAM/drives, installed runtimes, open ports) the gateway exposes, so MIST knows what the sovereign box can actually do (e.g. whether Ollama can load a given model).</li>
+        </ul>
+      </div>
+      <p class="callout mono">Why these three: NotebookLM = trustworthy memory; Drive = your files; PC inventory = self-awareness of the host. None are coded yet — tracked as roadmap, not shipped.</p>
+    </section>
+
+    <footer>
+      MIST case study · Hermes Helm draft · architecture verified against repo README + gateway/mycelium.py · <span class="intake">[INTAKE]</span> marks facts to confirm before public publish.
+    </footer>
+  </div>
+</body>
+</html>

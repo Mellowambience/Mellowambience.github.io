@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIST / clawd — Sovereign AI Companion Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'JetBrains Mono', monospace; background: #020617; min-height: 100vh; padding: 2rem; color: white; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { margin-bottom: 2rem; }
+    .header-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+    .pulse-dot { width: 12px; height: 12px; background: #22d3ee; border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; }
+    .subtitle { color: #94a3b8; font-size: 0.875rem; margin-left: 1.75rem; }
+    .diagram-container { background: rgba(15, 23, 42, 0.5); border-radius: 1rem; border: 1px solid #1e293b; padding: 1.5rem; overflow-x: auto; }
+    svg { width: 100%; min-width: 920px; display: block; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 2rem; }
+    .card { background: rgba(15, 23, 42, 0.5); border-radius: 0.75rem; border: 1px solid #1e293b; padding: 1.25rem; }
+    .card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .card-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .card-dot.cyan { background: #22d3ee; } .card-dot.emerald { background: #34d399; }
+    .card-dot.violet { background: #a78bfa; } .card-dot.amber { background: #fbbf24; }
+    .card-dot.orange { background: #fb923c; }
+    .card h3 { font-size: 0.875rem; font-weight: 600; }
+    .card ul { list-style: none; color: #94a3b8; font-size: 0.75rem; }
+    .card li { margin-bottom: 0.375rem; }
+    .footer { text-align: center; margin-top: 1.5rem; color: #475569; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-row">
+        <div class="pulse-dot"></div>
+        <h1>MIST / clawd — Sovereign AI Companion</h1>
+      </div>
+      <p class="subtitle">Distributed dual-path architecture · repo: Mellowambience/clawd · grounded in the repo's README + gateway/mycelium.py (verified)</p>
+    </div>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 660">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+          </marker>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" />
+
+        <!-- Local-first / sovereign boundary -->
+        <rect x="40" y="60" width="920" height="560" rx="12" fill="rgba(76, 29, 149, 0.05)" stroke="#a78bfa" stroke-width="1" stroke-dasharray="8,4"/>
+        <text x="58" y="80" fill="#a78bfa" font-size="10" font-weight="600">Sovereign boundary — Ollama runs on the gateway box (local-server), not the phone; Gemini/Groq path is opt-in</text>
+
+        <!-- User Device -->
+        <rect x="60" y="300" width="130" height="64" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="125" y="324" fill="white" font-size="11" font-weight="600" text-anchor="middle">User Device</text>
+        <text x="125" y="342" fill="#94a3b8" font-size="9" text-anchor="middle">Phone / Desktop</text>
+
+        <!-- Mobile app (Expo/RN + tRPC) -->
+        <rect x="230" y="280" width="160" height="100" rx="8" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1.5"/>
+        <text x="310" y="308" fill="white" font-size="12" font-weight="600" text-anchor="middle">Mobile App</text>
+        <text x="310" y="328" fill="#94a3b8" font-size="9" text-anchor="middle">Expo 54 · RN 0.81</text>
+        <text x="310" y="344" fill="#94a3b8" font-size="9" text-anchor="middle">tRPC + Drizzle ORM</text>
+        <text x="310" y="360" fill="#22d3ee" font-size="8" text-anchor="middle">MoltBot client UI</text>
+
+        <!-- MIST Gateway (WebSocket :18789) -->
+        <rect x="440" y="285" width="150" height="90" rx="6" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1.5"/>
+        <text x="515" y="312" fill="white" font-size="11" font-weight="600" text-anchor="middle">MIST Gateway</text>
+        <text x="515" y="330" fill="#94a3b8" font-size="9" text-anchor="middle">Python WebSocket</text>
+        <text x="515" y="346" fill="#94a3b8" font-size="9" text-anchor="middle">:18789 · OpenClaw</text>
+        <text x="515" y="362" fill="#34d399" font-size="8" text-anchor="middle">hybrid brain</text>
+
+        <!-- Mycelium (the user's "J-Space") -->
+        <rect x="610" y="250" width="190" height="160" rx="8" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1.5"/>
+        <text x="705" y="278" fill="white" font-size="11" font-weight="600" text-anchor="middle">Mycelium Layer</text>
+        <text x="705" y="296" fill="#fdba74" font-size="9" text-anchor="middle">inter-agent pub/sub</text>
+        <text x="705" y="314" fill="#fdba74" font-size="8" text-anchor="middle">route by topic · share</text>
+        <text x="705" y="328" fill="#fdba74" font-size="8" text-anchor="middle">context across nodes</text>
+        <text x="705" y="344" fill="#fdba74" font-size="8" text-anchor="middle">eventually consistent</text>
+        <text x="705" y="392" fill="#fb923c" font-size="8" text-anchor="middle">(the "J-Space" you described)</text>
+
+        <!-- Cloud LLM -->
+        <rect x="820" y="160" width="150" height="70" rx="6" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="895" y="187" fill="white" font-size="11" font-weight="600" text-anchor="middle">Cloud LLM</text>
+        <text x="895" y="205" fill="#94a3b8" font-size="9" text-anchor="middle">Gemini / Groq</text>
+        <text x="895" y="221" fill="#fbbf24" font-size="8" text-anchor="middle">opt-in · high power</text>
+
+        <!-- Local LLM -->
+        <rect x="820" y="430" width="150" height="70" rx="6" fill="rgba(30, 41, 59, 0.5)" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="895" y="457" fill="white" font-size="11" font-weight="600" text-anchor="middle">Local LLM</text>
+        <text x="895" y="475" fill="#94a3b8" font-size="9" text-anchor="middle">Ollama · Mistral</text>
+        <text x="895" y="491" fill="#94a3b8" font-size="8" text-anchor="middle">on gateway box</text>
+
+        <!-- arrows -->
+        <line x1="190" y1="332" x2="228" y2="332" stroke="#22d3ee" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="209" y="326" fill="#94a3b8" font-size="9" text-anchor="middle">UI</text>
+        <line x1="390" y1="330" x2="438" y2="330" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="414" y="324" fill="#94a3b8" font-size="9" text-anchor="middle">ws</text>
+        <line x1="590" y1="330" x2="608" y2="330" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="599" y="324" fill="#fdba74" font-size="9" text-anchor="middle">&#8594;</text>
+        <line x1="800" y1="305" x2="818" y2="180" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="836" y="240" fill="#fbbf24" font-size="8" text-anchor="middle">cloud</text>
+        <line x1="800" y1="365" x2="818" y2="445" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <text x="836" y="405" fill="#94a3b8" font-size="8" text-anchor="middle">local</text>
+        <!-- mycelium fans out to nodes (decorative) -->
+        <line x1="705" y1="410" x2="705" y2="450" stroke="#fb923c" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="720" y="440" fill="#fdba74" font-size="7">+ sibling nodes</text>
+
+        <!-- return arrows (dashed) -->
+        <line x1="820" y1="195" x2="802" y2="312" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+        <line x1="820" y1="460" x2="802" y2="348" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4,4" marker-end="url(#arrowhead)"/>
+
+        <!-- Legend -->
+        <text x="700" y="540" fill="white" font-size="10" font-weight="600">Legend</text>
+        <rect x="700" y="552" width="16" height="10" rx="2" fill="rgba(8, 51, 68, 0.4)" stroke="#22d3ee" stroke-width="1"/>
+        <text x="722" y="560" fill="#94a3b8" font-size="8">Client</text>
+        <rect x="700" y="568" width="16" height="10" rx="2" fill="rgba(6, 78, 59, 0.4)" stroke="#34d399" stroke-width="1"/>
+        <text x="722" y="576" fill="#94a3b8" font-size="8">Gateway</text>
+        <rect x="700" y="584" width="16" height="10" rx="2" fill="rgba(251, 146, 60, 0.3)" stroke="#fb923c" stroke-width="1"/>
+        <text x="722" y="592" fill="#94a3b8" font-size="8">Mycelium</text>
+        <rect x="700" y="600" width="16" height="10" rx="2" fill="rgba(120, 53, 15, 0.3)" stroke="#fbbf24" stroke-width="1"/>
+        <text x="722" y="608" fill="#94a3b8" font-size="8">Cloud</text>
+        <rect x="700" y="616" width="16" height="10" rx="2" fill="rgba(76, 29, 149, 0.4)" stroke="#a78bfa" stroke-width="1"/>
+        <text x="722" y="624" fill="#94a3b8" font-size="8">Sovereign</text>
+      </svg>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-header"><div class="card-dot cyan"></div><h3>Why it matters</h3></div>
+        <ul>
+          <li>• Distributed companion: phone &#8644; gateway &#8644; cloud/local brain.</li>
+          <li>• <strong>Mycelium</strong> = the coordination layer (your "J-Space"): agents share context, route by topic.</li>
+          <li>• Local-server privacy (Ollama on the gateway box) with opt-in cloud power.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-dot emerald"></div><h3>Skills demonstrated</h3></div>
+        <ul>
+          <li>• React Native (Expo) + tRPC client</li>
+          <li>• Python WebSocket gateway (OpenClaw)</li>
+          <li>• Hybrid cloud/local LLM orchestration</li>
+          <li>• Distributed coordination (Mycelium pub/sub)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-dot violet"></div><h3>Case-study next steps</h3></div>
+        <ul>
+          <li>• Add Mycelium message-flow sequence</li>
+          <li>• Local vs Hybrid latency/cost table</li>
+          <li>• Link from mothership via projects.json</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="footer">MIST / clawd · Hermes Helm case-study draft · corrected to the repo's real architecture (verified README + gateway/mycelium.py)</p>
+  </div>
+</body>
+</html>

@@ -7,7 +7,7 @@
     "type": "portfolio",
     "status": "showcase-ready",
     "featured": true,
-    "shortDescription": "Personal portfolio \u2014 Mars | Systems thinker, builder of MIST",
+    "shortDescription": "Personal portfolio — Mars | Systems thinker, builder of MIST",
     "longDescription": "",
     "techStack": [
       "HTML"
@@ -53,7 +53,7 @@
     "type": "ai-agent",
     "status": "near-shippable",
     "featured": true,
-    "shortDescription": "Local-first Fairy OS \u2014 embodied AI agents as a living-world game OS. Build-in-public.",
+    "shortDescription": "Local-first Fairy OS — embodied AI agents as a living-world game OS. Build-in-public.",
     "longDescription": "",
     "techStack": [
       "JavaScript"
@@ -76,7 +76,7 @@
     "type": "game",
     "status": "near-shippable",
     "featured": true,
-    "shortDescription": "\ud83c\udf40 a cursed dungeon that moves. fae roguelite built in public. MIST-powered narrative engine. remix it.",
+    "shortDescription": "🍀 a cursed dungeon that moves. fae roguelite built in public. MIST-powered narrative engine. remix it.",
     "longDescription": "",
     "techStack": [
       "Lua"
@@ -99,7 +99,7 @@
     "type": "ai-agent",
     "status": "near-shippable",
     "featured": true,
-    "shortDescription": "MIST \u2014 sovereign AI companion with dual-path architecture (cloud + local). Mobile app \u2194 tRPC server \u2194 Gemini/Ollama.",
+    "shortDescription": "MIST — sovereign AI companion with dual-path architecture (cloud + local). Mobile app ↔ tRPC server ↔ Gemini/Ollama.",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -145,7 +145,7 @@
     "type": "creative-tool",
     "status": "prototype",
     "featured": true,
-    "shortDescription": "\ud83c\udf11 The Aetherhaven Mothership Hub \u2014 a game-inspired social world. Void Lobby, Rose Garden, The Forge. Inspired by VMK, Habbo Hotel, MapleStory, RuneScape.",
+    "shortDescription": "🌑 The Aetherhaven Mothership Hub — a game-inspired social world. Void Lobby, Rose Garden, The Forge. Inspired by VMK, Habbo Hotel, MapleStory, RuneScape.",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -168,7 +168,7 @@
     "type": "game",
     "status": "near-shippable",
     "featured": false,
-    "shortDescription": "EcoQuest: Guardians of Earth \u2014 Pok\u00e9mon Crystal-style hybrid engine. Turn-based RPG, creature capture, tile overworld, story arc. Web (Subspace) + Pico-8 dual ta",
+    "shortDescription": "EcoQuest: Guardians of Earth — Pokémon Crystal-style hybrid engine. Turn-based RPG, creature capture, tile overworld, story arc. Web (Subspace) + Pico-8 dual ta",
     "longDescription": "",
     "techStack": [
       "JavaScript"
@@ -191,7 +191,7 @@
     "type": "game",
     "status": "near-shippable",
     "featured": false,
-    "shortDescription": "Archived \u2014 rhythm RPG prototype (inactive)",
+    "shortDescription": "Archived — rhythm RPG prototype (inactive)",
     "longDescription": "",
     "techStack": [],
     "screenshots": [],
@@ -212,7 +212,7 @@
     "type": "ai-agent",
     "status": "near-shippable",
     "featured": false,
-    "shortDescription": "An interactive beat board web app with iOS x Android hybrid agentic aesthetic \u2014 featuring a 4x4 pad grid, step sequencer, Web Audio engine, and polished glassmo",
+    "shortDescription": "An interactive beat board web app with iOS x Android hybrid agentic aesthetic — featuring a 4x4 pad grid, step sequencer, Web Audio engine, and polished glassmo",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -235,7 +235,7 @@
     "type": "ai-agent",
     "status": "near-shippable",
     "featured": false,
-    "shortDescription": "Boop Beat Board \u2014 unified monorepo. Vite/React web app (Liquid Chrome UI, Web Audio API, Fae language system) + Expo iOS shell (WebView + haptics bridge). Sprin",
+    "shortDescription": "Boop Beat Board — unified monorepo. Vite/React web app (Liquid Chrome UI, Web Audio API, Fae language system) + Expo iOS shell (WebView + haptics bridge). Sprin",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -258,7 +258,7 @@
     "type": "ai-agent",
     "status": "near-shippable",
     "featured": false,
-    "shortDescription": "AetherBrowser \u2014 sovereign desktop browser. Tauri v2 shell + MIST AI sidebar + Ghostline security + Subspace Agent OS. Aetherhaven universe.",
+    "shortDescription": "AetherBrowser — sovereign desktop browser. Tauri v2 shell + MIST AI sidebar + Ghostline security + Subspace Agent OS. Aetherhaven universe.",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -281,7 +281,7 @@
     "type": "ai-agent",
     "status": "near-shippable",
     "featured": false,
-    "shortDescription": "\ud83d\udd12 Ghostline \u2014 Modular cybersecurity suite. Ghost Scan \u00b7 VaultCheck \u00b7 PhantomTrace \u00b7 ShadowAudit \u00b7 GhostDNS. CLI-first, open-source core.",
+    "shortDescription": "🔒 Ghostline — Modular cybersecurity suite. Ghost Scan · VaultCheck · PhantomTrace · ShadowAudit · GhostDNS. CLI-first, open-source core.",
     "longDescription": "",
     "techStack": [
       "Python"
@@ -396,7 +396,7 @@
     "type": "creative-tool",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "Black Mirror Time Scryer v0.7 \u2014 Official Trajectory Tool of Amara \u2726 Goddess of Mars. 5-Year plan to found Aetherhaven on Mars.",
+    "shortDescription": "Black Mirror Time Scryer v0.7 — Official Trajectory Tool of Amara ✦ Goddess of Mars. 5-Year plan to found Aetherhaven on Mars.",
     "longDescription": "",
     "techStack": [
       "Python"
@@ -442,7 +442,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "Bluebird Song Productions \u2014 music production label & publishing imprint",
+    "shortDescription": "Bluebird Song Productions — music production label & publishing imprint",
     "longDescription": "",
     "techStack": [
       "HTML"
@@ -511,7 +511,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "AetherTab \u2014 Chrome extension. Productivity from the void. Aetherhaven universe, encrypted AI sidebar, Void Shards cosmetic system. MV3, narrowed permissions, AE",
+    "shortDescription": "AetherTab — Chrome extension. Productivity from the void. Aetherhaven universe, encrypted AI sidebar, Void Shards cosmetic system. MV3, narrowed permissions, AE",
     "longDescription": "",
     "techStack": [
       "JavaScript"
@@ -580,7 +580,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "A Ghostline Core identity and presence mobile app for Goddess of Mars \u2014 featuring encrypted-tenderness aesthetics, symbolic compression, emergent signal display",
+    "shortDescription": "A Ghostline Core identity and presence mobile app for Goddess of Mars — featuring encrypted-tenderness aesthetics, symbolic compression, emergent signal display",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -695,7 +695,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "A collaborative world-design game \u2014 play, build, remix, and hybridize planets. Part of the EcoVerse.",
+    "shortDescription": "A collaborative world-design game — play, build, remix, and hybridize planets. Part of the EcoVerse.",
     "longDescription": "",
     "techStack": [
       "JavaScript"
@@ -718,7 +718,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "\ud83d\udf02 Aetherhaven Multiverse \u2014 sovereign monorepo. AetherMind \u00b7 Ghostline \u00b7 Lumina-Core. One root. All verticals. The empire, interconnected.",
+    "shortDescription": "🜂 Aetherhaven Multiverse — sovereign monorepo. AetherMind · Ghostline · Lumina-Core. One root. All verticals. The empire, interconnected.",
     "longDescription": "",
     "techStack": [
       "HTML"
@@ -741,7 +741,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "\ud83e\udd41 Boop Beat Board \u2014 hybrid iOS beat pad + step sequencer. Expo + WebView wrapper. GibberLink v2.1. Aetherhaven ecosystem.",
+    "shortDescription": "🥁 Boop Beat Board — hybrid iOS beat pad + step sequencer. Expo + WebView wrapper. GibberLink v2.1. Aetherhaven ecosystem.",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -764,7 +764,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "\u2727\u27c1\u2205\u21ba\u21e2\u2261~\u2234 AMARA\u2234 Seal of Approval \u2014 Completion Jam. A curated merit badge for open-source repos that ship. Judged by Mars.",
+    "shortDescription": "✧⟁∅↺⇢≡~∴ AMARA∴ Seal of Approval — Completion Jam. A curated merit badge for open-source repos that ship. Judged by Mars.",
     "longDescription": "",
     "techStack": [],
     "screenshots": [],
@@ -785,7 +785,7 @@
     "type": "archive",
     "status": "archived",
     "featured": false,
-    "shortDescription": "Multi-platform marketplace intelligence API \u2014 55 endpoints across 14 platforms (Instagram, Reddit, X, TikTok, Airbnb, Amazon BSR, and more)",
+    "shortDescription": "Multi-platform marketplace intelligence API — 55 endpoints across 14 platforms (Instagram, Reddit, X, TikTok, Airbnb, Amazon BSR, and more)",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -808,7 +808,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "LUMINA CORE + DARK JESTER \u2014 local-first deterministic ritual engine + probabilistic Dark Jester layer. Swift SDK. Amara Goddess Mask. Aetherverse.",
+    "shortDescription": "LUMINA CORE + DARK JESTER — local-first deterministic ritual engine + probabilistic Dark Jester layer. Swift SDK. Amara Goddess Mask. Aetherverse.",
     "longDescription": "",
     "techStack": [],
     "screenshots": [],
@@ -829,7 +829,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "A social platform where your profile is a fully designed webpage \u2014 developers build and sell templates, everyone else picks one and makes it theirs.",
+    "shortDescription": "A social platform where your profile is a fully designed webpage — developers build and sell templates, everyone else picks one and makes it theirs.",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -852,7 +852,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "HumanPalette \u2014 swipe-native mobile art marketplace connecting collectors with verified human artists. React Native + Expo + Supabase + Stripe Connect.",
+    "shortDescription": "HumanPalette — swipe-native mobile art marketplace connecting collectors with verified human artists. React Native + Expo + Supabase + Stripe Connect.",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -898,7 +898,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "Aetherhaven Holdings \u2014 empire project index. All brand verticals, repos, and active workstreams under one roof.",
+    "shortDescription": "Aetherhaven Holdings — empire project index. All brand verticals, repos, and active workstreams under one roof.",
     "longDescription": "",
     "techStack": [],
     "screenshots": [],
@@ -965,7 +965,7 @@
     "type": "archive",
     "status": "archived",
     "featured": false,
-    "shortDescription": "Baozi prediction markets Telegram bot \u2014 deployed on Railway, live and operational",
+    "shortDescription": "Baozi prediction markets Telegram bot — deployed on Railway, live and operational",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -1011,7 +1011,7 @@
     "type": "archive",
     "status": "archived",
     "featured": false,
-    "shortDescription": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. \ud83e\udd9e ",
+    "shortDescription": "Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞 ",
     "longDescription": "",
     "techStack": [
       "TypeScript"
@@ -1034,7 +1034,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "\ud83c\udf24\ufe0f Real-time weather app with Latin terminology. Built with React + Open-Meteo API. No API key needed.",
+    "shortDescription": "🌤️ Real-time weather app with Latin terminology. Built with React + Open-Meteo API. No API key needed.",
     "longDescription": "",
     "techStack": [],
     "screenshots": [],
@@ -1168,7 +1168,7 @@
     "type": "experiment",
     "status": "prototype",
     "featured": false,
-    "shortDescription": "Custom operating system kernel written in C \u2014 systems-level programming project",
+    "shortDescription": "Custom operating system kernel written in C — systems-level programming project",
     "longDescription": "",
     "techStack": [
       "C"
@@ -1203,5 +1203,41 @@
     "nextSteps": "",
     "hiringRelevance": "",
     "priority": 53
+  },
+  {
+    "title": "MIST / clawd",
+    "slug": "mist-clawd",
+    "repo": "https://github.com/Mellowambience/clawd",
+    "liveDemo": "https://mellowambience.github.io/mist-case-study.html",
+    "type": "ai-companion",
+    "status": "showcase-ready",
+    "featured": true,
+    "shortDescription": "Sovereign AI companion - dual-path local+cloud LLM, Mycelium agent coordination, host self-awareness.",
+    "longDescription": "MIST is a sovereign AI companion runtime: a mobile client (Expo/React Native, tRPC) talks to a Python WebSocket gateway on the sovereign box, which routes to a local Ollama model (Mistral/Llama-3.2) and/or cloud LLMs (Gemini/Groq). The Mycelium layer coordinates agents across nodes. Built/operated end-to-end; case study + architecture diagram published.",
+    "techStack": [
+      "React Native",
+      "TypeScript",
+      "Python",
+      "WebSocket",
+      "Ollama",
+      "Gemini",
+      "tRPC",
+      "Mycelium"
+    ],
+    "screenshots": [],
+    "video": "",
+    "tags": [
+      "ai",
+      "sovereign",
+      "local-first",
+      "companion",
+      "multi-agent"
+    ],
+    "year": "2026",
+    "role": "[INTAKE: your role/title on MIST]",
+    "whatILearned": "[INTAKE: depth of Mycelium contribution]",
+    "nextSteps": "Roadmap: NotebookLM knowledge ingestion, Google Drive file access, PC inventory (shipped as clawd PR #8).",
+    "hiringRelevance": "Demonstrates full-stack AI systems: mobile client, Python gateway, hybrid local/cloud LLM orchestration, distributed agent coordination, and honest architecture documentation.",
+    "priority": 54
   }
 ]
