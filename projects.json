@@ -72,11 +72,11 @@
     "title": "the-goldmaze",
     "slug": "the-goldmaze",
     "repo": "https://github.com/Mellowambience/the-goldmaze",
-    "liveDemo": "",
+    "liveDemo": "https://mellowambience.github.io/the-goldmaze/",
     "type": "game",
     "status": "near-shippable",
     "featured": true,
-    "shortDescription": "🍀 a cursed dungeon that moves. fae roguelite built in public. MIST-powered narrative engine. remix it.",
+    "shortDescription": "🍀 a cursed dungeon that moves. fae roguelite built in public. MIST-powered narrative engine. PICO-8 cart; landing site live, playable build on itch.io soon.",
     "longDescription": "",
     "techStack": [
       "Lua"
