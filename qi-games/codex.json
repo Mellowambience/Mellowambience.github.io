@@ -1,77 +1,41 @@
 {
-  "kinds": [
-    {
-      "kind": "bazaar",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
+  "kinds": [],
+  "n_kinds": 0,
+  "relations": {
+    "Larkspur Thornwood": {
+      "Mason Hollowmead": 0.0
     },
-    {
-      "kind": "beacon",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
+    "Coin Ashgrove": {
+      "Fletch Moonpale": 0.0,
+      "Reef Thornwood": 0.0,
+      "Cord Thornwood": 0.0,
+      "Mason Hollowmead": 0.0
     },
-    {
-      "kind": "forge",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
+    "Mason Hollowmead": {
+      "Cord Thornwood": 0.7,
+      "Fletch Moonpale": 0.0,
+      "Reef Thornwood": 0.0,
+      "Coin Ashgrove": 0.0,
+      "Larkspur Thornwood": 0.0
     },
-    {
-      "kind": "granary",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
+    "Fletch Moonpale": {
+      "Reef Thornwood": 0.0,
+      "Mason Hollowmead": 0.0,
+      "Coin Ashgrove": 0.0,
+      "Cord Thornwood": 0.0
     },
-    {
-      "kind": "library",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
+    "Cord Thornwood": {
+      "Mason Hollowmead": 0.7,
+      "Fletch Moonpale": 0.0,
+      "Reef Thornwood": 0.0,
+      "Coin Ashgrove": 0.0
     },
-    {
-      "kind": "monument",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
-    },
-    {
-      "kind": "orchard",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
-    },
-    {
-      "kind": "sanctum",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
-    },
-    {
-      "kind": "spire",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
-    },
-    {
-      "kind": "temple",
-      "invented_by": [
-        "Mason Goldmere"
-      ],
-      "discovered": 1
+    "Reef Thornwood": {
+      "Fletch Moonpale": 0.0,
+      "Mason Hollowmead": 0.0,
+      "Coin Ashgrove": 0.0,
+      "Cord Thornwood": 0.0
     }
-  ],
-  "n_kinds": 10,
-  "relations": {},
-  "updated": "2026-07-08T21:33:40"
+  },
+  "updated": "2026-07-08T21:56:55"
 }

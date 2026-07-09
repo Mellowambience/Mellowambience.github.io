@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """Hybrid quantum-classical planner trainer (Quantum Learning Loop exercise).
 
-Trains a 2-qubit variational circuit that maps an agent's 2D need vector to a
-preference score for action 0 (action 1 = 1 - score). Trained scores are
-exported to quantum/scores.json so the live browser sim uses them as the
-QUANTUM layer of a hybrid planner (blended with a classical utility baseline).
+Trains a 2-qubit variational circuit that maps an agent's 2D need vector
+[hunger, rest] to a 3-output action preference [seek_food, wander, rest].
+Trained scores are exported to quantum/scores.json so the live browser sim uses
+them as the QUANTUM layer of a hybrid planner (blended with a classical utility
+baseline at 0.6 classical + 0.4 quantum).
+
+Targets encode a sensible survival policy:
+  - high hunger, low rest  -> seek_food
+  - low hunger, high rest  -> rest
+  - otherwise              -> wander (pursue vocation)
 
 Simulator-only (PennyLane default.qubit). No real QPU.
 Run: python quantum/quantum_planner.py
@@ -25,18 +31,20 @@ def main():
         return 1
 
     dev = qml.device("default.qubit", wires=2)
-
-    # qml.numpy so weights are differentiable for the optimizer
     npq = qml.numpy
 
     def circuit(weights, x):
+        # encode both need dimensions
         qml.RX(x[0] * npq.pi, wires=0)
         qml.RY(x[1] * npq.pi, wires=1)
         qml.CNOT(wires=[0, 1])
         qml.Rot(*weights[0], wires=0)
         qml.Rot(*weights[1], wires=1)
         qml.CNOT(wires=[0, 1])
-        return qml.expval(qml.PauliZ(0))
+        # 3 observables -> 3 action-preference outputs
+        return (qml.expval(qml.PauliZ(0)),
+                qml.expval(qml.PauliZ(1)),
+                qml.expval(qml.Hadamard(0) @ qml.Hadamard(1)))
 
     @qml.qnode(dev)
     def qnode(weights, x):
@@ -45,34 +53,48 @@ def main():
     rng = np.random.default_rng(0)
     weights = npq.array(rng.normal(scale=0.1, size=(2, 3)), requires_grad=True)
 
-    # toy training data: need0 high -> action0 wins; need1 high -> action1 wins
-    X = np.array([[1.0, 0.0], [0.9, 0.1], [0.0, 1.0], [0.1, 0.9],
-                  [0.5, 0.5], [0.8, 0.2], [0.2, 0.8], [0.0, 0.0]], float)
-    Y = np.array([1.0, 0.9, 0.0, 0.1, 0.5, 0.75, 0.25, 0.5])  # action0 pref
+    # 2D grid training data: [hunger, rest] -> prefer [seek_food, wander, rest]
+    X, Y = [], []
+    for h in np.linspace(0, 1, 6):
+        for r in np.linspace(0, 1, 6):
+            X.append([float(h), float(r)])
+            if h > 0.6 and r < 0.6:
+                Y.append([1.0, 0.0, 0.0])      # hungry -> seek food
+            elif r > 0.6 and h < 0.6:
+                Y.append([0.0, 0.1, 1.0])      # tired -> rest
+            elif h > 0.6 and r > 0.6:
+                Y.append([0.8, 0.0, 0.6])      # both high -> food slightly favored
+            else:
+                Y.append([0.1, 1.0, 0.0])      # calm -> wander / vocation
+    X = np.array(X, float)
+    Y = np.array(Y, float)
 
-    # robust manual SGD via qml.grad (version-proof)
     def loss(w):
         total = 0.0
         for x, y in zip(X, Y):
-            pred = (qnode(w, x) + 1) / 2
-            total = total + (pred - y) ** 2
+            pred = (npq.array(qnode(w, x)) + 1) / 2  # map [-1,1] -> [0,1]
+            total = total + npq.sum((pred - y) ** 2)
         return total / len(X)
+
     grad_fn = qml.grad(loss)
     lr = 0.08
     for _ in range(200):
         g = grad_fn(weights)
         weights = weights - lr * g
 
+    # export a 11x11 grid of (hunger, rest) -> [seek_food, wander, rest]
     grid, scores = [], []
     for n0 in np.linspace(0, 1, 11):
         for n1 in np.linspace(0, 1, 11):
-            s0 = (qnode(weights, np.array([n0, n1])) + 1) / 2
+            p = (npq.array(qnode(weights, np.array([n0, n1]))) + 1) / 2
             grid.append([round(float(n0), 3), round(float(n1), 3)])
-            scores.append([round(float(s0), 4), round(float(1 - s0), 4)])
+            scores.append([round(float(p[0]), 4),
+                           round(float(p[1]), 4),
+                           round(float(p[2]), 4)])
 
     with open(OUT, "w") as f:
         json.dump({"states": grid, "scores": scores,
-                   "note": "VQC action0 preference for 2D need vector"}, f)
+                   "note": "VQC 2D need [hunger,rest] -> 3-action pref [seek_food,wander,rest]"}, f)
     # browser-loadable copy (no fetch/CORS) for agent_vision.html
     js_path = os.path.join(HERE, "scores.js")
     with open(js_path, "w") as f:
