@@ -45,6 +45,7 @@
         <a href="#pillars">What I do</a>
         <a href="#play">Play</a>
         <a href="#fleet">Projects</a>
+        <a href="#vault">Vault</a>
         <a href="#decks">Experiments</a>
         <a href="#lanes">Services</a>
         <a href="#signal">Updates</a>
@@ -66,7 +67,7 @@
           <p class="sub">I'm Amara — engineer and creator of private AI tools, living game-worlds, and personal assistants that run on <em>your</em> machine. Not locked in someone else's cloud. Weird on purpose. Useful by design.</p>
           <div class="actions">
             <a class="btn primary" href="#play">Play something live</a>
-            <a class="btn" href="#fleet">Browse projects</a>
+            <a class="btn" href="#vault">Browse the vault</a>
             <a class="btn ghost" href="https://x.com/GoddessAther" target="_blank" rel="me noopener">Follow the build</a>
           </div>
           <div class="status" role="list">
@@ -183,38 +184,56 @@
           </div>
           <p class="lead">No install required. Open a world, meet a fairy, watch agents think.</p>
         </div>
+        <div class="filters reveal" role="toolbar" aria-label="Filter demos">
+          <button type="button" class="filter-btn active" data-tfilter="all" aria-pressed="true">All</button>
+          <button type="button" class="filter-btn" data-tfilter="game" aria-pressed="false">Games</button>
+          <button type="button" class="filter-btn" data-tfilter="agent" aria-pressed="false">AI / Agents</button>
+          <button type="button" class="filter-btn" data-tfilter="tool" aria-pressed="false">Tools</button>
+        </div>
         <div class="play-grid">
-          <a class="play featured reveal" href="https://mellowambience.github.io/aether-garden/">
+          <a class="play featured reveal" href="https://mellowambience.github.io/aether-garden/" data-tfilter="game">
             <div class="p-tag">Featured · 3D world</div>
             <h3>Aether Garden</h3>
             <p>Bond with ghostly pet-spirits. Watch AI builders raise shrines in real time. WASD · mouse · E to bond.</p>
             <span class="repo-link">Enter the garden</span>
           </a>
-          <a class="play reveal" href="https://mellowambience.github.io/petgrave/">
+          <a class="play reveal" href="https://mellowambience.github.io/petgrave/" data-tfilter="game">
             <div class="p-tag">Cozy · Pets</div>
             <h3>Pet Grave</h3>
             <p>Gentle, slightly-spooky care for spirit companions — memory, affection, cozy melancholy.</p>
             <span class="repo-link">Play Pet Grave</span>
           </a>
-          <a class="play reveal" href="https://mellowambience.github.io/qi-games/">
+          <a class="play reveal" href="https://mellowambience.github.io/qi-games/" data-tfilter="agent">
             <div class="p-tag">Agents · Hybrid AI</div>
             <h3>QI Games</h3>
             <p>Watch a hybrid agent society think — classical utility fused with quantum-inspired scores.</p>
             <span class="repo-link">Watch agents</span>
           </a>
-          <a class="play reveal" href="https://mellowambience.github.io/fairy-council/">
+          <a class="play reveal" href="https://mellowambience.github.io/qi-games/play.html" data-tfilter="agent">
+            <div class="p-tag">Playable · Board</div>
+            <h3>QI Play</h3>
+            <p>Sit at the agent board and steer a hybrid society's decisions in real time.</p>
+            <span class="repo-link">Play the board</span>
+          </a>
+          <a class="play reveal" href="https://mellowambience.github.io/fairy-council/" data-tfilter="agent">
             <div class="p-tag">Agent OS</div>
             <h3>Fairy Council</h3>
             <p>Four lane-fairies. One summon paste each. Local-first personal AI without the cloud lock-in.</p>
             <span class="repo-link">Meet the council</span>
           </a>
-          <a class="play reveal" href="https://mellowambience.github.io/aethertab/">
+          <a class="play reveal" href="https://mellowambience.github.io/aethertab/" data-tfilter="tool">
             <div class="p-tag">Browser · Tools</div>
             <h3>AetherTab</h3>
             <p>A new-tab command surface with encrypted AI sidebar energy — productivity from the void.</p>
             <span class="repo-link">Open landing</span>
           </a>
-          <a class="play reveal" href="https://mellowambience.github.io/divinity-static/">
+          <a class="play reveal" href="https://mellowambience.github.io/quantum-bloom/" data-tfilter="agent">
+            <div class="p-tag">Quantum · Sim</div>
+            <h3>Quantum Bloom</h3>
+            <p>Quantum-sentient agents whose goals live in superposition until you observe them — a real Born-rule collapse.</p>
+            <span class="repo-link">Watch them think</span>
+          </a>
+          <a class="play reveal" href="https://mellowambience.github.io/divinity-static/" data-tfilter="tool">
             <div class="p-tag">Ops demo</div>
             <h3>Divinity</h3>
             <p>Static ops dashboard experiment — mythic interface language for real workflows.</p>
@@ -359,7 +378,7 @@
       <div class="wrap">
         <div class="section-head reveal">
           <div>
-            <div class="tag">06 // The Vault</div>
+            <div class="tag">05 // The Vault</div>
             <h2 id="vault-title">The whole ecosystem, in one index.</h2>
           </div>
           <p class="lead">Every public build, pulled live from the curated <code>projects.json</code> — <span id="vault-count">…</span>.</p>
@@ -373,7 +392,7 @@
       <div class="wrap">
         <div class="section-head reveal">
           <div>
-            <div class="tag">05 // Experiments</div>
+            <div class="tag">06 // Experiments</div>
             <h2 id="decks-title">Smaller builds you can walk into.</h2>
           </div>
           <p class="lead">Spin-offs and demos — open any of them to explore.</p>
@@ -387,8 +406,6 @@
           <a class="deck reveal" href="https://mellowambience.github.io/divinity-static/"><span class="d-glyph" aria-hidden="true">✦</span><b>Divinity</b><span>Ops dashboard demo</span></a>
           <a class="deck reveal" href="https://mellowambience.github.io/natalie/"><span class="d-glyph" aria-hidden="true">✎</span><b>Natalie Cohen</b><span>OTR/L portfolio</span></a>
           <a class="deck reveal" href="https://mellowambience.github.io/portfolio/"><span class="d-glyph" aria-hidden="true">◳</span><b>Web Portfolio</b><span>Design portfolio</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/qi-games/"><span class="d-glyph" aria-hidden="true">⚛</span><b>QI Games</b><span>Hybrid agent society</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/qi-games/play.html"><span class="d-glyph" aria-hidden="true">▶</span><b>QI Play</b><span>Playable agent board</span></a>
           <a class="deck reveal" href="https://mellowambience.github.io/demo.html"><span class="d-glyph" aria-hidden="true">◈</span><b>Dockmaster</b><span>Agentic site guide demo</span></a>
           <a class="deck reveal" href="https://mellowambience.github.io/card.html"><span class="d-glyph" aria-hidden="true">▣</span><b>Calling Card</b><span>Compact contact surface</span></a>
         </div>
@@ -400,7 +417,7 @@
       <div class="wrap">
         <div class="section-head reveal">
           <div>
-            <div class="tag">06 // Services</div>
+            <div class="tag">07 // Services</div>
             <h2 id="lanes-title">What I can help with.</h2>
           </div>
           <p class="lead">Different shapes, one engine: ambitious systems, interfaces with feeling, fast prototypes, worlds that feel alive.</p>
@@ -419,7 +436,7 @@
       <div class="wrap">
         <div class="section-head reveal">
           <div>
-            <div class="tag">07 // Now</div>
+            <div class="tag">08 // Now</div>
             <h2 id="now-title">What's active in the workshop.</h2>
           </div>
           <p class="lead">A short pulse of where attention is — so visitors aren't guessing.</p>
@@ -446,7 +463,7 @@
     <section class="section" id="signal" aria-labelledby="signal-title">
       <div class="wrap">
         <div class="signal-box reveal">
-          <div class="tag">08 // Updates</div>
+          <div class="tag">09 // Updates</div>
           <h2 id="signal-title">Built in the open.</h2>
           <p>New prototypes, game-worlds, and AI builds ship here first. This page is the live channel — follow along as private AI and living worlds take shape in public.</p>
           <div class="actions">
@@ -463,7 +480,7 @@
       <div class="wrap">
         <div class="section-head reveal">
           <div>
-            <div class="tag">09 // Contact</div>
+            <div class="tag">10 // Contact</div>
             <h2 id="portal-title">Open a channel.</h2>
           </div>
           <p class="lead">Hiring, collaboration, patronage, or "this is weird and I want in" — all routes dock here.</p>

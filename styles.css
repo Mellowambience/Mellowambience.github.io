@@ -151,6 +151,14 @@ h3{font-family:Cinzel,serif;font-weight:700;font-size:1.35rem;margin:0 0 .5rem}
 .play h3{margin-bottom:8px}
 .play p{color:var(--muted);font-size:.92rem;line-height:1.55;margin:0 0 14px}
 .play .repo-link{margin-top:auto}
+.play.is-hidden{display:none}
+
+/* PLAY FILTERS (share .filter-btn styling, scoped to #play) */
+#play .filters{justify-content:flex-start}
+
+/* DECKS responsive → 3 cols, then 2, then 1 */
+@media(max-width:1100px){ .decks{grid-template-columns:repeat(3,1fr)} }
+@media(max-width:760px){ .decks{grid-template-columns:repeat(2,1fr)} .play-grid{grid-template-columns:1fr} }
 
 /* FILTERS */
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin:-8px 0 28px}

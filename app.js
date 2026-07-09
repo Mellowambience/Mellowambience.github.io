@@ -287,6 +287,23 @@
     });
   }
 
+  /* ── Play / demos filters ── */
+  var tfBtns = document.querySelectorAll(".filter-btn[data-tfilter]");
+  var tCards = document.querySelectorAll("#play .play");
+  tfBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      tfBtns.forEach(function (x) { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
+      b.classList.add("active");
+      b.setAttribute("aria-pressed", "true");
+      var f = b.getAttribute("data-tfilter");
+      tCards.forEach(function (card) {
+        var t = card.getAttribute("data-tfilter") || "";
+        var show = f === "all" || t === f;
+        card.classList.toggle("is-hidden", !show);
+      });
+    });
+  });
+
   /* ── Year stamp ── */
   var year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
