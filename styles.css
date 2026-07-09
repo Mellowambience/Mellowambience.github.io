@@ -181,6 +181,10 @@ h3{font-family:Cinzel,serif;font-weight:700;font-size:1.35rem;margin:0 0 .5rem}
 .repo-link:hover{text-shadow:0 0 14px rgba(57,255,110,.5)}
 .repo-link:after{content:"→";transition:transform .2s}
 .repo-link:hover:after{transform:translateX(3px)}
+.vault-card{display:flex;flex-direction:column;gap:.4rem}
+.vault-card h3{margin:.2rem 0 .1rem;font-size:1.05rem}
+.vault-card p{margin:.2rem 0 .6rem;min-height:2.6em}
+.vault-card .repo-link{margin-top:auto}
 
 /* DECKS */
 .decks{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}

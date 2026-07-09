@@ -247,6 +247,46 @@
   };
   fleet();
 
+  /* ── Project Vault (renders curated projects.json) ── */
+  var vaultGrid = document.getElementById("vault-grid");
+  if (vaultGrid) {
+    fetch("projects.json", { cache: "no-cache" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (items) {
+        if (!Array.isArray(items) || !items.length) return;
+        var keep = ["portfolio", "game", "ai-agent", "creative-tool"];
+        var list = items.filter(function (p) { return keep.indexOf(p.type) !== -1; });
+        if (!list.length) list = items.slice(0, 24);
+        list.sort(function (a, b) { return (a.priority || 99) - (b.priority || 99); });
+        var frag = document.createDocumentFragment();
+        list.forEach(function (p) {
+          var card = document.createElement("article");
+          card.className = "card vault-card";
+          var state = p.featured ? "Featured" : (p.status || "");
+          var tags = (p.tags && p.tags.length ? p.tags : [p.type]).slice(0, 4);
+          var href = p.liveDemo || p.repo || "#";
+          var linkLabel = p.liveDemo ? "Open" : "Repo";
+          card.innerHTML =
+            '<div class="top"><span class="state">' + esc(state) + '</span><span class="badge">' + esc(String(p.type || "").replace("-", " ")) + '</span></div>' +
+            '<div class="glyph" aria-hidden="true">✦</div>' +
+            '<h3>' + esc(p.title) + '</h3>' +
+            '<p>' + esc(p.shortDescription || "") + '</p>' +
+            '<div class="tags">' + tags.map(function (t) { return "<span>" + esc(t) + "</span>"; }).join("") + '</div>' +
+            '<a class="repo-link" href="' + esc(href) + '" target="_blank" rel="noopener">' + linkLabel + '</a>';
+          frag.appendChild(card);
+        });
+        vaultGrid.appendChild(frag);
+        var count = document.getElementById("vault-count");
+        if (count) count.textContent = list.length + " modules";
+      })
+      .catch(function () { /* projects.json missing — section stays quiet */ });
+  }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
   /* ── Year stamp ── */
   var year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
