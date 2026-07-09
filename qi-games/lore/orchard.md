@@ -4,5 +4,5 @@ _sustenance_
 
 > Cultivated food that regrows without foraging — the leap from survival to civilization.
 
-**Invented by:** Stone Hollowmead  
+**Invented by:** Fennick Moonpale  
 **Times discovered:** 1
