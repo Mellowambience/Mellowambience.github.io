@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Forge Fuel — Aetherhaven</title>
+  <meta name="description" content="Forge Fuel is Aetherhaven's temporary BYOK project-enhancement session: choose a project, set limits, draft output, and keep control." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/site-pages.css" /><link rel="stylesheet" href="/agentic/dockmaster.css" /><link rel="stylesheet" href="/agentic/forge-fuel.css" />
+</head>
+<body>
+  <nav class="nav"><div class="wrap"><a class="brand" href="/"><b>⟁</b><span>AETHERHAVEN</span></a><div class="links"><a href="/projects/">Projects</a><a href="/case-studies/">Case Studies</a><a href="/hire/">Hire</a><a href="/forge/" aria-current="page">Forge</a><a href="/devlog/">Devlog</a><a href="/about/">About</a><a class="cta" href="/support/">Support</a></div></div></nav>
+  <main>
+    <section class="hero"><div class="wrap"><div class="eyebrow">04 // Forge Fuel</div><h1>Bring temporary fuel. Leave <em>no trace.</em></h1><p class="lead">Forge Fuel is the permissioned enhancement chamber for Aetherhaven projects. Choose a project, choose a mission, set boundaries, and generate draft-only output you can review before anything happens.</p><div class="btns"><a class="btn primary" href="#open" onclick="window.dispatchEvent(new CustomEvent('aether:open-forge-fuel'))">Open Forge Fuel</a><a class="btn" href="/docs/FORGE_FUEL.md">Read architecture</a></div></div></section>
+    <section class="section"><div class="wrap"><div class="grid">
+      <article class="card"><div class="meta">1 // Choose project</div><h3>Select the dock.</h3><p>Pet Grave, AetherBrowser, Aetherhaven, Ghostline, MIST, Clawd, or a custom project brief.</p></article>
+      <article class="card"><div class="meta">2 // Choose mission</div><h3>Lock the run.</h3><p>Project triage, GitHub issue drafts, README polish, devlog, roadmap, code-review checklist, or demo polish.</p></article>
+      <article class="card"><div class="meta">3 // Set limits</div><h3>Permission gates stay visible.</h3><p>The public MVP drafts only. Repo writes, pull requests, messages, and merges stay disabled until a private approval layer exists.</p></article>
+    </div></div></section>
+    <section class="section" id="open"><div class="wrap"><div class="panel"><div class="tag">Current MVP</div><h2>Static-safe by default.</h2><p>The current Forge Fuel module runs in demo mode on GitHub Pages. It can collect a brief, simulate a draft run, produce a project plan, and export Markdown. A future server-side runner can support real model calls without exposing secrets in static code.</p><div class="btns"><button class="btn primary" onclick="window.dispatchEvent(new CustomEvent('aether:open-forge-fuel'))">Launch Forge Fuel</button><a class="btn" href="/demo.html">Open demo</a></div></div></div></section>
+  </main>
+  <footer class="footer"><div class="wrap"><span>⟁ Forge Fuel</span><span class="small">Draft → approve → act → review → merge.</span></div></footer>
+  <script src="/agentic/dockmaster.js" defer></script><script src="/agentic/forge-fuel.js" defer></script>
+</body>
+</html>
