@@ -1,5 +1,29 @@
 [
   {
+    "title": "mist-clone-forge",
+    "slug": "mist-clone-forge",
+    "repo": "https://github.com/Mellowambience/mist-clone-forge",
+    "liveDemo": "https://github.com/Mellowambience/mist-clone-forge#mist-clone-forge",
+    "type": "ai-agent",
+    "status": "showcase-ready",
+    "featured": true,
+    "shortDescription": "When stuck, forge a MIST specialist; when free, absorb. Expand · evolve · recycle agent clones.",
+    "longDescription": "Public genesis of the MIST clone lifecycle: stuck→forge→absorb. CLI + agent skill pack. MIT.",
+    "techStack": [
+      "Python",
+      "Markdown"
+    ],
+    "screenshots": [],
+    "video": "",
+    "tags": ["mist", "agents", "multi-agent", "clone", "sovereign-ai"],
+    "year": "2026",
+    "role": "Author",
+    "whatILearned": "Specialized vessels beat thrashing as one mind; absorb keeps the mesh lean.",
+    "nextSteps": "More specialists, Pages landing, community clones",
+    "hiringRelevance": "Agent systems design, lifecycle, documentation",
+    "priority": 1
+  },
+  {
     "title": "Mellowambience.github.io",
     "slug": "mellowambience.github.io",
     "repo": "https://github.com/Mellowambience/Mellowambience.github.io",
@@ -20,7 +44,7 @@
     "whatILearned": "",
     "nextSteps": "",
     "hiringRelevance": "",
-    "priority": 1
+    "priority": 2
   },
   {
     "title": "pet-grave",
