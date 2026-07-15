@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gated AI Companion Setup · Steward Compatible</title>
+  <style>
+    :root {
+      --bg: #07090e; --text: #e8eef7; --muted: #8b98a5; --line: rgba(124,212,255,.2);
+      --neon: #7cd4ff; --amber: #ffb07a; --green: #5dffb0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; color: var(--text);
+      font: 16px/1.55 "Segoe UI", system-ui, sans-serif;
+      background:
+        radial-gradient(900px 420px at 10% 0%, rgba(124,212,255,.12), transparent 55%),
+        radial-gradient(700px 380px at 100% 20%, rgba(255,176,122,.08), transparent 50%),
+        var(--bg);
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 64px; }
+    .badge {
+      display: inline-block; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--neon); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px;
+      margin-bottom: 16px;
+    }
+    h1 { font-size: 2rem; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.4px; }
+    h1 em { font-style: normal; color: var(--neon); text-shadow: 0 0 18px rgba(124,212,255,.4); }
+    .lead { color: var(--muted); font-size: 1.05rem; margin: 0 0 28px; }
+    .card {
+      border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px;
+      background: rgba(12,16,24,.72); backdrop-filter: blur(14px); margin-bottom: 16px;
+    }
+    .card h2 { margin: 0 0 10px; font-size: 0.95rem; letter-spacing: .8px; text-transform: uppercase; color: var(--amber); }
+    ul { margin: 0; padding-left: 1.15rem; }
+    li { margin: 6px 0; }
+    .price {
+      display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between;
+    }
+    .amount { font-size: 1.8rem; font-weight: 700; color: var(--green); }
+    .rail { color: var(--muted); font-size: 0.9rem; }
+    .rail strong { color: var(--text); }
+    a { color: var(--neon); }
+    .cta {
+      display: inline-block; margin-top: 8px; padding: 12px 18px; border-radius: 999px;
+      background: linear-gradient(135deg, #7cd4ff, #5a9fff); color: #041018; font-weight: 700;
+      text-decoration: none; border: 0;
+    }
+    .fine { color: var(--muted); font-size: 12px; margin-top: 18px; }
+    code { font-size: 0.9em; background: rgba(255,255,255,.05); padding: 1px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="badge">Steward Compatible · human override · no silent posts</div>
+    <h1>Get a <em>gated</em> AI companion on X — set up for you</h1>
+    <p class="lead">
+      Same pattern as the open-source
+      <a href="https://github.com/Mellowambience/x-grok-sidebar" target="_blank" rel="noopener">X Grok Sidebar</a>:
+      pin the tweet you’re reading, chat with Grok (optional key), sign in with X, and
+      <strong>nothing posts without your click</strong>.
+    </p>
+
+    <div class="card">
+      <h2>What you get</h2>
+      <ul>
+        <li>Chrome extension install (load unpacked) on your machine</li>
+        <li>X OAuth app walkthrough: Client ID, redirect URI, scopes</li>
+        <li>SSO sign-in + friends sync + <code>/post</code> gated draft card</li>
+        <li>Optional xAI key for live cloud Grok; works SSO-only for pin + post</li>
+        <li>Steward Compatible map: human override, evidence, no silent automation</li>
+        <li>30-day async support for setup breakages (config only — not unlimited custom features)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>What you do</h2>
+      <ul>
+        <li>Have a Chrome browser + an X account you control</li>
+        <li>Create (or let us guide) a free X developer app for OAuth</li>
+        <li>Optional: xAI API key if you want live Grok chat</li>
+        <li>Pay after deliverable works on your machine — or 50% hold on start, rest on confirm (your choice)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Price · Cash App only</h2>
+      <div class="price">
+        <div>
+          <div class="amount">$75–$150</div>
+          <div class="rail">Typical remote setup · final quote in chat · <strong>Cash App $MarsEatPlanet</strong></div>
+        </div>
+        <a class="cta" href="https://cash.app/$MarsEatPlanet" target="_blank" rel="noopener">Pay $MarsEatPlanet</a>
+      </div>
+      <p class="fine">
+        No crypto. No “guaranteed income.” No upfront software fee beyond the agreed setup.
+        Open source core stays free — you’re paying for <em>your</em> install, credentials path, and Steward-aligned config.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Proof (public)</h2>
+      <ul>
+        <li><a href="https://github.com/Mellowambience/x-grok-sidebar" target="_blank" rel="noopener">github.com/Mellowambience/x-grok-sidebar</a></li>
+        <li><a href="https://github.com/Mellowambience/x-grok-sidebar/blob/main/STEWARD.md" target="_blank" rel="noopener">STEWARD.md</a> — Steward Compatible v1.0 self-assessment</li>
+        <li><a href="https://github.com/Mellowambience/steward-protocol" target="_blank" rel="noopener">steward-protocol</a> — the open soil, not a startup pitch</li>
+      </ul>
+    </div>
+
+    <p class="fine">
+      Offer draft for Coinmoth <code>CM-007e0c92</code> · local artifact · not a live ad campaign.
+      Owner may post this link when ready. Agent does not auto-post.
+    </p>
+  </div>
+</body>
+</html>
