@@ -1,1 +1,2 @@
 {"timestamp": "2026-07-14T13:04:16.818635+00:00", "topic": "quantum error correction via RL", "goal": "QSI", "status": "done", "note": "Q-learning agent learns optimal 3-qubit bit-flip recovery from stabilizer syndromes; post-recovery logical fidelity 0.95 vs 0.66 baseline."}
+{"timestamp": "2026-07-18T13:02:17.636742+00:00", "topic": "variational quantum circuits", "goal": "QI-Games", "status": "done", "note": "A one-qubit VQC trained on PennyLane default.qubit matched a target expectation exactly, illustrating a simulator-safe quantum scoring primitive."}

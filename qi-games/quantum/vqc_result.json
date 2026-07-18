@@ -1,0 +1,8 @@
+{
+  "target": 0.65,
+  "initial_expectation": 0.9800665778412417,
+  "final_expectation": 0.65,
+  "theta": 0.8632118900695409,
+  "absolute_error": 0.0,
+  "simulator": "PennyLane default.qubit"
+}
