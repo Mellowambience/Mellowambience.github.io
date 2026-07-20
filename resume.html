@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amara Torretti — Résumé</title>
+  <meta name="description" content="Résumé of Amara Torretti, Full-Stack & Agentic AI Engineer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: light dark; --ink:#17121f; --muted:#61576d; --accent:#9b3e91; --line:#ded5e3; --paper:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#efeaf3; color:var(--ink); font-family:"DM Sans",sans-serif; }
+    .toolbar { position:sticky; top:0; z-index:10; display:flex; justify-content:center; gap:10px; padding:12px; background:rgba(20,12,27,.94); backdrop-filter:blur(14px); }
+    .toolbar a,.toolbar button { border:1px solid rgba(255,255,255,.2); border-radius:10px; padding:9px 13px; background:rgba(255,255,255,.06); color:#fff; font:600 .84rem "DM Sans",sans-serif; text-decoration:none; cursor:pointer; }
+    .page { width:min(8.5in,calc(100% - 28px)); margin:26px auto; background:var(--paper); box-shadow:0 20px 70px rgba(32,18,43,.14); padding:.62in .7in; }
+    header { display:grid; grid-template-columns:1fr auto; gap:20px; align-items:end; padding-bottom:18px; border-bottom:2px solid var(--accent); }
+    h1 { margin:0; font:800 2.3rem/1 "Manrope",sans-serif; letter-spacing:-.045em; }
+    .role { margin:8px 0 0; color:var(--accent); font-weight:700; }
+    .contact { text-align:right; font-size:.78rem; line-height:1.65; color:var(--muted); }
+    .contact a { color:inherit; }
+    section { margin-top:20px; }
+    h2 { margin:0 0 10px; color:var(--accent); font:800 .83rem/1 "Manrope",sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+    p { margin:0; line-height:1.5; font-size:.84rem; }
+    .summary { font-size:.9rem; color:#2a2330; }
+    .skills { display:grid; grid-template-columns:repeat(2,1fr); gap:7px 22px; font-size:.8rem; }
+    .skills b { color:#33253b; }
+    .entry { margin-top:13px; }
+    .entry:first-of-type { margin-top:0; }
+    .entry-head { display:flex; justify-content:space-between; gap:20px; align-items:baseline; }
+    .entry h3 { margin:0; font:700 .94rem "Manrope",sans-serif; }
+    .entry .meta { color:var(--muted); font-size:.75rem; white-space:nowrap; }
+    .entry .sub { margin:2px 0 0; color:var(--muted); font-size:.79rem; }
+    ul { margin:7px 0 0; padding-left:17px; }
+    li { margin:4px 0; font-size:.8rem; line-height:1.43; }
+    .projects { display:grid; grid-template-columns:1fr 1fr; gap:13px 20px; }
+    .project { border-left:3px solid #c98bbe; padding-left:11px; }
+    .project h3 { margin:0; font:700 .88rem "Manrope",sans-serif; }
+    .project p { margin-top:4px; color:#44394b; font-size:.77rem; }
+    .project a { color:var(--accent); font-size:.73rem; }
+    .education { display:grid; gap:8px; }
+    .education div { display:flex; justify-content:space-between; gap:20px; font-size:.8rem; }
+    .education b { font-weight:700; }
+    @media(max-width:700px){ .page{padding:28px 22px}.toolbar{justify-content:flex-start;overflow:auto}header{grid-template-columns:1fr}.contact{text-align:left}.skills,.projects{grid-template-columns:1fr}.entry-head,.education div{align-items:flex-start;flex-direction:column;gap:2px}.entry .meta{white-space:normal} }
+    @media print { @page{size:letter;margin:.35in}.toolbar{display:none}.page{width:auto;margin:0;box-shadow:none;padding:.28in .38in}body{background:#fff}.entry{break-inside:avoid}.project{break-inside:avoid} }
+  </style>
+</head>
+<body>
+  <div class="toolbar"><a href="index.html">← Portfolio</a><button type="button" onclick="window.print()">Print / Save PDF</button><a href="mailto:natorretti11@gmail.com">Email Amara</a></div>
+  <main class="page">
+    <header>
+      <div><h1>Amara Torretti</h1><p class="role">Full-Stack &amp; Agentic AI Engineer</p></div>
+      <div class="contact">Philadelphia, PA · 100% remote<br /><a href="mailto:natorretti11@gmail.com">natorretti11@gmail.com</a><br /><a href="https://github.com/Mellowambience">github.com/Mellowambience</a><br /><a href="https://mellowambience.github.io/">mellowambience.github.io</a></div>
+    </header>
+
+    <section><h2>Summary</h2><p class="summary">Full-stack engineer and creative technologist building local-first AI systems, agentic products, developer tools, mobile applications, and interactive worlds. Experienced across Python, TypeScript, React, React Native, FastAPI, Node.js, Rust/Tauri, SQL, model routing, persistent memory, permissioned tool execution, accessibility, and enterprise IT operations.</p></section>
+
+    <section><h2>Technical skills</h2><div class="skills"><span><b>Languages:</b> Python, TypeScript, JavaScript, Rust, C#, SQL, Swift</span><span><b>Frontend:</b> React, React Native, Next.js, Vite, Tailwind, Three.js</span><span><b>Backend:</b> FastAPI, Node.js, tRPC, WebSocket, Flask, Supabase Edge Functions</span><span><b>AI:</b> PyTorch, Ollama, Gemini, OpenAI API, LangChain/LangGraph, Hugging Face</span><span><b>Data &amp; systems:</b> Postgres, Supabase, SQLite, Firestore, Tauri, Electron</span><span><b>Workflow:</b> Git/GitHub, testing, ServiceNow, SCCM, accessibility, technical documentation</span></div></section>
+
+    <section><h2>Selected engineering work</h2><div class="projects">
+      <article class="project"><h3>OpenClaw PR #22142</h3><p>Traced injected AI-context metadata leaking into user-visible history across webchat, TUI, and Swift. Added a fast stripping utility and regression tests; clean resubmission merged upstream.</p><a href="https://github.com/openclaw/openclaw/pull/22142">Merged pull request</a></article>
+      <article class="project"><h3>HumanPalette</h3><p>React Native marketplace with Supabase auth/realtime/storage, 13-table RLS schema, Stripe Connect onboarding, escrow-style payments, chat, verification, and six Edge Functions.</p><a href="https://github.com/Mellowambience/humanpalette">Repository</a></article>
+      <article class="project"><h3>MIST / clawd</h3><p>Hybrid local/cloud AI companion runtime spanning React Native, TypeScript, Python WebSocket gateway, Ollama, cloud model routing, memory, host awareness, and tool boundaries.</p><a href="https://mellowambience.github.io/mist-case-study.html">Case study</a></article>
+      <article class="project"><h3>Ghostline</h3><p>Modular defensive security suite with seven focused Python CLI modules and a unified dispatcher covering network, password, DNS, OSINT, web, account, and bookmark audits.</p><a href="https://github.com/Mellowambience/ghostline">Repository</a></article>
+      <article class="project"><h3>AetherBrowser</h3><p>Tauri v2 desktop shell with React/TypeScript UI, Rust backend, Studio and Arcade modes, local persistence, project creation, and embedded agent workspace.</p><a href="https://github.com/Mellowambience/aetherbrowser">Repository</a></article>
+      <article class="project"><h3>Pet Grave</h3><p>Playable HTML5 canvas game with persistent progress, mobile controls, bonding and combat loops, procedural audio, NPC jobs/moods, branching story, and locally stored saves.</p><a href="https://mellowambience.github.io/pet-grave/">Live game</a></article>
+    </div></section>
+
+    <section><h2>Professional experience</h2>
+      <article class="entry"><div class="entry-head"><h3>Main Line Health — Field Technician</h3><span class="meta">Wynnewood, PA · Nov 2020–Present</span></div><p class="sub">Enterprise healthcare IT support</p><ul><li>Supported Windows endpoints, imaging, deployment, hardware lifecycle, and clinical/administrative user environments.</li><li>Worked with SCCM, ServiceNow, asset tracking, troubleshooting, documentation, and cross-team escalation.</li><li>Translated technical issues into practical support for users operating in high-stakes healthcare workflows.</li></ul></article>
+      <article class="entry"><div class="entry-head"><h3>Main Line Health — Inventory Control Analyst</h3><span class="meta">Jan 2020–Nov 2020</span></div><ul><li>Managed hardware inventory, financial records, receiving, disposal, and lifecycle controls for enterprise IT assets.</li></ul></article>
+      <article class="entry"><div class="entry-head"><h3>SAP — Data Center Management Coordinator</h3><span class="meta">Newtown Square, PA · Jan 2018–Aug 2019</span></div><ul><li>Coordinated data-center operations, asset processes, vendor activity, and infrastructure support in an enterprise environment.</li></ul></article>
+      <article class="entry"><div class="entry-head"><h3>True Analytics, LLC — Programmer</h3><span class="meta">Brooklyn, NY · Jun 2013–Dec 2021</span></div><ul><li>Built and maintained software and data-oriented solutions across client and internal projects.</li></ul></article>
+    </section>
+
+    <section><h2>Education</h2><div class="education"><div><span><b>Master of Software Engineering</b> — in progress</span><span>Penn State World Campus</span></div><div><span><b>Bachelor of Science, Information Technology</b></span><span>University of Arizona Global Campus</span></div></div></section>
+  </main>
+</body>
+</html>

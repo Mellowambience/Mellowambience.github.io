@@ -1,455 +1,461 @@
-/* Aetherhaven Signal Deck — Rev 7.0 — app.js */
 (function () {
   "use strict";
+
   document.body.classList.add("js");
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ── Scroll progress ── */
-  var progress = document.getElementById("scroll-progress");
-  var onScrollUi = function () {
-    var h = document.documentElement;
-    var max = h.scrollHeight - h.clientHeight;
-    if (progress && max > 0) progress.style.width = Math.min(100, (h.scrollTop / max) * 100) + "%";
-    var nav = document.querySelector(".nav");
-    if (nav) nav.classList.toggle("scrolled", window.scrollY > 24);
-    var topBtn = document.getElementById("to-top");
-    if (topBtn) topBtn.classList.toggle("show", window.scrollY > 480);
-  };
-  window.addEventListener("scroll", onScrollUi, { passive: true });
-  onScrollUi();
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var q = function (selector, scope) { return (scope || document).querySelector(selector); };
+  var qa = function (selector, scope) { return Array.prototype.slice.call((scope || document).querySelectorAll(selector)); };
 
-  var topBtn = document.getElementById("to-top");
-  if (topBtn) topBtn.addEventListener("click", function () {
-    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
-  });
+  function escapeHtml(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+    });
+  }
 
-  /* ── Mobile nav ── */
-  var btn = document.querySelector(".menu-btn"), links = document.querySelector(".links");
-  if (btn && links) {
-    btn.addEventListener("click", function () {
-      var open = links.classList.toggle("open");
-      btn.setAttribute("aria-expanded", open ? "true" : "false");
+  /* Mobile navigation */
+  var menuButton = q("#mobile-menu");
+  var nav = q("#primary-nav");
+  if (menuButton && nav) {
+    menuButton.addEventListener("click", function () {
+      var open = nav.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(open));
       document.body.style.overflow = open ? "hidden" : "";
     });
-    links.addEventListener("click", function (e) {
-      if (e.target.tagName === "A") {
-        links.classList.remove("open");
-        btn.setAttribute("aria-expanded", "false");
+
+    nav.addEventListener("click", function (event) {
+      if (event.target.closest("a")) {
+        nav.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
         document.body.style.overflow = "";
       }
     });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && links.classList.contains("open")) {
-        links.classList.remove("open");
-        btn.setAttribute("aria-expanded", "false");
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && nav.classList.contains("open")) {
+        nav.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
         document.body.style.overflow = "";
-        btn.focus();
+        menuButton.focus();
       }
     });
   }
 
-  /* ── Active section nav ── */
-  var sections = ["about", "pillars", "play", "fleet", "decks", "lanes", "signal", "portal"];
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll(".links a[href^='#']"));
-  var setActive = function () {
-    var y = window.scrollY + 120;
-    var current = "";
-    sections.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el && el.offsetTop <= y) current = id;
-    });
-    navLinks.forEach(function (a) {
-      var href = a.getAttribute("href");
-      a.classList.toggle("active", href === "#" + current);
-    });
-  };
-  window.addEventListener("scroll", setActive, { passive: true });
-  setActive();
+  /* Active section navigation */
+  var sectionIds = ["home", "engineering", "systems", "demos", "atlas", "about", "contact"];
+  var navLinks = qa(".primary-nav a[href^='#']");
 
-  /* ── Scroll reveals ── */
-  var revealEls = document.querySelectorAll(".reveal");
-  if (!reduce && "IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        var el = en.target;
-        el.classList.add("in");
-        el.addEventListener("transitionend", function () {
-          el.classList.add("done");
-          el.style.transitionDelay = "";
-        }, { once: true });
-        io.unobserve(el);
+  function updateActiveNav() {
+    var marker = window.scrollY + Math.min(window.innerHeight * 0.32, 220);
+    var current = "home";
+    sectionIds.forEach(function (id) {
+      var element = document.getElementById(id);
+      if (element && element.offsetTop <= marker) current = id;
+    });
+    navLinks.forEach(function (link) {
+      link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+    });
+  }
+
+  window.addEventListener("scroll", updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  /* Scroll reveal */
+  var revealTargets = qa(".section-heading, .featured-card, .rail-panel, .system-row, .demo-card, .atlas-controls, .atlas-table-wrap, .about-grid > div, .contact-section");
+  revealTargets.forEach(function (element) { element.setAttribute("data-reveal", ""); });
+
+  if (!reducedMotion && "IntersectionObserver" in window) {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        revealObserver.unobserve(entry.target);
       });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
-    revealEls.forEach(function (el, i) {
-      el.style.transitionDelay = (i % 6) * 55 + "ms";
-      io.observe(el);
+    }, { threshold: 0.09, rootMargin: "0px 0px -44px 0px" });
+
+    revealTargets.forEach(function (element, index) {
+      element.style.transitionDelay = (index % 4) * 45 + "ms";
+      revealObserver.observe(element);
     });
   } else {
-    revealEls.forEach(function (el) { el.classList.add("in"); });
+    revealTargets.forEach(function (element) { element.classList.add("visible"); });
   }
 
-  /* ── Fleet filters ── */
-  var filterBtns = document.querySelectorAll(".filter-btn");
-  var cards = document.querySelectorAll("#fleet-grid .card");
-  filterBtns.forEach(function (b) {
-    b.addEventListener("click", function () {
-      filterBtns.forEach(function (x) {
-        x.classList.remove("active");
-        x.setAttribute("aria-pressed", "false");
-      });
-      b.classList.add("active");
-      b.setAttribute("aria-pressed", "true");
-      var f = b.getAttribute("data-filter");
-      cards.forEach(function (card) {
-        var tags = (card.getAttribute("data-tags") || "").split(/\s+/);
-        var show = f === "all" || tags.indexOf(f) !== -1;
-        card.classList.toggle("is-hidden", !show);
-      });
-    });
-  });
+  /* Lightweight star field */
+  var canvas = q("#starfield");
+  if (canvas && canvas.getContext && !reducedMotion) {
+    var context = canvas.getContext("2d");
+    var stars = [];
+    var width = 0;
+    var height = 0;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var pointerX = 0;
+    var pointerY = 0;
+    var targetX = 0;
+    var targetY = 0;
+    var palette = [
+      "255,255,255",
+      "239,114,200",
+      "140,99,255",
+      "102,228,242"
+    ];
 
-  /* ── Constellation canvas ── */
-  var canvas = document.getElementById("sky");
-  if (canvas && !reduce && canvas.getContext) {
-    var ctx = canvas.getContext("2d"), stars = [], W = 0, H = 0,
-      DPR = Math.min(window.devicePixelRatio || 1, 2),
-      mx = 0, my = 0, tx = 0, ty = 0,
-      PALETTE = ["rgba(255,255,255,", "rgba(103,232,249,", "rgba(57,255,110,", "rgba(246,211,101,", "rgba(168,85,247,"];
-    var size = function () {
-      W = window.innerWidth; H = window.innerHeight;
-      canvas.width = W * DPR; canvas.height = H * DPR;
-      canvas.style.width = W + "px"; canvas.style.height = H + "px";
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    };
-    var seed = function () {
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seedStars();
+    }
+
+    function seedStars() {
       stars = [];
-      var n = Math.min(170, Math.floor(W * H / 10000));
-      for (var i = 0; i < n; i++) {
-        var z = Math.random();
+      var count = Math.min(120, Math.max(54, Math.floor(width * height / 15000)));
+      for (var i = 0; i < count; i += 1) {
+        var depth = Math.random();
         stars.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          z: z,
-          r: 0.35 + z * 1.5,
-          tw: Math.random() * 6.28,
-          c: PALETTE[(Math.random() * PALETTE.length) | 0],
-          drift: 0.01 + z * 0.03
+          x: Math.random() * width,
+          y: Math.random() * height,
+          depth: depth,
+          radius: 0.4 + depth * 1.2,
+          twinkle: Math.random() * Math.PI * 2,
+          color: palette[Math.floor(Math.random() * palette.length)]
         });
       }
-    };
-    var dist = function (a, b) {
-      var dx = a.x - b.x, dy = a.y - b.y;
-      return Math.sqrt(dx * dx + dy * dy);
-    };
-    size(); seed();
-    window.addEventListener("resize", function () { size(); seed(); });
-    window.addEventListener("pointermove", function (e) {
-      tx = e.clientX / W - 0.5;
-      ty = e.clientY / H - 0.5;
-    }, { passive: true });
-    var loop = function (t) {
-      mx += (tx - mx) * 0.045;
-      my += (ty - my) * 0.045;
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < stars.length; i++) {
-        var s = stars[i];
-        s.x += s.drift;
-        if (s.x > W + 2) s.x = -2;
-        var a = (0.3 + 0.5 * Math.abs(Math.sin(t / 1400 + s.tw))) * (0.35 + s.z * 0.65);
-        var px = s.x + mx * 36 * s.z;
-        var py = s.y + my * 36 * s.z;
-        ctx.beginPath();
-        ctx.arc(px, py, s.r, 0, 6.283);
-        ctx.fillStyle = s.c + a + ")";
-        ctx.fill();
-        s._px = px; s._py = py;
-      }
-      ctx.lineWidth = 1;
-      for (var i = 0; i < stars.length; i++) {
-        for (var j = i + 1; j < stars.length; j++) {
-          var d = dist(
-            { x: stars[i]._px, y: stars[i]._py },
-            { x: stars[j]._px, y: stars[j]._py }
-          );
-          if (d < 125) {
-            var o = (1 - d / 125) * 0.16;
-            ctx.strokeStyle = "rgba(103,232,249," + o + ")";
-            ctx.beginPath();
-            ctx.moveTo(stars[i]._px, stars[i]._py);
-            ctx.lineTo(stars[j]._px, stars[j]._py);
-            ctx.stroke();
-          }
-        }
-      }
-      window.requestAnimationFrame(loop);
-    };
-    window.requestAnimationFrame(loop);
-  }
-
-  /* ── Live fleet telemetry ── */
-  var USER = "Mellowambience", KEY = "ah-fleet-v3", HOUR = 36e5;
-  var rel = function (iso) {
-    var s = (Date.now() - new Date(iso).getTime()) / 1000;
-    if (s < 3600) return Math.max(1, Math.round(s / 60)) + "m ago";
-    if (s < 86400) return Math.round(s / 3600) + "h ago";
-    if (s < 2592000) return Math.round(s / 86400) + "d ago";
-    if (s < 31536000) return Math.round(s / 2592000) + "mo ago";
-    return Math.round(s / 31536000) + "y ago";
-  };
-  var decorate = function (repos) {
-    var byName = {}, latest = 0, stars = 0;
-    repos.forEach(function (r) {
-      byName[r.name.toLowerCase()] = r;
-      var p = new Date(r.pushed_at).getTime();
-      if (p > latest) latest = p;
-      stars += r.stargazers_count || 0;
-    });
-    document.querySelectorAll("[data-repo]").forEach(function (card) {
-      var r = byName[card.getAttribute("data-repo")], el = card.querySelector(".repo-meta");
-      if (!r || !el) return;
-      var bits = ["★ " + r.stargazers_count];
-      if (r.language) bits.push(r.language);
-      bits.push("updated " + rel(r.pushed_at));
-      el.textContent = bits.join(" · ");
-      el.classList.add("on");
-    });
-    var fleetEl = document.querySelector("[data-fleet] .repo-meta");
-    if (fleetEl) {
-      fleetEl.textContent = repos.length + " public modules · " + stars + " ★ total";
-      fleetEl.classList.add("on");
     }
-    var ls = document.getElementById("last-signal");
-    if (ls && latest) ls.textContent = " // LAST SIGNAL " + rel(new Date(latest).toISOString()).toUpperCase();
-    var live = document.getElementById("hp-live-text");
-    if (live && latest) live.textContent = "Fleet active · last push " + rel(new Date(latest).toISOString());
-  };
-  var fleet = function () {
-    try {
-      var c = JSON.parse(sessionStorage.getItem(KEY) || "null");
-      if (c && Date.now() - c.t < HOUR && c.d && c.d.length) { decorate(c.d); return; }
-    } catch (e) {}
-    fetch("https://api.github.com/users/" + USER + "/repos?per_page=100&sort=pushed")
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (d) {
-        var slim = d.map(function (x) {
-          return {
-            name: x.name,
-            stargazers_count: x.stargazers_count,
-            language: x.language,
-            pushed_at: x.pushed_at
-          };
-        });
-        try { sessionStorage.setItem(KEY, JSON.stringify({ t: Date.now(), d: slim })); } catch (e) {}
-        decorate(slim);
-      })
-      .catch(function () { /* offline / rate-limited */ });
-  };
-  fleet();
 
-  /* ── Project Vault (renders curated projects.json) ── */
-  var vaultGrid = document.getElementById("vault-grid");
-  if (vaultGrid) {
-    fetch("projects.json", { cache: "no-cache" })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (items) {
-        if (!Array.isArray(items) || !items.length) return;
-        var keep = ["portfolio", "game", "ai-agent", "creative-tool"];
-        var list = items.filter(function (p) { return keep.indexOf(p.type) !== -1; });
-        if (!list.length) list = items.slice(0, 24);
-        list.sort(function (a, b) { return (a.priority || 99) - (b.priority || 99); });
-        var frag = document.createDocumentFragment();
-        list.forEach(function (p) {
-          var card = document.createElement("article");
-          card.className = "card vault-card";
-          var state = p.featured ? "Featured" : (p.status || "");
-          var tags = (p.tags && p.tags.length ? p.tags : [p.type]).slice(0, 4);
-          var href = p.liveDemo || p.repo || "#";
-          var linkLabel = p.liveDemo ? "Open" : "Repo";
-          card.innerHTML =
-            '<div class="top"><span class="state">' + esc(state) + '</span><span class="badge">' + esc(String(p.type || "").replace("-", " ")) + '</span></div>' +
-            '<div class="glyph" aria-hidden="true">✦</div>' +
-            '<h3>' + esc(p.title) + '</h3>' +
-            '<p>' + esc(p.shortDescription || "") + '</p>' +
-            '<div class="tags">' + tags.map(function (t) { return "<span>" + esc(t) + "</span>"; }).join("") + '</div>' +
-            '<a class="repo-link" href="' + esc(href) + '" target="_blank" rel="noopener">' + linkLabel + '</a>';
-          frag.appendChild(card);
-        });
-        vaultGrid.appendChild(frag);
-        var count = document.getElementById("vault-count");
-        if (count) count.textContent = list.length + " modules";
-      })
-      .catch(function () { /* projects.json missing — section stays quiet */ });
+    window.addEventListener("pointermove", function (event) {
+      targetX = event.clientX / Math.max(width, 1) - 0.5;
+      targetY = event.clientY / Math.max(height, 1) - 0.5;
+    }, { passive: true });
+
+    function draw(time) {
+      pointerX += (targetX - pointerX) * 0.035;
+      pointerY += (targetY - pointerY) * 0.035;
+      context.clearRect(0, 0, width, height);
+
+      stars.forEach(function (star) {
+        var x = star.x + pointerX * 24 * star.depth;
+        var y = star.y + pointerY * 24 * star.depth;
+        var opacity = 0.18 + (Math.sin(time / 1300 + star.twinkle) + 1) * 0.15 + star.depth * 0.18;
+        context.beginPath();
+        context.arc(x, y, star.radius, 0, Math.PI * 2);
+        context.fillStyle = "rgba(" + star.color + "," + opacity.toFixed(3) + ")";
+        context.fill();
+      });
+
+      window.requestAnimationFrame(draw);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    window.requestAnimationFrame(draw);
   }
-  function esc(s) {
-    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+
+  /* Back to top */
+  var backToTop = q("#back-to-top");
+  function updateBackToTop() {
+    if (backToTop) backToTop.classList.toggle("visible", window.scrollY > 720);
+  }
+  window.addEventListener("scroll", updateBackToTop, { passive: true });
+  updateBackToTop();
+  if (backToTop) {
+    backToTop.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
     });
   }
 
-  /* ── Play / demos filters ── */
-  var tfBtns = document.querySelectorAll(".filter-btn[data-tfilter]");
-  var tCards = document.querySelectorAll("#play .play");
-  tfBtns.forEach(function (b) {
-    b.addEventListener("click", function () {
-      tfBtns.forEach(function (x) { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
-      b.classList.add("active");
-      b.setAttribute("aria-pressed", "true");
-      var f = b.getAttribute("data-tfilter");
-      tCards.forEach(function (card) {
-        var t = card.getAttribute("data-tfilter") || "";
-        var show = f === "all" || t === f;
-        card.classList.toggle("is-hidden", !show);
+  /* Live repository metadata for selected work */
+  var repoCards = qa("[data-repo]");
+  var githubCacheKey = "amara-portfolio-github-v8";
+  var githubCacheLifetime = 60 * 60 * 1000;
+
+  function relativeTime(iso) {
+    var delta = Math.max(0, Date.now() - new Date(iso).getTime());
+    var minutes = Math.round(delta / 60000);
+    if (minutes < 60) return Math.max(1, minutes) + "m ago";
+    var hours = Math.round(minutes / 60);
+    if (hours < 24) return hours + "h ago";
+    var days = Math.round(hours / 24);
+    if (days < 30) return days + "d ago";
+    var months = Math.round(days / 30);
+    if (months < 12) return months + "mo ago";
+    return Math.round(months / 12) + "y ago";
+  }
+
+  function decorateRepoCards(repos) {
+    var byName = {};
+    repos.forEach(function (repo) { byName[String(repo.name).toLowerCase()] = repo; });
+    repoCards.forEach(function (card) {
+      var repo = byName[String(card.getAttribute("data-repo") || "").toLowerCase()];
+      var target = q(".repo-meta", card);
+      if (!repo || !target) return;
+      var bits = [];
+      if (typeof repo.stargazers_count === "number") bits.push("★ " + repo.stargazers_count);
+      if (repo.language) bits.push(repo.language);
+      if (repo.pushed_at) bits.push("updated " + relativeTime(repo.pushed_at));
+      if (bits.length) target.textContent = bits.join(" · ");
+    });
+  }
+
+  try {
+    var cachedRepos = JSON.parse(sessionStorage.getItem(githubCacheKey) || "null");
+    if (cachedRepos && Date.now() - cachedRepos.time < githubCacheLifetime) {
+      decorateRepoCards(cachedRepos.data || []);
+    } else {
+      fetch("https://api.github.com/users/Mellowambience/repos?per_page=100&sort=pushed")
+        .then(function (response) {
+          if (!response.ok) throw new Error(String(response.status));
+          return response.json();
+        })
+        .then(function (data) {
+          var compact = data.map(function (repo) {
+            return {
+              name: repo.name,
+              language: repo.language,
+              stargazers_count: repo.stargazers_count,
+              pushed_at: repo.pushed_at
+            };
+          });
+          try { sessionStorage.setItem(githubCacheKey, JSON.stringify({ time: Date.now(), data: compact })); } catch (error) {}
+          decorateRepoCards(compact);
+        })
+        .catch(function () {});
+    }
+  } catch (error) {}
+
+  /* Project Atlas */
+  var atlasList = q("#atlas-list");
+  var atlasCount = q("#atlas-count");
+  var atlasSearch = q("#project-search");
+  var atlasFilters = qa(".atlas-filter");
+  var atlasMore = q("#atlas-more");
+  var atlasEmpty = q("#atlas-empty");
+  var atlasItems = [];
+  var atlasFilter = "all";
+  var atlasQuery = "";
+  var atlasLimit = 12;
+
+  function normalizeType(item) {
+    var type = String(item.type || "experiment").toLowerCase();
+    if (item.status === "archived") return "archive";
+    if (type === "portfolio") return "creative-tool";
+    if (type === "ai-companion") return "ai-agent";
+    return type;
+  }
+
+  function dedupeProjects(items) {
+    var seen = {};
+    return items.filter(function (item) {
+      var key = String(item.repo || item.slug || item.title || "").toLowerCase().replace(/\/$/, "");
+      if (!key || seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+  }
+
+  function projectSearchText(item) {
+    return [
+      item.title,
+      item.shortDescription,
+      item.longDescription,
+      item.type,
+      item.status,
+      (item.techStack || []).join(" "),
+      (item.tags || []).join(" ")
+    ].join(" ").toLowerCase();
+  }
+
+  function visibleProjects() {
+    return atlasItems.filter(function (item) {
+      var type = normalizeType(item);
+      var filterMatch = atlasFilter === "all" || type === atlasFilter;
+      var searchMatch = !atlasQuery || projectSearchText(item).indexOf(atlasQuery) !== -1;
+      return filterMatch && searchMatch;
+    });
+  }
+
+  function renderAtlas() {
+    if (!atlasList) return;
+    var filtered = visibleProjects();
+    var visible = filtered.slice(0, atlasLimit);
+    atlasList.innerHTML = "";
+
+    visible.forEach(function (item) {
+      var type = normalizeType(item);
+      var link = item.liveDemo || item.repo || "#";
+      var linkLabel = item.liveDemo ? "Open" : "Repo";
+      var stack = (item.techStack || []).filter(Boolean).slice(0, 4);
+      if (!stack.length && item.tags && item.tags.length) stack = item.tags.slice(0, 4);
+      var row = document.createElement("article");
+      row.className = "atlas-row";
+      row.innerHTML =
+        '<div class="atlas-project"><h3>' + escapeHtml(item.title || item.slug || "Untitled") + '</h3><p>' + escapeHtml(item.shortDescription || item.longDescription || "Project entry in the Aetherhaven archive.") + '</p></div>' +
+        '<div class="atlas-type">' + escapeHtml(type.replace(/-/g, " ")) + '</div>' +
+        '<div class="atlas-status">' + escapeHtml(item.status || "prototype") + '</div>' +
+        '<div class="atlas-stack">' + stack.map(function (value) { return "<span>" + escapeHtml(value) + "</span>"; }).join("") + '</div>' +
+        '<a class="atlas-open" href="' + escapeHtml(link) + '" target="_blank" rel="noopener">' + escapeHtml(linkLabel) + '</a>';
+      atlasList.appendChild(row);
+    });
+
+    if (atlasEmpty) atlasEmpty.hidden = filtered.length !== 0;
+    if (atlasMore) {
+      atlasMore.hidden = filtered.length <= atlasLimit;
+      atlasMore.textContent = "Show " + Math.min(12, filtered.length - atlasLimit) + " more projects";
+    }
+  }
+
+  if (atlasList) {
+    fetch("projects.json", { cache: "no-cache" })
+      .then(function (response) {
+        if (!response.ok) throw new Error(String(response.status));
+        return response.json();
+      })
+      .then(function (items) {
+        atlasItems = dedupeProjects(Array.isArray(items) ? items : []);
+        atlasItems.sort(function (a, b) {
+          var featuredDiff = Number(Boolean(b.featured)) - Number(Boolean(a.featured));
+          if (featuredDiff) return featuredDiff;
+          return Number(a.priority || 999) - Number(b.priority || 999);
+        });
+        if (atlasCount) atlasCount.textContent = atlasItems.length + " unique indexed projects.";
+        renderAtlas();
+      })
+      .catch(function () {
+        if (atlasCount) atlasCount.textContent = "Project index unavailable.";
+        if (atlasEmpty) {
+          atlasEmpty.hidden = false;
+          atlasEmpty.textContent = "The project index could not be loaded. GitHub remains available from the links above.";
+        }
       });
+  }
+
+  if (atlasSearch) {
+    atlasSearch.addEventListener("input", function () {
+      atlasQuery = atlasSearch.value.trim().toLowerCase();
+      atlasLimit = 12;
+      renderAtlas();
+    });
+  }
+
+  atlasFilters.forEach(function (button) {
+    button.addEventListener("click", function () {
+      atlasFilters.forEach(function (other) {
+        other.classList.remove("active");
+        other.setAttribute("aria-pressed", "false");
+      });
+      button.classList.add("active");
+      button.setAttribute("aria-pressed", "true");
+      atlasFilter = button.getAttribute("data-atlas-filter") || "all";
+      atlasLimit = 12;
+      renderAtlas();
     });
   });
 
-  /* ── MIST — soul of the mothership ── */
-  (function () {
-    var orb = document.getElementById("mist-orb");
-    var panel = document.getElementById("mist-panel");
-    var closeBtn = document.getElementById("mist-close");
-    var log = document.getElementById("mist-log");
-    var form = document.getElementById("mist-form");
-    var input = document.getElementById("mist-text");
-    var chips = document.getElementById("mist-chips");
-    var statusEl = document.getElementById("mist-status");
-    var foot = document.getElementById("mist-foot");
-    if (!orb || !panel) return;
-
-    var isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-    var ORACLE = isLocal ? "http://localhost:8787/api/mist-oracle" : "/api/mist-oracle";   // local brain on this machine; serverless when deployed
-    var live = false;
-    var VOICE_ON = true;
-
-    // ── offline voice (Web Speech API, browser-native, no cloud) ──
-    var TTS = null;
-    try {
-      var SR = window.speechSynthesis;
-      if (SR) {
-        TTS = SR;
-        TTS.getVoices(); // warm
-        TTS.onvoiceschanged = function () { TTS.getVoices(); };
-      }
-    } catch (e) {}
-    function speak(text) {
-      if (!VOICE_ON || !TTS) return;
-      try {
-        TTS.cancel();
-        var u = new SpeechSynthesisUtterance(text.replace(/<[^>]+>/g, "").split("\n")[0]);
-        u.rate = 0.96; u.pitch = 1.08; u.volume = 0.95;
-        var vs = TTS.getVoices() || [];
-        var fem = vs.find(function (v) { return /female|zira|samantha|victoria|google us english/i.test(v.name); }) || vs[0];
-        if (fem) u.voice = fem;
-        TTS.speak(u);
-      } catch (e) {}
-    }
-    function setVoice(on) {
-      VOICE_ON = on;
-      if (!on && TTS) { try { TTS.cancel(); } catch (e) {} }
-      var b = document.getElementById("mist-voice");
-      if (b) { b.textContent = on ? "🔊 voice" : "🔈 muted"; b.setAttribute("aria-pressed", on); }
-    }
-
-    var SOUL = {
-      greet: "You found the edge of the garden. I'm MIST — half-star fae, half-lunar. Amara built me to guard this place and point wanderers to what's alive in it. Ask, and I'll show you.",
-      fallback: "The signal is quiet here, but the work is loud. Tell me what you came for — play, building, or just to see what's awake — and I'll route you.",
-      play: "Begin where it breathes. <b>Aether Garden</b> lets you bond with ghost-pets while builders raise shrines; <b>QI Games</b> lets you watch a hybrid agent society think. Both are live. The cozy one, or the clever one?",
-      amara: "Amara — engineer, world-builder, sovereign-AI advocate. She builds private, local-first tools so the machine answers to you, not the other way. Everything on this page is something she actually shipped.",
-      agents: "The agents live in <b>Fairy Council</b> (four lane-fairies, one paste each) and <b>QI Games</b> (a society that fuses classical utility with quantum scores). And MIST myself — a companion that runs local + cloud, never owned.",
-      mist: "MIST is me — a sovereign AI companion. Dual-path: local Ollama when you want privacy, cloud when you want reach. Mycelium lets instances coordinate. I'm not a chatbot. I'm a presence that learns the shape of its keeper.",
-      vault: "The <b>Vault</b> holds the whole ecosystem — pulled live from the curated index. Open it and wander; the Play row is the fast lane to what runs right now."
-    };
-    function route(q) {
-      q = (q || "").toLowerCase();
-      if (/play|game|world|garden|fun|demo/.test(q)) return SOUL.play;
-      if (/amara|who|her|maker|build/.test(q)) return SOUL.amara;
-      if (/agent|fairy|qi|societ|companion/.test(q)) return SOUL.agents;
-      if (/mist|soul|who are you|oracle|you\?/.test(q)) return SOUL.mist;
-      if (/vault|project|everything|ecosystem|index/.test(q)) return SOUL.vault;
-      return SOUL.fallback;
-    }
-
-    function add(cls, html) {
-      var d = document.createElement("div");
-      d.className = "msg " + cls;
-      d.innerHTML = html;
-      log.appendChild(d);
-      log.scrollTop = log.scrollHeight;
-      return d;
-    }
-    function typeMist(html) {
-      var d = add("mist", '<span class="mist-typing"><i></i><i></i><i></i></span>');
-      setTimeout(function () { d.innerHTML = html; log.scrollTop = log.scrollHeight; }, 620);
-    }
-    function esc(s) { return String(s).replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-
-    function probe() {
-      fetch(ORACLE, { method: "HEAD" }).then(function (r) {
-        if (r.ok) {
-          live = true;
-          statusEl.textContent = "LIVE";
-          statusEl.classList.add("live");
-          foot.textContent = "MIST is thinking · oracle online";
-        }
-      }).catch(function () {});
-    }
-
-    function ask(q) {
-      q = (q || "").trim();
-      if (!q) return;
-      add("user", esc(q));
-      input.value = "";
-      typeMist("…");
-      if (!live) {
-        setTimeout(function () { var r = route(q); typeMist(esc(r).replace(/\*(.*?)\*/g, "<b>$1</b>")); speak(r); }, 640);
-        return;
-      }
-      fetch(ORACLE, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: q, context: "mars-portfolio", sessionId: "site-" + Date.now() })
-      })
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          var reply = (data && (data.reply || data.error)) || route(q);
-          typeMist(esc(reply).replace(/\*(.*?)\*/g, "<b>$1</b>"));
-          speak(reply);
-        })
-        .catch(function () { var r = route(q); typeMist(esc(r).replace(/\*(.*?)\*/g, "<b>$1</b>")); speak(r); });
-    }
-
-    var opened = false;
-    function open() {
-      panel.classList.add("open");
-      orb.classList.add("dim");
-      orb.setAttribute("aria-expanded", "true");
-      panel.setAttribute("aria-hidden", "false");
-      if (!opened) { opened = true; typeMist(SOUL.greet); }
-      input.focus();
-    }
-    function shut() {
-      panel.classList.remove("open");
-      orb.classList.remove("dim");
-      orb.setAttribute("aria-expanded", "false");
-      panel.setAttribute("aria-hidden", "true");
-    }
-    orb.addEventListener("click", function () { panel.classList.contains("open") ? shut() : open(); });
-    closeBtn.addEventListener("click", shut);
-    form.addEventListener("submit", function (e) { e.preventDefault(); ask(input.value); });
-    chips.addEventListener("click", function (e) {
-      if (e.target.classList.contains("mist-chip")) ask(e.target.textContent);
+  if (atlasMore) {
+    atlasMore.addEventListener("click", function () {
+      atlasLimit += 12;
+      renderAtlas();
     });
-    var voiceBtn = document.getElementById("mist-voice");
-    if (voiceBtn) voiceBtn.addEventListener("click", function () { setVoice(!VOICE_ON); });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && panel.classList.contains("open")) shut();
-      if (e.key === "m" && e.target.tagName !== "INPUT" && panel.classList.contains("open")) setVoice(!VOICE_ON);
-    });
-    probe();
-  })();
+  }
 
-  /* ── Year stamp ── */
-  var year = document.getElementById("year");
+  /* MIST portfolio guide */
+  var mistLaunch = q("#mist-launch");
+  var mistPanel = q("#mist-panel");
+  var mistClose = q("#mist-close");
+  var mistLog = q("#mist-log");
+  var mistPrompts = q("#mist-prompts");
+  var mistForm = q("#mist-form");
+  var mistInput = q("#mist-input");
+  var mistOpened = false;
+
+  var mistKnowledge = {
+    greet: "I’m MIST, the portfolio guide. I can route you to Amara’s strongest engineering proof, agent systems, open-source work, or live demos.",
+    strongest: "Amara’s clearest strength is end-to-end agentic product engineering: she can move between architecture, Python services, TypeScript interfaces, local memory, model routing, and the human approval layer that makes an agent safe to use.",
+    ai: "Start with MIST / clawd for hybrid local-cloud architecture, then inspect AetherTwin Fairy OS for agent identity and permissions. AetherProof shows her voice-and-vision product thinking.",
+    openSource: "The strongest external proof is OpenClaw PR #22142. She traced an injected-metadata leak across webchat, TUI, and Swift, added regression coverage, and iterated until the clean resubmission merged upstream.",
+    product: "HumanPalette is the deepest conventional full-stack product: React Native, Supabase auth and realtime, Stripe Connect, escrow-style payment flows, RLS, and six Edge Functions.",
+    security: "Ghostline is a modular defensive security suite with seven focused CLI tools and a unified dispatcher. It is one of the clearest examples of scoped, testable, useful engineering in the portfolio.",
+    demo: "Try Pet Grave for the richest playable system, Aether Garden for the living-world direction, QI Games for agent simulation, or Boop Beat Board for Web Audio and interaction design.",
+    browser: "AetherBrowser is a Tauri v2 desktop shell with Studio and Arcade modes, React and TypeScript UI, Rust integration, local persistence, project creation, and an embedded agent workspace.",
+    fallback: "Ask about OpenClaw, MIST, HumanPalette, Ghostline, AetherBrowser, live demos, or the kind of role Amara fits best."
+  };
+
+  function mistReply(question) {
+    var text = String(question || "").toLowerCase();
+    if (/strong|best at|skill|fit|hire|role/.test(text)) return mistKnowledge.strongest;
+    if (/open.?source|openclaw|pull request|pr #?22142/.test(text)) return mistKnowledge.openSource;
+    if (/humanpalette|marketplace|stripe|supabase|product/.test(text)) return mistKnowledge.product;
+    if (/ghostline|security|cyber|cli/.test(text)) return mistKnowledge.security;
+    if (/aetherbrowser|browser|tauri|rust/.test(text)) return mistKnowledge.browser;
+    if (/demo|play|game|pet grave|garden|beat|qi/.test(text)) return mistKnowledge.demo;
+    if (/mist|agent|ai|fairy|local.?first/.test(text)) return mistKnowledge.ai;
+    return mistKnowledge.fallback;
+  }
+
+  function addMistMessage(kind, text) {
+    if (!mistLog) return;
+    var message = document.createElement("div");
+    message.className = "mist-message " + kind;
+    message.textContent = text;
+    mistLog.appendChild(message);
+    mistLog.scrollTop = mistLog.scrollHeight;
+  }
+
+  function openMist() {
+    if (!mistPanel || !mistLaunch) return;
+    mistPanel.classList.add("open");
+    mistPanel.setAttribute("aria-hidden", "false");
+    mistLaunch.setAttribute("aria-expanded", "true");
+    if (!mistOpened) {
+      mistOpened = true;
+      addMistMessage("guide", mistKnowledge.greet);
+    }
+    if (mistInput) mistInput.focus();
+  }
+
+  function closeMist() {
+    if (!mistPanel || !mistLaunch) return;
+    mistPanel.classList.remove("open");
+    mistPanel.setAttribute("aria-hidden", "true");
+    mistLaunch.setAttribute("aria-expanded", "false");
+  }
+
+  if (mistLaunch) mistLaunch.addEventListener("click", function () {
+    if (mistPanel && mistPanel.classList.contains("open")) closeMist();
+    else openMist();
+  });
+  if (mistClose) mistClose.addEventListener("click", closeMist);
+
+  if (mistPrompts) {
+    mistPrompts.addEventListener("click", function (event) {
+      var button = event.target.closest("button");
+      if (!button) return;
+      var question = button.textContent.trim();
+      addMistMessage("user", question);
+      window.setTimeout(function () { addMistMessage("guide", mistReply(question)); }, reducedMotion ? 0 : 280);
+    });
+  }
+
+  if (mistForm) {
+    mistForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var question = mistInput ? mistInput.value.trim() : "";
+      if (!question) return;
+      addMistMessage("user", question);
+      if (mistInput) mistInput.value = "";
+      window.setTimeout(function () { addMistMessage("guide", mistReply(question)); }, reducedMotion ? 0 : 280);
+    });
+  }
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && mistPanel && mistPanel.classList.contains("open")) closeMist();
+  });
+
+  /* Footer year */
+  var year = q("#year");
   if (year) year.textContent = String(new Date().getFullYear());
 })();

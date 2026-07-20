@@ -1,550 +1,508 @@
 <!DOCTYPE html>
-<!--
-  mellowambience.github.io — Amara's Build Log
-  Rev 7.0 — "Every surface sharper"
-  Jul 2026 — richer hub, live demos front, filters, shared polish.
--->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Amara (Aetherhaven) — AI tools, games & creative software</title>
-  <meta name="description" content="Amara builds private AI browsers, living game-worlds, and personal AI assistants that run on your machine. Local-first, built in the open." />
-  <meta name="author" content="Amara" />
-  <meta name="keywords" content="Amara, Aetherhaven, private AI, local-first, games, AetherBrowser, Fairy OS, Aether Garden, Pet Grave" />
+  <title>Amara Torretti — Full-Stack & Agentic AI Engineer</title>
+  <meta name="description" content="Amara Torretti builds full-stack, local-first AI systems, agentic products, open-source tools, and interactive worlds across Python, TypeScript, React, Rust, and mobile." />
+  <meta name="author" content="Amara Torretti" />
+  <meta name="keywords" content="Amara Torretti, full-stack engineer, agentic AI engineer, local-first AI, TypeScript, Python, React, Rust, portfolio" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Amara — AI tools, games & creative software" />
-  <meta property="og:description" content="Private AI browsers, living game-worlds, and personal AI assistants — built local-first by Amara." />
+  <meta property="og:title" content="Amara Torretti — Full-Stack & Agentic AI Engineer" />
+  <meta property="og:description" content="Engineering proof, agent systems, open-source contributions, and interactive products built by Amara Torretti." />
   <meta property="og:image" content="https://mellowambience.github.io/og-image.jpg" />
   <meta property="og:url" content="https://mellowambience.github.io/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Amara — AI tools, games & creative software" />
-  <meta name="twitter:description" content="Private AI, living worlds, personal agents — local-first." />
+  <meta name="twitter:title" content="Amara Torretti — Full-Stack & Agentic AI Engineer" />
+  <meta name="twitter:description" content="Local-first AI systems, full-stack products, open-source tooling, and living interactive worlds." />
   <meta name="twitter:image" content="https://mellowambience.github.io/og-image.jpg" />
-  <meta name="theme-color" content="#05030b" />
+  <meta name="theme-color" content="#080413" />
   <link rel="canonical" href="https://mellowambience.github.io/" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2305030b'/%3E%3Ctext x='50' y='72' font-size='64' text-anchor='middle' fill='%2339ff6e'%3E%E2%9F%81%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='26' fill='%23080413'/%3E%3Cpath d='M50 14 58 42 86 50 58 58 50 86 42 58 14 50 42 42Z' fill='%23ef72c8'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Person","name":"Amara","alternateName":["Mellowambience","Aetherhaven"],"url":"https://mellowambience.github.io/","email":"mailto:natorretti11@gmail.com","jobTitle":"Engineer & Creator","sameAs":["https://github.com/Mellowambience","https://x.com/GoddessAther","https://cash.app/$MarsEatPlanet"],"knowsAbout":["AI systems","local-first software","game design","browser tooling","creative tech"]}
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Amara Torretti",
+    "alternateName": ["Mellowambience", "Aetherhaven"],
+    "url": "https://mellowambience.github.io/",
+    "email": "mailto:natorretti11@gmail.com",
+    "jobTitle": "Full-Stack & Agentic AI Engineer",
+    "sameAs": [
+      "https://github.com/Mellowambience",
+      "https://x.com/GoddessAther"
+    ],
+    "knowsAbout": [
+      "Agentic AI systems",
+      "Local-first software",
+      "Full-stack product engineering",
+      "React and TypeScript",
+      "Python and FastAPI",
+      "Rust and Tauri",
+      "Interactive game systems"
+    ]
+  }
   </script>
 </head>
 <body>
-  <a class="skip" href="#top">Skip to content</a>
-  <div class="progress" id="scroll-progress" aria-hidden="true"></div>
-  <canvas id="sky" aria-hidden="true"></canvas>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="ambient-grid" aria-hidden="true"></div>
+  <canvas id="starfield" aria-hidden="true"></canvas>
 
-  <nav class="nav" aria-label="Primary">
-    <div class="wrap">
-      <a class="brand" href="#top"><b>⟁</b><span>AETHERHAVEN</span></a>
-      <div class="links" id="site-links">
-        <a href="#about">About</a>
-        <a href="#pillars">What I do</a>
-        <a href="#play">Play</a>
-        <a href="#fleet">Projects</a>
-        <a href="#vault">Vault</a>
-        <a href="#decks">Experiments</a>
-        <a href="#lanes">Services</a>
-        <a href="#signal">Updates</a>
-        <a href="#portal">Contact</a>
-        <a href="https://github.com/Mellowambience" target="_blank" rel="me noopener">GitHub</a>
-        <a class="cta" href="#portal">Open Channel</a>
-      </div>
-      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-links">☰</button>
-    </div>
-  </nav>
+  <div class="site-shell">
+    <aside class="sidebar" aria-label="Portfolio navigation">
+      <div class="sidebar-inner">
+        <a class="brand" href="#home" aria-label="Aetherhaven home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 40 40" focusable="false">
+              <path d="M20 2 24.7 15.3 38 20l-13.3 4.7L20 38l-4.7-13.3L2 20l13.3-4.7L20 2Z" />
+              <circle cx="20" cy="20" r="6.5" />
+            </svg>
+          </span>
+          <span class="brand-copy"><strong>AETHERHAVEN</strong><small>Engineering studio</small></span>
+        </a>
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap hero-grid">
-        <div>
-          <div class="eyebrow"><span class="pulse" aria-hidden="true"></span>AMARA'S BUILD LOG // REV 7.0<span id="last-signal"></span></div>
-          <h1 class="title" id="hero-title"><span>I build the AI</span><span>that lives <em>on your</em></span><span>terms. In worlds</span><span>you own.</span></h1>
-          <p class="sub">I'm Amara — engineer and creator of private AI tools, living game-worlds, and personal assistants that run on <em>your</em> machine. Not locked in someone else's cloud. Weird on purpose. Useful by design.</p>
-          <div class="actions">
-            <a class="btn primary" href="#play">Play something live</a>
-            <a class="btn" href="#vault">Browse the vault</a>
-            <a class="btn ghost" href="https://x.com/GoddessAther" target="_blank" rel="me noopener">Follow the build</a>
+        <div class="profile-block">
+          <div class="profile-sigil" aria-hidden="true">
+            <span>A</span>
+            <i></i>
           </div>
-          <div class="status" role="list">
-            <div class="chip" role="listitem"><strong>Who</strong>Amara — engineer & creator</div>
-            <div class="chip" role="listitem"><strong>Flagship</strong>AI browser · Living games · Agents</div>
-            <div class="chip" role="listitem"><strong>How</strong>Remote-first · Built in public</div>
-            <div class="chip" role="listitem"><strong>Where</strong>Philadelphia → anywhere</div>
+          <h1>Amara Torretti</h1>
+          <p class="profile-role">Full-Stack &amp; Agentic AI Engineer</p>
+          <p class="profile-summary">I build private AI systems, local-first products, open tools, and living digital worlds.</p>
+          <div class="profile-meta">
+            <span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.3 7-12A7 7 0 1 0 5 9c0 6.7 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+              Philadelphia, PA
+            </span>
+            <span class="availability"><i></i>Available for full-time remote</span>
           </div>
         </div>
-        <aside class="hero-panel reveal" aria-label="Quick routes into the fleet">
-          <div class="hp-label">Quick routes</div>
-          <div class="hp-stack">
-            <a class="hp-card" href="https://mellowambience.github.io/aether-garden/">
-              <span class="hp-ico" aria-hidden="true">❋</span>
-              <span><b>Aether Garden</b><span>3D living world — bond with spirits</span></span>
-              <span class="hp-go">Play</span>
+
+        <button class="mobile-menu" id="mobile-menu" type="button" aria-expanded="false" aria-controls="primary-nav">
+          <span>Navigate</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+        </button>
+
+        <nav class="primary-nav" id="primary-nav">
+          <a href="#home" class="active">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9Z" /></svg>
+            <span>Home</span>
+          </a>
+          <a href="#engineering">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 4l-4 16" /></svg>
+            <span>Engineering work</span>
+          </a>
+          <a href="#systems">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 8 4.5v9L12 20l-8-4.5v-9L12 2Z"/><path d="m4.5 6.8 7.5 4.3 7.5-4.3M12 11v9"/></svg>
+            <span>Selected systems</span>
+          </a>
+          <a href="#demos">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8h10a5 5 0 0 1 5 5v2a3 3 0 0 1-5.3 1.9L15 15H9l-1.7 1.9A3 3 0 0 1 2 15v-2a5 5 0 0 1 5-5Z"/><path d="M8 11v4M6 13h4M16.5 12.2h.01M18.5 14.2h.01"/></svg>
+            <span>Play &amp; demos</span>
+          </a>
+          <a href="#atlas">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5 9 3l6 2 5-2v15.5L15 21l-6-2-5 2V5.5Z"/><path d="M9 3v16M15 5v16"/></svg>
+            <span>Project atlas</span>
+          </a>
+          <a href="#about">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            <span>About</span>
+          </a>
+          <a href="#contact">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+            <span>Contact</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-actions">
+          <a href="https://github.com/Mellowambience" target="_blank" rel="me noopener" aria-label="GitHub profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5A3.9 3.9 0 0 1 6.6 8c-.1-.3-.5-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c2-1.3 2.8-1 2.8-1 .6 1.4.2 2.4.1 2.7a3.9 3.9 0 0 1 1.1 2.8c0 3.8-2.3 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+          </a>
+          <a href="https://x.com/GoddessAther" target="_blank" rel="me noopener" aria-label="X profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h4.8l4.2 5.6L17.7 3H20l-6 7.1L21 21h-4.8l-4.8-6.4L6 21H3.7l6.7-7.9L4 3Z"/></svg>
+          </a>
+          <a href="mailto:natorretti11@gmail.com" aria-label="Email Amara">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+          </a>
+        </div>
+
+        <blockquote class="sidebar-quote">
+          “I build the AI that lives on your terms.”
+        </blockquote>
+      </div>
+    </aside>
+
+    <main id="main" class="main-content">
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="hero-availability"><i></i>Available for full-time remote</div>
+          <h2 id="hero-title">Amara Torretti</h2>
+          <p class="hero-role">Full-Stack &amp; Agentic AI Engineer</p>
+          <p class="hero-lead">I architect and build local-first AI systems, full-stack products, open-source tools, and interactive experiences that give people more privacy, control, and creative agency.</p>
+
+          <div class="stack-chips" aria-label="Primary technology stack">
+            <span>Python</span><span>TypeScript</span><span>React</span><span>FastAPI</span><span>Rust</span><span>Node.js</span><span>SQLite</span><span>Supabase</span>
+          </div>
+
+          <div class="hero-actions">
+            <a class="button primary" href="#engineering">
+              <span>View engineering work</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
             </a>
-            <a class="hp-card" href="https://mellowambience.github.io/petgrave/">
-              <span class="hp-ico" aria-hidden="true">♡</span>
-              <span><b>Pet Grave</b><span>Cozy spirit pets & memory</span></span>
-              <span class="hp-go">Play</span>
+            <a class="button" href="resume.html">
+              <span>View résumé</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
             </a>
-            <a class="hp-card" href="https://mellowambience.github.io/fairy-council/">
-              <span class="hp-ico" aria-hidden="true">✶</span>
-              <span><b>Fairy Council</b><span>Personal AI lanes, one paste away</span></span>
-              <span class="hp-go">Meet</span>
-            </a>
-            <a class="hp-card" href="https://mellowambience.github.io/quantum-bloom/">
-              <span class="hp-ico" aria-hidden="true">🜂</span>
-              <span><b>Quantum Bloom</b><span>Watch quantum-sentient agents think</span></span>
-              <span class="hp-go">Play</span>
-            </a>
-            <a class="hp-card" href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener">
-              <span class="hp-ico" aria-hidden="true">◈</span>
-              <span><b>AetherBrowser</b><span>Local AI command-center browser</span></span>
-              <span class="hp-go">Repo</span>
+            <a class="button" href="mailto:natorretti11@gmail.com">
+              <span>Contact me</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
             </a>
           </div>
-          <div class="hp-live"><i aria-hidden="true"></i><span id="hp-live-text">Fleet online · telemetry loading…</span></div>
-        </aside>
-      </div>
-    </section>
+        </div>
 
-    <!-- ABOUT -->
-    <section class="section" id="about" aria-labelledby="about-title">
-      <div class="wrap">
-        <div class="mission reveal">
+        <div class="hero-art" aria-hidden="true">
+          <div class="aurora aurora-one"></div>
+          <div class="aurora aurora-two"></div>
+          <svg class="cosmic-scene" viewBox="0 0 800 620" role="presentation">
+            <defs>
+              <linearGradient id="skyGlow" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#6b4dff" stop-opacity=".12"/>
+                <stop offset=".46" stop-color="#ec4caf" stop-opacity=".28"/>
+                <stop offset="1" stop-color="#2ee8e8" stop-opacity=".06"/>
+              </linearGradient>
+              <radialGradient id="orbGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0" stop-color="#ffd6f3" stop-opacity=".95"/>
+                <stop offset=".28" stop-color="#ed6fd1" stop-opacity=".75"/>
+                <stop offset=".65" stop-color="#7e55ff" stop-opacity=".25"/>
+                <stop offset="1" stop-color="#7e55ff" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="cityGlow" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#e75fc9" stop-opacity=".8"/>
+                <stop offset="1" stop-color="#6b4dff" stop-opacity=".08"/>
+              </linearGradient>
+              <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="10" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <rect x="0" y="0" width="800" height="620" rx="36" fill="url(#skyGlow)" />
+            <circle cx="580" cy="210" r="168" fill="url(#orbGlow)" />
+            <circle cx="580" cy="210" r="112" fill="none" stroke="#f18ad9" stroke-opacity=".42" stroke-width="2" />
+            <circle cx="580" cy="210" r="138" fill="none" stroke="#7d5cff" stroke-opacity=".26" stroke-width="1.5" stroke-dasharray="8 16" />
+            <path d="M430 210c72-76 232-72 302 12" fill="none" stroke="#ff9edd" stroke-opacity=".45" stroke-width="2" />
+            <path d="M452 298c62 50 196 66 284 5" fill="none" stroke="#7de8ff" stroke-opacity=".2" stroke-width="2" />
+            <g fill="none" stroke="#f7b5e9" stroke-opacity=".46" filter="url(#softGlow)">
+              <path d="M600 84c-16 28-18 53 0 77 18-24 16-49 0-77Z" />
+              <path d="M690 170c-19 18-27 37-21 59 23-10 32-30 21-59Z" />
+              <path d="M490 162c18 19 25 39 18 61-22-11-31-31-18-61Z" />
+            </g>
+            <g class="city" fill="url(#cityGlow)" stroke="#d46cc8" stroke-opacity=".25">
+              <path d="M45 518h40V392l20-20 20 20v126h35V438l18-18 18 18v80h38V334l22-30 22 30v184h38V406l18-24 18 24v112h46V370l24-34 24 34v148h34V424l18-24 18 24v94h42V382l22-31 22 31v136h40V440l20-24 20 24v78h55v42H45Z" />
+              <path d="M148 518V456h22v62M238 518V382h28v136M393 518V418h25v100M520 518V432h24v86M650 518V454h22v64" stroke="#8ee9ff" stroke-opacity=".22" />
+            </g>
+            <path d="M0 535c150-34 250 10 392 2 180-10 262-54 408-24v107H0Z" fill="#070311" />
+            <g fill="#ffd4f3">
+              <circle cx="470" cy="90" r="2"/><circle cx="720" cy="78" r="1.6"/><circle cx="620" cy="45" r="1.2"/><circle cx="365" cy="132" r="1.8"/><circle cx="760" cy="250" r="1.2"/><circle cx="415" cy="240" r="1.3"/>
+            </g>
+          </svg>
+          <p class="hero-art-caption">Private AI systems · interactive worlds · open tools</p>
+        </div>
+      </section>
+
+      <section class="proof-strip" aria-label="Verified portfolio proof points">
+        <div><strong>1</strong><span>Merged upstream<br />OpenClaw contribution</span></div>
+        <div><strong>54</strong><span>Indexed projects<br />across the portfolio</span></div>
+        <div><strong>7+</strong><span>Years across<br />software and IT</span></div>
+        <div><strong>4+</strong><span>Live browser<br />demos and games</span></div>
+        <div><strong>100%</strong><span>Remote-first<br />by design</span></div>
+      </section>
+
+      <section class="section engineering-section" id="engineering" aria-labelledby="engineering-title">
+        <div class="section-heading">
           <div>
-            <div class="tag">01 // About</div>
-            <h2 id="about-title" style="font-size:clamp(1.5rem,3vw,2rem);margin-bottom:1rem">Half engineer, half world-builder.</h2>
-            <p>Everything on this page is something I actually built — prototypes that turned into products, ideas that became systems, experiments that became worlds. The through-line: AI should be <em>private, local-first, and genuinely useful</em>, not a chatbot locked inside someone else's server.</p>
-            <p>I work across full-stack engineering, AI systems, browser tooling, security research, and game design. If it sounds strange, that's the point — I build the things mainstream tools haven't caught up to yet.</p>
-            <div class="actions">
-              <a class="btn primary" href="mailto:natorretti11@gmail.com">Email Amara</a>
-              <a class="btn" href="https://x.com/GoddessAther" target="_blank" rel="me noopener">@GoddessAther</a>
+            <p class="section-label">Featured engineering work</p>
+            <h2 id="engineering-title">Real systems. Real implementation. Clear boundaries.</h2>
+          </div>
+          <a class="text-link" href="https://github.com/Mellowambience" target="_blank" rel="noopener">
+            <span>View GitHub</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+          </a>
+        </div>
+
+        <div class="engineering-layout">
+          <div class="featured-grid">
+            <article class="featured-card open-source">
+              <div class="card-topline"><span>Open source</span><strong>Merged</strong></div>
+              <div class="project-icon openclaw-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M12 27c2-9 9-15 19-15 1 0 3 0 5 1-3 2-5 5-6 8 5-1 9 1 11 5-3 0-6 1-8 4 2 2 3 4 3 7-3-2-6-3-10-2-3 1-6 1-9-1-5-4-6-9-5-7Z"/><path d="M15 20c-5 1-8 4-8 9 0 3 2 6 5 7"/></svg>
+              </div>
+              <h3>OpenClaw PR #22142</h3>
+              <p class="project-subtitle">Cross-surface UI integrity fix</p>
+              <p>Traced AI-only metadata leaking into user-visible conversation history across webchat, TUI, and Swift surfaces. Implemented a fast stripping parser, regression tests, and a clean resubmission that merged upstream.</p>
+              <div class="project-tags"><span>TypeScript</span><span>Swift</span><span>Testing</span><span>UI systems</span></div>
+              <a class="card-link" href="https://github.com/openclaw/openclaw/pull/22142" target="_blank" rel="noopener">
+                <span>View merged pull request</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+              </a>
+            </article>
+
+            <article class="featured-card product">
+              <div class="card-topline"><span>Full-stack product</span><strong>Active</strong></div>
+              <div class="project-icon palette-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M24 6C13 6 5 14 5 24c0 9 7 17 16 18 3 .4 5-2 4-5l-1-3c-.5-2 1-4 3-4h7c6 0 9-4 9-9C43 12 35 6 24 6Z"/><circle cx="15" cy="20" r="2"/><circle cx="21" cy="14" r="2"/><circle cx="29" cy="14" r="2"/><circle cx="35" cy="20" r="2"/></svg>
+              </div>
+              <h3>HumanPalette</h3>
+              <p class="project-subtitle">Verified-human art marketplace</p>
+              <p>A React Native marketplace combining swipe discovery, realtime chat, artist verification, Stripe Connect onboarding, escrow-style payments, Supabase RLS, and six Edge Functions.</p>
+              <div class="project-tags"><span>React Native</span><span>Supabase</span><span>Stripe</span><span>TypeScript</span></div>
+              <a class="card-link" href="https://github.com/Mellowambience/humanpalette" target="_blank" rel="noopener">
+                <span>Explore product architecture</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+              </a>
+            </article>
+
+            <article class="featured-card ai-system">
+              <div class="card-topline"><span>Agent system</span><strong>Operational core</strong></div>
+              <div class="project-icon mist-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M24 5c9 0 17 7 17 16 0 7-4 12-10 15l-7 7-7-7C11 33 7 28 7 21 7 12 15 5 24 5Z"/><path d="M16 22c2-4 5-6 8-6s6 2 8 6M17 29c4 3 10 3 14 0"/></svg>
+              </div>
+              <h3>MIST / clawd</h3>
+              <p class="project-subtitle">Hybrid local + cloud AI runtime</p>
+              <p>A mobile-to-gateway companion architecture spanning React Native, TypeScript, Python WebSocket services, Ollama, cloud model routing, durable memory, host awareness, and consent-gated tools.</p>
+              <div class="project-tags"><span>Python</span><span>React Native</span><span>WebSocket</span><span>Ollama</span></div>
+              <a class="card-link" href="mist-case-study.html">
+                <span>Read the case study</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+              </a>
+            </article>
+          </div>
+
+          <aside class="engineering-rail" aria-label="Engineering capabilities">
+            <article class="rail-panel">
+              <p class="rail-title">Technical range</p>
+              <dl class="tech-list">
+                <div><dt>Frontend</dt><dd>React · TypeScript · Next.js · React Native · Vite</dd></div>
+                <div><dt>Backend</dt><dd>Python · FastAPI · Node.js · tRPC · WebSocket</dd></div>
+                <div><dt>Data</dt><dd>Supabase · Postgres · SQLite · Firestore</dd></div>
+                <div><dt>Systems</dt><dd>Rust · Tauri · Expo · Web Audio</dd></div>
+                <div><dt>AI</dt><dd>Ollama · Gemini · OpenAI API · LangGraph · PyTorch</dd></div>
+                <div><dt>Quality</dt><dd>Pytest · accessibility · local-first boundaries · human approval</dd></div>
+              </dl>
+            </article>
+
+            <article class="rail-panel proof-panel">
+              <p class="rail-title">What I optimize for</p>
+              <ul>
+                <li><span>01</span>Tools that produce visible outcomes, not demo theater.</li>
+                <li><span>02</span>Local-first architecture where privacy actually changes the design.</li>
+                <li><span>03</span>Clear permissions and honest labels for prototypes versus operational systems.</li>
+                <li><span>04</span>Interfaces with enough personality to be remembered and enough clarity to be used.</li>
+              </ul>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="systems" aria-labelledby="systems-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Selected systems</p>
+            <h2 id="systems-title">Depth across security, browsers, agents, and proof.</h2>
+          </div>
+          <p class="section-intro">These projects earned placement through implementation evidence, not just concept scale.</p>
+        </div>
+
+        <div class="systems-list">
+          <article class="system-row" data-repo="ghostline">
+            <div class="system-number">01</div>
+            <div class="system-main">
+              <div class="system-heading"><h3>Ghostline</h3><span class="status operational">Operational modules</span></div>
+              <p>CLI-first defensive security suite with seven independently installable modules for scanning, password breach checks, DNS leak testing, public-data recon, web audits, account recovery checks, and bookmark auditing.</p>
+              <div class="project-tags"><span>Python</span><span>CLI</span><span>Pytest</span><span>Security</span></div>
+            </div>
+            <div class="system-proof"><span class="repo-meta">7 modules</span><a href="https://github.com/Mellowambience/ghostline" target="_blank" rel="noopener">Open repo</a></div>
+          </article>
+
+          <article class="system-row" data-repo="aetherbrowser">
+            <div class="system-number">02</div>
+            <div class="system-main">
+              <div class="system-heading"><h3>AetherBrowser</h3><span class="status active">Publishing-ready core</span></div>
+              <p>A Tauri v2 desktop shell with React and TypeScript, dual Studio and Arcade modes, local persistence, project creation, a publishing checklist, and an embedded agent workspace.</p>
+              <div class="project-tags"><span>Rust</span><span>Tauri</span><span>React</span><span>TypeScript</span></div>
+            </div>
+            <div class="system-proof"><span class="repo-meta">Phase 1–2 complete</span><a href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener">Open repo</a></div>
+          </article>
+
+          <article class="system-row" data-repo="aetherproof">
+            <div class="system-number">03</div>
+            <div class="system-main">
+              <div class="system-heading"><h3>AetherProof</h3><span class="status prototype">Challenge prototype</span></div>
+              <p>Voice-and-vision proof workflow for human artists, designed around Gemini Live, React, Node.js, Firestore, Cloud Run, and Solana devnet certificates.</p>
+              <div class="project-tags"><span>Gemini Live</span><span>React</span><span>Cloud Run</span><span>Solana</span></div>
+            </div>
+            <div class="system-proof"><span class="repo-meta">Architecture scaffolded</span><a href="https://github.com/Mellowambience/aetherproof" target="_blank" rel="noopener">Open repo</a></div>
+          </article>
+
+          <article class="system-row" data-repo="aethertwin-fairy-os">
+            <div class="system-number">04</div>
+            <div class="system-main">
+              <div class="system-heading"><h3>AetherTwin Fairy OS</h3><span class="status prototype">Local-first MVP</span></div>
+              <p>Embodied agent-design environment with Genesis profiles, visible strengths and shadow risks, a skill registry, council decisions, permission boundaries, handoff briefs, and a browser-persisted memory tree.</p>
+              <div class="project-tags"><span>React</span><span>Agents</span><span>LocalStorage</span><span>Permissions</span></div>
+            </div>
+            <div class="system-proof"><span class="repo-meta">MVP shipped</span><a href="https://github.com/Mellowambience/aethertwin-fairy-os" target="_blank" rel="noopener">Open repo</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section demos-section" id="demos" aria-labelledby="demos-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Play &amp; interactive demos</p>
+            <h2 id="demos-title">Systems you can touch, not just read about.</h2>
+          </div>
+          <p class="section-intro">No account required. Open a world, test a loop, or explore an interface.</p>
+        </div>
+
+        <div class="demo-grid">
+          <a class="demo-card pet" href="https://mellowambience.github.io/pet-grave/" target="_blank" rel="noopener">
+            <div class="demo-art" aria-hidden="true"><i></i><b></b><span></span></div>
+            <div class="demo-copy"><p>Playable browser game</p><h3>Pet Grave</h3><span>Cozy-haunted spirit pets, persistent bonds, day/night combat, procedural audio, and mobile controls.</span></div>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+          </a>
+
+          <a class="demo-card garden" href="https://mellowambience.github.io/aether-garden/" target="_blank" rel="noopener">
+            <div class="demo-art" aria-hidden="true"><i></i><b></b><span></span></div>
+            <div class="demo-copy"><p>3D living world</p><h3>Aether Garden</h3><span>Explore a glowing world, bond with spirits, and watch autonomous builders raise shrines.</span></div>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+          </a>
+
+          <a class="demo-card qi" href="https://mellowambience.github.io/qi-games/" target="_blank" rel="noopener">
+            <div class="demo-art" aria-hidden="true"><i></i><b></b><span></span></div>
+            <div class="demo-copy"><p>Agent simulation</p><h3>QI Games</h3><span>Observe a hybrid agent society whose decisions combine utility logic with quantum-inspired scoring.</span></div>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+          </a>
+
+          <a class="demo-card beat" href="https://mellowambience.github.io/boop-beatboard/" target="_blank" rel="noopener">
+            <div class="demo-art" aria-hidden="true"><i></i><b></b><span></span></div>
+            <div class="demo-copy"><p>Web audio instrument</p><h3>Boop Beat Board</h3><span>A 16-pad beat board and step sequencer with a Web Audio engine, mobile shell, and haptics bridge.</span></div>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M14 7l5 5-5 5" /></svg>
+          </a>
+        </div>
+      </section>
+
+      <section class="section atlas-section" id="atlas" aria-labelledby="atlas-title">
+        <div class="section-heading atlas-heading">
+          <div>
+            <p class="section-label">Project atlas</p>
+            <h2 id="atlas-title">The full repo constellation, organized for signal.</h2>
+          </div>
+          <p class="section-intro"><span id="atlas-count">Loading index…</span> The strongest work leads; prototypes and archives remain discoverable without taking over the page.</p>
+        </div>
+
+        <div class="atlas-controls" role="search">
+          <label class="search-field">
+            <span class="sr-only">Search projects</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="project-search" type="search" placeholder="Search projects, stacks, or themes" autocomplete="off" />
+          </label>
+          <div class="filter-group" aria-label="Filter projects by type">
+            <button type="button" class="atlas-filter active" data-atlas-filter="all" aria-pressed="true">All</button>
+            <button type="button" class="atlas-filter" data-atlas-filter="ai-agent" aria-pressed="false">AI</button>
+            <button type="button" class="atlas-filter" data-atlas-filter="game" aria-pressed="false">Games</button>
+            <button type="button" class="atlas-filter" data-atlas-filter="creative-tool" aria-pressed="false">Tools</button>
+            <button type="button" class="atlas-filter" data-atlas-filter="experiment" aria-pressed="false">Experiments</button>
+            <button type="button" class="atlas-filter" data-atlas-filter="archive" aria-pressed="false">Archive</button>
+          </div>
+        </div>
+
+        <div class="atlas-table-wrap">
+          <div class="atlas-table-head" aria-hidden="true"><span>Project</span><span>Type</span><span>Status</span><span>Stack</span><span>Open</span></div>
+          <div class="atlas-list" id="atlas-list" aria-live="polite"></div>
+        </div>
+        <div class="atlas-empty" id="atlas-empty" hidden>No projects match that search.</div>
+        <button class="button atlas-more" id="atlas-more" type="button" hidden>Show more projects</button>
+      </section>
+
+      <section class="section about-section" id="about" aria-labelledby="about-title">
+        <div class="about-grid">
+          <div>
+            <p class="section-label">About</p>
+            <h2 id="about-title">A systems thinker who refuses to separate engineering from imagination.</h2>
+            <p>I bring enterprise IT experience, software engineering training, full-stack product work, open-source contribution experience, and years of building across AI, web, mobile, security, and games.</p>
+            <p>My best work happens where architecture and interface meet: turning complicated agent behavior, local data boundaries, tool permissions, and persistent state into something a person can actually understand and use.</p>
+            <div class="about-actions">
+              <a class="button primary" href="resume.html">Read my résumé</a>
+              <a class="button" href="https://github.com/Mellowambience" target="_blank" rel="noopener">Explore GitHub</a>
             </div>
           </div>
-          <div class="metrics" aria-label="Workshop stats">
-            <div class="metric"><b>∞</b><span>Ideas routed through one workshop</span></div>
-            <div class="metric"><b>7+</b><span>Years building at the edge</span></div>
-            <div class="metric"><b>100%</b><span>Remote-first, async-friendly</span></div>
-            <div class="metric"><b>1</b><span>Unified creative build system</span></div>
+          <div class="principles-panel">
+            <h3>How I work</h3>
+            <ol>
+              <li><span>01</span><div><strong>Truth before theater</strong><p>I label prototypes honestly, show what is operational, and avoid inflating roadmap ideas into shipped capabilities.</p></div></li>
+              <li><span>02</span><div><strong>Agency by design</strong><p>Permission boundaries, local-first options, exportability, and human approval are product features, not legal footnotes.</p></div></li>
+              <li><span>03</span><div><strong>Receipts over claims</strong><p>Tests, merged pull requests, live demos, architecture diagrams, and reproducible setup instructions carry the story.</p></div></li>
+              <li><span>04</span><div><strong>Memorable, then usable</strong><p>A product can have soul without sacrificing clarity, accessibility, or operational discipline.</p></div></li>
+            </ol>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- PILLARS -->
-    <section class="section" id="pillars" aria-labelledby="pillars-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">02 // What I build</div>
-            <h2 id="pillars-title">Three things shipping ahead of the curve.</h2>
-          </div>
-          <p class="lead">Most people are still describing these in blog posts. I'm building them.</p>
+      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+        <div>
+          <p class="section-label">Open a channel</p>
+          <h2 id="contact-title">I’m looking for a remote team where ambitious AI products become real software.</h2>
+          <p>Best fit: full-stack AI, agentic product engineering, developer tooling, local-first systems, creative technology, or interactive product teams.</p>
         </div>
-        <div class="pillars">
-          <article class="pillar reveal">
-            <div class="p-glyph" aria-hidden="true">◈</div>
-            <h3>Private AI Browsers</h3>
-            <p class="p-kicker">A browser you actually control</p>
-            <p>AetherBrowser + AetherTab turn your browser into a private command center — AI that runs locally, data that stays yours. The browser becomes the operating system.</p>
-            <div class="tags"><span>Tauri</span><span>Rust</span><span>TypeScript</span><span>Local AI</span></div>
-            <a class="repo-link" href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener">Open repo</a>
-          </article>
-          <article class="pillar reveal">
-            <div class="p-glyph" aria-hidden="true">❋</div>
-            <h3>Living Game Worlds</h3>
-            <p class="p-kicker">Games with minds of their own</p>
-            <p>Aether Garden, Pet Grave, and QI Games — cozy worlds where AI characters live, bond, and build. Explore a world that's genuinely alive — and yours to keep.</p>
-            <div class="tags"><span>Three.js</span><span>WebGL</span><span>Local-first</span><span>Games</span></div>
-            <a class="repo-link" href="https://mellowambience.github.io/aether-garden/">Play the garden</a>
-          </article>
-          <article class="pillar reveal">
-            <div class="p-glyph" aria-hidden="true">✶</div>
-            <h3>Personal AI Assistants</h3>
-            <p class="p-kicker">AI that does real work</p>
-            <p>Fairy OS gives you a team of personal AI assistants — coding, worlds, security, creative — that run on your machine and only act with your permission.</p>
-            <div class="tags"><span>Agents</span><span>OS</span><span>Local-first</span><span>Consent</span></div>
-            <a class="repo-link" href="https://mellowambience.github.io/fairy-council/">Meet the team</a>
-          </article>
+        <div class="contact-actions">
+          <a class="button primary" href="mailto:natorretti11@gmail.com">Email Amara</a>
+          <a class="button" href="resume.html">View résumé</a>
+          <a class="button" href="https://github.com/Mellowambience" target="_blank" rel="noopener">GitHub</a>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- PLAYABLE NOW -->
-    <section class="section" id="play" aria-labelledby="play-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">03 // Play now</div>
-            <h2 id="play-title">Live demos you can walk into.</h2>
-          </div>
-          <p class="lead">No install required. Open a world, meet a fairy, watch agents think.</p>
-        </div>
-        <div class="filters reveal" role="toolbar" aria-label="Filter demos">
-          <button type="button" class="filter-btn active" data-tfilter="all" aria-pressed="true">All</button>
-          <button type="button" class="filter-btn" data-tfilter="game" aria-pressed="false">Games</button>
-          <button type="button" class="filter-btn" data-tfilter="agent" aria-pressed="false">AI / Agents</button>
-          <button type="button" class="filter-btn" data-tfilter="tool" aria-pressed="false">Tools</button>
-        </div>
-        <div class="play-grid">
-          <a class="play featured reveal" href="https://mellowambience.github.io/aether-garden/" data-tfilter="game">
-            <div class="p-tag">Featured · 3D world</div>
-            <h3>Aether Garden</h3>
-            <p>Bond with ghostly pet-spirits. Watch AI builders raise shrines in real time. WASD · mouse · E to bond.</p>
-            <span class="repo-link">Enter the garden</span>
-          </a>
-          <a class="play reveal" href="https://mellowambience.github.io/petgrave/" data-tfilter="game">
-            <div class="p-tag">Cozy · Pets</div>
-            <h3>Pet Grave</h3>
-            <p>Gentle, slightly-spooky care for spirit companions — memory, affection, cozy melancholy.</p>
-            <span class="repo-link">Play Pet Grave</span>
-          </a>
-          <a class="play reveal" href="https://mellowambience.github.io/qi-games/" data-tfilter="agent">
-            <div class="p-tag">Agents · Hybrid AI</div>
-            <h3>QI Games</h3>
-            <p>Watch a hybrid agent society think — classical utility fused with quantum-inspired scores.</p>
-            <span class="repo-link">Watch agents</span>
-          </a>
-          <a class="play reveal" href="https://mellowambience.github.io/qi-games/play.html" data-tfilter="agent">
-            <div class="p-tag">Playable · Board</div>
-            <h3>QI Play</h3>
-            <p>Sit at the agent board and steer a hybrid society's decisions in real time.</p>
-            <span class="repo-link">Play the board</span>
-          </a>
-          <a class="play reveal" href="https://mellowambience.github.io/fairy-council/" data-tfilter="agent">
-            <div class="p-tag">Agent OS</div>
-            <h3>Fairy Council</h3>
-            <p>Four lane-fairies. One summon paste each. Local-first personal AI without the cloud lock-in.</p>
-            <span class="repo-link">Meet the council</span>
-          </a>
-          <a class="play reveal" href="https://mellowambience.github.io/aethertab/" data-tfilter="tool">
-            <div class="p-tag">Browser · Tools</div>
-            <h3>AetherTab</h3>
-            <p>A new-tab command surface with encrypted AI sidebar energy — productivity from the void.</p>
-            <span class="repo-link">Open landing</span>
-          </a>
-          <a class="play reveal" href="https://mellowambience.github.io/quantum-bloom/" data-tfilter="agent">
-            <div class="p-tag">Quantum · Sim</div>
-            <h3>Quantum Bloom</h3>
-            <p>Quantum-sentient agents whose goals live in superposition until you observe them — a real Born-rule collapse.</p>
-            <span class="repo-link">Watch them think</span>
-          </a>
-          <a class="play reveal" href="https://mellowambience.github.io/divinity-static/" data-tfilter="tool">
-            <div class="p-tag">Ops demo</div>
-            <h3>Divinity</h3>
-            <p>Static ops dashboard experiment — mythic interface language for real workflows.</p>
-            <span class="repo-link">Open dashboard</span>
-          </a>
-        </div>
-      </div>
-    </section>
+      <footer class="footer">
+        <span>© <span id="year">2026</span> Amara Torretti</span>
+        <span>Built local-first in spirit · remote-first in practice</span>
+      </footer>
+    </main>
+  </div>
 
-    <!-- FLEET -->
-    <section class="section" id="fleet" aria-labelledby="fleet-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">04 // Projects</div>
-            <h2 id="fleet-title">Things I've built.</h2>
-          </div>
-          <p class="lead">Public launches and experiments. Live counts stream from GitHub when available.</p>
-        </div>
-        <div class="filters reveal" role="toolbar" aria-label="Filter projects">
-          <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
-          <button type="button" class="filter-btn" data-filter="ai" aria-pressed="false">AI</button>
-          <button type="button" class="filter-btn" data-filter="games" aria-pressed="false">Games</button>
-          <button type="button" class="filter-btn" data-filter="tools" aria-pressed="false">Tools</button>
-          <button type="button" class="filter-btn" data-filter="web" aria-pressed="false">Web</button>
-        </div>
-        <div class="grid" id="fleet-grid">
-          <article class="card big reveal" data-repo="aetherbrowser" data-tags="ai tools">
-            <div class="top"><span class="state">Flagship</span><span class="badge">Browser / AI</span></div>
-            <div class="glyph" aria-hidden="true">◈</div>
-            <h3>AetherBrowser</h3>
-            <p>A private desktop browser: AI that runs locally, privacy-aware, built as a command center instead of a passive viewer.</p>
-            <div class="tags"><span>Tauri</span><span>Rust</span><span>TypeScript</span><span>Local AI</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://github.com/Mellowambience/aetherbrowser" target="_blank" rel="noopener">Open repo</a>
-          </article>
-          <article class="card reveal" data-repo="aetherhaven-hub" data-tags="web tools">
-            <div class="top"><span class="state">Hub</span><span class="badge">Home base</span></div>
-            <div class="glyph" aria-hidden="true">⟁</div>
-            <h3>Aetherhaven Hub</h3>
-            <p>The meta-layer: identity, projects, docs, links, and the story of the whole ecosystem in one place.</p>
-            <div class="tags"><span>Hub</span><span>Docs</span><span>Launchpad</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://github.com/Mellowambience/aetherhaven-hub" target="_blank" rel="noopener">Open repo</a>
-          </article>
-          <article class="card reveal" data-repo="webspace" data-tags="web">
-            <div class="top"><span class="state">Web</span><span class="badge">Site system</span></div>
-            <div class="glyph" aria-hidden="true">▣</div>
-            <h3>Webspace</h3>
-            <p>Web-facing experiments: landing pages, interface concepts, and public creative tech.</p>
-            <div class="tags"><span>Web</span><span>Frontend</span><span>Interface</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://github.com/Mellowambience/webspace" target="_blank" rel="noopener">Open repo</a>
-          </article>
-          <article class="card reveal" data-repo="the-goldmaze" data-tags="games">
-            <div class="top"><span class="state">World seed</span><span class="badge">Game / myth</span></div>
-            <div class="glyph" aria-hidden="true">◎</div>
-            <h3>The Goldmaze</h3>
-            <p>A mythic game-world seed: maze logic, gold-light mystery, wandering a symbolic machine.</p>
-            <div class="tags"><span>Game</span><span>World</span><span>Myth</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://github.com/Mellowambience/the-goldmaze" target="_blank" rel="noopener">Open repo</a>
-          </article>
-          <article class="card reveal" data-repo="pico16-plutomars" data-tags="games tools">
-            <div class="top"><span class="state">Retro lab</span><span class="badge">Fantasy console</span></div>
-            <div class="glyph" aria-hidden="true">✦</div>
-            <h3>Pico16 PlutoMars</h3>
-            <p>A tiny pixel-engine for fast, cartridge-feeling playful game prototypes.</p>
-            <div class="tags"><span>Pixel</span><span>Prototype</span><span>Game</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://github.com/Mellowambience/pico16-plutomars" target="_blank" rel="noopener">Open repo</a>
-          </article>
-          <article class="card reveal" data-repo="openclaw" data-tags="ai tools">
-            <div class="top"><span class="state">Tooling</span><span class="badge">Agentic dev</span></div>
-            <div class="glyph" aria-hidden="true">⬡</div>
-            <h3>Clawd / Openclaw</h3>
-            <p>Developer tools and agent-workflow experiments for AI, local tools, and project context.</p>
-            <div class="tags"><span>Agents</span><span>CLI</span><span>Workflow</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://github.com/Mellowambience/openclaw" target="_blank" rel="noopener">Open module</a>
-          </article>
-          <article class="card reveal" data-repo="fairy-council" data-tags="ai tools">
-            <div class="top"><span class="state">Team</span><span class="badge">Agent OS</span></div>
-            <div class="glyph" aria-hidden="true">✶</div>
-            <h3>Fairy OS / Council</h3>
-            <p>A team of personal AI assistants — coding, worlds, security, creative — each its own stream.</p>
-            <div class="tags"><span>Agents</span><span>OS</span><span>Local-first</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://mellowambience.github.io/fairy-council/">Meet the team</a>
-          </article>
-          <article class="card reveal" data-repo="pet-grave" data-tags="games">
-            <div class="top"><span class="state">Game</span><span class="badge">Pet world</span></div>
-            <div class="glyph" aria-hidden="true">♡</div>
-            <h3>Pet Grave</h3>
-            <p>A gentle, slightly-spooky game about caring for spirit pets — memory, affection, and cozy melancholy.</p>
-            <div class="tags"><span>Pets</span><span>Cozy</span><span>Game</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://mellowambience.github.io/petgrave/">Play it</a>
-          </article>
-          <article class="card reveal" data-repo="aether-garden" data-tags="games ai">
-            <div class="top"><span class="state">Live demo</span><span class="badge">Living world</span></div>
-            <div class="glyph" aria-hidden="true">❋</div>
-            <h3>Aether Garden</h3>
-            <p>A playable 3D world where you befriend ghostly pet-spirits and watch AI builders construct shrines in real time.</p>
-            <div class="tags"><span>Three.js</span><span>Game</span><span>WebGL</span><span>Local-first</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://mellowambience.github.io/aether-garden/">Play it</a>
-          </article>
-          <article class="card reveal" data-tags="games ai">
-            <div class="top"><span class="state">Lab</span><span class="badge">Hybrid AI</span></div>
-            <div class="glyph" aria-hidden="true">⚛</div>
-            <h3>QI Games</h3>
-            <p>Hybrid agent society demo — classical utility blended with quantum-inspired scoring. Watch them think live.</p>
-            <div class="tags"><span>Agents</span><span>Quantum</span><span>Simulation</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://mellowambience.github.io/qi-games/">Watch agents</a>
-          </article>
-          <article class="card reveal" data-repo="quantum-bloom" data-tags="games ai">
-            <div class="top"><span class="state">Live demo</span><span class="badge">Quantum sim</span></div>
-            <div class="glyph" aria-hidden="true">🜂</div>
-            <h3>Quantum Intelligence Bloom</h3>
-            <p>Quantum-sentient agents whose goals live in superposition until you observe them — a real Born-rule collapse, no fake randomness.</p>
-            <div class="tags"><span>Quantum</span><span>Agents</span><span>Local-first</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://mellowambience.github.io/quantum-bloom/">Play it</a>
-          </article>
-          <article class="card reveal" data-repo="steward-companion" data-tags="ai tools">
-            <div class="top"><span class="state">For hire</span><span class="badge">Steward Compatible</span></div>
-            <div class="glyph" aria-hidden="true">→</div>
-            <h3>Gated AI Companion Setup</h3>
-            <p>Get Grok-on-X with human-approved posts (no silent automation). Install + OAuth walkthrough. Pay Cash App $MarsEatPlanet.</p>
-            <div class="tags"><span>Setup</span><span>Steward</span><span>$75–$150</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://mellowambience.github.io/steward-companion/">Hire / offer →</a>
-          </article>
-          <article class="card reveal" data-tags="web ai" data-fleet>
-            <div class="top"><span class="state">In progress</span><span class="badge">Experimental</span></div>
-            <div class="glyph" aria-hidden="true">☽</div>
-            <h3>More on the way</h3>
-            <p>Internal systems for identity, security, and mythic interfaces — surfacing when they're ready.</p>
-            <div class="tags"><span>Private</span><span>Security</span><span>Experiments</span></div>
-            <p class="repo-meta"></p>
-            <a class="repo-link" href="https://github.com/Mellowambience" target="_blank" rel="noopener">See all repos</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROJECT VAULT -->
-    <section class="section" id="vault" aria-labelledby="vault-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">05 // The Vault</div>
-            <h2 id="vault-title">The whole ecosystem, in one index.</h2>
-          </div>
-          <p class="lead">Every public build, pulled live from the curated <code>projects.json</code> — <span id="vault-count">…</span>.</p>
-        </div>
-        <div class="grid" id="vault-grid"></div>
-      </div>
-    </section>
-
-    <!-- DECKS -->
-    <section class="section" id="decks" aria-labelledby="decks-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">06 // Experiments</div>
-            <h2 id="decks-title">Smaller builds you can walk into.</h2>
-          </div>
-          <p class="lead">Spin-offs and demos — open any of them to explore.</p>
-        </div>
-        <div class="decks">
-          <a class="deck reveal" href="https://mellowambience.github.io/aethertab/"><span class="d-glyph" aria-hidden="true">▤</span><b>AetherTab</b><span>Tab manager &amp; productivity</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/aetherrose/"><span class="d-glyph" aria-hidden="true">✿</span><b>AetherRose</b><span>Mythic brand world</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/amara-codex/"><span class="d-glyph" aria-hidden="true">❖</span><b>Amara Codex</b><span>Story &amp; world bible</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/ares-veil-companion/"><span class="d-glyph" aria-hidden="true">⚔</span><b>Ares Veil</b><span>Ritual-world experiment</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/consulting/"><span class="d-glyph" aria-hidden="true">⌘</span><b>Consulting</b><span>Services page</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/divinity-static/"><span class="d-glyph" aria-hidden="true">✦</span><b>Divinity</b><span>Ops dashboard demo</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/natalie/"><span class="d-glyph" aria-hidden="true">✎</span><b>Natalie Cohen</b><span>OTR/L portfolio</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/portfolio/"><span class="d-glyph" aria-hidden="true">◳</span><b>Web Portfolio</b><span>Design portfolio</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/demo.html"><span class="d-glyph" aria-hidden="true">◈</span><b>Dockmaster</b><span>Agentic site guide demo</span></a>
-          <a class="deck reveal" href="https://mellowambience.github.io/card.html"><span class="d-glyph" aria-hidden="true">▣</span><b>Calling Card</b><span>Compact contact surface</span></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="section" id="lanes" aria-labelledby="lanes-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">07 // Services</div>
-            <h2 id="lanes-title">What I can help with.</h2>
-          </div>
-          <p class="lead">Different shapes, one engine: ambitious systems, interfaces with feeling, fast prototypes, worlds that feel alive.</p>
-        </div>
-        <div class="lanes">
-          <div class="lane reveal"><div class="lane-n">01</div><h3>AI Systems</h3><p>Personal AI assistants, local and cloud setups, memory that persists, and tools that actually use other tools for you.</p></div>
-          <div class="lane reveal"><div class="lane-n">02</div><h3>Living Worlds</h3><p>Games, cozy fantasy settings, social spaces, pet worlds, RPG loops, and engines for building them.</p></div>
-          <div class="lane reveal"><div class="lane-n">03</div><h3>Browser / Security</h3><p>Command-center new-tab pages, privacy overlays, tracker awareness, and tools for safer browsing.</p></div>
-          <div class="lane reveal"><div class="lane-n">04</div><h3>Creative Tech</h3><p>Landing pages, brand systems, interactive art, content engines, and unusual product experiences.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- NOW -->
-    <section class="section" id="now" aria-labelledby="now-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">08 // Now</div>
-            <h2 id="now-title">What's active in the workshop.</h2>
-          </div>
-          <p class="lead">A short pulse of where attention is — so visitors aren't guessing.</p>
-        </div>
-        <div class="now-grid">
-          <article class="now-card reveal">
-            <h3>Building</h3>
-            <p>Living-world demos, private browser surfaces, and Fairy OS lanes that stay local-first and consent-aware.</p>
-            <div class="tags"><span>Aether Garden</span><span>Fairy Council</span><span>AetherBrowser</span></div>
-          </article>
-          <article class="now-card reveal">
-            <h3>Recent signals</h3>
-            <ul class="now-list">
-              <li><time>Rev 7</time><div><b>Hub upgrade</b><span>Playable demos front-and-center, filters, deeper chrome across the fleet.</span></div></li>
-              <li><time>Live</time><div><b>Garden + Pet Grave</b><span>Playable demos on this domain — open and walk in.</span></div></li>
-              <li><time>Open</time><div><b>Built in public</b><span>Notes and screenshots land on @GoddessAther first.</span></div></li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- UPDATES -->
-    <section class="section" id="signal" aria-labelledby="signal-title">
-      <div class="wrap">
-        <div class="signal-box reveal">
-          <div class="tag">09 // Updates</div>
-          <h2 id="signal-title">Built in the open.</h2>
-          <p>New prototypes, game-worlds, and AI builds ship here first. This page is the live channel — follow along as private AI and living worlds take shape in public.</p>
-          <div class="actions">
-            <a class="btn primary" href="https://x.com/GoddessAther" target="_blank" rel="me noopener">𝕏 @GoddessAther</a>
-            <a class="btn" href="https://github.com/Mellowambience" target="_blank" rel="noopener">GitHub</a>
-            <a class="btn" href="https://cash.app/$MarsEatPlanet" target="_blank" rel="noopener">♡ Support the work</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section" id="portal" aria-labelledby="portal-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <div>
-            <div class="tag">10 // Contact</div>
-            <h2 id="portal-title">Open a channel.</h2>
-          </div>
-          <p class="lead">Hiring, collaboration, patronage, or "this is weird and I want in" — all routes dock here.</p>
-        </div>
-        <div class="contact">
-          <a class="contact-card reveal" href="mailto:natorretti11@gmail.com"><h3>✉ Email directly</h3><p>natorretti11@gmail.com</p></a>
-          <a class="contact-card reveal" href="https://github.com/Mellowambience" target="_blank" rel="me noopener"><h3>◈ GitHub</h3><p>Repos, prototypes, tools, launches.</p></a>
-          <a class="contact-card reveal" href="https://x.com/GoddessAther" target="_blank" rel="me noopener"><h3>𝕏 Follow</h3><p>Build notes, experiments, screenshots.</p></a>
-          <a class="contact-card reveal" href="https://cash.app/$MarsEatPlanet" target="_blank" rel="me noopener"><h3>♡ Support</h3><p>Fuel the worlds and next prototype.</p></a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="wrap">
-      <span>⟁ AMARA'S BUILD LOG — Rev 7.0 / <span id="year">2026</span></span>
-      <div class="footer-links">
-        <a href="#play">Play</a>
-        <a href="#fleet">Projects</a>
-        <a href="https://github.com/Mellowambience" target="_blank" rel="me noopener">GitHub</a>
-        <a href="https://x.com/GoddessAther" target="_blank" rel="me noopener">X</a>
-        <a href="mailto:natorretti11@gmail.com">Email</a>
-      </div>
-      <span class="small">Built in the open // remote-first // local-first</span>
-    </div>
-  </footer>
-
-  <!-- ═══ MIST — SOUL OF THE MOTHERSHIP ═══ -->
-  <button type="button" class="mist-orb" id="mist-orb" aria-label="Summon MIST" aria-expanded="false">
-    ⟁<span class="mist-tip">MIST is awake</span>
+  <button class="mist-launch" id="mist-launch" type="button" aria-expanded="false" aria-controls="mist-panel">
+    <span class="mist-launch-orb" aria-hidden="true">M</span>
+    <span>Ask MIST about my work</span>
   </button>
-  <section class="mist-panel" id="mist-panel" aria-label="MIST Oracle" aria-hidden="true">
-    <header class="mist-head">
-      <span class="mist-glyph" aria-hidden="true">⟁</span>
-      <span class="who"><b>MIST</b><span>soul of the mothership</span></span>
-      <span class="mist-status" id="mist-status">SIGNAL</span>
-      <button type="button" class="mist-voice" id="mist-voice" aria-label="Toggle MIST voice" aria-pressed="true">🔊 voice</button>
-      <button type="button" class="mist-close" id="mist-close" aria-label="Close MIST">×</button>
+
+  <section class="mist-panel" id="mist-panel" aria-hidden="true" aria-label="MIST portfolio guide">
+    <header>
+      <div><span class="mist-avatar" aria-hidden="true">M</span><span><strong>MIST</strong><small>Portfolio guide</small></span></div>
+      <button type="button" id="mist-close" aria-label="Close MIST panel">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+      </button>
     </header>
     <div class="mist-log" id="mist-log" aria-live="polite"></div>
-    <div class="mist-chips" id="mist-chips">
-      <span class="mist-chip">What should I play?</span>
-      <span class="mist-chip">Who is Amara?</span>
-      <span class="mist-chip">Show me the agents</span>
-      <span class="mist-chip">What even is MIST?</span>
+    <div class="mist-prompts" id="mist-prompts">
+      <button type="button">What is Amara strongest at?</button>
+      <button type="button">Show me the best AI project</button>
+      <button type="button">Which live demo should I try?</button>
     </div>
-    <form class="mist-form" id="mist-form">
-      <input id="mist-text" placeholder="Speak to MIST…" autocomplete="off" aria-label="Message MIST" />
-      <button type="submit">Ask</button>
+    <form id="mist-form">
+      <input id="mist-input" type="text" placeholder="Ask about a project…" autocomplete="off" aria-label="Ask MIST about the portfolio" />
+      <button type="submit" aria-label="Send message">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-8-8 18-2-7-8-3Z"/><path d="m11 14 4-4"/></svg>
+      </button>
     </form>
-    <div class="mist-foot" id="mist-foot">signal mode · connect an oracle to wake MIST</div>
   </section>
 
-  <button type="button" class="to-top" id="to-top" aria-label="Back to top">↑</button>
+  <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6" /></svg>
+  </button>
+
   <script src="app.js"></script>
 </body>
 </html>
