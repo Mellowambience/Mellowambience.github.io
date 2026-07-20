@@ -31,7 +31,11 @@ jobs:
         run: |
           set -euo pipefail
           for file in index.html styles.css app.js resume.html; do
-            base64 --decode ".rev8/${file}.gz.b64" | gzip --decompress > "$file"
+            echo "Decoding $file"
+            wc -c ".rev8/${file}.gz.b64"
+            base64 --decode ".rev8/${file}.gz.b64" > "/tmp/${file}.gz"
+            gzip --test "/tmp/${file}.gz"
+            gzip --decompress --stdout "/tmp/${file}.gz" > "$file"
           done
           rm -rf .rev8
           rm -f .github/workflows/apply-portfolio-rev8.yml
