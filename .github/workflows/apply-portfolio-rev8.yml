@@ -1,0 +1,38 @@
+name: Apply portfolio Rev 8 payload
+
+on:
+  push:
+    branches:
+      - portfolio-rev8-hiring-refresh
+    paths:
+      - .rev8/trigger
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: portfolio-rev8-hiring-refresh
+          fetch-depth: 0
+      - name: Decode tested portfolio files
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in index.html styles.css app.js resume.html; do
+            base64 --decode ".rev8/${file}.gz.b64" | gzip --decompress > "$file"
+          done
+          rm -rf .rev8
+          rm -f .github/workflows/apply-portfolio-rev8.yml
+      - name: Commit generated files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Portfolio Rev 8 Builder"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html styles.css app.js resume.html .github/workflows/apply-portfolio-rev8.yml .rev8 || true
+          git commit -m "feat: launch portfolio Rev 8 hiring refresh"
+          git push origin HEAD:portfolio-rev8-hiring-refresh
