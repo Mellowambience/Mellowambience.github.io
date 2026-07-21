@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AETHER Books — Queer & Polyamorous Adult Fiction</title>
+<style>
+  :root{
+    --ground:#17121f; --mid:#61576d; --gold:#d4af37; --violet:#9b3e91;
+    --paper:#f4f0f7; --ink:#2a2330;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ground);color:var(--paper);
+    font-family:"Inter",system-ui,sans-serif;line-height:1.6;}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 22px;}
+  header{border-bottom:2px solid var(--violet);padding-bottom:16px;margin-bottom:28px;}
+  h1{font-size:2rem;margin:0;letter-spacing:-.02em;}
+  .sub{color:var(--gold);font-weight:600;}
+  .note{color:var(--mid);font-size:.85rem;margin-top:8px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  .book{border:1px solid var(--mid);border-radius:12px;padding:18px;display:flex;flex-direction:column;}
+  .book h3{margin:0 0 4px;color:var(--gold);}
+  .book .meta{color:var(--mid);font-size:.8rem;margin-bottom:8px;}
+  .book p{font-size:.9rem;margin:0 0 14px;}
+  .sample{background:#1f1829;border:1px solid var(--mid);border-radius:8px;
+    padding:12px 14px;font-size:.85rem;color:#cfc7d8;margin-bottom:14px;max-height:180px;overflow:auto;}
+  .btn{display:inline-block;background:var(--violet);color:#fff;text-decoration:none;
+    padding:9px 14px;border-radius:8px;font-weight:600;font-size:.85rem;text-align:center;}
+  .shopify-slot{border:1px dashed var(--gold);border-radius:8px;padding:10px;
+    margin-top:auto;font-size:.78rem;color:var(--mid);text-align:center;}
+  .foot{margin-top:40px;border-top:1px solid var(--mid);padding-top:14px;color:var(--mid);font-size:.8rem;}
+  a{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>AETHER Books</h1>
+    <p class="sub">Queer &amp; polyamorous adult fiction · written locally, guarded clean</p>
+    <p class="note">All books pass a hard content policy (no minors, no real-person exploitation).
+      Author contact: natorretti11@gmail.com</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- BOOK 1 -->
+    <div class="book">
+      <h3>The Glass Conservatory</h3>
+      <div class="meta">Erotica · 14 chapters · ~10k words</div>
+      <p>A queer polyamorous triad — a botanist, a traveler, and a quiet gardener —
+        share one unforgettable night in a conservatory of impossible plants.</p>
+      <details class="sample"><summary>Read sample (Ch.1)</summary>
+        <div id="sample-glass"></div></details>
+      <!-- SHOPIFY WRAPPER: paste your Shopify Buy Button embed snippet for this
+           product here. It looks like:
+           <div id="product-component-XXXXXXXXXXX"></div>
+           <script ... shopifycdn ...></script>
+           Until then, the placeholder button links to YOUR Shopify product URL. -->
+      <div class="shopify-slot">
+        <a class="btn" href="https://YOUR-STORE.myshopify.com/products/the-glass-conservatory">Buy on Shopify</a>
+        <br/>(replace YOUR-STORE + product slug)
+      </div>
+    </div>
+
+    <!-- BOOK 2 -->
+    <div class="book">
+      <h3>Signal and Static</h3>
+      <div class="meta">Romance · 16 chapters · ~10k words</div>
+      <p>Three radio operators on opposite coasts fall into a slow-burn
+        polyamorous romance across late-night transmissions.</p>
+      <details class="sample"><summary>Read sample (Ch.1)</summary>
+        <div id="sample-signal"></div></details>
+      <div class="shopify-slot">
+        <a class="btn" href="https://YOUR-STORE.myshopify.com/products/signal-and-static">Buy on Shopify</a>
+        <br/>(replace YOUR-STORE + product slug)
+      </div>
+    </div>
+
+    <!-- BOOK 3 -->
+    <div class="book">
+      <h3>The Burrow Court</h3>
+      <div class="meta">Furry-adult · 14 chapters · ~9k words</div>
+      <p>An adult anthro-fox diplomat negotiates a peace treaty and a
+        polyamorous bond between three woodland houses.</p>
+      <details class="sample"><summary>Read sample (Ch.1)</summary>
+        <div id="sample-burrow"></div></details>
+      <div class="shopify-slot">
+        <a class="btn" href="https://YOUR-STORE.myshopify.com/products/the-burrow-court">Buy on Shopify</a>
+        <br/>(replace YOUR-STORE + product slug)
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    Samples are free reads. Full EPUBs sold via Shopify. &nbsp;·&nbsp;
+    Contact: natorretti11@gmail.com &nbsp;·&nbsp; Built by AETHER.
+  </div>
+</div>
+
+<!-- Sample text injected from the generated manuscripts (first chapter). -->
+<script>
+  // Fetched from the batch_books .md files hosted alongside this page.
+  const samples = {
+    "sample-glass": "batch_books/The_Glass_Conservatory.md",
+    "sample-signal": "batch_books/Signal_and_Static.md",
+    "sample-burrow": "batch_books/The_Burrow_Court.md"
+  };
+  for (const [id, url] of Object.entries(samples)) {
+    fetch(url).then(r => r.text()).then(t => {
+      const ch = t.split("## Chapter 2")[0].replace(/^#.*\n/, "").trim();
+      document.getElementById(id).textContent = ch.slice(0, 1200) + "…";
+    }).catch(() => {});
+  }
+</script>
+</body>
+</html>
