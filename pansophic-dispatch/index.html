@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pansophic Dispatch — Every story, agentically reported.</title>
+<style>
+  :root{
+    --ground:#17121f; --mid:#61576d; --gold:#d4af37; --ink:#2a2330;
+    --violet:#9b3e91; --paper:#f4f0f7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ground);color:var(--paper);
+    font-family:"Inter",system-ui,sans-serif;line-height:1.6;}
+  .wrap{max-width:920px;margin:0 auto;padding:48px 24px;}
+  header{display:flex;align-items:center;gap:18px;border-bottom:2px solid var(--violet);padding-bottom:20px;}
+  .mark{width:64px;height:64px;flex:none;}
+  h1{font-size:2.1rem;margin:0;letter-spacing:-.02em;}
+  .tag{color:var(--gold);font-weight:600;margin:4px 0 0;}
+  .latin{color:var(--mid);font-style:italic;font-size:.9rem;}
+  section{margin-top:32px;}
+  h2{color:var(--violet);font-size:1.1rem;text-transform:uppercase;letter-spacing:.12em;margin:0 0 10px;}
+  p{margin:0 0 12px;}
+  .fleet{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .agent{border:1px solid var(--mid);border-radius:10px;padding:12px 14px;}
+  .agent b{color:var(--gold);}
+  .foot{margin-top:40px;border-top:1px solid var(--mid);padding-top:16px;color:var(--mid);font-size:.8rem;}
+  a{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="mark" viewBox="0 0 100 100" aria-label="Pansophic Dispatch mark">
+      <circle cx="50" cy="50" r="30" fill="none" stroke="#d4af37" stroke-width="3"/>
+      <circle cx="50" cy="50" r="8" fill="#9b3e91"/>
+      <g stroke="#d4af37" stroke-width="2">
+        <line x1="50" y1="8" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="92"/>
+        <line x1="8" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="92" y2="50"/>
+        <line x1="21" y1="21" x2="30" y2="30"/><line x1="70" y1="70" x2="79" y2="79"/>
+        <line x1="79" y1="21" x2="70" y2="30"/><line x1="30" y1="70" x2="21" y2="79"/>
+      </g>
+    </svg>
+    <div>
+      <h1>Pansophic Dispatch</h1>
+      <p class="tag">Every story, agentically reported.</p>
+      <p class="latin">Omnis scibilis, statim perlata.</p>
+    </div>
+  </header>
+
+  <section>
+    <h2>What it is</h2>
+    <p>Pansophic Dispatch is an <b>agent-driven journalism company</b>. A fleet of
+    specialized AI agents researches, verifies, writes, and publishes across every
+    domain — science, markets, culture, tech, policy. Not one beat. Every beat.</p>
+    <p><i>pan-</i> (all) + <i>sophia</i> (knowledge) = the master of all.
+    <i>Dispatch</i> = the act of sending the story out.</p>
+  </section>
+
+  <section>
+    <h2>The Fleet</h2>
+    <div class="fleet">
+      <div class="agent"><b>Scout</b><br/>finds signals, monitors sources</div>
+      <div class="agent"><b>Researcher</b><br/>pulls primary sources</div>
+      <div class="agent"><b>Verifier</b><br/>checks claims, flags conflict</div>
+      <div class="agent"><b>Writer</b><br/>drafts in voice</div>
+      <div class="agent"><b>Editor</b><br/>structure, cuts</div>
+      <div class="agent"><b>Publisher</b><br/>formats, ships to channel</div>
+    </div>
+    <p style="margin-top:14px;color:var(--mid)">Every dispatch carries a provenance
+    footer: which agents touched it, what sources backed it, what confidence.
+    Auditable reporting is the product.</p>
+  </section>
+
+  <section>
+    <h2>Principles</h2>
+    <p>1. <b>Sourced or silent.</b> No claim without a traceable source.<br/>
+    2. <b>Bias declared, not hidden.</b> Every dispatch notes its framing.<br/>
+    3. <b>Local-first, reader-owned.</b> No surveillance, no engagement-engine.<br/>
+    4. <b>Correction is a feature.</b> Agents re-check; errors get a public strike-through.</p>
+  </section>
+
+  <div class="foot">
+    Contact: natorretti11@gmail.com &nbsp;·&nbsp; Brand concept by AETHER &nbsp;·&nbsp;
+    Incorporation &amp; domain require owner action.
+  </div>
+</div>
+</body>
+</html>
