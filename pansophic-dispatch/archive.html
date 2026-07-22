@@ -196,7 +196,7 @@
       <div class="art">ElectromaMV · click the orb to conjure the rain</div>
     </div>
   </div>
-  <iframe id="scoreFrame" src="" title="Telegraph Hill — High in the Rain" allow="autoplay; encrypted-media" loading="lazy"></iframe>
+  <iframe id="scoreFrame" src="https://www.youtube.com/embed/Hqzu636ERGY?si=i6is6M6x-pRZdSeS" title="Telegraph Hill — High in the Rain" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </div>
 
 <script>
@@ -326,15 +326,15 @@
   // The Library's Score — click the orb to conjure the rain (paused by default)
   const orb=document.getElementById("orb"), score=document.getElementById("score"),
         frame=document.getElementById("scoreFrame");
-  const SRC="https://www.youtube.com/embed/Hqzu636ERGY?autoplay=1&enablejsapi=1&rel=0";
+  const BASE="https://www.youtube.com/embed/Hqzu636ERGY?si=i6is6M6x-pRZdSeS";
+  // start paused (no autoplay) so no blocked-autoplay flash
+  frame.src=BASE;
   let on=false;
-  orb.addEventListener("click",()=>{
-    on=!on;
-    if(on){ if(!frame.dataset.loaded){ frame.src=SRC; frame.dataset.loaded="1"; }
-             score.classList.add("playing"); orb.textContent="❚❚"; }
-    else { score.classList.remove("playing"); orb.textContent="▶";
-      try{ frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":[]}','*'); }catch(e){} }
-  });
+  function play(){ frame.src=BASE+"&autoplay=1"; score.classList.add("playing"); orb.textContent="❚❚"; on=true; }
+  function pause(){ frame.src=BASE; score.classList.remove("playing"); orb.textContent="▶"; on=false; }
+  orb.addEventListener("click",()=>{ on ? pause() : play(); });
+  // clicking the (expanded) video itself also pauses
+  frame.addEventListener("click",()=>{ if(on) pause(); });
 </script>
 </body>
 </html>
