@@ -333,7 +333,7 @@
     if(on){ if(!frame.dataset.loaded){ frame.src=SRC; frame.dataset.loaded="1"; }
              score.classList.add("playing"); orb.textContent="❚❚"; }
     else { score.classList.remove("playing"); orb.textContent="▶";
-      try{ frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*'); }catch(e){} }
+      try{ frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":[]}','*'); }catch(e){} }
   });
 </script>
 </body>
