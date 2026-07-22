@@ -109,6 +109,26 @@
   footer a{color:var(--gold);text-decoration:none;}
   .fade{opacity:.18;filter:blur(.6px) grayscale(.5);}
   .fade:hover{opacity:.18;}
+
+  /* The Library's Score — ambient player */
+  .score{position:fixed;right:18px;bottom:18px;z-index:40;width:252px;
+    background:linear-gradient(155deg,#241733,#120b1c);border:1px solid rgba(212,175,55,.3);
+    border-radius:14px;padding:13px 15px;box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 26px rgba(155,62,145,.22);
+    transition:.3s;}
+  .score:hover{border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,.6),0 0 34px rgba(212,175,55,.3);}
+  .score .row{display:flex;align-items:center;gap:12px;width:100%;}
+  .score .orb{width:38px;height:38px;border-radius:50%;flex:none;cursor:pointer;
+    background:radial-gradient(circle at 35% 30%,#fbe6b0,#d4af37 55%,#9b3e91);
+    box-shadow:0 0 14px rgba(212,175,55,.6);display:flex;align-items:center;justify-content:center;
+    font-size:1.15rem;transition:.25s;user-select:none;}
+  .score .orb:hover{transform:scale(1.08);box-shadow:0 0 22px rgba(212,175,55,.85);}
+  .score .meta{line-height:1.22;}
+  .score .lbl{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+  .score .trk{font-size:.84rem;color:var(--ink);}
+  .score .art{font-size:.68rem;color:var(--muted);font-style:italic;}
+  .score iframe{width:100%;height:0;border:0;border-radius:8px;transition:height .3s;margin-top:0;}
+  .score.playing{width:300px;}
+  .score.playing iframe{height:169px;margin-top:10px;}
 </style>
 </head>
 <body>
@@ -165,6 +185,19 @@
 
 <button class="close" id="closeBtn" aria-label="Close">✕</button>
 <div class="reader" id="reader"><div class="scroll" id="scroll"></div></div>
+
+<!-- The Library's Score -->
+<div class="score" id="score" title="The library's ambient score">
+  <div class="row">
+    <div class="orb" id="orb">▶</div>
+    <div class="meta">
+      <div class="lbl">The Library's Score</div>
+      <div class="trk">Telegraph Hill — High in the Rain</div>
+      <div class="art">ElectromaMV · click the orb to conjure the rain</div>
+    </div>
+  </div>
+  <iframe id="scoreFrame" src="" title="Telegraph Hill — High in the Rain" allow="autoplay; encrypted-media" loading="lazy"></iframe>
+</div>
 
 <script>
   // candle dust
@@ -288,6 +321,18 @@
     if(!q) verdict.textContent="the lens is clear";
     else if(hits===0) verdict.textContent="no trace in the archive";
     else verdict.textContent=`the lens reveals ${hits} of ${total}`;
+  });
+
+  // The Library's Score — click the orb to conjure the rain (paused by default)
+  const orb=document.getElementById("orb"), score=document.getElementById("score"),
+        frame=document.getElementById("scoreFrame");
+  const SRC="https://www.youtube.com/embed/Hqzu636ERGY?autoplay=1&rel=0";
+  let on=false;
+  orb.addEventListener("click",()=>{
+    on=!on;
+    if(on){ if(!frame.src) frame.src=SRC; score.classList.add("playing"); orb.textContent="❚❚"; }
+    else { score.classList.remove("playing"); orb.textContent="▶";
+      try{ frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*'); }catch(e){} }
   });
 </script>
 </body>
