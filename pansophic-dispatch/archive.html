@@ -326,11 +326,12 @@
   // The Library's Score — click the orb to conjure the rain (paused by default)
   const orb=document.getElementById("orb"), score=document.getElementById("score"),
         frame=document.getElementById("scoreFrame");
-  const SRC="https://www.youtube.com/embed/Hqzu636ERGY?autoplay=1&rel=0";
+  const SRC="https://www.youtube.com/embed/Hqzu636ERGY?autoplay=1&enablejsapi=1&rel=0";
   let on=false;
   orb.addEventListener("click",()=>{
     on=!on;
-    if(on){ if(!frame.src) frame.src=SRC; score.classList.add("playing"); orb.textContent="❚❚"; }
+    if(on){ if(!frame.dataset.loaded){ frame.src=SRC; frame.dataset.loaded="1"; }
+             score.classList.add("playing"); orb.textContent="❚❚"; }
     else { score.classList.remove("playing"); orb.textContent="▶";
       try{ frame.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}','*'); }catch(e){} }
   });
