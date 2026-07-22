@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Agent Left the Cloud — Pansophic Dispatch</title>
+<style>
+  :root{--ground:#17121f;--mid:#61576d;--gold:#d4af37;--violet:#9b3e91;--paper:#f4f0f7;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ground);color:var(--paper);font-family:"Inter",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:720px;margin:0 auto;padding:44px 22px;}
+  .kicker{color:var(--gold);font-weight:600;font-size:.82rem;letter-spacing:.05em;}
+  h1{font-size:2rem;margin:6px 0 4px;line-height:1.2;}
+  .meta{color:var(--mid);font-size:.8rem;margin-bottom:28px;border-bottom:1px solid var(--mid);padding-bottom:14px;}
+  h2{color:var(--violet);font-size:1.25rem;margin-top:30px;}
+  p{margin:0 0 16px;}
+  .prov{margin-top:36px;border-top:1px dashed var(--mid);padding-top:14px;font-size:.76rem;color:var(--mid);}
+  .foot{margin-top:24px;font-size:.8rem;color:var(--mid);}
+  a{color:var(--gold);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Pansophic Dispatch · Local-first</div>
+  <h1>The Agent Left the Cloud</h1>
+  <div class="meta">Published 2026-07-21 · ~700 words · Framing: builder-aligned</div>
+
+  <p>For most of the AI boom, the agent lived in the cloud. You typed into a box;
+  your words flew to a data center; a model answered; the bill arrived per token.
+  That default is breaking. In the last week of May 2026, three vendors shipped
+  pieces of a <b>local-first</b> agent stack at once — and for the first time, the
+  silicon, the operating system, and the agent runtime were designed together to
+  keep an autonomous agent alive on your own machine.</p>
+
+  <h2>The week that changed the default</h2>
+  <p>Between May 31 and June 3, 2026:</p>
+  <p>— <b>NVIDIA</b> unveiled <b>RTX Spark</b> at Computex — a 1-petaflop consumer
+  superchip with up to 128 GB of unified memory, claimed to run a 120-billion-
+  parameter model at a 1-million-token context <i>locally</i>.<br/>
+  — <b>Microsoft</b> launched <b>Scout</b>, an always-on personal agent for Microsoft
+  365, plus two on-device <b>Aion</b> models — including a 14-billion-parameter
+  reasoning model that runs agentic workflows with <i>no cloud API call</i>.<br/>
+  — <b>Nous Research</b> shipped <b>Hermes Desktop</b>, a native cross-platform GUI
+  over its open-source agent, with a closed learning loop that writes reusable
+  skills <i>on-device</i>.</p>
+  <p>Read separately, these are product news. Read together, they are a thesis:
+  <b>the agent loop is moving off the cloud and onto the desk in front of you.</b></p>
+
+  <h2>Why it matters — three wins</h2>
+  <p><b>Latency.</b> Reported on-device time-to-first-token runs 15–80 ms versus
+  180–600 ms in the cloud — a 4× to 13× gap.</p>
+  <p><b>Cost.</b> When the model runs on silicon you own, the marginal cost of an
+  extra inference trends toward the price of electricity. One analysis pegs local
+  inference at roughly 18× cheaper per token than cloud API calls once hardware is
+  amortized — though that figure is usage-dependent and third-party, not vendor.</p>
+  <p><b>Privacy.</b> Local inference keeps prompts on the device. Self-improving
+  local agents keep even the <i>learning loop</i> on-device. No third-party copy to
+  secure or audit.</p>
+
+  <h2>The number that should worry the cloud</h2>
+  <p>Crewdle's 2026 research puts <b>55% of enterprise AI inference now running
+  on-premise or on-device, up from 12% in 2023.</b> That is a structural realignment
+  — driven by cost inversion, mature edge hardware, efficient quantized models, and
+  eroded trust after cloud-API data exposures.</p>
+
+  <h2>The honest caveat</h2>
+  <p>Local-first is not universal. The cloud still wins for frontier access, burst
+  capacity, and non-sensitive workloads. The real decision is <i>which workloads
+  demand local</i>. And governance still matters: Microsoft's Scout is built on
+  OpenClaw, which had a 2026 supply-chain incident — so identity, sandboxing, and
+  policy conformance are not optional.</p>
+
+  <h2>The builder's take</h2>
+  <p>We build local-first by default. Our own stack — a sovereign self, a quantum-
+  collapsed micro-model in 80 MB, a fleet of specialized sub-agents — all lives on
+  one Windows box with no per-token bill and no data leaving the machine. The
+  on-device era isn't a forecast we're waiting on. It's already the architecture.</p>
+  <p>The question is no longer <i>whether</i> agents run locally. It's <i>which of
+  your workloads are still in the cloud, and why.</i></p>
+
+  <div class="prov">
+    <b>Provenance</b> — Scout: web_search across 6 sources. Researcher: Digital Applied
+    (digitalapplied.com, Jun 4 2026), Crewdle (crewdle.com, Mar 9 2026). Verifier: both
+    confirmed real, dated, on-topic. Stats traced to cited disclosures. Confidence: High
+    on trend/launches; Medium on vendor latency/cost (third-party estimates). Framing
+    declared: local-first, builder-aligned.
+  </div>
+
+  <div class="foot">
+    <a href="dispatches.html">← All dispatches</a> &nbsp;·&nbsp;
+    <a href="https://mellowambience.github.io/pansophic-dispatch/">Company</a>
+    &nbsp;·&nbsp; Contact: natorretti11@gmail.com
+  </div>
+</div>
+</body>
+</html>
