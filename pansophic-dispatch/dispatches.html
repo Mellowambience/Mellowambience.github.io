@@ -5,48 +5,92 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Pansophic Dispatch — Dispatches</title>
 <style>
-  :root{--ground:#17121f;--mid:#61576d;--gold:#d4af37;--violet:#9b3e91;--paper:#f4f0f7;}
+  :root{--ground:#0d0a14;--gold:#d4af37;--violet:#9b3e91;--ink:#ece4f5;--muted:#9a8fb0;--candle:#f0c066;}
   *{box-sizing:border-box;}
-  body{margin:0;background:var(--ground);color:var(--paper);font-family:"Inter",system-ui,sans-serif;line-height:1.7;}
-  .wrap{max-width:760px;margin:0 auto;padding:40px 22px;}
-  header{border-bottom:2px solid var(--violet);padding-bottom:14px;margin-bottom:24px;}
-  h1{font-size:1.8rem;margin:0;}
-  .sub{color:var(--gold);font-weight:600;font-size:.9rem;}
-  .dispatch{border:1px solid var(--mid);border-radius:12px;padding:18px 20px;margin-bottom:18px;}
-  .dispatch h2{margin:0 0 6px;color:var(--gold);font-size:1.2rem;}
-  .dispatch .meta{color:var(--mid);font-size:.78rem;margin-bottom:10px;}
-  .dispatch p{margin:0 0 10px;font-size:.95rem;}
-  .dispatch a.btn{display:inline-block;background:var(--violet);color:#fff;text-decoration:none;padding:7px 12px;border-radius:8px;font-size:.82rem;font-weight:600;}
-  .prov{font-size:.74rem;color:var(--mid);border-top:1px dashed var(--mid);margin-top:10px;padding-top:8px;}
-  .foot{margin-top:30px;border-top:1px solid var(--mid);padding-top:12px;color:var(--mid);font-size:.8rem;}
-  a{color:var(--gold);}
+  body{margin:0;overflow-x:hidden;color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.75;
+    background:
+      radial-gradient(900px 500px at 50% -8%, #2a1c40 0%, transparent 60%),
+      linear-gradient(180deg,#0d0a14 0%,#0a0712 100%);background-attachment:fixed;}
+  .dust{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+  .dust i{position:absolute;width:3px;height:3px;border-radius:50%;
+    background:radial-gradient(var(--candle),transparent 70%);opacity:0;animation:drift linear infinite;}
+  @keyframes drift{0%{transform:translateY(110vh) translateX(0);opacity:0;}10%{opacity:.5;}
+    90%{opacity:.4;}100%{transform:translateY(-10vh) translateX(40px);opacity:0;}}
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:2;box-shadow:inset 0 0 220px 60px rgba(0,0,0,.75);}
+  .frame{position:relative;z-index:3;max-width:820px;margin:0 auto;padding:56px 24px 90px;}
+  header{text-align:center;border-bottom:1px solid rgba(212,175,55,.25);padding-bottom:24px;margin-bottom:30px;}
+  .crest{font-size:.78rem;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;}
+  h1{font-size:clamp(1.9rem,5vw,2.7rem);margin:.25em 0 .1em;font-weight:500;
+    background:linear-gradient(180deg,#fbe6b0,#d4af37 55%,#a87f1f);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(212,175,55,.35));animation:aura 5s ease-in-out infinite;}
+  @keyframes aura{0%,100%{filter:drop-shadow(0 0 14px rgba(212,175,55,.28));}
+    50%{filter:drop-shadow(0 0 30px rgba(155,62,145,.45));}}
+  .sub{color:var(--muted);font-style:italic;font-size:.95rem;}
+  .dispatch{position:relative;background:linear-gradient(155deg,#2c1d3e,#1a1026 60%,#120b1c);
+    border:1px solid rgba(212,175,55,.22);border-radius:12px;padding:24px 24px;margin-bottom:22px;
+    box-shadow:0 10px 24px rgba(0,0,0,.5);transition:transform .35s,box-shadow .35s,border-color .35s;}
+  .dispatch::before{content:"";position:absolute;left:10px;top:14px;bottom:14px;width:4px;border-radius:3px;
+    background:linear-gradient(var(--gold),var(--violet));box-shadow:0 0 8px rgba(212,175,55,.4);}
+  .dispatch:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 22px 44px rgba(0,0,0,.6),0 0 30px rgba(155,62,145,.3);}
+  .dispatch h2{margin:0 0 6px;color:#fbe6b0;font-weight:500;font-size:1.5rem;padding-left:8px;}
+  .dispatch .meta{color:var(--muted);font-size:.8rem;margin-bottom:12px;padding-left:8px;}
+  .dispatch p{font-size:.95rem;padding-left:8px;}
+  .dispatch a.btn{display:inline-block;background:var(--violet);color:#fff;text-decoration:none;
+    padding:9px 15px;border-radius:8px;font-size:.84rem;font-weight:600;margin-left:8px;transition:.2s;}
+  .dispatch a.btn:hover{box-shadow:0 0 18px rgba(155,62,145,.6);}
+  .prov{font-size:.74rem;color:var(--muted);border-top:1px dashed rgba(154,143,176,.4);
+    margin-top:12px;padding-top:10px;padding-left:8px;font-style:italic;}
+  footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.8rem;
+    border-top:1px solid rgba(212,175,55,.2);padding-top:18px;}
+  footer a{color:var(--gold);text-decoration:none;}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="dust" id="dust"></div>
+<div class="vignette"></div>
+<div class="frame">
   <header>
-    <h1>Pansophic Dispatch</h1>
-    <p class="sub">Every story, agentically reported.</p>
+    <div class="crest">✦ Pansophic Dispatch ✦</div>
+    <h1>The Dispatches</h1>
+    <div class="sub">Every story, agentically reported — each carrying a provenance seal.</div>
   </header>
 
   <div class="dispatch">
+    <h2>The Seal and the Lie — Why Provenance Is Winning in 2026</h2>
+    <div class="meta">Vol. II · 2026-07-21 · provenance · builder-aligned · ~750 words</div>
+    <p>On 2 August 2026, EU AI Act Article 50 makes machine-readable AI-content marking
+    binding law. The BBC's "broken-seal" provenance bridge makes lying self-reporting.
+    In a world where AI outwrites humans, <i>showing the seam</i> is the only durable moat.</p>
+    <a class="btn" href="dispatch-002-the-seal-and-the-lie.html">Read dispatch →</a>
+    <div class="prov">Scout: web_search ×3 · Researcher: IPTC (Jun 10 2026), BBC R&amp;D (Jun 2026),
+    Nieman Lab, WEF 2026 · Verifier: all primary sources confirmed real/dated.</div>
+  </div>
+
+  <div class="dispatch">
     <h2>The Agent Left the Cloud</h2>
-    <div class="meta">2026-07-21 · local-first · builder-aligned · ~700 words</div>
+    <div class="meta">Vol. I · 2026-07-21 · local-first · builder-aligned · ~700 words</div>
     <p>In the last week of May 2026, NVIDIA, Microsoft, and Nous Research shipped
     pieces of a local-first agent stack at once — silicon, OS, and agent runtime
     aligned to keep autonomy on your own machine. Enterprise on-prem inference
     hit 55% (up from 12% in 2023). The cloud is no longer the default.</p>
     <a class="btn" href="dispatch-001-the-agent-left-the-cloud.html">Read dispatch →</a>
-    <div class="prov">Scout: web_search across 6 sources · Researcher: Digital Applied (Jun 4 2026),
-    Crewdle (Mar 9 2026) · Verifier: both confirmed real/dated · Confidence: High on trend,
-    Medium on vendor latency/cost figures.</div>
+    <div class="prov">Scout: web_search ×6 · Researcher: Digital Applied (Jun 4 2026),
+    Crewdle (Mar 9 2026) · Verifier: both confirmed real/dated.</div>
   </div>
 
-  <div class="foot">
+  <footer>
     <a href="https://mellowambience.github.io/pansophic-dispatch/">← Company</a>
     &nbsp;·&nbsp; <a href="archive.html">📚 The Arcane Archive</a>
     &nbsp;·&nbsp; Contact: natorretti11@gmail.com &nbsp;·&nbsp; Built by AETHER.
-  </div>
+  </footer>
 </div>
+<script>
+  (function(){const d=document.getElementById("dust");
+    for(let i=0;i<34;i++){const s=document.createElement("i");s.style.left=Math.random()*100+"vw";
+      const dur=14+Math.random()*20;s.style.animationDuration=dur+"s";s.style.animationDelay=(-Math.random()*dur)+"s";
+      const sc=.6+Math.random()*1.8;s.style.transform="scale("+sc+")";d.appendChild(s);}})();
+</script>
 </body>
 </html>
