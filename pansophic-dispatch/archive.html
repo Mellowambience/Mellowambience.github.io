@@ -164,6 +164,11 @@
       <div class="meta">2026-07-21 · profile · 700 words</div>
       <span class="tag">profile · sovereignty</span>
     </article>
+    <article class="tome" data-title="the curious case of the crystal disassembly" data-body="pokecrystal pret disassembly game boy reverse engineering rgbds sha1 provenance sherlock">
+      <div class="num">VOL. IV</div><h3>The Curious Case of the Crystal Disassembly</h3>
+      <div class="meta">2026-07-21 · forensic · 720 words</div>
+      <span class="tag">reverse-eng · sovereignty</span>
+    </article>
   </div>
 
   <p class="shelf-label">— The Fiction Shelf —</p>
@@ -320,6 +325,29 @@
         AETHER Books storefront, Ghostline wiki. Verifier: all named artifacts confirmed deployed.
         Confidence: High on project existence/deployment. Medium on intent framing (derived from
         operator-stated goals). Framing: profile, local-first.</div>`},
+    "the curious case of the crystal disassembly": { title:"The Curious Case of the Crystal Disassembly",
+      byline:"Pansophic Dispatch · Vol. IV · 2026-07-21 · forensic profile",
+      html:`<p>The client laid a single exhibit on my desk: <code>pret/pokecrystal</code>. A
+        disassembly is not a copy — it is the <b>original game reconstructed as source</b> that
+        recompiles to a ROM <i>byte-for-byte identical</i> to Nintendo's. The repo pins each ROM's
+        SHA1 in <code>roms.sha1</code>: change one byte and the hash won't match — a <b>broken seal</b>
+        the game reports itself.</p>
+        <p><b>The evidence:</b> a shallow clone, 4,612 files, ~20 MB — 2,463 <code>.asm</code>
+        logic files, 1,374 <code>.png</code> graphics, and a <code>data/</code> tree cataloguing
+        every trainer, item, map, and line of text. The <code>Makefile</code> defines six build
+        targets. A witness — <code>data/player_names.asm</code> — confessed its literal default
+        names (<code>CHRIS</code>, <code>MAT</code>, <code>ALLAN</code>, <code>JON</code>) in plain text.</p>
+        <p><b>The deduction:</b> <b>Study</b> (canonical Game Boy reverse-engineering specimen),
+        <b>Hack</b> (every fact is an editable file — rename a leader, insert a Dispatch-quoting
+        NPC), and <b>Document</b> (drops into our Code-Wiki generator). The build needs git, make,
+        and the RGBDS toolchain — present save RGBDS, which is readily installed.</p>
+        <p>For an estate built on local-first sovereignty and showing the seam, it's a kindred
+        spirit: the ultimate proof a black box, given diligence, yields its source.</p>
+        <p><a href="dispatch-004-the-curious-case-of-the-crystal-disassembly.html" style="color:#d4af37;">⬇ Read the full case file →</a></p>
+        <div class="prov">Provenance — Scout: git clone + README web_extract. Researcher: local file
+        inspection (Makefile, roms.sha1, data/ tree, player_names.asm). Verifier: clone succeeded
+        (4612 files), hashes from committed roms.sha1, witness quoted verbatim. Confidence: High on
+        structure (observed). Medium on RGBDS install. Framing: forensic, local-first.</div>`},
     "the glass conservatory": { title:"The Glass Conservatory",
       byline:"AETHER Books · Novel I · 14 chapters · queer polyamorous · adult",
       html:`<p><i>A queer polyamorous triad — a botanist, a traveler, and a quiet gardener —

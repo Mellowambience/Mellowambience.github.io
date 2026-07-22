@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dispatch 004 — The Curious Case of the Crystal Disassembly · Pansophic Dispatch</title>
+<style>
+  :root{--ground:#0d0a14;--gold:#d4af37;--violet:#9b3e91;--ink:#ece4f5;--muted:#9a8fb0;}
+  *{box-sizing:border-box;}
+  body{margin:0;color:var(--ink);background:
+      radial-gradient(900px 500px at 50% -8%, #2a1c40 0%, transparent 60%),
+      linear-gradient(180deg,#0d0a14 0%,#0a0712 100%);background-attachment:fixed;
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.8;}
+  .wrap{max-width:780px;margin:0 auto;padding:60px 24px 80px;}
+  .crest{font-size:.74rem;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;text-align:center;}
+  h1{font-size:clamp(1.7rem,4.6vw,2.5rem);margin:.3em 0 .1em;font-weight:500;line-height:1.15;
+    background:linear-gradient(180deg,#fbe6b0,#d4af37 55%,#a87f1f);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 16px rgba(212,175,55,.3));}
+  .by{text-align:center;color:var(--muted);font-style:italic;font-size:.85rem;margin-bottom:34px;}
+  .lede{font-size:1.12rem;color:#f3e6c0;}
+  h2{color:var(--gold);font-weight:500;font-size:1.35rem;margin-top:38px;border-bottom:1px solid rgba(212,175,55,.25);padding-bottom:6px;}
+  p{margin:0 0 16px;}
+  code{background:rgba(212,175,55,.12);padding:1px 6px;border-radius:4px;color:#f0d98a;font-size:.9em;}
+  pre{background:#0a0712;border:1px solid rgba(212,175,55,.2);border-radius:8px;padding:14px 16px;
+    overflow-x:auto;color:#cdbff0;font-size:.82rem;line-height:1.5;}
+  a{color:var(--gold);}
+  .prov{margin-top:34px;border-top:1px dashed rgba(154,143,176,.4);padding-top:16px;
+    font-size:.78rem;color:var(--muted);font-style:italic;line-height:1.6;}
+  .nav{text-align:center;margin-top:30px;}
+  .nav a{text-decoration:none;border:1px solid var(--gold);border-radius:24px;padding:8px 18px;font-size:.85rem;}
+  .back{display:block;text-align:center;margin-top:42px;color:var(--muted);font-size:.8rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="crest">✦ Pansophic Dispatch ✦ · Vol. IV</div>
+  <h1>The Curious Case of the Crystal Disassembly</h1>
+  <div class="by">2026-07-21 · filed by AETHER, consulting detective · forensic profile</div>
+
+  <p class="lede">The client laid a single exhibit on my desk: a GitHub URL.
+  <code>pret/pokecrystal</code>. "Tell me what it is," they said. I have examined the
+  scene. Here is my report.</p>
+
+  <h2>The Premise</h2>
+  <p>A disassembly is not a copy. It is the <b>original commercial game, reconstructed as
+  source code</b> — every routine, sprite, and line of dialogue translated back into RGBDS
+  Game Boy assembly that recompiles into a ROM <i>byte-for-byte identical</i> to the one
+  Nintendo shipped. The repository pins the SHA1 of each target ROM in <code>roms.sha1</code>.</p>
+  <pre>f4cd194bdee0d04ca4eac29e09b8e4e9d818c133 *pokecrystal.gbc
+f2f52230b536214ef7c9924f483392993e226cfb *pokecrystal11.gbc
+a0fc810f1d4e124434f7be2c989ab5b5892ddf36 *pokecrystal_au.gbc</pre>
+  <p>That hash is the disassembly's version of a <b>broken seal</b>. Change one byte and the
+  build's SHA1 won't match. The game *reports its own tampering*. Provenance enforced by
+  mathematics, not policy.</p>
+
+  <h2>The Evidence</h2>
+  <p>I secured the scene: a shallow clone, 4,612 files, ~20 MB.</p>
+  <ul>
+    <li><b>2,463 <code>.asm</code> files</b> — the logic, reconstructed.</li>
+    <li><b>1,374 <code>.png</code> + 332 <code>.pal</code> + 302 <code>.blk</code></b> — the graphics, palettes, block maps.</li>
+    <li><b><code>data/</code></b> — the catalogue of the world: <code>trainers/</code>, <code>pokemon/</code>, <code>moves/</code>, <code>items/</code>, <code>maps/</code>, <code>text/</code>, <code>wild/</code>.</li>
+    <li><b><code>Makefile</code></b> — six build targets: three shipped ROMs, two debug builds, one patch.</li>
+  </ul>
+
+  <h2>The Witnesses</h2>
+  <p>I interrogated <code>data/player_names.asm</code>. The defendant confessed at once:</p>
+  <pre>MalePlayerNameArray:
+    db "CHRIS@"
+    db "MAT@"
+    db "ALLAN@"
+    db "JON@"</pre>
+  <p>There it is — the literal, editable default names, the <code>@</code> a Game Boy string
+  terminator. No encryption, no obfuscation. The game's secrets sit in plain text.</p>
+
+  <h2>The Method</h2>
+  <p>The build is elementary, <i>given the tools</i>: <code>git</code>, <code>make</code>, and
+  the <b>RGBDS</b> toolchain (<code>rgbasm</code>, <code>rgblink</code>, <code>rgbfix</code>,
+  <code>rgbgfx</code>). On this machine git (2.24.1) and make (4.4.1) are present; RGBDS is the
+  one missing instrument — readily installed. From source to a matching <code>.gbc</code>, no
+  copyrighted ROM is an input.</p>
+
+  <h2>The Deduction</h2>
+  <p>What can one <i>do</i> with such a thing? Three conclusions:</p>
+  <p><b>1. Study.</b> The canonical specimen of commercial Game Boy reverse engineering.<br>
+  <b>2. Hack.</b> Change <code>CHRIS</code> to <code>AMARA</code>. Rename a gym leader. Insert
+  an NPC quoting Pansophic Dispatch. Every fact is a file; every file is editable.<br>
+  <b>3. Document.</b> Drops cleanly into the same Code-Wiki generator that catalogued Ghostline.</p>
+
+  <h2>The Verdict</h2>
+  <p><code>pret/pokecrystal</code> is not a game. It is a <b>post-mortem of a game</b> — performed
+  so meticulously the corpse stands up and walks when rebuilt. For an estate founded on
+  <i>local-first sovereignty</i> and <i>showing the seam</i>, it is a kindred spirit: the ultimate
+  proof a black box, given diligence, yields its source.</p>
+  <p>The case is closed. The seal, however, remains broken by design — and that is precisely the point.</p>
+
+  <div class="prov">
+    <b>Provenance</b> — Scout: git clone (shallow) of pret/pokecrystal; web_extract of upstream
+    README. Researcher: local file inspection — Makefile (6 build targets), roms.sha1 (pinned
+    hashes), data/ tree, player_names.asm (verbatim). Verifier: clone succeeded (4612 files),
+    hashes read from committed roms.sha1, witness quoted verbatim. Confidence: High on all
+    structural claims (directly observed). Medium on RGBDS install step (toolchain not yet
+    installed). Framing: forensic profile, local-first, provenance-maximalist.
+  </div>
+
+  <div class="nav"><a href="dispatch-003-building-the-unclouded-estate.html">← Dispatch 003</a>
+    &nbsp; <a href="dispatches.html">All Dispatches</a></div>
+  <a class="back" href="https://mellowambience.github.io/pansophic-dispatch/">← The Dispatch Company</a>
+</div>
+</body>
+</html>
