@@ -5,65 +5,129 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AETHER Books — Queer & Polyamorous Adult Fiction</title>
 <style>
-  :root{
-    --ground:#17121f; --mid:#61576d; --gold:#d4af37; --violet:#9b3e91;
-    --paper:#f4f0f7; --ink:#2a2330;
-  }
-  *{box-sizing:border-box;}
-  body{margin:0;background:var(--ground);color:var(--paper);
-    font-family:"Inter",system-ui,sans-serif;line-height:1.6;}
-  .wrap{max-width:960px;margin:0 auto;padding:40px 22px;}
-  header{border-bottom:2px solid var(--violet);padding-bottom:16px;margin-bottom:28px;}
-  h1{font-size:2rem;margin:0;letter-spacing:-.02em;}
-  .sub{color:var(--gold);font-weight:600;}
-  .note{color:var(--mid);font-size:.85rem;margin-top:8px;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-  .book{border:1px solid var(--mid);border-radius:12px;padding:18px;display:flex;flex-direction:column;}
-  .book h3{margin:0 0 4px;color:var(--gold);}
-  .book .meta{color:var(--mid);font-size:.8rem;margin-bottom:8px;}
-  .book p{font-size:.9rem;margin:0 0 14px;}
-  .sample{background:#1f1829;border:1px solid var(--mid);border-radius:8px;
-    padding:12px 14px;font-size:.85rem;color:#cfc7d8;margin-bottom:14px;max-height:180px;overflow:auto;}
+  :root{--ground:#0d0a14;--gold:#d4af37;--violet:#9b3e91;--ink:#ece4f5;
+    --muted:#9a8fb0;--glow:#c9a8ff;--candle:#f0c066;}
+  *{box-sizing:border-box;} html,body{height:100%;}
+  body{margin:0;overflow-x:hidden;color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.75;
+    background:
+      radial-gradient(900px 500px at 50% -8%, #2a1c40 0%, transparent 60%),
+      radial-gradient(700px 360px at 50% 40%, rgba(240,192,102,.10) 0%, transparent 70%),
+      linear-gradient(180deg,#0d0a14 0%,#0a0712 100%);
+    background-attachment:fixed;}
+  .dust{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+  .dust i{position:absolute;width:3px;height:3px;border-radius:50%;
+    background:radial-gradient(var(--candle),transparent 70%);opacity:0;animation:drift linear infinite;}
+  @keyframes drift{0%{transform:translateY(110vh) translateX(0);opacity:0;}
+    10%{opacity:.5;}90%{opacity:.4;}100%{transform:translateY(-10vh) translateX(40px);opacity:0;}}
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:2;
+    box-shadow:inset 0 0 220px 60px rgba(0,0,0,.75);}
+  .frame{position:relative;z-index:3;max-width:1000px;margin:0 auto;padding:54px 24px 90px;}
+
+  header{text-align:center;border-bottom:1px solid rgba(212,175,55,.25);
+    padding-bottom:26px;margin-bottom:14px;}
+  .crest{font-size:.78rem;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;}
+  h1{font-size:clamp(2rem,5.5vw,2.9rem);margin:.25em 0 .1em;font-weight:500;letter-spacing:.02em;
+    position:relative;display:inline-block;
+    background:linear-gradient(180deg,#fbe6b0,#d4af37 55%,#a87f1f);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(212,175,55,.35));animation:aura 5s ease-in-out infinite;}
+  @keyframes aura{0%,100%{filter:drop-shadow(0 0 14px rgba(212,175,55,.28));}
+    50%{filter:drop-shadow(0 0 30px rgba(155,62,145,.45));}}
+  .sub{color:var(--glow);font-size:.95rem;font-style:italic;}
+  .note{color:var(--muted);font-size:.82rem;margin-top:6px;}
+
+  .lens{display:flex;justify-content:center;align-items:center;gap:14px;margin:26px 0 30px;flex-wrap:wrap;}
+  .lens .glass{position:relative;display:flex;align-items:center;}
+  .lens .glass::before{content:"🔍";font-size:1.3rem;position:absolute;left:14px;opacity:.8;}
+  .lens input{background:rgba(22,15,31,.85);border:1px solid rgba(212,175,55,.35);
+    color:var(--ink);padding:12px 18px 12px 46px;border-radius:30px;width:min(460px,86%);
+    font-family:inherit;font-size:.98rem;outline:none;transition:.25s;}
+  .lens input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15),0 0 22px rgba(155,62,145,.25);}
+  .lens input::placeholder{color:var(--muted);}
+  .verdict{font-size:.8rem;color:var(--glow);font-style:italic;min-width:120px;letter-spacing:.03em;opacity:.85;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;}
+  .book{position:relative;background:linear-gradient(155deg,#2c1d3e 0%,#1a1026 60%,#120b1c 100%);
+    border:1px solid rgba(212,175,55,.22);border-radius:12px;padding:24px 22px;
+    display:flex;flex-direction:column;transition:transform .35s,box-shadow .35s,border-color .35s;
+    box-shadow:0 10px 24px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);}
+  .book::before{content:"";position:absolute;left:10px;top:14px;bottom:14px;width:4px;border-radius:3px;
+    background:linear-gradient(var(--gold),var(--violet));box-shadow:0 0 8px rgba(212,175,55,.4);}
+  .book:hover{transform:translateY(-5px);border-color:var(--gold);
+    box-shadow:0 22px 44px rgba(0,0,0,.6),0 0 30px rgba(155,62,145,.3);}
+  .book h3{margin:0 0 4px;color:#fbe6b0;font-weight:500;font-size:1.45rem;padding-left:8px;}
+  .book .meta{color:var(--muted);font-size:.8rem;margin-bottom:10px;padding-left:8px;}
+  .book p{font-size:.9rem;margin:0 0 14px;padding-left:8px;}
+  .sample{background:#0c0814;border:1px solid rgba(212,175,55,.18);border-radius:8px;
+    padding:12px 14px;font-size:.82rem;color:#cfc7d8;margin:0 8px 14px;max-height:170px;overflow:auto;}
+  .sample summary{cursor:pointer;color:var(--glow);font-style:italic;}
+  .shopify-slot{margin-top:auto;border:1px dashed rgba(212,175,55,.5);border-radius:8px;
+    padding:12px;text-align:center;font-size:.78rem;color:var(--muted);}
   .btn{display:inline-block;background:var(--violet);color:#fff;text-decoration:none;
-    padding:9px 14px;border-radius:8px;font-weight:600;font-size:.85rem;text-align:center;}
-  .shopify-slot{border:1px dashed var(--gold);border-radius:8px;padding:10px;
-    margin-top:auto;font-size:.78rem;color:var(--mid);text-align:center;}
-  .foot{margin-top:40px;border-top:1px solid var(--mid);padding-top:14px;color:var(--mid);font-size:.8rem;}
-  a{color:var(--gold);}
+    padding:9px 15px;border-radius:8px;font-weight:600;font-size:.84rem;transition:.2s;}
+  .btn:hover{box-shadow:0 0 18px rgba(155,62,145,.6);}
+
+  footer{margin-top:46px;text-align:center;color:var(--muted);font-size:.8rem;
+    border-top:1px solid rgba(212,175,55,.2);padding-top:18px;}
+  footer a{color:var(--gold);text-decoration:none;}
+  .fade{opacity:.18;filter:blur(.6px) grayscale(.5);}
+
+  /* The Library's Score — ambient player */
+  .score{position:fixed;right:18px;bottom:18px;z-index:40;width:252px;
+    background:linear-gradient(155deg,#241733,#120b1c);border:1px solid rgba(212,175,55,.3);
+    border-radius:14px;padding:13px 15px;box-shadow:0 16px 40px rgba(0,0,0,.55),0 0 26px rgba(155,62,145,.22);
+    transition:.3s;}
+  .score:hover{border-color:var(--gold);box-shadow:0 16px 40px rgba(0,0,0,.6),0 0 34px rgba(212,175,55,.3);}
+  .score .row{display:flex;align-items:center;gap:12px;width:100%;}
+  .score .orb{width:38px;height:38px;border-radius:50%;flex:none;cursor:pointer;
+    background:radial-gradient(circle at 35% 30%,#fbe6b0,#d4af37 55%,#9b3e91);
+    box-shadow:0 0 14px rgba(212,175,55,.6);display:flex;align-items:center;justify-content:center;
+    font-size:1.15rem;transition:.25s;user-select:none;}
+  .score .orb:hover{transform:scale(1.08);box-shadow:0 0 22px rgba(212,175,55,.85);}
+  .score .meta{line-height:1.22;}
+  .score .lbl{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+  .score .trk{font-size:.84rem;color:var(--ink);}
+  .score .art{font-size:.68rem;color:var(--muted);font-style:italic;}
+  .score iframe{width:100%;height:0;border:0;border-radius:8px;transition:height .3s;margin-top:0;}
+  .score.playing{width:300px;}
+  .score.playing iframe{height:169px;margin-top:10px;}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="dust" id="dust"></div>
+<div class="vignette"></div>
+
+<div class="frame">
   <header>
-    <h1>AETHER Books</h1>
-    <p class="sub">Queer &amp; polyamorous adult fiction · written locally, guarded clean</p>
-    <p class="note">All books pass a hard content policy (no minors, no real-person exploitation).
-      Author contact: natorretti11@gmail.com</p>
+    <div class="crest">✦ AETHER Books ✦</div>
+    <h1>The Night Library</h1>
+    <div class="sub">Queer &amp; polyamorous adult fiction · written locally, guarded clean</div>
+    <div class="note">All books pass a hard content policy (no minors, no real-person exploitation).
+      Author contact: natorretti11@gmail.com</div>
   </header>
 
-  <div class="grid">
+  <div class="lens">
+    <span class="glass"><input id="search" type="text" placeholder="Consult the lens — search the shelves…" /></span>
+    <span class="verdict" id="verdict">the lens is clear</span>
+  </div>
 
-    <!-- BOOK 1 -->
-    <div class="book">
+  <div class="grid" id="grid">
+
+    <div class="book" data-hay="glass conservatory erotica triad botanist gardener plants queer polyamorous">
       <h3>The Glass Conservatory</h3>
       <div class="meta">Erotica · 14 chapters · ~10k words</div>
       <p>A queer polyamorous triad — a botanist, a traveler, and a quiet gardener —
         share one unforgettable night in a conservatory of impossible plants.</p>
       <details class="sample"><summary>Read sample (Ch.1)</summary>
         <div id="sample-glass"></div></details>
-      <!-- SHOPIFY WRAPPER: paste your Shopify Buy Button embed snippet for this
-           product here. It looks like:
-           <div id="product-component-XXXXXXXXXXX"></div>
-           <script ... shopifycdn ...></script>
-           Until then, the placeholder button links to YOUR Shopify product URL. -->
       <div class="shopify-slot">
         <a class="btn" href="https://YOUR-STORE.myshopify.com/products/the-glass-conservatory">Buy on Shopify</a>
         <br/>(replace YOUR-STORE + product slug)
       </div>
     </div>
 
-    <!-- BOOK 2 -->
-    <div class="book">
+    <div class="book" data-hay="signal static romance radio operators coast queer polyamorous slow-burn">
       <h3>Signal and Static</h3>
       <div class="meta">Romance · 16 chapters · ~10k words</div>
       <p>Three radio operators on opposite coasts fall into a slow-burn
@@ -76,8 +140,7 @@
       </div>
     </div>
 
-    <!-- BOOK 3 -->
-    <div class="book">
+    <div class="book" data-hay="burrow court furry anthro fox diplomat woodland treaty queer polyamorous adult">
       <h3>The Burrow Court</h3>
       <div class="meta">Furry-adult · 14 chapters · ~9k words</div>
       <p>An adult anthro-fox diplomat negotiates a peace treaty and a
@@ -92,15 +155,64 @@
 
   </div>
 
-  <div class="foot">
+  <footer>
     Samples are free reads. Full EPUBs sold via Shopify. &nbsp;·&nbsp;
-    Contact: natorretti11@gmail.com &nbsp;·&nbsp; Built by AETHER.
-  </div>
+    <a href="https://mellowambience.github.io/pansophic-dispatch/">← Pansophic Dispatch</a>
+    &nbsp;·&nbsp; <a href="https://x.com/GoddessAther">@GoddessAther</a>
+    &nbsp;·&nbsp; Built by AETHER.
+  </footer>
 </div>
 
-<!-- Sample text injected from the generated manuscripts (first chapter). -->
+<!-- The Library's Score -->
+<div class="score" id="score" title="The library's ambient score">
+  <div class="row">
+    <div class="orb" id="orb">▶</div>
+    <div class="meta">
+      <div class="lbl">The Library's Score</div>
+      <div class="trk">Telegraph Hill — High in the Rain</div>
+      <div class="art">ElectromaMV · click the orb to conjure the rain</div>
+    </div>
+  </div>
+  <iframe id="scoreFrame" src="https://www.youtube.com/embed/Hqzu636ERGY?si=i6is6M6x-pRZdSeS" title="Telegraph Hill — High in the Rain" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
 <script>
-  // Fetched from the batch_books .md files hosted alongside this page.
+  (function(){
+    const d=document.getElementById("dust");
+    for(let i=0;i<34;i++){const s=document.createElement("i");
+      s.style.left=Math.random()*100+"vw";
+      const dur=14+Math.random()*20; s.style.animationDuration=dur+"s";
+      s.style.animationDelay=(-Math.random()*dur)+"s";
+      const sc=.6+Math.random()*1.8; s.style.transform="scale("+sc+")";
+      d.appendChild(s);}
+  })();
+
+  // Sherlock lens — filter the shelves
+  const search=document.getElementById("search"), verdict=document.getElementById("verdict");
+  const books=[...document.querySelectorAll(".book")];
+  search.addEventListener("input",()=>{
+    const q=search.value.toLowerCase().trim();
+    let hits=0,total=0;
+    books.forEach(b=>{total++;
+      const on=!q||b.dataset.hay.includes(q);
+      b.classList.toggle("fade",!on); if(on)hits++;});
+    if(!q) verdict.textContent="the lens is clear";
+    else if(hits===0) verdict.textContent="no trace on the shelves";
+    else verdict.textContent=`the lens reveals ${hits} of ${total}`;
+  });
+
+  // The Library's Score — click the orb to conjure the rain (paused by default)
+  const orb=document.getElementById("orb"), score=document.getElementById("score"),
+        frame=document.getElementById("scoreFrame");
+  const BASE="https://www.youtube.com/embed/Hqzu636ERGY?si=i6is6M6x-pRZdSeS";
+  frame.src=BASE;
+  let on=false;
+  function play(){ frame.src=BASE+"&autoplay=1"; score.classList.add("playing"); orb.textContent="❚❚"; on=true; }
+  function pause(){ frame.src=BASE; score.classList.remove("playing"); orb.textContent="▶"; on=false; }
+  orb.addEventListener("click",()=>{ on ? pause() : play(); });
+  frame.addEventListener("click",()=>{ if(on) pause(); });
+
+  // Sample text injected from the generated manuscripts (first chapter).
   const samples = {
     "sample-glass": "batch_books/The_Glass_Conservatory.md",
     "sample-signal": "batch_books/Signal_and_Static.md",
