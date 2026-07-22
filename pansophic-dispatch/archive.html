@@ -84,7 +84,7 @@
   </header>
 
   <div class="lens">
-    <input id="search" type="text" placeholder="🔍 Consult the lens — search the dispatches…" />
+    <input id="search" type="text" placeholder="🔍 Consult the lens — search the archive…" />
   </div>
 
   <p class="shelf-label">— The Shelf of Dispatches —</p>
@@ -95,6 +95,32 @@
       <h3>The Agent Left the Cloud</h3>
       <div class="meta">2026-07-21 · local-first · 700 words</div>
       <span class="tag">tech · sovereignty</span>
+    </article>
+
+  </div>
+
+  <p class="shelf-label" style="margin-top:38px;">— The Fiction Shelf —</p>
+  <div class="shelf" id="shelf-fiction">
+
+    <article class="tome" data-title="the glass conservatory" data-body="queer polyamorous botanist gardener triad conservatory plants">
+      <div class="num">NOVEL I</div>
+      <h3>The Glass Conservatory</h3>
+      <div class="meta">14 chapters · queer polyamorous · adult</div>
+      <span class="tag">erotica · triad</span>
+    </article>
+
+    <article class="tome" data-title="signal and static" data-body="queer polyamorous radio operators romance transmissions coast">
+      <div class="num">NOVEL II</div>
+      <h3>Signal and Static</h3>
+      <div class="meta">16 chapters · queer polyamorous · adult</div>
+      <span class="tag">romance · slow-burn</span>
+    </article>
+
+    <article class="tome" data-title="the burrow court" data-body="queer polyamorous anthro fox diplomat woodland treaty adult">
+      <div class="num">NOVEL III</div>
+      <h3>The Burrow Court</h3>
+      <div class="meta">14 chapters · queer polyamorous · adult</div>
+      <span class="tag">furry · anthro</span>
     </article>
 
   </div>
@@ -159,24 +185,91 @@
         Confidence: High on trend/launches; Medium on vendor latency/cost (third-party
         estimates). Framing declared: local-first, builder-aligned.</div>
       `
+    },
+    "the glass conservatory": {
+      title: "The Glass Conservatory",
+      byline: "AETHER Books · Novel I · 14 chapters · queer polyamorous · adult",
+      html: `
+        <p><i>A queer polyamorous triad — a botanist, a traveler, and a quiet gardener —
+        share one unforgettable night in a conservatory of impossible plants. All consenting adults.</i></p>
+
+        <p>In the heart of a secluded estate stood the Glass Conservatory — a marvel of
+        architecture and horticulture. Within resided Amara, a botanist of exceptional
+        talent; Soren, a world traveler with tales as captivating as the lands he explored;
+        and Eira, a reticent gardener whose green thumb was matched only by her quiet
+        strength. United by their shared passion for flora — and each other — they formed
+        an unconventional family: a polyamorous triad that embraced the full spectrum of
+        love and desire.</p>
+
+        <p>As twilight descended, Amara lit candles along the pathways. Soren, fresh
+        from expedition, regaled Eira with tales of distant lands. Eira's eyes sparkled —
+        her gaze drifting from Soren to Amara, her heart swelling with affection for both.</p>
+
+        <p><b>Sample the first chapters free</b> on the bookshelf, or take the full novel:</p>
+        <p><a href="https://mellowambience.github.io/books/batch_books/The_Glass_Conservatory.epub"
+           style="color:#d4af37;">⬇ Download full EPUB (store link pending)</a></p>
+
+        <div class="prov">AETHER Books · written by agentic pipeline, policy-clean (fictional
+        adults only) · author contact: natorretti11@gmail.com</div>
+      `
+    },
+    "signal and static": {
+      title: "Signal and Static",
+      byline: "AETHER Books · Novel II · 16 chapters · queer polyamorous · adult",
+      html: `
+        <p><i>Three radio operators on opposite coasts fall into a slow-burn polyamorous
+        romance across late-night transmissions. Adults, consent explicit, queer-leaning.</i></p>
+
+        <p>Across static and silence, voices found each other in the small hours — three
+        operators, three lives, one frequency they couldn't stop returning to. What began
+        as professional check-ins became something tenderer, stranger, and entirely their own.</p>
+
+        <p><b>Sample the first chapters free</b> on the bookshelf, or take the full novel:</p>
+        <p><a href="https://mellowambience.github.io/books/batch_books/Signal_and_Static.epub"
+           style="color:#d4af37;">⬇ Download full EPUB (store link pending)</a></p>
+
+        <div class="prov">AETHER Books · written by agentic pipeline, policy-clean (fictional
+        adults only) · author contact: natorretti11@gmail.com</div>
+      `
+    },
+    "the burrow court": {
+      title: "The Burrow Court",
+      byline: "AETHER Books · Novel III · 14 chapters · queer polyamorous · adult",
+      html: `
+        <p><i>An adult anthro-fox diplomat negotiates a peace treaty and a polyamorous
+        bond between three woodland houses. Clearly adult anthro characters, queer ensemble.</i></p>
+
+        <p>Diplomacy among the rooted peoples was never simple — and when the envoy from
+        the Burrow Court arrived, three houses found the treaty and the heart entangled.
+        A story of negotiated peace, chosen family, and the quiet radicalism of wanting more
+        than one.</p>
+
+        <p><b>Sample the first chapters free</b> on the bookshelf, or take the full novel:</p>
+        <p><a href="https://mellowambience.github.io/books/batch_books/The_Burrow_Court.epub"
+           style="color:#d4af37;">⬇ Download full EPUB (store link pending)</a></p>
+
+        <div class="prov">AETHER Books · written by agentic pipeline, policy-clean (fictional
+        adults only, clearly anthro) · author contact: natorretti11@gmail.com</div>
+      `
     }
   };
 
   const shelf = document.getElementById("shelf");
+  const shelfFic = document.getElementById("shelf-fiction");
   const reader = document.getElementById("reader");
   const scroll = document.getElementById("scroll");
   const closeBtn = document.getElementById("closeBtn");
   const search = document.getElementById("search");
 
-  shelf.querySelectorAll(".tome").forEach(tome => {
-    tome.addEventListener("click", () => {
-      const key = tome.dataset.title;
-      const d = ARCHIVE[key];
-      if (!d) return;
-      scroll.innerHTML = `<h2>${d.title}</h2><div class="byline">${d.byline}</div>${d.html}`;
-      reader.classList.add("open");
-    });
-  });
+  function openTome(e) {
+    const key = e.currentTarget.dataset.title;
+    const d = ARCHIVE[key];
+    if (!d) return;
+    scroll.innerHTML = `<h2>${d.title}</h2><div class="byline">${d.byline}</div>${d.html}`;
+    reader.classList.add("open");
+  }
+  shelf.querySelectorAll(".tome").forEach(t => t.addEventListener("click", openTome));
+  shelfFic.querySelectorAll(".tome").forEach(t => t.addEventListener("click", openTome));
 
   closeBtn.addEventListener("click", () => reader.classList.remove("open"));
   reader.addEventListener("click", e => { if (e.target === reader) reader.classList.remove("open"); });
@@ -184,9 +277,11 @@
 
   search.addEventListener("input", () => {
     const q = search.value.toLowerCase();
-    shelf.querySelectorAll(".tome").forEach(t => {
-      const hay = (t.dataset.title + " " + t.dataset.body).toLowerCase();
-      t.classList.toggle("fade", q && !hay.includes(q));
+    document.querySelectorAll(".shelf").forEach(sh => {
+      sh.querySelectorAll(".tome").forEach(t => {
+        const hay = (t.dataset.title + " " + t.dataset.body).toLowerCase();
+        t.classList.toggle("fade", q && !hay.includes(q));
+      });
     });
   });
 </script>
