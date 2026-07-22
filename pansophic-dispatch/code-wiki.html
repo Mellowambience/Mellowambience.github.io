@@ -3,31 +3,78 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Code Wiki — Pansophic Dispatch</title>
+<title>The Code Wiki — Pansophic Dispatch</title>
 <style>
-  :root{--ground:#0f0b16;--gold:#d4af37;--violet:#9b3e91;--ink:#e9e2f2;--muted:#8a7fa0;}
-  *{box-sizing:border-box;}
-  body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#251836 0%,var(--ground) 60%);
-    color:var(--ink);font-family:"Iowan Old Style",Palatino,Georgia,serif;line-height:1.7;}
-  .frame{max-width:860px;margin:0 auto;padding:44px 24px 70px;}
-  header{border-bottom:1px solid rgba(212,175,55,.3);padding-bottom:22px;margin-bottom:30px;text-align:center;}
-  .crest{font-size:.8rem;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;}
-  h1{font-size:2.2rem;margin:.25em 0 .1em;font-weight:500;
-    background:linear-gradient(180deg,#f3e6c0,#d4af37);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .latin{font-style:italic;color:var(--muted);font-size:.95rem;}
-  .repo{background:linear-gradient(160deg,#241733,#160e22);border:1px solid rgba(212,175,55,.28);
-    border-radius:12px;padding:22px 24px;margin-bottom:22px;}
-  .repo h2{margin:0 0 6px;color:var(--gold);font-weight:500;font-size:1.4rem;}
-  .repo .meta{color:var(--muted);font-size:.82rem;margin-bottom:14px;}
+  :root{--ground:#0d0a14;--gold:#d4af37;--violet:#9b3e91;--ink:#ece4f5;
+    --muted:#9a8fb0;--glow:#c9a8ff;--candle:#f0c066;}
+  *{box-sizing:border-box;} html,body{height:100%;}
+  body{margin:0;overflow-x:hidden;color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;line-height:1.7;
+    background:
+      radial-gradient(900px 500px at 50% -8%, #2a1c40 0%, transparent 60%),
+      radial-gradient(700px 360px at 50% 40%, rgba(240,192,102,.10) 0%, transparent 70%),
+      linear-gradient(180deg,#0d0a14 0%,#0a0712 100%);
+    background-attachment:fixed;}
+  .dust{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+  .dust i{position:absolute;width:3px;height:3px;border-radius:50%;
+    background:radial-gradient(var(--candle),transparent 70%);opacity:0;animation:drift linear infinite;}
+  @keyframes drift{0%{transform:translateY(110vh) translateX(0);opacity:0;}
+    10%{opacity:.5;}90%{opacity:.4;}100%{transform:translateY(-10vh) translateX(40px);opacity:0;}}
+  .vignette{position:fixed;inset:0;pointer-events:none;z-index:2;
+    box-shadow:inset 0 0 220px 60px rgba(0,0,0,.75);}
+  .frame{position:relative;z-index:3;max-width:880px;margin:0 auto;padding:54px 24px 90px;}
+
+  header{text-align:center;border-bottom:1px solid rgba(212,175,55,.25);
+    padding-bottom:26px;margin-bottom:14px;}
+  .crest{font-size:.78rem;letter-spacing:.5em;color:var(--gold);text-transform:uppercase;}
+  h1{font-size:clamp(2rem,5.5vw,2.9rem);margin:.25em 0 .1em;font-weight:500;
+    letter-spacing:.02em;position:relative;display:inline-block;
+    background:linear-gradient(180deg,#fbe6b0,#d4af37 55%,#a87f1f);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(212,175,55,.35));animation:aura 5s ease-in-out infinite;}
+  @keyframes aura{0%,100%{filter:drop-shadow(0 0 14px rgba(212,175,55,.28));}
+    50%{filter:drop-shadow(0 0 30px rgba(155,62,145,.45));}}
+  .latin{font-style:italic;color:var(--muted);font-size:.95rem;letter-spacing:.04em;}
+
+  .lens{display:flex;justify-content:center;align-items:center;gap:14px;margin:26px 0 30px;flex-wrap:wrap;}
+  .lens .glass{position:relative;display:flex;align-items:center;}
+  .lens .glass::before{content:"🔍";font-size:1.3rem;position:absolute;left:14px;opacity:.8;}
+  .lens input{background:rgba(22,15,31,.85);border:1px solid rgba(212,175,55,.35);
+    color:var(--ink);padding:12px 18px 12px 46px;border-radius:30px;width:min(460px,86%);
+    font-family:inherit;font-size:.98rem;outline:none;transition:.25s;}
+  .lens input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.15),0 0 22px rgba(155,62,145,.25);}
+  .lens input::placeholder{color:var(--muted);}
+  .verdict{font-size:.8rem;color:var(--glow);font-style:italic;min-width:120px;letter-spacing:.03em;opacity:.85;}
+
+  .repo{position:relative;background:linear-gradient(155deg,#2c1d3e 0%,#1a1026 60%,#120b1c 100%);
+    border:1px solid rgba(212,175,55,.22);border-radius:12px;padding:26px 26px;
+    margin-bottom:24px;overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s;
+    box-shadow:0 10px 24px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);}
+  .repo::before{content:"";position:absolute;left:10px;top:14px;bottom:14px;width:4px;border-radius:3px;
+    background:linear-gradient(var(--gold),var(--violet));box-shadow:0 0 8px rgba(212,175,55,.4);}
+  .repo:hover{transform:translateY(-5px);border-color:var(--gold);
+    box-shadow:0 22px 44px rgba(0,0,0,.6),0 0 30px rgba(155,62,145,.3);}
+  .repo h2{margin:0 0 6px;color:#fbe6b0;font-weight:500;font-size:1.5rem;padding-left:6px;}
+  .repo .meta{color:var(--muted);font-size:.82rem;margin-bottom:14px;padding-left:6px;}
+  .repo p{font-size:.95rem;padding-left:6px;}
   .repo a.btn{display:inline-block;background:var(--violet);color:#fff;text-decoration:none;
-    padding:8px 14px;border-radius:8px;font-size:.84rem;font-weight:600;}
+    padding:9px 15px;border-radius:8px;font-size:.84rem;font-weight:600;margin:4px 0 14px 6px;
+    transition:.2s;}
+  .repo a.btn:hover{box-shadow:0 0 18px rgba(155,62,145,.6);}
   .repo pre{background:#0c0814;border:1px solid rgba(212,175,55,.18);border-radius:8px;
-    padding:14px;font-size:.78rem;color:var(--muted);overflow:auto;max-height:340px;line-height:1.5;}
-  footer{margin-top:40px;text-align:center;color:var(--muted);font-size:.8rem;border-top:1px solid rgba(212,175,55,.2);padding-top:18px;}
+    padding:14px 16px;font-size:.78rem;color:var(--muted);overflow:auto;max-height:300px;
+    line-height:1.5;margin-left:6px;margin-right:6px;}
+
+  footer{margin-top:42px;text-align:center;color:var(--muted);font-size:.8rem;
+    border-top:1px solid rgba(212,175,55,.2);padding-top:18px;}
   footer a{color:var(--gold);text-decoration:none;}
+  .fade{opacity:.18;filter:blur(.6px) grayscale(.5);}
 </style>
 </head>
 <body>
+<div class="dust" id="dust"></div>
+<div class="vignette"></div>
+
 <div class="frame">
   <header>
     <div class="crest">✦ Pansophic Dispatch ✦</div>
@@ -35,12 +82,17 @@
     <div class="latin">Local-first documentation, generated from the source</div>
   </header>
 
-  <div class="repo">
+  <div class="lens">
+    <span class="glass"><input id="search" type="text" placeholder="Consult the lens — search the repos…" /></span>
+    <span class="verdict" id="verdict">the lens is clear</span>
+  </div>
+
+  <div class="repo" data-hay="ghostline security os audit vaultcheck ghostdns shadowaudit accountwatch bookmark phantomtrace scan profiles doctor">
     <h2>Ghostline</h2>
     <div class="meta">Personal-security OS · 11 modules · agentic audit suite</div>
-    <p style="font-size:.95rem">A suite of security modules — vaultcheck, ghostdns, shadowaudit,
-    accountwatch, bookmark-audit, phantomtrace, ghost-scan, and a profile/render engine —
-    wired through a single CLI dispatcher. Auto-generated wiki below.</p>
+    <p>A suite of security modules — vaultcheck, ghostdns, shadowaudit, accountwatch,
+    bookmark-audit, phantomtrace, ghost-scan, and a profile/render engine — wired through
+    a single CLI dispatcher. Auto-generated wiki below.</p>
     <a class="btn" href="wiki/ghostline_wiki.md">📖 Read the Ghostline wiki →</a>
     <pre>Modules indexed:
   ghost-scan      · ghostdns         · shadowaudit
@@ -49,12 +101,12 @@
   (+ ghostline_cli dispatcher, profiles engine, doctor)</pre>
   </div>
 
-  <div class="repo">
+  <div class="repo" data-hay="aether hybrid self soul state council core aria11 quantum agency loop learn unlearn relearn pillar1">
     <h2>AETHER_Hybrid</h2>
     <div class="meta">The sovereign agent core · 5 modules</div>
-    <p style="font-size:.95rem">The self — soul, state, council, core (right/left/micro brains),
-    Aria-11 quantum micro-model, the agency loop, and the learn/unlearn/relearn discipline.
-    The substrate behind Pansophic Dispatch.</p>
+    <p>The self — soul, state, council, core (right/left/micro brains), Aria-11 quantum
+    micro-model, the agency loop, and the learn/unlearn/relearn discipline. The substrate
+    behind Pansophic Dispatch.</p>
     <a class="btn" href="wiki/AetherOS_Hybrid_wiki.md">📖 Read the AETHER wiki →</a>
     <pre>Modules indexed:
   self/      · Aria11/      · pillar1_*      · repo_wiki
@@ -67,5 +119,30 @@
     &nbsp;·&nbsp; Built by AETHER, regenerated on demand.
   </footer>
 </div>
+
+<script>
+  (function(){
+    const d=document.getElementById("dust");
+    for(let i=0;i<34;i++){const s=document.createElement("i");
+      s.style.left=Math.random()*100+"vw";
+      const dur=14+Math.random()*20; s.style.animationDuration=dur+"s";
+      s.style.animationDelay=(-Math.random()*dur)+"s";
+      const sc=.6+Math.random()*1.8; s.style.transform="scale("+sc+")";
+      d.appendChild(s);}
+  })();
+
+  const search=document.getElementById("search"), verdict=document.getElementById("verdict");
+  const repos=[...document.querySelectorAll(".repo")];
+  search.addEventListener("input",()=>{
+    const q=search.value.toLowerCase().trim();
+    let hits=0,total=0;
+    repos.forEach(r=>{total++;
+      const on=!q||r.dataset.hay.includes(q);
+      r.classList.toggle("fade",!on); if(on)hits++;});
+    if(!q) verdict.textContent="the lens is clear";
+    else if(hits===0) verdict.textContent="no trace in the repos";
+    else verdict.textContent=`the lens reveals ${hits} of ${total}`;
+  });
+</script>
 </body>
 </html>
