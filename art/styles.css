@@ -250,6 +250,8 @@ body {
   box-shadow: 0 22px 64px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(239, 114, 200, 0.12);
 }
 
+.art-card.span-4 { grid-column: span 4; }
+.art-card.span-5 { grid-column: span 5; }
 .art-card.span-6 { grid-column: span 6; }
 .art-card.span-7 { grid-column: span 7; }
 .art-card.span-8 { grid-column: span 8; }
